@@ -46,7 +46,6 @@ dependencies:
   email_validator: ^2.1.17
   shared_preferences: ^2.2.1
   flutter_screenutil: ^5.9.3
-  sqflite: ^2.3.3+1
   path: ^1.9.0
   path_provider: ^2.1.4
 
@@ -74,8 +73,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/imgs/
      - assets/fonts/
+     - lib/src/modules/sections/ui/imgs/
+     - lib/src/modules/more/ui/imgs/
+     - lib/src/modules/home/ui/imgs/
+     - lib/src/modules/auth/ui/imgs/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
