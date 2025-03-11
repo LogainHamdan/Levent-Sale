@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 const String baseUrl = "";
 
 // primary colors
-Color kprimaryColor = const Color(0xFF82B81C);
-Color kprimary1Color = const Color(0xFF9BC649);
+Color kprimaryColor = const Color(0xFF9BC649);
+Color kprimary1Color = const Color(0xFF82B81C);
 Color kprimary2Color = const Color(0xFFB4D477);
 Color kprimary3Color = const Color(0xFFCDE3A4);
 Color kprimary4Color = const Color(0xFFE6F1D2);
