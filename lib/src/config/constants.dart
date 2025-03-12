@@ -9,6 +9,7 @@ Color kprimary1Color = const Color(0xFF82B81C);
 Color kprimary2Color = const Color(0xFFB4D477);
 Color kprimary3Color = const Color(0xFFCDE3A4);
 Color kprimary4Color = const Color(0xFFE6F1D2);
+Color amberColor = Colors.amber;
 
 //alert & status colors
 Color successColor = const Color(0xFF07BD74);

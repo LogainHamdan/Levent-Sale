@@ -6,6 +6,9 @@ import 'package:tajawal/src/modules/auth/ui/screens/login/login.dart';
 import 'package:tajawal/src/modules/auth/ui/screens/sign-up/sign-up.dart';
 import 'package:tajawal/src/modules/auth/ui/screens/splash/splash.dart';
 import 'package:tajawal/src/modules/auth/ui/screens/verify/verify.dart';
+import 'package:tajawal/src/modules/home/ui/screens/ads/ads.dart';
+import 'package:tajawal/src/modules/home/ui/screens/evaluation/evaluations.dart';
+import 'package:tajawal/src/modules/home/ui/screens/home/home.dart';
 
 class MyMaterialApp extends StatelessWidget {
   const MyMaterialApp({super.key});
@@ -18,8 +21,7 @@ class MyMaterialApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (_, child) {
           return MaterialApp(
-            navigatorKey:
-                GlobalKey<NavigatorState>(), // Ensures valid navigator context
+            navigatorKey: GlobalKey<NavigatorState>(),
             debugShowCheckedModeBanner: false,
             title: 'Levent Sale',
             theme: ThemeData(
@@ -41,13 +43,15 @@ class MyMaterialApp extends StatelessWidget {
                 ),
               ),
             ),
-
-            initialRoute: SignUpScreen.id,
+            initialRoute: ReviewsScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),
               SignUpScreen.id: (context) => SignUpScreen(),
               VerificationScreen.id: (context) => VerificationScreen(),
+              HomeScreen.id: (context) => HomeScreen(),
+              AdsScreen.id: (context) => AdsScreen(),
+              ReviewsScreen.id: (context) => ReviewsScreen(),
             },
           );
         });

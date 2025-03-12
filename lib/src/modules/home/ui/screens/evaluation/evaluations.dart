@@ -1,0 +1,168 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_rating/flutter_rating.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:like_button/like_button.dart';
+import 'package:tajawal/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
+import 'package:tajawal/src/modules/home/ui/screens/evaluation/widgets/custom-like-button.dart';
+import 'package:tajawal/src/modules/home/ui/screens/home/widgets/favorite-bitton.dart';
+import '../../../../../config/constants.dart';
+import '../ads/widgets/custom-rating.dart';
+import 'widgets/review-write.dart';
+import '../ads/widgets/title-row.dart';
+import '../home/home.dart';
+import 'data.dart';
+
+class ReviewsScreen extends StatelessWidget {
+  static const id = '/review';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 30.h,
+            ),
+            TitleRow(title: 'التقييمات'),
+            ReviewWrite(),
+            SizedBox(height: 16.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '(20 تقييم)',
+                      textDirection: TextDirection.rtl,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    CustomRating(
+                      rateNum: true,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 16.h),
+            Expanded(
+              child: ListView.builder(
+                itemCount: reviews.length,
+                itemBuilder: (context, index) {
+                  final review = reviews[index];
+
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 16.h),
+                    padding: EdgeInsets.all(12.r),
+                    decoration: BoxDecoration(
+                      color: grey8,
+                      borderRadius: BorderRadius.circular(12.r),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.shade200,
+                            blurRadius: 5.r,
+                            spreadRadius: 2.r),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          textDirection: TextDirection.rtl,
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: AssetImage(
+                                  'lib/src/modules/home/ui/assets/imgs/منال.png'),
+                              radius: 28.r,
+                            ),
+                            SizedBox(width: 10.w),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  review['name'],
+                                  textDirection: TextDirection.rtl,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'عضو منذ ${review['memberSince']}',
+                                  textDirection: TextDirection.rtl,
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                            Spacer(),
+                            Text(
+                              review['date'],
+                              style: TextStyle(color: grey4),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            CustomRating(
+                              rateNum: false,
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 8.h),
+                        Padding(
+                          padding: EdgeInsets.only(right: 8.0.w),
+                          child: Text(
+                            review['reviewText'],
+                            textDirection: TextDirection.rtl,
+                            style: TextStyle(fontSize: 16.sp),
+                          ),
+                        ),
+                        if (review['images'].isNotEmpty)
+                          Padding(
+                            padding: EdgeInsets.only(top: 8.h),
+                            child: Row(
+                              textDirection: TextDirection.rtl,
+                              children: review['images'].map<Widget>((image) {
+                                return Padding(
+                                    padding: EdgeInsets.only(left: 8.w),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          12.r), // Adjust the radius as needed
+                                      child: Image.asset(
+                                        image,
+                                        width: 100.w,
+                                        height: 80.h,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ));
+                              }).toList(),
+                            ),
+                          ),
+                        SizedBox(height: 8.h),
+                        Row(
+                          textDirection: TextDirection.rtl,
+                          children: [
+                            CustomLikeButton(
+                                type: LikeType.like, review: review),
+                            SizedBox(width: 16.w),
+                            CustomLikeButton(
+                                review: review, type: LikeType.dislike)
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

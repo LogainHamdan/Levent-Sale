@@ -6,6 +6,7 @@ import 'package:tajawal/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:tajawal/src/modules/auth/ui/screens/sign-up/provider.dart';
 import 'package:tajawal/src/modules/auth/ui/screens/splash/splash.dart';
 import 'package:tajawal/src/modules/auth/ui/screens/verify/provider.dart';
+import 'package:tajawal/src/modules/home/ui/screens/home/provider.dart';
 import 'package:tajawal/src/modules/nav-bar/nav_provider.dart';
 
 void main() async {
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (_) => VerificationProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => HomeProvider(),
       ),
     ], child: MyMaterialApp());
   }
