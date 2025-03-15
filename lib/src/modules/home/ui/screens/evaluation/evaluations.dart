@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/widgets/custom-like-button.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/widgets/member-info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,6 +43,7 @@ class ReviewsScreen extends StatelessWidget {
                       ),
                     ),
                     CustomRating(
+                      flexible: false,
                       rateNum: true,
                     ),
                   ],
@@ -71,42 +73,17 @@ class ReviewsScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          textDirection: TextDirection.rtl,
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: AssetImage(
-                                  'assets/imgs_icons/home/assets/imgs/منال.png'),
-                              radius: 28.r,
-                            ),
-                            SizedBox(width: 10.w),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  review['name'],
-                                  textDirection: TextDirection.rtl,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  'عضو منذ ${review['memberSince']}',
-                                  textDirection: TextDirection.rtl,
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                            Spacer(),
-                            Text(
-                              review['date'],
-                              style: TextStyle(color: grey4),
-                            ),
-                          ],
+                        MemberInfo(
+                          name: review['name'],
+                          date: review['date'],
+                          memberSince: review['memberSince'],
                         ),
                         SizedBox(height: 8.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             CustomRating(
+                              flexible: false,
                               rateNum: false,
                             )
                           ],
@@ -129,8 +106,7 @@ class ReviewsScreen extends StatelessWidget {
                                 return Padding(
                                     padding: EdgeInsets.only(left: 8.w),
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          12.r), // Adjust the radius as needed
+                                      borderRadius: BorderRadius.circular(12.r),
                                       child: Image.asset(
                                         image,
                                         width: 100.w,

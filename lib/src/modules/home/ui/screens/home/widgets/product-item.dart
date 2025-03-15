@@ -91,7 +91,7 @@ class ProductItem extends StatelessWidget {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(width: 5),
-                                CustomRating(rateNum: true)
+                                CustomRating(flexible: false, rateNum: true)
                               ],
                             ),
                             Text(
@@ -158,7 +158,7 @@ class ProductItem extends StatelessWidget {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(width: 5),
-                        CustomRating(rateNum: true)
+                        CustomRating(flexible: false, rateNum: true)
                       ],
                     ),
                     Text(

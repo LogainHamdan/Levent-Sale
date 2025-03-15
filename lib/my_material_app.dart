@@ -43,7 +43,7 @@ class MyMaterialApp extends StatelessWidget {
                 ),
               ),
             ),
-            initialRoute: ConversationScreen.id,
+            initialRoute: ReviewsScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),

@@ -42,7 +42,10 @@ class RatingSection extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 22.sp),
                   ),
-                  CustomRating(rateNum: false),
+                  CustomRating(
+                    rateNum: false,
+                    flexible: false,
+                  ),
                   Text('(900 تقييم)', style: TextStyle(fontSize: 16.sp)),
                 ],
               ),

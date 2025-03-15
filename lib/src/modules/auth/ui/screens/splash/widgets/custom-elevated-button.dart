@@ -31,7 +31,7 @@ class CustomElevatedButton extends StatelessWidget {
                   date ? Size(140.w, 50.h) : Size(double.infinity, 50.h),
               elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r), // Less border radius
+                borderRadius: BorderRadius.circular(8.r),
               ),
             ),
             child: Text(
@@ -49,7 +49,7 @@ class CustomElevatedButton extends StatelessWidget {
                   date ? Size(140.w, 50.h) : Size(double.infinity, 50.h),
               elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r), // Less border radius
+                borderRadius: BorderRadius.circular(8.r),
               ),
             ),
             child: Row(

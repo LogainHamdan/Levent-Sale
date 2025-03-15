@@ -26,7 +26,7 @@ class CustomPasswordField extends StatelessWidget {
           cursorColor: Colors.black,
           style: TextStyle(fontSize: 14.sp, color: Colors.black),
           decoration: InputDecoration(
-            fillColor: grey7,
+            fillColor: grey6,
             filled: true,
             hintTextDirection: TextDirection.rtl,
             hintStyle: TextStyle(

@@ -9,7 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
-import '../login/widgets/alert.dart';
+import '../../alerts/alert.dart';
 import '../login/widgets/or-row.dart';
 import '../login/widgets/social-button.dart';
 import '../splash/widgets/custom-elevated-button.dart';

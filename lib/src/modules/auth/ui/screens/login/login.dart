@@ -1,5 +1,5 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/alert.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/or-row.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/social-button.dart';
 import 'package:flutter/material.dart';

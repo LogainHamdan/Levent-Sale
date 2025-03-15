@@ -2,6 +2,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/provider.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/nav-bar/nav_provider.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (_) => AdDetailsProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => EvaluationProvider(4.4),
       ),
     ], child: MyMaterialApp());
   }
