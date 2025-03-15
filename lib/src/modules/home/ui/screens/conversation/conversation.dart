@@ -56,14 +56,12 @@ class NoChatsScreen extends StatelessWidget {
           Center(
             child: Column(
               children: [
-                Image.asset(
-                  'assets/imgs_icons/home/assets/icons/no-chat.png',
-                  width: 100,
-                ),
-                SizedBox(height: 20),
+                Image.asset('assets/imgs_icons/home/assets/icons/no-chat.png',
+                    width: 200.w, height: 250.h),
                 Text(
+                  textDirection: TextDirection.rtl,
                   'لا يوجد محادثة !',
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                  style: TextStyle(fontSize: 25.sp, color: Colors.grey),
                 ),
               ],
             ),
