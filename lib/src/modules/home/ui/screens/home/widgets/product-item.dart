@@ -58,7 +58,7 @@ class ProductItem extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      flex: 3,
+                      flex: 4,
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Column(
@@ -66,8 +66,11 @@ class ProductItem extends StatelessWidget {
                           children: [
                             Text(
                               product['name']!,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14.sp),
                               textAlign: TextAlign.right,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
                             Text(
                               textDirection: TextDirection.rtl,
@@ -118,6 +121,8 @@ class ProductItem extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.r),
                           child: Image.asset(
                             product['image']!,
+                            width: double.infinity,
+                            height: double.infinity,
                             fit: BoxFit.cover,
                           ),
                         ),

@@ -71,6 +71,7 @@ class AdDetailsScreen extends StatelessWidget {
                                     ),
                                     SizedBox(height: 5.h), // Ensure spacing
                                     Text(
+
                                       'هاتف آيفون 14 برو ماكس هو هاتف ذكي متطور بشاشة 6.7 بوصة، وكاميرا ثلاثية احترافية تتيح تصويرا عالي الجودة. يتميز بتقنية Super Retina XD، مما يوفر ألوانا زاهية وتفاصيل دقيقة في جميع ظروف الإضاءة',
                                       maxLines: 4,
                                       style: TextStyle(
@@ -143,8 +144,7 @@ class AdDetailsScreen extends StatelessWidget {
                       ),
                     ),
                     SliverToBoxAdapter(
-                      child: SizedBox(height: 100.h),
-                    ),
+                      child: SizedBox(height: 180.h),),
                   ],
                 ),
               ),

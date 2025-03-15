@@ -10,7 +10,7 @@ class ProductsDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300.h,
+      height: MediaQuery.of(context).size.height,
       child: Padding(
         padding: EdgeInsets.all(8.0.sp),
         child: GridView.builder(

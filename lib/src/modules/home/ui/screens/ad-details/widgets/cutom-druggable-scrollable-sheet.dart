@@ -29,6 +29,9 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
             ],
           ),
           child: ListView(
+            shrinkWrap: true,
+            physics: BouncingScrollPhysics(), // Smooth scrolling
+
             controller: scrollController,
             padding: const EdgeInsets.all(16.0),
             children: [
