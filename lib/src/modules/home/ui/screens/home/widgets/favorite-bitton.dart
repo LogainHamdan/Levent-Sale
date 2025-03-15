@@ -33,11 +33,13 @@ class CustomButton extends StatelessWidget {
                           ? Icon(
                               Icons.favorite,
                               color: isFav ? Colors.red : grey4,
-                              size: isFav ? 22.sp : 18,
+                              // size: isFav ? 22.sp : 18,
                             )
                           : Image.asset(
                               'assets/imgs_icons/more/assets/icons/heart-uncolored.png',
                               color: grey4,
+                              height: 25.h,
+                              width: 25.w,
                             ),
                       onPressed: () {
                         favoriteProvider.toggleFavorite(productKey);
@@ -48,8 +50,8 @@ class CustomButton extends StatelessWidget {
                       constraints: BoxConstraints(),
                       icon: Image.asset(
                         'assets/imgs_icons/more/assets/icons/share.png',
-                        height: 25.h,
-                        width: 25.w,
+                        height: 20.h,
+                        width: 20.w,
                         color: grey3,
                       ),
                       onPressed: () {

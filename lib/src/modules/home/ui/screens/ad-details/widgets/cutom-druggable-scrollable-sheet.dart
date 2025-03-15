@@ -1,15 +1,19 @@
+import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../ads/ads.dart';
+import '../../ads/widgets/products-details.dart';
 
 class CustomDraggableScrollableSheet extends StatelessWidget {
-  const CustomDraggableScrollableSheet({
-    super.key,
-  });
+  const CustomDraggableScrollableSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.2,
-      minChildSize: 0.2,
+      initialChildSize: 0.25,
+      minChildSize: 0.1,
       maxChildSize: 0.6,
       builder: (context, scrollController) {
         return Container(
@@ -19,82 +23,86 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),
-                blurRadius: 10,
-                spreadRadius: 2,
+                blurRadius: 10.r,
+                spreadRadius: 2.r,
               ),
             ],
           ),
-          child: Column(
+          child: ListView(
+            controller: scrollController,
+            padding: const EdgeInsets.all(16.0),
             children: [
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 8),
-                width: 50,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.grey[400],
-                  borderRadius: BorderRadius.circular(10),
+              Center(
+                child: Container(
+                  width: 50,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        width: 50.w,
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                          color: grey7,
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          icon: Icon(Icons.call, color: kprimaryColor),
+                          onPressed: () {},
+                        ),
                       ),
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(Icons.chat, color: Colors.white),
-                          SizedBox(width: 8),
-                          Text("محادثة",
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.white)),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            "بسمة باسم",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          Text(
+                            "عضو منذ يناير 2024",
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 15),
-                    const Divider(),
-                    const SizedBox(height: 10),
-                    const Text("معلومات إضافية",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black)),
-                    const SizedBox(height: 10),
-                    Card(
-                      color: Colors.grey[100],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                      const SizedBox(width: 10),
+                      const CircleAvatar(
+                        radius: 30,
+                        backgroundImage: AssetImage(
+                            'assets/imgs_icons/home/assets/imgs/بسمة.png'),
                       ),
-                      child: const ListTile(
-                        leading: Icon(Icons.email, color: Colors.green),
-                        title: Text("example@email.com",
-                            style: TextStyle(color: Colors.black)),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Card(
-                      color: Colors.grey[100],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const ListTile(
-                        leading: Icon(Icons.location_on, color: Colors.green),
-                        title: Text("غزة، فلسطين",
-                            style: TextStyle(color: Colors.black)),
-                      ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ),
+              const SizedBox(height: 20),
+              CustomElevatedButton(
+                  text: 'محادثة',
+                  onPressed: () {},
+                  backgroundColor: kprimaryColor,
+                  textColor: Colors.white,
+                  date: false,
+                  notText: true),
+              SizedBox(height: 20.h),
+
+              /// Invoke ProductsDetails at the end
+              ProductsDetails(),
             ],
           ),
         );

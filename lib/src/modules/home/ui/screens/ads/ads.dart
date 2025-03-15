@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/products-details.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,26 +27,7 @@ class AdsScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.0.w),
             child: SearchField(),
           ),
-          Expanded(
-            child: Padding(
-                padding: EdgeInsets.all(8.0.sp),
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8.0,
-                    mainAxisSpacing: 8.0,
-                    childAspectRatio: 0.8,
-                  ),
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    return ProductItem(
-                      isHalfed: true,
-                      product: products[index],
-                      category: '',
-                    );
-                  },
-                )),
-          ),
+          ProductsDetails()
         ],
       ),
     );
