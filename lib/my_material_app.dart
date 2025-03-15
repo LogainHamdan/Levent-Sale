@@ -6,6 +6,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/verify.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/ad-details.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/chats/chats.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:flutter/material.dart';
@@ -33,16 +34,16 @@ class MyMaterialApp extends StatelessWidget {
                   fontSize: 12,
                 ),
                 bodyMedium: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w600,
                   fontSize: 18,
                 ),
                 bodyLarge: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                   fontSize: 22,
                 ),
               ),
             ),
-            initialRoute: ChatListScreen.id,
+            initialRoute: NoChatsScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),
@@ -53,6 +54,7 @@ class MyMaterialApp extends StatelessWidget {
               ReviewsScreen.id: (context) => ReviewsScreen(),
               AdDetailsScreen.id: (context) => AdDetailsScreen(),
               ChatListScreen.id: (context) => ChatListScreen(),
+              NoChatsScreen.id: (context) => NoChatsScreen(),
             },
           );
         });
