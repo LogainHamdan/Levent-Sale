@@ -1,9 +1,9 @@
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/alert.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/or-row.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/social-button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/login/provider.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/login/widgets/alert.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/login/widgets/or-row.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/login/widgets/social-button.dart';
 import '../../../../../config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -90,8 +90,8 @@ class LoginScreen extends StatelessWidget {
                             padding: EdgeInsets.all(12.0.sp),
                             child: Image.asset(
                               loginProvider.passwordVisible
-                                  ? 'lib/src/modules/auth/ui/assets/icons/seen.png'
-                                  : 'lib/src/modules/auth/ui/assets/icons/unseen.png',
+                                  ? 'assets/imgs_icons/auth/assets/icons/seen.png'
+                                  : 'assets/imgs_icons/auth/assets/icons/unseen.png',
                               height: 1.h,
                             ),
                           ),
@@ -136,7 +136,8 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                CustomButton(
+                CustomElevatedButton(
+                  notText: true,
                   text: 'متابعة',
                   onPressed: () {},
                   backgroundColor: kprimaryColor,
@@ -149,12 +150,12 @@ class LoginScreen extends StatelessWidget {
                 SocialButton(
                     facebook: false,
                     text: "الاستمرار بجوجل Google",
-                    image: 'lib/src/modules/auth/ui/assets/imgs/google.png'),
+                    image: 'assets/imgs_icons/auth/assets/imgs/google.png'),
                 SizedBox(height: 8.h),
                 SocialButton(
                     facebook: true,
                     text: "الاستمرار بالفيسبوك Facebook",
-                    image: 'lib/src/modules/auth/ui/assets/imgs/facebook.png',
+                    image: 'assets/imgs_icons/auth/assets/imgs/facebook.png',
                     color: Colors.blue),
                 SizedBox(height: 16.h),
                 Text.rich(

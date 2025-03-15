@@ -1,10 +1,8 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/widgets/custom-like-button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:like_button/like_button.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
-import 'package:tajawal/src/modules/home/ui/screens/evaluation/widgets/custom-like-button.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/widgets/favorite-bitton.dart';
 import '../../../../../config/constants.dart';
 import '../ads/widgets/custom-rating.dart';
 import 'widgets/review-write.dart';
@@ -78,7 +76,7 @@ class ReviewsScreen extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               backgroundImage: AssetImage(
-                                  'lib/src/modules/home/ui/assets/imgs/منال.png'),
+                                  'assets/imgs_icons/home/assets/imgs/منال.png'),
                               radius: 28.r,
                             ),
                             SizedBox(width: 10.w),

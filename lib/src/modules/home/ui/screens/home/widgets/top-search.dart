@@ -1,7 +1,6 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/search-field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tajawal/src/config/constants.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/widgets/search-field.dart';
 import 'icon-stack.dart';
 
 class TopSearchBar extends StatelessWidget {
@@ -13,12 +12,11 @@ class TopSearchBar extends StatelessWidget {
         children: [
           SizedBox(width: 10.w),
           IconStack(
-              img:
-                  'lib/src/modules/home/ui/assets/icons/notification-black.png',
+              img: 'assets/imgs_icons/home/assets/icons/notification-black.png',
               count: '3'),
           SizedBox(width: 10.w),
           IconStack(
-              img: 'lib/src/modules/home/ui/assets/icons/chat-black.png',
+              img: 'assets/imgs_icons/home/assets/icons/chat-black.png',
               count: '3'),
           SizedBox(width: 10.w),
           SearchField(),

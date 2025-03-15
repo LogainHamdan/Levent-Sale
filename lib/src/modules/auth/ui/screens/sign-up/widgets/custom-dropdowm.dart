@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:tajawal/src/config/constants.dart';
+import '../../../../../../config/constants.dart';
 import '../provider.dart';
 
 class CustomDropdown extends StatelessWidget {
@@ -39,7 +39,7 @@ class CustomDropdown extends StatelessWidget {
                 ),
                 iconStyleData: IconStyleData(
                   icon: Image.asset(
-                    'assets/icons/arrow-down.png',
+                    'assets/imgs_icons/general/arrow-down.png',
                     width: 20.w,
                     height: 20.h,
                   ),

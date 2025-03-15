@@ -17,7 +17,7 @@ class SearchField extends StatelessWidget {
           suffixIcon: Padding(
             padding: EdgeInsets.all(10.w),
             child: Image.asset(
-              'lib/src/modules/home/ui/assets/icons/search.png',
+              'assets/imgs_icons/home/assets/icons/search.png',
               width: 20.w,
               height: 20.h,
             ),
@@ -28,7 +28,7 @@ class SearchField extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
-                  'lib/src/modules/home/ui/assets/icons/filter.png',
+                  'assets/imgs_icons/home/assets/icons/filter.png',
                   width: 25.w,
                   height: 25.h,
                 ),

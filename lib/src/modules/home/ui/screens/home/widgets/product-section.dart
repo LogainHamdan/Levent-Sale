@@ -1,7 +1,8 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tajawal/src/config/constants.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/widgets/product-item.dart';
+
+import 'custom-header.dart';
 
 class ProductSection extends StatelessWidget {
   final String category;
@@ -18,30 +19,7 @@ class ProductSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'مشاهدة المزيد',
-                textDirection: TextDirection.rtl,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: kprimaryColor,
-                ),
-              ),
-              Text(
-                category,
-                textDirection: TextDirection.rtl,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
+        CustomHeader(title: category),
         Transform.translate(
           offset: Offset(0, -8.h),
           child: SingleChildScrollView(

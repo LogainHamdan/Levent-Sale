@@ -1,12 +1,11 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tajawal/src/modules/home/ui/screens/ads/widgets/title-row.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/widgets/search-field.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/widgets/top-search.dart';
 
 import '../home/data.dart';
 import '../home/home.dart';
 import '../home/widgets/product-item.dart';
+import '../home/widgets/search-field.dart';
 
 class AdsScreen extends StatelessWidget {
   static const id = '/id';

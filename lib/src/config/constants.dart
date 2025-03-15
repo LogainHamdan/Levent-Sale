@@ -24,9 +24,8 @@ Color grey1 = const Color(0xFF424242);
 Color grey2 = const Color(0xFF616161);
 Color grey3 = const Color(0xFF757575);
 Color grey4 = const Color(0xFF9E9E9E);
-
 Color grey5 = const Color(0xFFBDBDBD);
 Color grey6 = const Color(0xFFE0E0E0);
-Color grey7 = const Color(0xFFEEEEEE);
+Color grey7 = Colors.grey[100]!;
 Color grey8 = const Color(0xFFF5F5F5);
 Color grey9 = const Color(0xFFFAFAFA);

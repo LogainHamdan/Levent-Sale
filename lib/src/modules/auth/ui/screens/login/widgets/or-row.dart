@@ -16,7 +16,10 @@ class OrRow extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text("OR"),
+          child: Text(
+            "OR",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
         ),
         Expanded(
           child: Divider(color: grey6),

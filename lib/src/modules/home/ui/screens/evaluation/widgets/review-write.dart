@@ -42,7 +42,7 @@ class ReviewWrite extends StatelessWidget {
           child: GestureDetector(
             onTap: () {},
             child: Image.asset(
-              'lib/src/modules/home/ui/assets/icons/edit.png',
+              'assets/imgs_icons/home/assets/icons/edit.png',
               height: 25.h,
               width: 25.w,
             ),

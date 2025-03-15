@@ -1,12 +1,11 @@
+import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/login/login.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/sign-up.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
-import 'package:tajawal/src/modules/nav-bar/custom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../config/constants.dart';
+import '../login/login.dart';
+import '../sign-up/sign-up.dart';
 
 class SplashScreen extends StatelessWidget {
   static const id = '/splash';
@@ -54,7 +53,8 @@ class SplashScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomButton(
+                  CustomElevatedButton(
+                    notText: true,
                     text: "تسجيل دخول",
                     onPressed: () =>
                         Navigator.pushReplacementNamed(context, LoginScreen.id),
@@ -63,7 +63,8 @@ class SplashScreen extends StatelessWidget {
                     date: false,
                   ),
                   const SizedBox(height: 16),
-                  CustomButton(
+                  CustomElevatedButton(
+                    notText: true,
                     text: "الاستمرار كضيف",
                     onPressed: () => Navigator.pushReplacementNamed(
                         context, SignUpScreen.id),

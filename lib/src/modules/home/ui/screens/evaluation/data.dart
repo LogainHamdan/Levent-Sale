@@ -9,8 +9,8 @@ final List<Map<String, dynamic>> reviews = [
     'likes': 1,
     'dislikes': 1,
     'images': [
-      'lib/src/modules/home/ui/assets/imgs/ايفون2.png',
-      'lib/src/modules/home/ui/assets/imgs/ايفون2.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون2.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون2.png',
     ],
   },
   {
@@ -23,8 +23,8 @@ final List<Map<String, dynamic>> reviews = [
     'likes': 1,
     'dislikes': 1,
     'images': [
-      'lib/src/modules/home/ui/assets/imgs/ايفون2.png',
-      'lib/src/modules/home/ui/assets/imgs/ايفون2.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون2.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون2.png',
     ],
   },
   {
@@ -37,8 +37,8 @@ final List<Map<String, dynamic>> reviews = [
     'likes': 1,
     'dislikes': 1,
     'images': [
-      'lib/src/modules/home/ui/assets/imgs/ايفون2.png',
-      'lib/src/modules/home/ui/assets/imgs/ايفون2.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون2.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون2.png',
     ],
   },
   {
@@ -51,8 +51,8 @@ final List<Map<String, dynamic>> reviews = [
     'likes': 1,
     'dislikes': 1,
     'images': [
-      'lib/src/modules/home/ui/assets/imgs/ايفون2.png',
-      'lib/src/modules/home/ui/assets/imgs/ايفون2.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون2.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون2.png',
     ],
   },
   {
@@ -65,8 +65,8 @@ final List<Map<String, dynamic>> reviews = [
     'likes': 1,
     'dislikes': 1,
     'images': [
-      'lib/src/modules/home/ui/assets/imgs/ايفون1.png',
-      'lib/src/modules/home/ui/assets/imgs/ايفون1.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون1.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون1.png',
     ],
   },
   {
@@ -79,8 +79,8 @@ final List<Map<String, dynamic>> reviews = [
     'likes': 1,
     'dislikes': 1,
     'images': [
-      'lib/src/modules/home/ui/assets/imgs/ايفون1.png',
-      'lib/src/modules/home/ui/assets/imgs/ايفون1.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون1.png',
+      'assets/imgs_icons/home/assets/imgs/ايفون1.png',
     ],
   },
 ];

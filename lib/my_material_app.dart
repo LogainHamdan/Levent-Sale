@@ -1,14 +1,15 @@
+import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/sign-up.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/splash.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/verify.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/ad-details.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tajawal/src/config/constants.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/login/login.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/sign-up.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/splash/splash.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/verify/verify.dart';
-import 'package:tajawal/src/modules/home/ui/screens/ads/ads.dart';
-import 'package:tajawal/src/modules/home/ui/screens/evaluation/evaluations.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/home.dart';
 
 class MyMaterialApp extends StatelessWidget {
   const MyMaterialApp({super.key});
@@ -27,23 +28,23 @@ class MyMaterialApp extends StatelessWidget {
             theme: ThemeData(
               textTheme: TextTheme(
                 bodySmall: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w100,
+                  fontWeight: FontWeight.w300,
                   color: grey5,
                   fontSize: 12,
                 ),
                 bodyMedium: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w400,
                   color: grey0,
                   fontSize: 18,
                 ),
                 bodyLarge: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   color: grey0,
                   fontSize: 22,
                 ),
               ),
             ),
-            initialRoute: ReviewsScreen.id,
+            initialRoute: AdDetailsScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),
@@ -52,6 +53,7 @@ class MyMaterialApp extends StatelessWidget {
               HomeScreen.id: (context) => HomeScreen(),
               AdsScreen.id: (context) => AdsScreen(),
               ReviewsScreen.id: (context) => ReviewsScreen(),
+              AdDetailsScreen.id: (context) => AdDetailsScreen(),
             },
           );
         });

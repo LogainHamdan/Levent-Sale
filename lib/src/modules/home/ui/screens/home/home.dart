@@ -1,12 +1,10 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/banner.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/category-list.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-section.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/top-search.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tajawal/src/config/constants.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/widgets/banner.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/widgets/category-list.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/widgets/favorite-bitton.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/widgets/product-section.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/widgets/top-search.dart';
 import '../../../../nav-bar/custom_nav_bar.dart';
 import 'data.dart';
 

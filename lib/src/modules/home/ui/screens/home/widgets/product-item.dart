@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tajawal/src/modules/home/ui/screens/ads/widgets/custom-rating.dart';
-
 import '../../../../../../config/constants.dart';
+import '../../ads/widgets/custom-rating.dart';
+import 'dicount-badge.dart';
 import 'favorite-bitton.dart';
 
 class ProductItem extends StatelessWidget {
@@ -50,7 +50,8 @@ class ProductItem extends StatelessWidget {
                             Positioned(
                               top: 5,
                               left: 5,
-                              child: FavoriteButton(productKey: productKey),
+                              child: CustomButton(
+                                  favIcon: true, productKey: productKey),
                             ),
                           ],
                         ),
@@ -72,7 +73,9 @@ class ProductItem extends StatelessWidget {
                               textDirection: TextDirection.rtl,
                               'هاتف ذكي متطور ب....',
                               style: TextStyle(
-                                  color: Colors.grey, fontSize: 14.sp),
+                                  color: Colors.grey,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold),
                               textAlign: TextAlign.right,
                             ),
                             Row(
@@ -80,7 +83,9 @@ class ProductItem extends StatelessWidget {
                               children: [
                                 Text(
                                   '4.4',
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(width: 5),
                                 CustomRating(rateNum: true)
@@ -117,17 +122,12 @@ class ProductItem extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                          top: 18.h,
-                          left: 100.h,
-                          child: Image.asset(
-                            'lib/src/modules/home/ui/assets/imgs/25%.png',
-                            width: 40,
-                          ),
-                        ),
+                            top: 10.h, left: 100.h, child: DiscountBadge()),
                         Positioned(
-                          top: 5,
-                          left: 5,
-                          child: FavoriteButton(productKey: productKey),
+                          top: 8,
+                          left: 8,
+                          child: CustomButton(
+                              favIcon: true, productKey: productKey),
                         ),
                       ],
                     ),
@@ -139,7 +139,10 @@ class ProductItem extends StatelessWidget {
                     ),
                     Text(
                       product['description']!,
-                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold),
                       textAlign: TextAlign.right,
                     ),
                     Row(

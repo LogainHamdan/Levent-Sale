@@ -1,13 +1,14 @@
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/provider.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/provider.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/provider.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
+import 'package:Levant_Sale/src/modules/nav-bar/nav_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:tajawal/my_material_app.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/login/provider.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/provider.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/splash/splash.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/verify/provider.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/provider.dart';
-import 'package:tajawal/src/modules/nav-bar/nav_provider.dart';
+
+import 'my_material_app.dart';
 
 void main() async {
   await ScreenUtil.ensureScreenSize();
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (_) => HomeProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => AdDetailsProvider(),
       ),
     ], child: MyMaterialApp());
   }

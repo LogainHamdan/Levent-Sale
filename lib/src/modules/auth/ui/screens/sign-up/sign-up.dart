@@ -1,15 +1,16 @@
+import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/provider.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-dropdowm.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/login-instead.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/phone-section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/provider.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/widgets/custom-dropdowm.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/widgets/login-instead.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/widgets/phone-section.dart';
 
 import '../../../../../config/constants.dart';
 import '../login/widgets/alert.dart';
+import '../login/widgets/or-row.dart';
 import '../login/widgets/social-button.dart';
 import '../splash/widgets/custom-elevated-button.dart';
 
@@ -74,15 +75,14 @@ class SignUpScreen extends StatelessWidget {
                         Text(
                           "الشروط والخصوصية ",
                           style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.blue,
-                          ),
+                              fontSize: 14.sp,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "موافق على",
                           style: TextStyle(
-                            fontSize: 14.sp,
-                          ),
+                              fontSize: 14.sp, fontWeight: FontWeight.bold),
                         ),
                         Checkbox(
                           value: registerProvider.agreeToTerms,
@@ -94,7 +94,8 @@ class SignUpScreen extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: 16.h),
-                CustomButton(
+                CustomElevatedButton(
+                  notText: false,
                   text: 'متابعة',
                   onPressed: () => showDatePickerDialog(context),
                   backgroundColor: kprimaryColor,
@@ -102,31 +103,25 @@ class SignUpScreen extends StatelessWidget {
                   date: false,
                 ),
                 SizedBox(height: 16.h),
-                Row(
-                  children: [
-                    Expanded(child: Divider(color: grey6)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text("OR"),
-                    ),
-                    Expanded(child: Divider(color: grey6)),
-                  ],
-                ),
+                OrRow(),
                 SizedBox(height: 16.h),
                 SocialButton(
                   facebook: false,
                   text: "الاستمرار بجوجل Google",
-                  image: 'lib/src/modules/auth/ui/assets/imgs/google.png',
+                  image: 'assets/imgs_icons/auth/assets/imgs/google.png',
                 ),
                 SizedBox(height: 8.h),
                 SocialButton(
                   facebook: true,
                   text: "الاستمرار بالفيسبوك Facebook",
-                  image: 'lib/src/modules/auth/ui/assets/imgs/facebook.png',
+                  image: 'assets/imgs_icons/auth/assets/imgs/facebook.png',
                   color: Colors.blue,
                 ),
                 SizedBox(height: 16.h),
                 LoginInsteadWidget(),
+                SizedBox(
+                  height: 12.h,
+                )
               ],
             ),
           ),

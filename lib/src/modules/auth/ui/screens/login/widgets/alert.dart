@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import '../../../../../../config/constants.dart';
+import '../../sign-up/widgets/custom-pass-field.dart';
 import '../../sign-up/widgets/custom-text-field.dart';
+import '../../splash/widgets/custom-elevated-button.dart';
 
 void showPasswordUpdated(BuildContext context) {
   if (!context.mounted) return;
@@ -27,7 +27,7 @@ void showPasswordUpdated(BuildContext context) {
                   GestureDetector(
                     onTap: () => Navigator.of(dialogContext).pop(),
                     child: Image.asset(
-                      'lib/src/modules/auth/ui/assets/icons/cancel.png',
+                      'assets/imgs_icons/auth/assets/icons/cancel.png',
                       height: 20.h,
                     ),
                   ),
@@ -36,7 +36,7 @@ void showPasswordUpdated(BuildContext context) {
               Padding(
                 padding: EdgeInsets.only(top: 8.0.h),
                 child: Image.asset(
-                  'lib/src/modules/auth/ui/assets/imgs/tick.png',
+                  'assets/imgs_icons/auth/assets/imgs/tick.png',
                   height: 100.h,
                 ),
               ),
@@ -57,7 +57,8 @@ void showPasswordUpdated(BuildContext context) {
                 style: GoogleFonts.tajawal(color: grey4, fontSize: 15.sp),
               ),
               SizedBox(height: 25.h),
-              CustomButton(
+              CustomElevatedButton(
+                notText: true,
                 text: 'تسجيل دخول',
                 onPressed: () => Navigator.of(dialogContext).pop(),
                 backgroundColor: kprimaryColor,
@@ -93,7 +94,7 @@ void showSetNewPassword(BuildContext context) {
                   GestureDetector(
                     onTap: () => Navigator.of(dialogContext).pop(),
                     child: Image.asset(
-                      'lib/src/modules/auth/ui/assets/icons/cancel.png',
+                      'assets/imgs_icons/auth/assets/icons/cancel.png',
                       height: 20.h,
                     ),
                   ),
@@ -123,7 +124,8 @@ void showSetNewPassword(BuildContext context) {
                   controller: thirdController,
                   hint: 'تأكيد كلمة المرور الجديدة'),
               SizedBox(height: 25.h),
-              CustomButton(
+              CustomElevatedButton(
+                notText: true,
                 text: 'تأكيد',
                 onPressed: () {},
                 backgroundColor: kprimaryColor,
@@ -155,7 +157,7 @@ void showForgotPassword(BuildContext context) {
                   GestureDetector(
                     onTap: () => Navigator.of(dialogContext).pop(),
                     child: Image.asset(
-                      'lib/src/modules/auth/ui/assets/icons/cancel.png',
+                      'assets/imgs_icons/auth/assets/icons/cancel.png',
                       height: 20.h,
                     ),
                   ),
@@ -181,7 +183,8 @@ void showForgotPassword(BuildContext context) {
                   controller: TextEditingController(),
                   hint: 'البريد الإلكتروني'),
               SizedBox(height: 25.h),
-              CustomButton(
+              CustomElevatedButton(
+                notText: true,
                 text: 'ارسال',
                 onPressed: () {},
                 backgroundColor: kprimaryColor,
@@ -237,11 +240,11 @@ void showDatePickerDialog(BuildContext context) {
                         titleCentered: true,
                         formatButtonVisible: false,
                         leftChevronIcon: Image.asset(
-                          'assets/icons/calender-arrow-left.png',
+                          'assets/imgs_icons/general/arrow-left.png',
                           width: 20.w,
                         ),
                         rightChevronIcon: Image.asset(
-                          'assets/icons/calendar-arrow-right.png',
+                          'assets/imgs_icons/general/arrow-right.png',
                           width: 20.w,
                         ),
                         titleTextStyle: TextStyle(
@@ -285,7 +288,8 @@ void showDatePickerDialog(BuildContext context) {
                 ),
               ),
               SizedBox(),
-              CustomButton(
+              CustomElevatedButton(
+                notText: true,
                 text: 'متابعة',
                 onPressed: () {},
                 backgroundColor: kprimaryColor,

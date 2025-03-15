@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
-import 'package:tajawal/src/modules/home/ui/screens/home/provider.dart';
 
 import '../../../../../../config/constants.dart';
+import '../provider.dart';
 
 class TopBanner extends StatelessWidget {
   const TopBanner({super.key});
@@ -48,12 +48,12 @@ class TopBanner extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
-                  'lib/src/modules/home/ui/assets/imgs/iphone12.png',
+                  'assets/imgs_icons/home/assets/imgs/iphone12.png',
                   fit: BoxFit.contain,
                   height: 120.h,
                 ),
                 Image.asset(
-                  'lib/src/modules/home/ui/assets/imgs/عروض الكترونية محدودة الوقت.png',
+                  'assets/imgs_icons/home/assets/imgs/عروض الكترونية محدودة الوقت.png',
                   fit: BoxFit.contain,
                   height: 130.h,
                 ),

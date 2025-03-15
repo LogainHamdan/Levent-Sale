@@ -11,6 +11,7 @@ class LoginInsteadWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text.rich(
       TextSpan(
+        style: TextStyle(fontWeight: FontWeight.bold),
         text: "لديك حساب؟ ",
         children: [
           TextSpan(

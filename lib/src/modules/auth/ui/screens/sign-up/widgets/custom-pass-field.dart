@@ -52,8 +52,8 @@ class CustomPasswordField extends StatelessWidget {
                 padding: EdgeInsets.all(12.0.sp),
                 child: Image.asset(
                   loginProvider.passwordVisible
-                      ? 'lib/src/modules/auth/ui/assets/icons/seen.png'
-                      : 'lib/src/modules/auth/ui/assets/icons/unseen.png',
+                      ? 'assets/imgs_icons/auth/assets/icons/seen.png'
+                      : 'assets/imgs_icons/auth/assets/icons/unseen.png',
                   height: 1.h,
                 ),
               ),

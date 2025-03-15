@@ -1,12 +1,12 @@
+import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/widgets/code-row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:tajawal/src/config/constants.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/login/widgets/or-row.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/sign-up/widgets/login-instead.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/verify/provider.dart';
-import 'package:tajawal/src/modules/auth/ui/screens/verify/widgets/code-row.dart';
+
+import '../../../../../config/constants.dart';
+import '../login/widgets/or-row.dart';
+import '../sign-up/widgets/login-instead.dart';
+import '../splash/widgets/custom-elevated-button.dart';
 
 class VerificationScreen extends StatelessWidget {
   static const id = '/verify';
@@ -69,7 +69,8 @@ class VerificationScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20.h),
-            CustomButton(
+            CustomElevatedButton(
+                notText: true,
                 text: 'تحقق',
                 onPressed: () {},
                 backgroundColor: kprimaryColor,
