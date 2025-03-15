@@ -130,9 +130,11 @@ final List<Map<String, String>> products = [
   },
 ];
 final List<String> productImages = products.map((p) => p['image']!).toList();
+
 final List<String> names = ['محمد', 'منال', 'بسمة'];
 final List<String> images = [
   'assets/imgs_icons/home/assets/imgs/محمد.png',
   'assets/imgs_icons/home/assets/imgs/منال.png',
   'assets/imgs_icons/home/assets/imgs/بسمة.png'
 ];
+final List<bool> onlineStatus = [true, false, true]; // Example online status
