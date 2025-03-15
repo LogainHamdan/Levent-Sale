@@ -31,19 +31,19 @@ class MyMaterialApp extends StatelessWidget {
               textTheme: TextTheme(
                 bodySmall: GoogleFonts.tajawal(
                   fontWeight: FontWeight.w300,
-                  fontSize: 12,
+                  fontSize: 12.sp,
                 ),
                 bodyMedium: GoogleFonts.tajawal(
                   fontWeight: FontWeight.w600,
-                  fontSize: 18,
+                  fontSize: 18.sp,
                 ),
                 bodyLarge: GoogleFonts.tajawal(
                   fontWeight: FontWeight.bold,
-                  fontSize: 22,
+                  fontSize: 22.sp,
                 ),
               ),
             ),
-            initialRoute: NoChatsScreen.id,
+            initialRoute: ConversationScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),
@@ -54,7 +54,9 @@ class MyMaterialApp extends StatelessWidget {
               ReviewsScreen.id: (context) => ReviewsScreen(),
               AdDetailsScreen.id: (context) => AdDetailsScreen(),
               ChatListScreen.id: (context) => ChatListScreen(),
-              NoChatsScreen.id: (context) => NoChatsScreen(),
+              ConversationScreen.id: (context) => ConversationScreen(
+                    MsgsAvailable: true,
+                  ),
             },
           );
         });
