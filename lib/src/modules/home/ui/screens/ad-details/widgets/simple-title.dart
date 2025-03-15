@@ -11,8 +11,7 @@ class SimpleTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment:
-          Alignment.centerRight, // Align the text to the right of the parent
+      alignment: Alignment.centerRight,
       child: Text(
         textDirection: TextDirection.rtl,
         title,

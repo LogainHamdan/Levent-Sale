@@ -100,8 +100,6 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                   date: false,
                   notText: true),
               SizedBox(height: 20.h),
-
-              /// Invoke ProductsDetails at the end
               ProductsDetails(),
             ],
           ),

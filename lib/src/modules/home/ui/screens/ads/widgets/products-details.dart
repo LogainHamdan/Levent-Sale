@@ -10,12 +10,11 @@ class ProductsDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300.h, // Adjust height as needed
+      height: 300.h,
       child: Padding(
         padding: EdgeInsets.all(8.0.sp),
         child: GridView.builder(
-          physics:
-              const NeverScrollableScrollPhysics(), // Prevents nested scrolling issues
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 8.0,

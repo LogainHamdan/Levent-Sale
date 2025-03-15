@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class RatingRow extends StatelessWidget {
   final int stars;
   final int count;
-  final double value; // Normalized progress (0.0 to 1.0)
+  final double value;
 
   const RatingRow({
     super.key,
