@@ -54,6 +54,7 @@ class MyMaterialApp extends StatelessWidget {
               SignUpScreen.id: (context) => SignUpScreen(),
               VerificationScreen.id: (context) => VerificationScreen(),
               HomeScreen.id: (context) => HomeScreen(),
+
               AdsScreen.id: (context) => AdsScreen(),
               ReviewsScreen.id: (context) => ReviewsScreen(),
               AdDetailsScreen.id: (context) => AdDetailsScreen(),
