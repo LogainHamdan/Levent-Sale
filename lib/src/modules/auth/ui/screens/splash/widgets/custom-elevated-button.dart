@@ -20,7 +20,7 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return !notText
+    return notText
         ? ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(

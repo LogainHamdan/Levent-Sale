@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/widgets/code-row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
 import '../login/widgets/or-row.dart';
-import '../sign-up/widgets/login-instead.dart';
+import '../login/widgets/instead-widget.dart';
 import '../splash/widgets/custom-elevated-button.dart';
 
 class VerificationScreen extends StatelessWidget {
@@ -79,7 +80,11 @@ class VerificationScreen extends StatelessWidget {
             SizedBox(height: 20.h),
             OrRow(),
             SizedBox(height: 14.h),
-            Center(child: LoginInsteadWidget())
+            Center(
+                child: InsteadWidget(
+                    route: LoginScreen.id,
+                    question: 'هل لديك حساب؟',
+                    action: 'سجل دخول'))
           ],
         ),
       ),

@@ -9,6 +9,7 @@ class NavItem extends StatelessWidget {
   final String label;
   final int index;
   final bool isHome;
+  final Function() onTap;
 
   const NavItem({
     Key? key,
@@ -16,6 +17,7 @@ class NavItem extends StatelessWidget {
     required this.label,
     required this.index,
     this.isHome = false,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -24,7 +26,10 @@ class NavItem extends StatelessWidget {
     bool isSelected = provider.selectedIndex == index;
 
     return GestureDetector(
-      onTap: () => provider.setIndex(index),
+      onTap: () {
+        provider.setIndex(index);
+        onTap();
+      },
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

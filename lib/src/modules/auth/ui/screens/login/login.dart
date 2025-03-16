@@ -1,7 +1,13 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/instead-widget.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/or-row.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/social-button.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/sign-up.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../config/constants.dart';
@@ -31,76 +37,15 @@ class LoginScreen extends StatelessWidget {
                         color: kprimaryColor,
                         fontWeight: FontWeight.bold)),
                 SizedBox(height: 30.h),
-                TextField(
-                  textDirection: TextDirection.rtl,
-                  style: TextStyle(fontSize: 12.sp),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: grey8,
-                    hintStyle: TextStyle(
-                      color: grey4,
-                      fontSize: 14.sp,
-                    ),
-                    hintText: "البريد الإلكتروني / رقم الجوال",
-                    hintTextDirection: TextDirection.rtl,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Consumer<LoginProvider>(
-                  builder: (context, loginProvider, child) {
-                    return TextField(
-                      textDirection: TextDirection.rtl,
-                      style: TextStyle(fontSize: 12.sp),
-                      obscureText: !loginProvider.passwordVisible,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: grey8,
-                        hintStyle: TextStyle(
-                          color: grey4,
-                          fontSize: 16.sp,
-                        ),
-                        hintText: "كلمة المرور",
-                        hintTextDirection: TextDirection.rtl,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide.none,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide.none,
-                        ),
-                        prefixIcon: GestureDetector(
-                          child: Padding(
-                            padding: EdgeInsets.all(12.0.sp),
-                            child: Image.asset(
-                              loginProvider.passwordVisible
-                                  ? 'assets/imgs_icons/auth/assets/icons/seen.png'
-                                  : 'assets/imgs_icons/auth/assets/icons/unseen.png',
-                              height: 1.h,
-                            ),
-                          ),
-                          onTap: loginProvider.togglePasswordVisibility,
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                CustomTextField(
+                    bgcolor: grey8,
+                    controller: TextEditingController(),
+                    hint: 'البريد الالكتروني /الاسم كاملاً'),
+                SizedBox(height: 16.h),
+                CustomPasswordField(
+                    isConfirmField: false,
+                    controller: TextEditingController(),
+                    hint: 'كلمة المرور'),
                 Row(
                   children: [
                     Padding(
@@ -139,7 +84,8 @@ class LoginScreen extends StatelessWidget {
                 CustomElevatedButton(
                   notText: true,
                   text: 'متابعة',
-                  onPressed: () {},
+                  onPressed: () =>
+                      Navigator.pushReplacementNamed(context, HomeScreen.id),
                   backgroundColor: kprimaryColor,
                   textColor: Colors.white,
                   date: false,
@@ -158,18 +104,10 @@ class LoginScreen extends StatelessWidget {
                     image: 'assets/imgs_icons/auth/assets/imgs/facebook.png',
                     color: Colors.blue),
                 SizedBox(height: 16.h),
-                Text.rich(
-                  TextSpan(
-                    text: "ليس لديك حساب؟ ",
-                    children: [
-                      TextSpan(
-                        text: " سجل الآن",
-                        style: TextStyle(
-                            color: kprimaryColor, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                ),
+                InsteadWidget(
+                    route: SignUpScreen.id,
+                    question: "ليس لديك حساب؟ ",
+                    action: 'سجل الآن')
               ],
             ),
           ),

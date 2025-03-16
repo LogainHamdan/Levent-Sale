@@ -46,7 +46,7 @@ class CustomDropdown extends StatelessWidget {
                 ),
                 dropdownStyleData: DropdownStyleData(
                   decoration: BoxDecoration(
-                    color: grey7,
+                    color: grey6,
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                   offset: Offset(0, 5),

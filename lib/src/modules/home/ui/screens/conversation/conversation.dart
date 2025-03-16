@@ -7,8 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ConversationScreen extends StatelessWidget {
   static const id = '/conv';
-  final bool MsgsAvailable;
-  const ConversationScreen({super.key, required this.MsgsAvailable});
+  const ConversationScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,66 +19,44 @@ class ConversationScreen extends StatelessWidget {
         name: 'محمد',
         profileImageAsset: 'assets/imgs_icons/home/assets/imgs/محمد.png',
       ),
-      body: !MsgsAvailable
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              reverse: true,
+              padding: EdgeInsets.all(10),
               children: [
-                Spacer(),
-                Center(
-                  child: Column(
-                    children: [
-                      Image.asset(
-                          'assets/imgs_icons/home/assets/icons/no-chat.png',
-                          width: 200.w,
-                          height: 250.h),
-                      Text(
-                        textDirection: TextDirection.rtl,
-                        'لا يوجد محادثة !',
-                        style: TextStyle(fontSize: 25.sp, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                ),
-                Spacer(),
-              ],
-            )
-          : Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.all(10),
-                    children: [
-                      ReceivedMsg(
-                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                      SentMsg(
-                          text:
-                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                      ReceivedMsg(
-                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                      SentMsg(
-                          text:
-                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                      ReceivedMsg(
-                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                      SentMsg(
-                          text:
-                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                      ReceivedMsg(
-                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                      SentMsg(
-                          text:
-                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                      ReceivedMsg(
-                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                      SentMsg(
-                          text:
-                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                    ],
-                  ),
-                ),
-                MessageInput(),
+                ReceivedMsg(
+                    text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                SentMsg(
+                    text:
+                        "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                ReceivedMsg(
+                    text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                SentMsg(
+                    text:
+                        "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                ReceivedMsg(
+                    text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                SentMsg(
+                    text:
+                        "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                ReceivedMsg(
+                    text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                SentMsg(
+                    text:
+                        "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                ReceivedMsg(
+                    text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                SentMsg(
+                    text:
+                        "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
               ],
             ),
+          ),
+          MessageInput(),
+        ],
+      ),
     );
   }
 }

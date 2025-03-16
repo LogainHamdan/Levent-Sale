@@ -23,6 +23,7 @@ class ProductSection extends StatelessWidget {
         Transform.translate(
           offset: Offset(0, -8.h),
           child: SingleChildScrollView(
+            reverse: true,
             scrollDirection: Axis.horizontal,
             child: Row(
               mainAxisSize: MainAxisSize.min,

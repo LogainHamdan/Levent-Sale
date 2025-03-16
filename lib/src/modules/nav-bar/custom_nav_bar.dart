@@ -1,7 +1,9 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../config/constants.dart';
+import '../sections/sections/sections.dart';
 import 'custom_clipper.dart';
 import 'nav-item.dart';
 import 'nav_provider.dart';
@@ -42,8 +44,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                NavItem(icon: Icons.menu, label: "المزيد", index: 4),
-                NavItem(icon: Icons.shopping_bag, label: "تشكيلتي", index: 3),
+                NavItem(
+                    onTap: () {}, icon: Icons.menu, label: "المزيد", index: 4),
+                NavItem(
+                    onTap: () {},
+                    icon: Icons.shopping_bag,
+                    label: "تشكيلتي",
+                    index: 3),
                 Padding(
                   padding: EdgeInsets.only(top: 63),
                   child: Text(
@@ -54,8 +61,15 @@ class CustomBottomNavigationBar extends StatelessWidget {
                         fontWeight: FontWeight.w500),
                   ),
                 ),
-                NavItem(icon: Icons.grid_view, label: "الأقسام", index: 1),
                 NavItem(
+                    onTap: () => Navigator.pushReplacementNamed(
+                        context, SectionsScreen.id),
+                    icon: Icons.grid_view,
+                    label: "الأقسام",
+                    index: 1),
+                NavItem(
+                    onTap: () =>
+                        Navigator.pushReplacementNamed(context, HomeScreen.id),
                     icon: Icons.home,
                     label: "الرئيسية",
                     index: 0,

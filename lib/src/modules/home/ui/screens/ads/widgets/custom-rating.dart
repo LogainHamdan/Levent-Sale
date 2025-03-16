@@ -21,30 +21,27 @@ class CustomRating extends StatelessWidget {
 
     return !flexible
         ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              rateNum
+                  ? Text(
+                      '4.4',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    )
+                  : SizedBox(),
+              SizedBox(width: 2.w),
               Directionality(
                 textDirection: TextDirection.rtl,
                 child: StarRating(
                   rating: 4.4,
-                  size: 25.sp,
+                  size: 16.sp,
                   color: amberColor,
                 ),
               ),
-              SizedBox(width: 5.w),
-              rateNum
-                  ? Text(
-                      '4.4',
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  : SizedBox()
             ],
           )
         : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Directionality(
                 textDirection: TextDirection.rtl,

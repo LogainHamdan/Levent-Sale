@@ -1,15 +1,16 @@
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-dropdowm.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/login-instead.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/phone-section.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../config/constants.dart';
 import '../../alerts/alert.dart';
+import '../login/widgets/instead-widget.dart';
 import '../login/widgets/or-row.dart';
 import '../login/widgets/social-button.dart';
 import '../splash/widgets/custom-elevated-button.dart';
@@ -23,38 +24,42 @@ class SignUpScreen extends StatelessWidget {
       create: (context) => RegisterProvider(),
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 16.0.w),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 80),
+                SizedBox(height: 80.h),
                 Text(
                   "تسجيل جديد",
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 25.sp,
                     color: kprimaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
                 CustomTextField(
+                  bgcolor: grey8,
                   controller: TextEditingController(),
                   hint: "الاسم كاملاً",
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 CustomTextField(
+                  bgcolor: grey8,
                   controller: TextEditingController(),
                   hint: "البريد الإلكتروني",
                   keyboardType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: 16.h),
                 CustomPasswordField(
+                  isConfirmField: false,
                   controller: TextEditingController(),
                   hint: "كلمة المرور",
                 ),
                 SizedBox(height: 16.h),
                 CustomPasswordField(
+                  isConfirmField: true,
                   controller: TextEditingController(),
                   hint: "تأكيد كلمة المرور",
                 ),
@@ -95,9 +100,10 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
                 CustomElevatedButton(
-                  notText: false,
+                  notText: true,
                   text: 'متابعة',
-                  onPressed: () => showDatePickerDialog(context),
+                  onPressed: () =>
+                      Navigator.pushReplacementNamed(context, HomeScreen.id),
                   backgroundColor: kprimaryColor,
                   textColor: Colors.white,
                   date: false,
@@ -118,10 +124,14 @@ class SignUpScreen extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 SizedBox(height: 16.h),
-                LoginInsteadWidget(),
+                InsteadWidget(
+                  question: 'هل لديك حساب؟',
+                  action: 'سجل دخول',
+                  route: LoginScreen.id,
+                ),
                 SizedBox(
                   height: 12.h,
-                )
+                ),
               ],
             ),
           ),

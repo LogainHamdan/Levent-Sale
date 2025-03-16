@@ -19,11 +19,15 @@ class ConfirmCancelButton extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text(
-          'الغاء',
-          style: TextStyle(
-            color: Colors.orange,
+        TextButton(
+          child: Text(
+            'الغاء',
+            style: GoogleFonts.tajawal(
+                color: Colors.orange,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500),
           ),
+          onPressed: () => Navigator.pop(context),
         ),
         ElevatedButton(
           onPressed: onPressed,

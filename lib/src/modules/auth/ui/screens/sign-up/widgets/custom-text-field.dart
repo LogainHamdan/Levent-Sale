@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
   final bool isPassword;
   final ValueChanged<String>? onChanged;
   final TextDirection textDirection;
+  final Color bgcolor;
 
   const CustomTextField({
     Key? key,
@@ -19,6 +20,7 @@ class CustomTextField extends StatelessWidget {
     this.isPassword = false,
     this.onChanged,
     this.textDirection = TextDirection.rtl,
+    required this.bgcolor,
   }) : super(key: key);
 
   @override
@@ -32,7 +34,7 @@ class CustomTextField extends StatelessWidget {
       style: TextStyle(fontSize: 14.sp, color: Colors.black),
       decoration: InputDecoration(
         hintText: hint,
-        fillColor: grey6,
+        fillColor: bgcolor,
         filled: true,
         hintTextDirection: TextDirection.rtl,
         hintStyle: TextStyle(color: grey4, fontSize: 14.sp),

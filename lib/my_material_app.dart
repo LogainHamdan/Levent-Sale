@@ -9,6 +9,10 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/chats/chats.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notifications.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/search-filter.dart';
+import 'package:Levant_Sale/src/modules/sections/one-section/one-section.dart';
+import 'package:Levant_Sale/src/modules/sections/sections/sections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,20 +34,20 @@ class MyMaterialApp extends StatelessWidget {
             theme: ThemeData(
               textTheme: TextTheme(
                 bodySmall: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 12.sp,
-                ),
+                    fontWeight: FontWeight.w200,
+                    fontSize: 16.sp,
+                    color: Colors.black),
                 bodyMedium: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18.sp,
-                ),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16.sp,
+                    color: Colors.black),
                 bodyLarge: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22.sp,
-                ),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.sp,
+                    color: Colors.black),
               ),
             ),
-            initialRoute: ReviewsScreen.id,
+            initialRoute: ChatListScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),
@@ -53,9 +57,14 @@ class MyMaterialApp extends StatelessWidget {
               AdsScreen.id: (context) => AdsScreen(),
               ReviewsScreen.id: (context) => ReviewsScreen(),
               AdDetailsScreen.id: (context) => AdDetailsScreen(),
-              ChatListScreen.id: (context) => ChatListScreen(),
-              ConversationScreen.id: (context) => ConversationScreen(
-                    MsgsAvailable: true,
+              ChatListScreen.id: (context) =>
+                  ChatListScreen(MsgsAvailable: true),
+              // FilterScreen.id: (context) => FilterScreen(),
+              ConversationScreen.id: (context) => ConversationScreen(),
+              SectionsScreen.id: (context) => SectionsScreen(),
+              Section.id: (context) => Section(),
+              NotificationsScreen.id: (context) => NotificationsScreen(
+                    noData: false,
                   ),
             },
           );

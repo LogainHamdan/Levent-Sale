@@ -8,10 +8,12 @@ class IconStack extends StatelessWidget {
     super.key,
     required this.img,
     required this.count,
+    required this.onTap,
   });
 
   final String img;
   final String count;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -22,29 +24,32 @@ class IconStack extends StatelessWidget {
         shape: BoxShape.circle,
         color: grey7,
       ),
-      child: Center(
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Image.asset(
-              img,
-              height: 15.h,
-              width: 15.h,
-              fit: BoxFit.contain,
-            ),
-            Positioned(
-              top: -6.r,
-              right: -4.r,
-              child: CircleAvatar(
-                radius: 7.r,
-                backgroundColor: kprimaryColor,
-                child: Text(
-                  count,
-                  style: TextStyle(color: Colors.white, fontSize: 10.sp),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Center(
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Image.asset(
+                img,
+                height: 15.h,
+                width: 15.h,
+                fit: BoxFit.contain,
+              ),
+              Positioned(
+                top: -6.r,
+                right: -4.r,
+                child: CircleAvatar(
+                  radius: 7.r,
+                  backgroundColor: kprimaryColor,
+                  child: Text(
+                    count,
+                    style: TextStyle(color: Colors.white, fontSize: 10.sp),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
