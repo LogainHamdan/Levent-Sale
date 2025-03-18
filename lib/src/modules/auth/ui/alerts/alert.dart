@@ -355,7 +355,7 @@ void showRatingDialog(BuildContext context) {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: GestureDetector(
-                      onTap: () {}, // Prevent closing when tapping inside
+                      onTap: () {},
                       child: Container(
                         width: double.infinity,
                         height: 3 * MediaQuery.of(context).size.height / 4,
@@ -386,7 +386,18 @@ void showRatingDialog(BuildContext context) {
                             SizedBox(height: 20.h),
                             Text("إضافة صورة"),
                             SizedBox(height: 10.h),
-                            ImagePickerWidget(),
+                            ImagePickerWidget(
+                              icon: Container(
+                                width: 100.w,
+                                height: 50.h,
+                                decoration: BoxDecoration(
+                                  color: Colors.green[100],
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                                child:
+                                    const Icon(Icons.add, color: Colors.green),
+                              ),
+                            ),
                             SizedBox(height: 30.h),
                             ConfirmCancelButton(
                               text: 'نشر',

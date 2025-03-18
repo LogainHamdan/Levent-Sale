@@ -5,8 +5,8 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/search-fiel
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../home/ui/screens/ads/widgets/products-details.dart';
-import '../../home/ui/screens/home/data.dart';
+import '../../../../home/ui/screens/ads/widgets/products-details.dart';
+import '../../../../home/ui/screens/home/data.dart';
 
 class Section extends StatelessWidget {
   static const id = '/section';

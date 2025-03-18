@@ -37,13 +37,7 @@ class CustomDropdown extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                 ),
-                iconStyleData: IconStyleData(
-                  icon: Image.asset(
-                    'assets/imgs_icons/general/arrow-down.png',
-                    width: 20.w,
-                    height: 20.h,
-                  ),
-                ),
+                iconStyleData: IconStyleData(icon: Container()),
                 dropdownStyleData: DropdownStyleData(
                   decoration: BoxDecoration(
                     color: grey6,
@@ -51,13 +45,23 @@ class CustomDropdown extends StatelessWidget {
                   ),
                   offset: Offset(0, 5),
                 ),
-                hint: Text(
-                  hint,
-                  style: GoogleFonts.tajawal(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: grey4,
-                  ),
+                hint: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.asset(
+                      'assets/imgs_icons/general/arrow-down.png',
+                      width: 20.w,
+                      height: 20.h,
+                    ),
+                    Text(
+                      hint,
+                      style: GoogleFonts.tajawal(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: grey4,
+                      ),
+                    ),
+                  ],
                 ),
                 items: items.map((String item) {
                   return DropdownMenuItem<String>(

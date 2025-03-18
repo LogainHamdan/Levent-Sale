@@ -5,6 +5,10 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/provider.dart
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/nav-bar/nav_provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/creted-ad-details/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +47,19 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(
         create: (_) => EvaluationProvider(4.4),
       ),
+      ChangeNotifierProvider(
+        create: (_) => StepperProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => PropertyFormProvider(),
+      ),
+      // ChangeNotifierProvider(
+      //   create: (_) => EditorProvider(),
+      // ),
+      ChangeNotifierProvider(
+        create: (context) => TabProvider(),
+        child: MyApp(),
+      )
     ], child: MyMaterialApp());
   }
 }

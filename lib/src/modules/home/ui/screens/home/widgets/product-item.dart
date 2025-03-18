@@ -26,7 +26,7 @@ class ProductItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.pushReplacementNamed(context, AdDetailsScreen.id),
       child: Container(
-          margin: EdgeInsets.all(8),
+          margin: EdgeInsets.all(8.sp),
           child: isHalfed
               ? Container(
                   decoration: BoxDecoration(
@@ -99,15 +99,14 @@ class ProductItem extends StatelessWidget {
               : Container(
                   width: 150.w,
                   height: 180.h,
-                  margin: EdgeInsets.all(6),
+                  margin: EdgeInsets.only(right: 6.w, left: 6.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Stack(
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                8.r), // تصغير الحواف الدائرية
+                            borderRadius: BorderRadius.circular(8.r),
                             child: SizedBox(
                               width: double.infinity,
                               height: 80.h,

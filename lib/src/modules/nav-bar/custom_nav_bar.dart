@@ -1,9 +1,9 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../config/constants.dart';
-import '../sections/sections/sections.dart';
 import 'custom_clipper.dart';
 import 'nav-item.dart';
 import 'nav_provider.dart';
@@ -63,7 +63,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 ),
                 NavItem(
                     onTap: () => Navigator.pushReplacementNamed(
-                        context, SectionsScreen.id),
+                        context, SectionChoose.id),
                     icon: Icons.grid_view,
                     label: "الأقسام",
                     index: 1),

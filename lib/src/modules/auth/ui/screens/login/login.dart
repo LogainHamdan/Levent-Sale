@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/checkbox.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/instead-widget.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/or-row.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/social-button.dart';
@@ -10,6 +11,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../../config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -58,23 +60,22 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    Text(
-                      "تذكرني",
-                      style: TextStyle(fontSize: 14.sp),
-                    ),
                     Consumer<LoginProvider>(
                       builder: (context, loginProvider, child) {
-                        return Checkbox(
-                          value: loginProvider.rememberMe,
-                          onChanged: loginProvider.toggleRememberMe,
-                          fillColor: MaterialStateProperty.all(
-                            loginProvider.rememberMe
-                                ? kprimaryColor
-                                : Colors.white,
-                          ),
-                          checkColor: Colors.white,
-                          activeColor: kprimaryColor,
-                          focusColor: kprimaryColor,
+                        return Row(
+                          children: [
+                            Text(
+                              'تذكرني',
+                              style: GoogleFonts.tajawal(
+                                  fontSize: 14, fontWeight: FontWeight.w500),
+                            ),
+                            CustomCheckBox(
+                              title: "",
+                              value: loginProvider.rememberMe,
+                              onChanged: (value) =>
+                                  loginProvider.toggleRememberMe(value),
+                            ),
+                          ],
                         );
                       },
                     )

@@ -5,11 +5,13 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/sen
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../chats/no-info-widget.dart';
+
 class ConversationScreen extends StatelessWidget {
   static const id = '/conv';
-  const ConversationScreen({
-    super.key,
-  });
+  final bool msgsAvailable;
+
+  const ConversationScreen({super.key, required this.msgsAvailable});
 
   @override
   Widget build(BuildContext context) {
@@ -19,44 +21,48 @@ class ConversationScreen extends StatelessWidget {
         name: 'محمد',
         profileImageAsset: 'assets/imgs_icons/home/assets/imgs/محمد.png',
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              reverse: true,
-              padding: EdgeInsets.all(10),
+      body: !msgsAvailable
+          ? NoInfoWidget(
+              img: 'assets/imgs_icons/home/assets/icons/no-chat.png',
+              msg: 'لا يوجد محادثة !')
+          : Column(
               children: [
-                ReceivedMsg(
-                    text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                SentMsg(
-                    text:
-                        "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                ReceivedMsg(
-                    text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                SentMsg(
-                    text:
-                        "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                ReceivedMsg(
-                    text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                SentMsg(
-                    text:
-                        "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                ReceivedMsg(
-                    text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                SentMsg(
-                    text:
-                        "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                ReceivedMsg(
-                    text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                SentMsg(
-                    text:
-                        "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                Expanded(
+                  child: ListView(
+                    reverse: true,
+                    padding: EdgeInsets.all(10),
+                    children: [
+                      ReceivedMsg(
+                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                      SentMsg(
+                          text:
+                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                      ReceivedMsg(
+                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                      SentMsg(
+                          text:
+                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                      ReceivedMsg(
+                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                      SentMsg(
+                          text:
+                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                      ReceivedMsg(
+                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                      SentMsg(
+                          text:
+                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                      ReceivedMsg(
+                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                      SentMsg(
+                          text:
+                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                    ],
+                  ),
+                ),
+                MessageInput(),
               ],
             ),
-          ),
-          MessageInput(),
-        ],
-      ),
     );
   }
 }
