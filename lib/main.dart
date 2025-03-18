@@ -53,12 +53,11 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(
         create: (_) => PropertyFormProvider(),
       ),
-      // ChangeNotifierProvider(
-      //   create: (_) => EditorProvider(),
-      // ),
+      ChangeNotifierProvider(
+        create: (_) => EditorProvider(),
+      ),
       ChangeNotifierProvider(
         create: (context) => TabProvider(),
-        child: MyApp(),
       )
     ], child: MyMaterialApp());
   }

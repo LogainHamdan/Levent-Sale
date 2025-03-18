@@ -50,7 +50,7 @@ class AdCreatedDetails extends StatelessWidget {
                   'محتوى',
                 ),
               ),
-              // RichTextEditor(),
+              SizedBox(height: 300.h, child: RichTextEditor()),
               SizedBox(height: 10.h),
               Align(
                 alignment: Alignment.centerRight,

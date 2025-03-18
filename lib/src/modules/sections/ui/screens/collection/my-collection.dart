@@ -28,23 +28,9 @@ class MyCollectionScreen extends StatelessWidget {
             height: 30.h,
           ),
           TitleRow(title: 'تشكيلتي'),
-          empty ? EmptyCollection() : SizedBox()
-          // JoinMyCollection()
-
-          ,
-          Expanded(
-            child: SingleChildScrollView(
-                child: Column(
-              children: [
-                ProductSection(
-                    category: "العروض والخصومات", products: products),
-                ProductSection(
-                    category: "الإعلانات الجديدة", products: products),
-                ProductSection(
-                    category: "الإعلانات المفترحة", products: products),
-              ],
-            )),
-          ),
+          empty
+              ? Expanded(child: EmptyCollection())
+              : Expanded(child: JoinMyCollection()),
           CustomBottomNavigationBar()
         ],
       ),

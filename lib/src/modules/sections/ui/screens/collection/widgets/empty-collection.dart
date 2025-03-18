@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
+import '../../../../../home/ui/screens/home/data.dart';
+import '../../../../../home/ui/screens/home/widgets/product-section.dart';
 
 class EmptyCollection extends StatelessWidget {
   const EmptyCollection({
@@ -45,6 +47,17 @@ class EmptyCollection extends StatelessWidget {
         ),
         SizedBox(
           height: 10.h,
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+              child: Column(
+            children: [
+              ProductSection(category: "العروض والخصومات", products: products),
+              ProductSection(category: "الإعلانات الجديدة", products: products),
+              ProductSection(
+                  category: "الإعلانات المفترحة", products: products),
+            ],
+          )),
         ),
       ],
     );

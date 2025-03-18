@@ -25,4 +25,9 @@ class EvaluationProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void removeImage() {
+    _selectedImage = null;
+    notifyListeners();
+  }
 }
