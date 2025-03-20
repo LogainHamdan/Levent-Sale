@@ -30,10 +30,11 @@ class CustomButton extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       constraints: BoxConstraints(),
                       icon: isFav
-                          ? Icon(
-                              Icons.favorite,
-                              color: isFav ? Colors.red : grey4,
-                              // size: isFav ? 22.sp : 18,
+                          ? Image.asset(
+                              'assets/imgs_icons/more/assets/icons/heart-colored.png',
+                              color: grey4,
+                              height: 25.h,
+                              width: 25.w,
                             )
                           : Image.asset(
                               'assets/imgs_icons/more/assets/icons/heart-uncolored.png',

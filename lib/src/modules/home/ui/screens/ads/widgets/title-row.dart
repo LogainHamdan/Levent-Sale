@@ -19,9 +19,11 @@ class TitleRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            width: 35.w,
-          ),
+          suffix == null
+              ? SizedBox(
+                  width: 35.w,
+                )
+              : suffix!,
           Text(
             title,
             style: TextStyle(

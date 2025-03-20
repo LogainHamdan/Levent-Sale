@@ -8,8 +8,8 @@ import '../../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dar
 import '../../../../../home/ui/screens/home/data.dart';
 import '../../../../../home/ui/screens/home/widgets/product-section.dart';
 
-class EmptyCollection extends StatelessWidget {
-  const EmptyCollection({
+class EmptyFav extends StatelessWidget {
+  const EmptyFav({
     super.key,
   });
 
@@ -21,14 +21,14 @@ class EmptyCollection extends StatelessWidget {
           height: 30.h,
         ),
         Image.asset(
-          'assets/imgs_icons/sections/assets/icons/اعلاناتي فارغة.png',
+          'assets/imgs_icons/more/assets/imgs/المفضلة فارغة.png',
           height: 120.h,
         ),
         SizedBox(
           height: 30.h,
         ),
         Text(
-          'إعلاناتي فارغة',
+          'المفضلة فارغة',
           style: TextStyle(
             color: grey3,
             fontSize: 20.sp,
@@ -37,20 +37,6 @@ class EmptyCollection extends StatelessWidget {
         SizedBox(
           height: 30.h,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.0.w),
-          child: CustomElevatedButton(
-              text: 'ابدأ في انشاء إعلانك',
-              onPressed: () =>
-                  Navigator.pushReplacementNamed(context, CreateAdScreen.id),
-              backgroundColor: kprimaryColor,
-              textColor: Colors.white,
-              date: false,
-              notText: true),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
         Expanded(
           child: SingleChildScrollView(
               child: Column(
@@ -58,7 +44,7 @@ class EmptyCollection extends StatelessWidget {
               ProductSection(category: "العروض والخصومات", products: products),
               ProductSection(category: "الإعلانات الجديدة", products: products),
               ProductSection(
-                  category: "الإعلانات المفترحة", products: products),
+                  category: "الإعلانات المقترحة", products: products),
             ],
           )),
         ),

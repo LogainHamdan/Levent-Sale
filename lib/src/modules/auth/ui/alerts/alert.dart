@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/cancel-option.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/custom-option.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/custom-rating.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,9 +28,9 @@ void showPasswordUpdated(BuildContext context) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: AlertDialog(
-          contentPadding: EdgeInsets.zero, // Removes default padding
+          contentPadding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.r), // Rounded corners
+            borderRadius: BorderRadius.circular(20.r),
           ),
           content: SizedBox(
             width: 350.w,
@@ -44,7 +47,7 @@ void showPasswordUpdated(BuildContext context) {
                         padding: EdgeInsets.all(10.w),
                         child: Image.asset(
                           'assets/imgs_icons/auth/assets/icons/cancel.png',
-                          height: 25.h, // Slightly larger cancel icon
+                          height: 25.h,
                         ),
                       ),
                     ),
@@ -54,7 +57,7 @@ void showPasswordUpdated(BuildContext context) {
                   padding: EdgeInsets.only(top: 12.h),
                   child: Image.asset(
                     'assets/imgs_icons/auth/assets/imgs/tick.png',
-                    height: 120.h, // Larger tick icon
+                    height: 120.h,
                   ),
                 ),
                 SizedBox(height: 15.h),
@@ -64,7 +67,7 @@ void showPasswordUpdated(BuildContext context) {
                   style: GoogleFonts.tajawal(
                     color: kprimaryColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 28.sp, // Slightly larger text
+                    fontSize: 28.sp,
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -76,7 +79,7 @@ void showPasswordUpdated(BuildContext context) {
                     textDirection: TextDirection.rtl,
                     style: GoogleFonts.tajawal(
                       color: grey4,
-                      fontSize: 18.sp, // Increased font size
+                      fontSize: 18.sp,
                     ),
                   ),
                 ),
@@ -332,13 +335,12 @@ void showRatingDialog(BuildContext context) {
 
   showDialog(
     context: context,
-    barrierDismissible: true, // Allows dismissing the dialog by tapping outside
+    barrierDismissible: true,
     builder: (BuildContext context) {
       return StatefulBuilder(
         builder: (context, setState) {
           return GestureDetector(
-            onTap: () =>
-                Navigator.pop(context), // Dismiss dialog on outside tap
+            onTap: () => Navigator.pop(context),
             child: Dialog(
               insetPadding: EdgeInsets.zero,
               backgroundColor: Colors.transparent,
@@ -415,6 +417,120 @@ void showRatingDialog(BuildContext context) {
             ),
           );
         },
+      );
+    },
+  );
+}
+
+void showAdCreated(BuildContext context) {
+  if (!context.mounted) return;
+
+  showDialog(
+    context: context,
+    barrierColor: Colors.black.withOpacity(0.2),
+    builder: (dialogContext) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          content: SizedBox(
+            width: 350.w,
+            height: 360.h,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.of(dialogContext).pop(),
+                      child: Padding(
+                        padding: EdgeInsets.all(10.w),
+                        child: Image.asset(
+                          'assets/imgs_icons/auth/assets/icons/cancel.png',
+                          height: 25.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 12.h),
+                  child: Image.asset(
+                    'assets/imgs_icons/sections/assets/imgs/تم انشاء اعلانك.png',
+                    height: 120.h,
+                  ),
+                ),
+                SizedBox(height: 15.h),
+                Text(
+                  'تم إنشاء إعلانك',
+                  textDirection: TextDirection.rtl,
+                  style: GoogleFonts.tajawal(
+                    color: kprimaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Text(
+                    maxLines: 2,
+                    'تم إنشاء إعلانك وسوف تتم مراجعته فالدهم الفني ونشره فاقرب وقت',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                    style: GoogleFonts.tajawal(
+                      color: grey4,
+                      fontSize: 18.sp,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30.w),
+                    child: CustomElevatedButton(
+                        text: 'عرض تشكيلتي',
+                        onPressed: () => Navigator.pushReplacementNamed(
+                            context, MyCollectionScreen.id),
+                        backgroundColor: kprimaryColor,
+                        textColor: Colors.white,
+                        date: false,
+                        notText: true)),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void _showLocationPermissionDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        title: const Text(
+          'الوصول الى الموقع',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomOption(text: 'عند استخدام التطبيق'),
+            Divider(height: 1, color: Colors.grey[300]),
+            CustomOption(text: 'هذه المرة فقط'),
+            Divider(height: 1, color: Colors.grey[300]),
+            CancelOption(text: 'إلغاء'),
+          ],
+        ),
       );
     },
   );

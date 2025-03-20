@@ -11,6 +11,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.d
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notifications.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/search-filter.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/creted-ad-details/created-ad-details.dart';
@@ -57,7 +58,7 @@ class MyMaterialApp extends StatelessWidget {
                     color: Colors.black),
               ),
             ),
-            initialRoute: MyCollectionScreen.id,
+            initialRoute: FavoriteScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),
@@ -75,6 +76,9 @@ class MyMaterialApp extends StatelessWidget {
                     noData: false,
                   ),
               MyCollectionScreen.id: (context) => MyCollectionScreen(
+                    empty: true,
+                  ),
+              FavoriteScreen.id: (context) => FavoriteScreen(
                     empty: false,
                   ),
               CreateAdScreen.id: (context) => CreateAdScreen(),
