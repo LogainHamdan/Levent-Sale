@@ -6,7 +6,6 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/e
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../home/ui/screens/ads/ads.dart';
 import '../../../../home/ui/screens/ads/widgets/products-details.dart';
 import '../../../../home/ui/screens/home/data.dart';
@@ -42,6 +41,7 @@ class FavoriteScreen extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(12.0.sp),
                       child: GridView.builder(
+                          physics: NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,

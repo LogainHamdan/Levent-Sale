@@ -1,0 +1,41 @@
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/guest-column.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/logged-column.dart';
+import 'package:Levant_Sale/src/modules/nav-bar/custom_nav_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import '../../../../home/ui/screens/ads/widgets/title-row.dart';
+
+class MenuScreen extends StatelessWidget {
+  static const id = '/menu';
+
+  const MenuScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final isLoggedIn = Provider.of<MenuProvider>(context).isLoggedIn;
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 30.h,
+          ),
+          TitleRow(title: 'المزيد'),
+          isLoggedIn
+              ? Padding(
+                  padding: EdgeInsets.all(16.0.sp),
+                  child: LoggedInColumn(),
+                )
+              : Padding(
+                  padding: EdgeInsets.all(16.0.sp),
+                  child: GuestColumn(),
+                ),
+          Spacer(),
+          CustomBottomNavigationBar(),
+        ],
+      ),
+    );
+  }
+}

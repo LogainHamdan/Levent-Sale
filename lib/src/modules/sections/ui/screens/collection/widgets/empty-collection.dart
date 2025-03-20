@@ -40,13 +40,13 @@ class EmptyCollection extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.0.w),
           child: CustomElevatedButton(
-              text: 'ابدأ في انشاء إعلانك',
-              onPressed: () =>
-                  Navigator.pushReplacementNamed(context, CreateAdScreen.id),
-              backgroundColor: kprimaryColor,
-              textColor: Colors.white,
-              date: false,
-              notText: true),
+            text: 'ابدأ في انشاء إعلانك',
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, CreateAdScreen.id),
+            backgroundColor: kprimaryColor,
+            textColor: Colors.white,
+            date: false,
+          ),
         ),
         SizedBox(
           height: 10.h,

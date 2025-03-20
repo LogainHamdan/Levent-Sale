@@ -54,7 +54,6 @@ class SplashScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomElevatedButton(
-                    notText: true,
                     text: "تسجيل دخول",
                     onPressed: () =>
                         Navigator.pushReplacementNamed(context, LoginScreen.id),
@@ -64,7 +63,6 @@ class SplashScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   CustomElevatedButton(
-                    notText: true,
                     text: "الاستمرار كضيف",
                     onPressed: () => Navigator.pushReplacementNamed(
                         context, SignUpScreen.id),

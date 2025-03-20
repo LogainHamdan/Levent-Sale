@@ -5,7 +5,7 @@ import '../../../../../../config/constants.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
-  final String hint;
+  final String? hint;
   final TextInputType keyboardType;
   final bool isPassword;
   final ValueChanged<String>? onChanged;
@@ -14,11 +14,13 @@ class CustomTextField extends StatelessWidget {
   final bool? paragraph;
   final String? label;
   final Widget? suffix;
+  final Widget? prefix;
+  final double? paragraphBorderRadius;
 
   const CustomTextField({
     super.key,
     required this.controller,
-    required this.hint,
+    this.hint = '',
     this.keyboardType = TextInputType.text,
     this.isPassword = false,
     this.onChanged,
@@ -27,6 +29,8 @@ class CustomTextField extends StatelessWidget {
     this.paragraph = false,
     this.label = '',
     this.suffix,
+    this.paragraphBorderRadius,
+    this.prefix,
   });
 
   @override
@@ -51,8 +55,9 @@ class CustomTextField extends StatelessWidget {
                   cursorColor: Colors.black,
                   style: TextStyle(fontSize: 14.sp, color: Colors.black),
                   decoration: InputDecoration(
+                    prefixIcon: prefix,
                     suffixIcon: suffix,
-                    hintText: hint,
+                    hintText: hint!,
                     fillColor: bgcolor,
                     filled: true,
                     hintTextDirection: TextDirection.rtl,
@@ -99,18 +104,20 @@ class CustomTextField extends StatelessWidget {
                     decoration: InputDecoration(
                       fillColor: bgcolor,
                       filled: true,
-                      hintText: hint,
+                      hintText: hint!,
                       hintStyle: TextStyle(color: grey4, fontSize: 16.sp),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.r),
                         borderSide: BorderSide.none,
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.r),
+                        borderRadius:
+                            BorderRadius.circular(paragraphBorderRadius!.r),
                         borderSide: BorderSide.none,
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.r),
+                        borderRadius:
+                            BorderRadius.circular(paragraphBorderRadius!.r),
                         borderSide: BorderSide.none,
                       ),
                     ),

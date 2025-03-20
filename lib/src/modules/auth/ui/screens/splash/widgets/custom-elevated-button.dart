@@ -7,20 +7,21 @@ class CustomElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color backgroundColor;
   final Color textColor;
-  final bool date;
-  final bool notText;
+  final bool? date;
+  final Widget? icon;
   const CustomElevatedButton({
+    super.key,
     required this.text,
     required this.onPressed,
     required this.backgroundColor,
     required this.textColor,
-    required this.date,
-    required this.notText,
+    this.date = false,
+    this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
-    return notText
+    return icon == null
         ? ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
@@ -28,7 +29,7 @@ class CustomElevatedButton extends StatelessWidget {
                   fontSize: 20.sp, fontWeight: FontWeight.w500),
               backgroundColor: backgroundColor,
               minimumSize:
-                  date ? Size(140.w, 50.h) : Size(double.infinity, 50.h),
+                  date! ? Size(140.w, 50.h) : Size(double.infinity, 50.h),
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r),
@@ -46,7 +47,7 @@ class CustomElevatedButton extends StatelessWidget {
                   fontSize: 20.sp, fontWeight: FontWeight.w500),
               backgroundColor: backgroundColor,
               minimumSize:
-                  date ? Size(140.w, 50.h) : Size(double.infinity, 50.h),
+                  date! ? Size(140.w, 50.h) : Size(double.infinity, 50.h),
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r),
@@ -62,13 +63,15 @@ class CustomElevatedButton extends StatelessWidget {
                 SizedBox(
                   width: 14.w,
                 ),
-                Image.asset(
-                  'assets/imgs_icons/home/assets/icons/chat-white.png',
-                  height: 20.h,
-                  width: 20.w,
-                )
+                icon!
               ],
             ),
           );
   }
 }
+//
+// Image.asset('assets/imgs_icons/home/assets/icons/chat-white.png',
+//                 icon! ,
+//                   height: 20.h,
+//                   width: 20.w,
+//                 ),

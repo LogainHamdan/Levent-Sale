@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../../config/constants.dart';
 import '../../../home/ui/screens/evaluation/widgets/img-picker.dart';
+import '../../../more/ui/screens/profile/profile.dart';
 import '../screens/login/widgets/confrm-cancel-button.dart';
 import '../screens/sign-up/widgets/custom-pass-field.dart';
 import '../screens/sign-up/widgets/custom-text-field.dart';
@@ -238,7 +239,8 @@ void showForgotPassword(BuildContext context) {
 
 DateTime? _selectedDay = DateTime.now();
 
-void showDatePickerDialog(BuildContext context) {
+void showDatePickerDialog(
+    BuildContext context, TextEditingController dateController) {
   showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.2),
@@ -306,6 +308,9 @@ void showDatePickerDialog(BuildContext context) {
                         setState(() {
                           _selectedDay = selectedDay;
                         });
+
+                        dateController.text =
+                            "${selectedDay.toLocal()}".split(' ')[0];
                       },
                     ),
                   ],
@@ -315,8 +320,9 @@ void showDatePickerDialog(BuildContext context) {
             actions: [
               ConfirmCancelButton(
                 text: 'متابعة',
-                onPressed: () =>
-                    Navigator.pushReplacementNamed(context, HomeScreen.id),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 backgroundColor: kprimaryColor,
                 textColor: Colors.white,
               ),
@@ -492,13 +498,13 @@ void showAdCreated(BuildContext context) {
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30.w),
                     child: CustomElevatedButton(
-                        text: 'عرض تشكيلتي',
-                        onPressed: () => Navigator.pushReplacementNamed(
-                            context, MyCollectionScreen.id),
-                        backgroundColor: kprimaryColor,
-                        textColor: Colors.white,
-                        date: false,
-                        notText: true)),
+                      text: 'عرض تشكيلتي',
+                      onPressed: () => Navigator.pushReplacementNamed(
+                          context, MyCollectionScreen.id),
+                      backgroundColor: kprimaryColor,
+                      textColor: Colors.white,
+                      date: false,
+                    )),
               ],
             ),
           ),

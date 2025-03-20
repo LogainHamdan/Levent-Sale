@@ -104,7 +104,6 @@ class AdDetailsScreen extends StatelessWidget {
                             SizedBox(height: 10.h),
                             Center(
                               child: CustomElevatedButton(
-                                notText: false,
                                 text: 'متابعة',
                                 onPressed: () {},
                                 backgroundColor: kprimaryColor,

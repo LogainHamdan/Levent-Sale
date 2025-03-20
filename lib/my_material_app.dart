@@ -12,6 +12,9 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notifications.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/search-filter.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/creted-ad-details/created-ad-details.dart';
@@ -24,7 +27,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'src/modules/sections/ui/screens/collection/my-collection.dart';
 
 class MyMaterialApp extends StatelessWidget {
@@ -48,17 +50,15 @@ class MyMaterialApp extends StatelessWidget {
               textTheme: TextTheme(
                 bodySmall:
                     GoogleFonts.tajawal(fontSize: 16.sp, color: Colors.black),
-                bodyMedium: GoogleFonts.tajawal(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.sp,
-                    color: Colors.black),
+                bodyMedium:
+                    GoogleFonts.tajawal(fontSize: 16.sp, color: Colors.black),
                 bodyLarge: GoogleFonts.tajawal(
                     fontWeight: FontWeight.bold,
                     fontSize: 20.sp,
                     color: Colors.black),
               ),
             ),
-            initialRoute: FavoriteScreen.id,
+            initialRoute: ProfileScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),
@@ -92,6 +92,9 @@ class MyMaterialApp extends StatelessWidget {
               AdCreatedDetails.id: (context) => AdCreatedDetails(),
               SectionChoose.id: (context) => SectionChoose(),
               Sections.id: (context) => Sections(),
+              MenuScreen.id: (context) => MenuScreen(),
+              ProfileScreen.id: (context) => ProfileScreen(),
+              TechnicalSupportScreen.id: (context) => TechnicalSupportScreen(),
             },
           );
         });

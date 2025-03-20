@@ -5,14 +5,20 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../../../../../config/constants.dart';
 
 class PhoneSection extends StatelessWidget {
+  final String? hint;
+
+  const PhoneSection({
+    super.key,
+    this.hint = '598 789 458',
+  });
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       // Ensure width is constrained
       width: double.infinity,
       child: Row(
-        mainAxisAlignment:
-            MainAxisAlignment.spaceBetween, // Ensures proper spacing
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Container(
@@ -22,10 +28,10 @@ class PhoneSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: TextField(
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  hintText: '598 789 458',
                   hintStyle: TextStyle(
-                    color: grey4,
+                    color: grey8,
                     fontSize: 18.sp,
                   ),
                   border: InputBorder.none,
@@ -61,7 +67,7 @@ class PhoneSection extends StatelessWidget {
                 initialCountryCode: 'SY',
                 dropdownIcon: Icon(Icons.arrow_drop_down, color: Colors.black),
                 onChanged: (phone) {},
-                disableLengthCheck: true, // Removes the 1/10, 2/10, etc.
+                disableLengthCheck: true,
               ),
             ),
           )

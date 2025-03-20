@@ -4,6 +4,8 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/profile/provider.dart';
 import 'package:Levant_Sale/src/modules/nav-bar/nav_provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
@@ -13,9 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'my_material_app.dart';
-
-
-
 
 void main() async {
   await ScreenUtil.ensureScreenSize();
@@ -61,7 +60,13 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (context) => TabProvider(),
-      )
+      ),
+      ChangeNotifierProvider(
+        create: (context) => MenuProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => ProfileProvider(),
+      ),
     ], child: MyMaterialApp());
   }
 }

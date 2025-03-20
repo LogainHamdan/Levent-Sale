@@ -71,7 +71,6 @@ class VerificationScreen extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             CustomElevatedButton(
-                notText: true,
                 text: 'تحقق',
                 onPressed: () {},
                 backgroundColor: kprimaryColor,

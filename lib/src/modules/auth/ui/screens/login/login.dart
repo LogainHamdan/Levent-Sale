@@ -83,7 +83,6 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 CustomElevatedButton(
-                  notText: true,
                   text: 'متابعة',
                   onPressed: () =>
                       Navigator.pushReplacementNamed(context, HomeScreen.id),

@@ -40,6 +40,7 @@ class AdCreatedDetails extends StatelessWidget {
                 controller: shortDescController,
                 hint: '',
                 bgcolor: grey8,
+                paragraphBorderRadius: 10,
                 keyboardType: TextInputType.multiline,
                 paragraph: true,
               ),
@@ -84,12 +85,12 @@ class AdCreatedDetails extends StatelessWidget {
                 height: 10.h,
               ),
               CustomElevatedButton(
-                  text: 'متابعة',
-                  onPressed: () {},
-                  backgroundColor: kprimaryColor,
-                  textColor: Colors.white,
-                  date: false,
-                  notText: true)
+                text: 'متابعة',
+                onPressed: () {},
+                backgroundColor: kprimaryColor,
+                textColor: Colors.white,
+                date: false,
+              )
             ],
           ),
         ),

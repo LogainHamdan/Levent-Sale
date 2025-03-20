@@ -1,11 +1,9 @@
-import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/checkbox.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/checking-container.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-label.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-switch.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -84,12 +82,12 @@ class SectionDetails extends StatelessWidget {
               ),
               CheckingContainer(provider: provider),
               CustomElevatedButton(
-                  text: 'متابعة',
-                  onPressed: () {},
-                  backgroundColor: kprimaryColor,
-                  textColor: Colors.white,
-                  date: false,
-                  notText: true),
+                text: 'متابعة',
+                onPressed: () {},
+                backgroundColor: kprimaryColor,
+                textColor: Colors.white,
+                date: false,
+              ),
             ],
           ),
         ),

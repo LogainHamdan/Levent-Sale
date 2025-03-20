@@ -100,7 +100,6 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
                 CustomElevatedButton(
-                  notText: true,
                   text: 'متابعة',
                   onPressed: () =>
                       Navigator.pushReplacementNamed(context, HomeScreen.id),
