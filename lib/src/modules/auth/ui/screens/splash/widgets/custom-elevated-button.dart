@@ -9,6 +9,7 @@ class CustomElevatedButton extends StatelessWidget {
   final Color textColor;
   final bool? date;
   final Widget? icon;
+  final double? fontSize;
   const CustomElevatedButton({
     super.key,
     required this.text,
@@ -17,6 +18,7 @@ class CustomElevatedButton extends StatelessWidget {
     required this.textColor,
     this.date = false,
     this.icon,
+    this.fontSize = 20,
   });
 
   @override
@@ -26,7 +28,7 @@ class CustomElevatedButton extends StatelessWidget {
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
               textStyle: GoogleFonts.tajawal(
-                  fontSize: 20.sp, fontWeight: FontWeight.w500),
+                  fontSize: fontSize!.sp, fontWeight: FontWeight.w500),
               backgroundColor: backgroundColor,
               minimumSize:
                   date! ? Size(140.w, 50.h) : Size(double.infinity, 50.h),
@@ -36,6 +38,7 @@ class CustomElevatedButton extends StatelessWidget {
               ),
             ),
             child: Text(
+              maxLines: 1,
               text,
               style: TextStyle(color: textColor),
             ),
@@ -44,7 +47,7 @@ class CustomElevatedButton extends StatelessWidget {
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
               textStyle: GoogleFonts.tajawal(
-                  fontSize: 20.sp, fontWeight: FontWeight.w500),
+                  fontSize: fontSize!.sp, fontWeight: FontWeight.w500),
               backgroundColor: backgroundColor,
               minimumSize:
                   date! ? Size(140.w, 50.h) : Size(double.infinity, 50.h),

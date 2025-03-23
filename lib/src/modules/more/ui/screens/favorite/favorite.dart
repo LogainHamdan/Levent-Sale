@@ -13,9 +13,10 @@ import '../../../../home/ui/screens/home/widgets/product-section.dart';
 
 class FavoriteScreen extends StatelessWidget {
   final bool empty;
+  final Widget suffix;
   static const id = '/fav';
 
-  const FavoriteScreen({super.key, required this.empty});
+  const FavoriteScreen({super.key, required this.empty, required this.suffix});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +27,7 @@ class FavoriteScreen extends StatelessWidget {
             SizedBox(
               height: 30.h,
             ),
-            TitleRow(
-              title: 'المفضلة',
-              suffix:
-                  Image.asset('assets/imgs_icons/more/assets/icons/اضافة.png'),
-            ),
+            TitleRow(title: 'المفضلة', suffix: suffix),
             SizedBox(
               height: 15.h,
             ),

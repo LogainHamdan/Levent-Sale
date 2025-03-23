@@ -9,8 +9,7 @@ class CustomButton extends StatelessWidget {
   final bool favIcon;
 
   const CustomButton(
-      {Key? key, required this.productKey, required this.favIcon})
-      : super(key: key);
+      {super.key, required this.productKey, required this.favIcon});
 
   @override
   Widget build(BuildContext context) {

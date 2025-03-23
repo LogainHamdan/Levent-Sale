@@ -11,7 +11,6 @@ class ProductItem extends StatelessWidget {
   final Map<String, String> product;
   final String category;
   final bool isHalfed;
-
   const ProductItem({
     super.key,
     required this.product,
@@ -29,6 +28,8 @@ class ProductItem extends StatelessWidget {
           margin: EdgeInsets.all(8.sp),
           child: isHalfed
               ? Container(
+                  height: 180.h,
+                  width: 200.w,
                   decoration: BoxDecoration(
                     color: grey7,
                     borderRadius: BorderRadius.circular(5.r),
@@ -106,7 +107,7 @@ class ProductItem extends StatelessWidget {
                       Stack(
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(8.r),
+                            borderRadius: BorderRadius.circular(4.r),
                             child: SizedBox(
                               width: double.infinity,
                               height: 80.h,
@@ -122,14 +123,14 @@ class ProductItem extends StatelessWidget {
                             child: DiscountBadge(),
                           ),
                           Positioned(
-                            top: 6,
-                            left: 6,
+                            top: 6.h,
+                            left: 6.w,
                             child: CustomButton(
                                 favIcon: true, productKey: productKey),
                           ),
                         ],
                       ),
-                      SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         product['name']!,
                         style: TextStyle(

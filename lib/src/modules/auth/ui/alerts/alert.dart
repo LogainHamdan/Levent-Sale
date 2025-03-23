@@ -1,7 +1,12 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/cancel-option.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/custom-alert.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/custom-divider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/custom-option.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/empty-text-field.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/option-tile.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/simple-title.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/custom-rating.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
@@ -13,7 +18,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../../config/constants.dart';
 import '../../../home/ui/screens/evaluation/widgets/img-picker.dart';
-import '../../../more/ui/screens/profile/profile.dart';
+
+import '../../../more/ui/screens/edit-profile/widgets/title-cancel.dart';
 import '../screens/login/widgets/confrm-cancel-button.dart';
 import '../screens/sign-up/widgets/custom-pass-field.dart';
 import '../screens/sign-up/widgets/custom-text-field.dart';
@@ -436,7 +442,7 @@ void showAdCreated(BuildContext context) {
     barrierColor: Colors.black.withOpacity(0.2),
     builder: (dialogContext) {
       return BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
         child: AlertDialog(
           contentPadding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
@@ -531,10 +537,241 @@ void _showLocationPermissionDialog(BuildContext context) {
           mainAxisSize: MainAxisSize.min,
           children: [
             CustomOption(text: 'عند استخدام التطبيق'),
-            Divider(height: 1, color: Colors.grey[300]),
+            CustomDivider(),
             CustomOption(text: 'هذه المرة فقط'),
-            Divider(height: 1, color: Colors.grey[300]),
+            CustomDivider(),
             CancelOption(text: 'إلغاء'),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void showFavoriteAlert(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    isDismissible: true,
+    builder: (context) {
+      return GestureDetector(
+        onTap: () => Navigator.pop(context),
+        behavior: HitTestBehavior.opaque,
+        child: Stack(
+          children: [
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+              child: Container(
+                color: Colors.black.withOpacity(0.2),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: GestureDetector(
+                onTap: () {},
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(15.r)),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 8.h),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CustomTitleCancel(title: "احفظ في قائمة المفضلة"),
+                        SizedBox(height: 20.h),
+                        Container(
+                          height: 40.h,
+                          decoration: BoxDecoration(
+                            color: grey6,
+                            borderRadius: BorderRadius.circular(3.r),
+                          ),
+                          child: Center(child: Text("مفضلتي")),
+                        ),
+                        SizedBox(height: 10.h),
+                        SimpleTitle(title: 'تشكيلة جديدة'),
+                        EmptyTextField(
+                          controller: TextEditingController(),
+                        ),
+                        SizedBox(height: 20.h),
+                        CustomElevatedButton(
+                          text: 'حفظ',
+                          onPressed: () => showNewCollectionAlert(context),
+                          backgroundColor: kprimaryColor,
+                          textColor: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void showNewCollectionAlert(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierColor: Colors.black.withOpacity(0.5),
+    barrierDismissible: true,
+    builder: (context) {
+      return GestureDetector(
+        onTap: () => Navigator.pop(context),
+        behavior: HitTestBehavior.opaque,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.r)),
+            child: GestureDetector(
+              onTap: () {},
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.3,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Padding(
+                  padding: EdgeInsets.all(16.r),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CustomTitleCancel(title: "تشكيلة جديدة"),
+                      SizedBox(height: 20.h),
+                      EmptyTextField(controller: TextEditingController()),
+                      SizedBox(height: 20.h),
+                      CustomElevatedButton(
+                        text: 'حفظ',
+                        onPressed: () {},
+                        backgroundColor: kprimaryColor,
+                        textColor: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void editDoneAlert(BuildContext context) {
+  showCustomAlertDialog(
+      context: context,
+      title: 'تم التعديل',
+      message: 'هل أنت متأكد من التعديلات؟',
+      confirmText: 'تعديل',
+      confirmColor: Colors.blue,
+      onConfirm: () {});
+}
+
+void deleteAccountAlert(BuildContext context) {
+  showCustomAlertDialog(
+      context: context,
+      title: 'هل أنت متأكد؟',
+      message: 'هل أنت متأكد من حذف حسابك',
+      confirmText: 'حذف الحساب',
+      confirmColor: Colors.red,
+      cancelColor: Colors.black,
+      onConfirm: () {});
+}
+
+void logoutAlert(BuildContext context) {
+  showCustomAlertDialog(
+      context: context,
+      title: 'هل أنت متأكد؟',
+      message: 'هل أنت متأكد من تسجيل الخروج؟',
+      confirmText: 'تسجيل خروج',
+      confirmColor: Colors.red,
+      cancelColor: Colors.black,
+      onConfirm: () {});
+}
+
+void changePictureOptionAlert(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (context) {
+      return GestureDetector(
+        onTap: () => Navigator.of(context).pop(),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+                child: Container(
+                  color: Colors.black.withOpacity(0.2),
+                ),
+              ),
+            ),
+            Center(
+              child: GestureDetector(
+                onTap: () {}, // Prevent tap inside dialog from dismissing
+                child: Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  backgroundColor: Colors.white,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16.r),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 12.h, right: 20.w),
+                          child: SimpleTitle(title: 'تغيير الصورة'),
+                        ),
+                        CustomDivider(),
+                        OptionTile(
+                          color: grey0,
+                          title: "اخذ صورة",
+                          icon: Image.asset(
+                            'assets/imgs_icons/more/assets/icons/اخذ صورة.png',
+                            height: 20.h,
+                          ),
+                          onTap: () {},
+                        ),
+                        CustomDivider(),
+                        OptionTile(
+                          color: grey4,
+                          title: "اختر من الاستديو",
+                          icon: Image.asset(
+                            'assets/imgs_icons/more/assets/icons/اختر من الاستديو.png',
+                            height: 20.h,
+                          ),
+                          onTap: () {},
+                        ),
+                        CustomDivider(),
+                        OptionTile(
+                          color: Colors.red,
+                          title: "حذف الصورة",
+                          icon: Image.asset(
+                            'assets/imgs_icons/more/assets/icons/حذف الصورة.png',
+                            height: 20.h,
+                          ),
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       );

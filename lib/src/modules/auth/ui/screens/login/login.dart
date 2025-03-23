@@ -21,6 +21,8 @@ import '../splash/widgets/custom-elevated-button.dart';
 class LoginScreen extends StatelessWidget {
   static const id = '/login';
 
+  const LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -32,7 +34,7 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 80),
+                SizedBox(height: 80.h),
                 Text("تسجيل دخول",
                     style: TextStyle(
                         fontSize: 25.sp,
@@ -81,7 +83,7 @@ class LoginScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 CustomElevatedButton(
                   text: 'متابعة',
                   onPressed: () =>

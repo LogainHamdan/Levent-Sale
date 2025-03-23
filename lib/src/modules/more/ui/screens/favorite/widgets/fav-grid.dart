@@ -1,6 +1,7 @@
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/rounded-img.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../config/constants.dart';
 
@@ -50,14 +51,13 @@ class CustomGridView extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                   color: grey4.withOpacity(0.6),
                   alignment: Alignment.centerRight,
-                  child: const Text(
-                    'الأجهزة',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  child: Text('الأجهزة',
+                      style: GoogleFonts.tajawal(
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.sp,
+                        ),
+                      )),
                 ),
               ),
             ],

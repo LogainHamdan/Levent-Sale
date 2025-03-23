@@ -9,6 +9,8 @@ import '../sign-up/sign-up.dart';
 
 class SplashScreen extends StatelessWidget {
   static const id = '/splash';
+
+  const SplashScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +51,7 @@ class SplashScreen extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -61,7 +63,7 @@ class SplashScreen extends StatelessWidget {
                     textColor: Colors.white,
                     date: false,
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   CustomElevatedButton(
                     text: "الاستمرار كضيف",
                     onPressed: () => Navigator.pushReplacementNamed(

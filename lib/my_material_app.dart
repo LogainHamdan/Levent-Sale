@@ -11,9 +11,17 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.d
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notifications.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/search-filter.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/why-to-delete.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/edit-profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/follow/followers.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/follow/following.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/follow/join-follow.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/profile/friend-profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
+
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
@@ -58,7 +66,7 @@ class MyMaterialApp extends StatelessWidget {
                     color: Colors.black),
               ),
             ),
-            initialRoute: ProfileScreen.id,
+            initialRoute: HomeScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),
@@ -79,6 +87,10 @@ class MyMaterialApp extends StatelessWidget {
                     empty: true,
                   ),
               FavoriteScreen.id: (context) => FavoriteScreen(
+                    suffix: Image.asset(
+                      'assets/imgs_icons/more/assets/icons/اضافة.png',
+                      height: 25.h,
+                    ),
                     empty: false,
                   ),
               CreateAdScreen.id: (context) => CreateAdScreen(),
@@ -93,8 +105,18 @@ class MyMaterialApp extends StatelessWidget {
               SectionChoose.id: (context) => SectionChoose(),
               Sections.id: (context) => Sections(),
               MenuScreen.id: (context) => MenuScreen(),
-              ProfileScreen.id: (context) => ProfileScreen(),
+              EditProfileScreen.id: (context) => EditProfileScreen(),
               TechnicalSupportScreen.id: (context) => TechnicalSupportScreen(),
+              ProfileScreen.id: (context) => ProfileScreen(),
+              FriendProfile.id: (context) => FriendProfile(),
+              FollowingScreen.id: (context) => FollowingScreen(),
+              FollowersScreen.id: (context) => FollowersScreen(),
+              JoinFollow.id: (context) => JoinFollow(),
+              WhyToDeleteScreen.id: (context) => WhyToDeleteScreen(),
+              DeleteAccountScreen.id: (context) => DeleteAccountScreen(
+                    phase1email: true,
+                    onPressed: () {},
+                  ),
             },
           );
         });

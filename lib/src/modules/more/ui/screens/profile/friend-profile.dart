@@ -1,7 +1,5 @@
 import 'package:Levant_Sale/src/config/constants.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/add-cover-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/custom-small-button.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/follow-container.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/name-row.dart';
@@ -9,10 +7,10 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/product-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ProfileScreen extends StatelessWidget {
-  static const id = '/profile';
+class FriendProfile extends StatelessWidget {
+  static const id = '/friend-profile';
 
-  const ProfileScreen({super.key});
+  const FriendProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +37,6 @@ class ProfileScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4.r)),
                   height: 120.h,
                   width: double.infinity,
-                  child: AddCoverColumn(),
                 ),
                 Positioned(
                   bottom: -15.h,
@@ -67,15 +64,30 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
-            CustomElevatedButton(
-              text: 'تعديل الملف الشخصي',
-              onPressed: () {},
-              backgroundColor: kprimaryColor,
-              textColor: Colors.white,
-              icon: Image.asset(
-                'assets/imgs_icons/more/assets/icons/edit.png',
-                height: 30.h,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomSmallButton(
+                  onPressed: () {},
+                  isOutlined: true,
+                  icon: Image.asset(
+                    'assets/imgs_icons/more/assets/icons/محادثة.png',
+                    height: 20.h,
+                  ),
+                  text: 'محادثة',
+                  textColor: kprimaryColor,
+                ),
+                SizedBox(width: 12.w),
+                CustomSmallButton(
+                    isOutlined: false,
+                    onPressed: () {},
+                    icon: Image.asset(
+                      'assets/imgs_icons/more/assets/icons/متابعة.png',
+                      height: 20.h,
+                    ),
+                    text: 'متابعة',
+                    buttonColor: kprimaryColor),
+              ],
             ),
             SizedBox(height: 16.h),
             Container(

@@ -4,8 +4,10 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/follow/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/profile/provider.dart';
 import 'package:Levant_Sale/src/modules/nav-bar/nav_provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
@@ -65,7 +67,13 @@ class MyApp extends StatelessWidget {
         create: (context) => MenuProvider(),
       ),
       ChangeNotifierProvider(
-        create: (context) => ProfileProvider(),
+        create: (context) => EditProfileProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => FollowProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => DeleteProvider(),
       ),
     ], child: MyMaterialApp());
   }
