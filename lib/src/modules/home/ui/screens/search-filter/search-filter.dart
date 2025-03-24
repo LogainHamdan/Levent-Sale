@@ -14,49 +14,51 @@ class FilterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-              padding: EdgeInsets.only(left: 8.w, right: 8.w, top: 22.h),
-              child: SearchField()),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                if (cardListIndex == 0) {
-                  return CustomCard(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FilterScreen(
-                                  cardListIndex: 1,
-                                ))),
-                    icon: Image.asset(
-                        height: 10.h,
-                        'assets/imgs_icons/general/arrow-left.png'),
-                    title: categories[index]['title']!,
-                  );
-                }
-                if (cardListIndex == 1) {
-                  return CustomCard(
-                    onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FilterScreen(
-                                  cardListIndex: 2,
-                                ))),
-                    icon: Image.asset(
-                        height: 10.h,
-                        'assets/imgs_icons/general/arrow-left.png'),
-                    title: 'شقق فاخرة و مفروشة',
-                  );
-                }
-              },
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Padding(
+                padding: EdgeInsets.only(left: 8.w, right: 8.w, top: 22.h),
+                child: SearchField()),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  if (cardListIndex == 0) {
+                    return CustomCard(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FilterScreen(
+                                    cardListIndex: 1,
+                                  ))),
+                      icon: Image.asset(
+                          height: 10.h,
+                          'assets/imgs_icons/general/arrow-left.png'),
+                      title: categories[index]['title']!,
+                    );
+                  }
+                  if (cardListIndex == 1) {
+                    return CustomCard(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FilterScreen(
+                                    cardListIndex: 2,
+                                  ))),
+                      icon: Image.asset(
+                          height: 10.h,
+                          'assets/imgs_icons/general/arrow-left.png'),
+                      title: 'شقق فاخرة و مفروشة',
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

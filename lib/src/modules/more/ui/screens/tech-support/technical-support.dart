@@ -17,43 +17,45 @@ class TechnicalSupportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          leading: SizedBox(),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(80.h),
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.h),
-                  child: TitleRow(title: 'الدعم الفني'),
-                ),
-                TabBar(
-                  indicatorColor: kprimaryColor,
-                  unselectedLabelColor: grey5,
-                  unselectedLabelStyle: GoogleFonts.tajawal(
-                      textStyle: TextStyle(
-                          fontSize: 22.sp, fontWeight: FontWeight.w600)),
-                  labelColor: kprimaryColor,
-                  labelStyle: GoogleFonts.tajawal(
-                      textStyle: TextStyle(
-                          fontSize: 22.sp, fontWeight: FontWeight.w600)),
-                  tabs: [
-                    Tab(
-                      text: "الأسئلة الشائعة",
-                    ),
-                    Tab(text: "الدعم الفني"),
-                  ],
-                ),
-              ],
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            leading: SizedBox(),
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(80.h),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                    child: TitleRow(title: 'الدعم الفني'),
+                  ),
+                  TabBar(
+                    indicatorColor: kprimaryColor,
+                    unselectedLabelColor: grey5,
+                    unselectedLabelStyle: GoogleFonts.tajawal(
+                        textStyle: TextStyle(
+                            fontSize: 22.sp, fontWeight: FontWeight.w600)),
+                    labelColor: kprimaryColor,
+                    labelStyle: GoogleFonts.tajawal(
+                        textStyle: TextStyle(
+                            fontSize: 22.sp, fontWeight: FontWeight.w600)),
+                    tabs: [
+                      Tab(
+                        text: "الأسئلة الشائعة",
+                      ),
+                      Tab(text: "الدعم الفني"),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        body: TabBarView(
-          children: [
-            FAQScreen(),
-            SupportScreen(),
-          ],
+          body: TabBarView(
+            children: [
+              FAQScreen(),
+              SupportScreen(),
+            ],
+          ),
         ),
       ),
     );

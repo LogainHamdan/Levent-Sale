@@ -15,54 +15,64 @@ class ConversationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        iconAsset: 'assets/imgs_icons/home/assets/icons/more.png',
-        name: 'محمد',
-        profileImageAsset: 'assets/imgs_icons/home/assets/imgs/محمد.png',
-      ),
-      body: !msgsAvailable
-          ? NoInfoWidget(
-              img: 'assets/imgs_icons/home/assets/icons/no-chat.png',
-              msg: 'لا يوجد محادثة !')
-          : Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    reverse: true,
-                    padding: EdgeInsets.all(10),
-                    children: [
-                      ReceivedMsg(
-                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                      SentMsg(
-                          text:
-                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                      ReceivedMsg(
-                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                      SentMsg(
-                          text:
-                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                      ReceivedMsg(
-                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                      SentMsg(
-                          text:
-                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                      ReceivedMsg(
-                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                      SentMsg(
-                          text:
-                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                      ReceivedMsg(
-                          text: "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
-                      SentMsg(
-                          text:
-                              "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
-                    ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: CustomAppBar(
+          leadingIcon: Image.asset(
+            'assets/imgs_icons/home/assets/icons/more.png',
+            height: 22.h,
+          ),
+          name: 'محمد',
+          profileImageAsset: 'assets/imgs_icons/home/assets/imgs/محمد.png',
+        ),
+        body: !msgsAvailable
+            ? NoInfoWidget(
+                img: 'assets/imgs_icons/home/assets/icons/no-chat.png',
+                msg: 'لا يوجد محادثة !')
+            : Column(
+                children: [
+                  Expanded(
+                    child: ListView(
+                      reverse: true,
+                      padding: EdgeInsets.all(10),
+                      children: [
+                        ReceivedMsg(
+                            text:
+                                "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                        SentMsg(
+                            text:
+                                "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                        ReceivedMsg(
+                            text:
+                                "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                        SentMsg(
+                            text:
+                                "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                        ReceivedMsg(
+                            text:
+                                "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                        SentMsg(
+                            text:
+                                "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                        ReceivedMsg(
+                            text:
+                                "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                        SentMsg(
+                            text:
+                                "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                        ReceivedMsg(
+                            text:
+                                "أعتقد أن 256 جيجابايت ستكون كافية. كم سعره؟"),
+                        SentMsg(
+                            text:
+                                "سعره هو 1200 دولار، لكن لدينا عرض خاص اليوم ب 1150 دولار"),
+                      ],
+                    ),
                   ),
-                ),
-                MessageInput(),
-              ],
-            ),
+                  MessageInput(),
+                ],
+              ),
+      ),
     );
   }
 }

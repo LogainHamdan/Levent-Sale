@@ -14,13 +14,15 @@ class FollowingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Expanded(
-        child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return FollowTile(index: index);
-          },
+    return SafeArea(
+      child: Scaffold(
+        body: Expanded(
+          child: ListView.builder(
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return FollowTile(index: index);
+            },
+          ),
         ),
       ),
     );

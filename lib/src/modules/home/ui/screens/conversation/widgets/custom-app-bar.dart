@@ -1,35 +1,33 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/chats/chats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../config/constants.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String iconAsset;
+  final Widget leadingIcon;
   final String name;
   final String profileImageAsset;
 
   const CustomAppBar({
-    required this.iconAsset,
+    required this.leadingIcon,
     required this.name,
     required this.profileImageAsset,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      leading: IconButton(
+        icon: leadingIcon,
+        onPressed: () {},
+      ),
       backgroundColor: grey9,
       elevation: 4.0,
       shadowColor: Colors.grey.withOpacity(0.5),
       title: Padding(
         padding: EdgeInsets.symmetric(vertical: 8.0.h),
-        child: IconButton(
-          icon: Image.asset(
-            iconAsset,
-            height: 22.h,
-          ),
-          onPressed: () {},
-        ),
       ),
       actions: [
         Padding(
@@ -47,11 +45,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               SizedBox(width: 10.w),
               SizedBox(
                 height: 80.h,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Image.asset(
-                    'assets/imgs_icons/general/page-arrow-back.png',
-                    height: 80.h,
+                child: InkWell(
+                  onTap: () => Navigator.pushReplacementNamed(
+                      context, ChatListScreen.id),
+                  child: SizedBox(
+                    height: 20.h,
+                    width: 20.w,
+                    child: Image.asset(
+                      'assets/imgs_icons/general/page-arrow-back.png',
+                    ),
                   ),
                 ),
               ),

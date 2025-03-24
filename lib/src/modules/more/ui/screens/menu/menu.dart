@@ -15,26 +15,28 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLoggedIn = Provider.of<MenuProvider>(context).isLoggedIn;
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 30.h,
-          ),
-          TitleRow(title: 'المزيد'),
-          isLoggedIn
-              ? Padding(
-                  padding: EdgeInsets.all(16.0.sp),
-                  child: LoggedInColumn(),
-                )
-              : Padding(
-                  padding: EdgeInsets.all(16.0.sp),
-                  child: GuestColumn(),
-                ),
-          Spacer(),
-          CustomBottomNavigationBar(),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 30.h,
+            ),
+            TitleRow(title: 'المزيد'),
+            isLoggedIn
+                ? Padding(
+                    padding: EdgeInsets.all(16.0.sp),
+                    child: LoggedInColumn(),
+                  )
+                : Padding(
+                    padding: EdgeInsets.all(16.0.sp),
+                    child: GuestColumn(),
+                  ),
+            Spacer(),
+            CustomBottomNavigationBar(),
+          ],
+        ),
       ),
     );
   }

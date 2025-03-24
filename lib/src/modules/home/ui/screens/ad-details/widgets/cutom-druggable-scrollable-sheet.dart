@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -97,7 +98,8 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
               const SizedBox(height: 20),
               CustomElevatedButton(
                 text: 'محادثة',
-                onPressed: () {},
+                onPressed: () => Navigator.pushReplacementNamed(
+                    context, ConversationScreen.id),
                 backgroundColor: kprimaryColor,
                 textColor: Colors.white,
                 date: false,

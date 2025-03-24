@@ -22,76 +22,78 @@ class AdCreatedDetails extends StatelessWidget {
     final TextEditingController phoneController = TextEditingController();
     final TextEditingController priceController = TextEditingController();
     final TextEditingController discountController = TextEditingController();
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16.0.sp),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTextField(
-                  controller: titleController,
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.all(16.0.sp),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextField(
+                    controller: titleController,
+                    hint: '',
+                    label: 'عنوان',
+                    bgcolor: grey8),
+                SizedBox(height: 10.h),
+                CustomTextField(
+                  label: 'وصف صغير',
+                  controller: shortDescController,
                   hint: '',
-                  label: 'عنوان',
-                  bgcolor: grey8),
-              SizedBox(height: 10.h),
-              CustomTextField(
-                label: 'وصف صغير',
-                controller: shortDescController,
-                hint: '',
-                bgcolor: grey8,
-                paragraphBorderRadius: 10,
-                keyboardType: TextInputType.multiline,
-                paragraph: true,
-              ),
-              SizedBox(height: 10.h),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'محتوى',
+                  bgcolor: grey8,
+                  paragraphBorderRadius: 10,
+                  keyboardType: TextInputType.multiline,
+                  paragraph: true,
                 ),
-              ),
-              SizedBox(height: 300.h, child: RichTextEditor()),
-              SizedBox(height: 10.h),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  'صور',
-                ),
-              ),
-              ImagePickerColumn(),
-              SizedBox(height: 10.h),
-              CustomTextField(
-                  label: 'رقم هاتف للتواصل',
-                  controller: TextEditingController(),
-                  hint: '',
-                  bgcolor: grey8),
-              SizedBox(height: 10.h),
-              CustomTextField(
-                  label: 'السعر',
-                  controller: TextEditingController(),
-                  hint: '',
-                  bgcolor: grey8),
-              CustomTextField(
-                  suffix: Icon(
-                    Icons.percent,
-                    color: grey4,
+                SizedBox(height: 10.h),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'محتوى',
                   ),
-                  label: 'خصم بنسبة',
-                  controller: TextEditingController(),
-                  hint: '',
-                  bgcolor: grey8),
-              SizedBox(
-                height: 10.h,
-              ),
-              CustomElevatedButton(
-                text: 'متابعة',
-                onPressed: () {},
-                backgroundColor: kprimaryColor,
-                textColor: Colors.white,
-                date: false,
-              )
-            ],
+                ),
+                SizedBox(height: 300.h, child: RichTextEditor()),
+                SizedBox(height: 10.h),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'صور',
+                  ),
+                ),
+                ImagePickerColumn(),
+                SizedBox(height: 10.h),
+                CustomTextField(
+                    label: 'رقم هاتف للتواصل',
+                    controller: TextEditingController(),
+                    hint: '',
+                    bgcolor: grey8),
+                SizedBox(height: 10.h),
+                CustomTextField(
+                    label: 'السعر',
+                    controller: TextEditingController(),
+                    hint: '',
+                    bgcolor: grey8),
+                CustomTextField(
+                    suffix: Icon(
+                      Icons.percent,
+                      color: grey4,
+                    ),
+                    label: 'خصم بنسبة',
+                    controller: TextEditingController(),
+                    hint: '',
+                    bgcolor: grey8),
+                SizedBox(
+                  height: 10.h,
+                ),
+                CustomElevatedButton(
+                  text: 'متابعة',
+                  onPressed: () {},
+                  backgroundColor: kprimaryColor,
+                  textColor: Colors.white,
+                  date: false,
+                )
+              ],
+            ),
           ),
         ),
       ),

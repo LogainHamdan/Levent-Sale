@@ -15,20 +15,22 @@ class AdsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(height: 35.h),
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-              child: TitleRow(title: 'الإعلانات')),
-          SizedBox(height: 10.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-            child: SearchField(),
-          ),
-          ProductsDetails()
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            SizedBox(height: 35.h),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                child: TitleRow(title: 'الإعلانات')),
+            SizedBox(height: 10.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+              child: SearchField(),
+            ),
+            ProductsDetails()
+          ],
+        ),
       ),
     );
   }

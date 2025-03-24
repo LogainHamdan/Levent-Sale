@@ -1,6 +1,7 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ChatItem extends StatelessWidget {
   final String name;
@@ -51,8 +52,11 @@ class ChatItem extends StatelessWidget {
             name,
           ),
           subtitle: isOnline
-              ? Text(message, style: Theme.of(context).textTheme.bodyMedium)
-              : Text(message, style: Theme.of(context).textTheme.bodySmall),
+              ? Text(message,
+                  style: GoogleFonts.tajawal(
+                      textStyle: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black)))
+              : Text(message, style: Theme.of(context).textTheme.bodyMedium),
           trailing: Text(
             time,
             style: Theme.of(context).textTheme.bodySmall,

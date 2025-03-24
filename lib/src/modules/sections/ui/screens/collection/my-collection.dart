@@ -21,18 +21,20 @@ class MyCollectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 30.h,
-          ),
-          TitleRow(title: 'تشكيلتي'),
-          empty
-              ? Expanded(child: EmptyCollection())
-              : Expanded(child: JoinMyCollection()),
-          CustomBottomNavigationBar()
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            SizedBox(
+              height: 30.h,
+            ),
+            TitleRow(title: 'تشكيلتي'),
+            empty
+                ? Expanded(child: EmptyCollection())
+                : Expanded(child: JoinMyCollection()),
+            CustomBottomNavigationBar()
+          ],
+        ),
       ),
     );
   }

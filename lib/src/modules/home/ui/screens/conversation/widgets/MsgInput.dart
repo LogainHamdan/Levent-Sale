@@ -1,6 +1,10 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
+import '../provider.dart';
+import 'attach-section.dart';
 
 class MessageInput extends StatelessWidget {
   const MessageInput({super.key});
@@ -25,18 +29,22 @@ class MessageInput extends StatelessWidget {
             prefixIcon: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                IconButton(
+                AttachSection(
+                  oneOrTwo: 1,
                   icon: Image.asset(
                     'assets/imgs_icons/home/assets/icons/photo-attach.png',
                     height: 20.w,
                   ),
-                  onPressed: () {},
                 ),
-                IconButton(
+                SizedBox(
+                  width: 8.w,
+                ),
+                AttachSection(
+                  oneOrTwo: 2,
                   icon: Image.asset(
                     'assets/imgs_icons/home/assets/icons/link.png',
+                    height: 20.w,
                   ),
-                  onPressed: () {},
                 ),
               ],
             ),

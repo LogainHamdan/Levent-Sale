@@ -31,14 +31,13 @@ class TitleRow extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 20.sp),
           ),
-          IconButton(
-            icon: Icon(
+          InkWell(
+            child: Icon(
               Icons.arrow_forward_outlined,
               size: 25.sp,
               color: Colors.black,
             ),
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, HomeScreen.id),
+            onTap: () => Navigator.pushReplacementNamed(context, HomeScreen.id),
           )
         ],
       ),

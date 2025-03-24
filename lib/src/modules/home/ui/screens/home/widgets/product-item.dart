@@ -22,7 +22,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     String productKey = '$category-${product['name']!}';
 
-    return GestureDetector(
+    return InkWell(
       onTap: () => Navigator.pushReplacementNamed(context, AdDetailsScreen.id),
       child: Container(
           margin: EdgeInsets.all(8.sp),
@@ -34,67 +34,71 @@ class ProductItem extends StatelessWidget {
                     color: grey7,
                     borderRadius: BorderRadius.circular(5.r),
                   ),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(5.r),
-                            topLeft: Radius.circular(5.r),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 8.0.h),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(5.r),
+                              topLeft: Radius.circular(5.r),
+                            ),
+                            child: Stack(
+                              children: [
+                                Image.asset(
+                                  product['image']!,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                                Positioned(
+                                  top: 5.h,
+                                  left: 5.w,
+                                  child: CustomButton(
+                                      favIcon: true, productKey: productKey),
+                                ),
+                              ],
+                            ),
                           ),
-                          child: Stack(
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Image.asset(
-                                product['image']!,
-                                width: double.infinity,
-                                height: double.infinity,
-                                fit: BoxFit.cover,
+                              Text(
+                                product['name']!,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.sp),
+                                textAlign: TextAlign.right,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
                               ),
-                              Positioned(
-                                top: 5,
-                                left: 5,
-                                child: CustomButton(
-                                    favIcon: true, productKey: productKey),
+                              Text(
+                                textDirection: TextDirection.rtl,
+                                'هاتف ذكي متطور ب....',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.right,
+                              ),
+                              CustomRating(flexible: false, rateNum: true),
+                              Text(
+                                product['price']!,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.right,
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              product['name']!,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16.sp),
-                              textAlign: TextAlign.right,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                            Text(
-                              textDirection: TextDirection.rtl,
-                              'هاتف ذكي متطور ب....',
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.right,
-                            ),
-                            CustomRating(flexible: false, rateNum: true),
-                            Text(
-                              product['price']!,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.right,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 )
               : Container(

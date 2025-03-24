@@ -408,8 +408,7 @@ void showRatingDialog(BuildContext context) {
                                   color: Colors.green[100],
                                   borderRadius: BorderRadius.circular(10.r),
                                 ),
-                                child:
-                                    const Icon(Icons.add, color: Colors.green),
+                                child: Icon(Icons.add, color: kprimaryColor),
                               ),
                             ),
                             SizedBox(height: 30.h),

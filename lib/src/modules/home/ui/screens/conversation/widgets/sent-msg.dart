@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../config/constants.dart';
 
-class SentMsg extends StatelessWidget {
+class ReceivedMsg extends StatelessWidget {
   final String text;
-  const SentMsg({super.key, required this.text});
+  const ReceivedMsg({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -15,26 +15,22 @@ class SentMsg extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 4.h),
         padding: EdgeInsets.all(12.sp),
         decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(10.r),
-            topLeft: Radius.circular(10.r),
-            bottomRight: Radius.circular(10.r),
-          ),
+          color: Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(12.r),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               text,
               textDirection: TextDirection.rtl,
-              style: TextStyle(color: Colors.white, fontSize: 16.sp),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
-            SizedBox(height: 5.h),
+            const SizedBox(height: 5),
             Text(
               "5:00م",
               textDirection: TextDirection.rtl,
-              style: TextStyle(color: grey7, fontSize: 12.sp),
+              style: TextStyle(color: Colors.black54, fontSize: 12),
             ),
           ],
         ),

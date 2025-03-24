@@ -16,35 +16,37 @@ class JoinFollow extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-            leading: SizedBox(),
-            title: TitleRow(title: 'منة الله'),
-            bottom: TabBar(
-              dividerHeight: 0,
-              indicator: BoxDecoration(),
-              labelColor: kprimaryColor,
-              unselectedLabelColor: grey5,
-              labelStyle: GoogleFonts.tajawal(
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.sp,
+        child: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+              leading: SizedBox(),
+              title: TitleRow(title: 'منة الله'),
+              bottom: TabBar(
+                dividerHeight: 0,
+                indicator: BoxDecoration(),
+                labelColor: kprimaryColor,
+                unselectedLabelColor: grey5,
+                labelStyle: GoogleFonts.tajawal(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.sp,
+                  ),
                 ),
-              ),
-              unselectedLabelStyle: GoogleFonts.tajawal(
-                textStyle: TextStyle(
-                  fontSize: 18.sp,
+                unselectedLabelStyle: GoogleFonts.tajawal(
+                  textStyle: TextStyle(
+                    fontSize: 18.sp,
+                  ),
                 ),
+                tabs: <Widget>[
+                  Tab(text: "متابِع (10)"),
+                  Tab(text: "متابَع (60)"),
+                ],
               ),
-              tabs: <Widget>[
-                Tab(text: "متابِع (10)"),
-                Tab(text: "متابَع (60)"),
-              ],
             ),
-          ),
-          body: TabBarView(
-            children: [FollowingScreen(), FollowersScreen()],
+            body: TabBarView(
+              children: [FollowingScreen(), FollowersScreen()],
+            ),
           ),
         ));
   }

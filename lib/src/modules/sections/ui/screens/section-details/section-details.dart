@@ -20,75 +20,79 @@ class SectionDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<PropertyFormProvider>(context);
 
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16.w),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              CustomLabel(text: "عدد الغرف"),
-              CustomDropdown(hint: "اختر", items: ["1", "2", "3", "4", "5+"]),
-              SizedBox(height: 10.h),
-              CustomLabel(text: "عدد الحمامات"),
-              CustomDropdown(hint: "اختر", items: ["1", "2", "3", "4+"]),
-              SizedBox(height: 10.h),
-              CustomLabel(text: "حالة العقار"),
-              CustomDropdown(
-                  hint: "اختر", items: ["جديد", "جيد", "بحاجة لتجديد"]),
-              SizedBox(height: 10.h),
-              CustomLabel(text: "المساحة بالمتر المربع"),
-              CustomTextField(
-                  controller: TextEditingController(),
-                  hint: '',
-                  bgcolor: grey8),
-              SizedBox(height: 10.h),
-              CustomLabel(text: "عمر العقار"),
-              CustomDropdown(
-                  hint: "اختر",
-                  items: ["أقل من 5 سنوات", "5-10 سنوات", "أكثر من 10 سنوات"]),
-              SizedBox(height: 10.h),
-              CustomLabel(text: "الطابق"),
-              CustomDropdown(
-                  hint: "اختر", items: ["أرضي", "1", "2", "3", "4+"]),
-              SizedBox(height: 10.h),
-              CustomLabel(text: "هل العقار مفروش؟"),
-              CustomDropdown(hint: "اختر", items: ["نعم", "لا"]),
-              SizedBox(height: 10.h),
-              CustomLabel(text: "نوع الملكية"),
-              CustomDropdown(hint: "اختر", items: ["تمليك", "إيجار"]),
-              SizedBox(height: 10.h),
-              Text(
-                "هل يحتوي على مصعد؟",
-                textDirection: TextDirection.rtl,
-                style: TextStyle(
-                  fontSize: 14.sp,
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.all(16.w),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                CustomLabel(text: "عدد الغرف"),
+                CustomDropdown(hint: "اختر", items: ["1", "2", "3", "4", "5+"]),
+                SizedBox(height: 10.h),
+                CustomLabel(text: "عدد الحمامات"),
+                CustomDropdown(hint: "اختر", items: ["1", "2", "3", "4+"]),
+                SizedBox(height: 10.h),
+                CustomLabel(text: "حالة العقار"),
+                CustomDropdown(
+                    hint: "اختر", items: ["جديد", "جيد", "بحاجة لتجديد"]),
+                SizedBox(height: 10.h),
+                CustomLabel(text: "المساحة بالمتر المربع"),
+                CustomTextField(
+                    controller: TextEditingController(),
+                    hint: '',
+                    bgcolor: grey8),
+                SizedBox(height: 10.h),
+                CustomLabel(text: "عمر العقار"),
+                CustomDropdown(hint: "اختر", items: [
+                  "أقل من 5 سنوات",
+                  "5-10 سنوات",
+                  "أكثر من 10 سنوات"
+                ]),
+                SizedBox(height: 10.h),
+                CustomLabel(text: "الطابق"),
+                CustomDropdown(
+                    hint: "اختر", items: ["أرضي", "1", "2", "3", "4+"]),
+                SizedBox(height: 10.h),
+                CustomLabel(text: "هل العقار مفروش؟"),
+                CustomDropdown(hint: "اختر", items: ["نعم", "لا"]),
+                SizedBox(height: 10.h),
+                CustomLabel(text: "نوع الملكية"),
+                CustomDropdown(hint: "اختر", items: ["تمليك", "إيجار"]),
+                SizedBox(height: 10.h),
+                Text(
+                  "هل يحتوي على مصعد؟",
+                  textDirection: TextDirection.rtl,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                  ),
                 ),
-              ),
-              CustomSwitchTile(
-                value: provider.hasElevator,
-                activeColor: kprimaryColor,
-                onChanged: provider.toggleElevator,
-              ),
-              Text(
-                textDirection: TextDirection.rtl,
-                "هل يحتوي على موقف سيارات؟",
-                style: TextStyle(fontSize: 14.sp),
-              ),
-              CustomSwitchTile(
-                value: provider.hasParking,
-                onChanged: provider.toggleParking,
-                activeColor: kprimaryColor,
-              ),
-              CheckingContainer(provider: provider),
-              CustomElevatedButton(
-                text: 'متابعة',
-                onPressed: () {},
-                backgroundColor: kprimaryColor,
-                textColor: Colors.white,
-                date: false,
-              ),
-            ],
+                CustomSwitchTile(
+                  value: provider.hasElevator,
+                  activeColor: kprimaryColor,
+                  onChanged: provider.toggleElevator,
+                ),
+                Text(
+                  textDirection: TextDirection.rtl,
+                  "هل يحتوي على موقف سيارات؟",
+                  style: TextStyle(fontSize: 14.sp),
+                ),
+                CustomSwitchTile(
+                  value: provider.hasParking,
+                  onChanged: provider.toggleParking,
+                  activeColor: kprimaryColor,
+                ),
+                CheckingContainer(provider: provider),
+                CustomElevatedButton(
+                  text: 'متابعة',
+                  onPressed: () {},
+                  backgroundColor: kprimaryColor,
+                  textColor: Colors.white,
+                  date: false,
+                ),
+              ],
+            ),
           ),
         ),
       ),

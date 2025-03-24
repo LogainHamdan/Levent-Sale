@@ -16,35 +16,37 @@ class ChatListScreen extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
-      children: [
-        SizedBox(
-          height: 30.h,
-        ),
-        TitleRow(title: 'المحادثات'),
-        Padding(
-          padding: EdgeInsets.all(8.0.sp),
-          child: SearchField(),
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              final name = names[index % names.length];
-              final image = images[index % images.length];
-              final isOnline = onlineStatus[index % onlineStatus.length];
-
-              return ChatItem(
-                  name: name,
-                  message: 'اريد ان ارى صور..',
-                  time: '5 ساعات',
-                  imageUrl: image,
-                  isOnline: isOnline);
-            },
+    return SafeArea(
+      child: Scaffold(
+          body: Column(
+        children: [
+          SizedBox(
+            height: 30.h,
           ),
-        ),
-      ],
-    ));
+          TitleRow(title: 'المحادثات'),
+          Padding(
+            padding: EdgeInsets.all(8.0.sp),
+            child: SearchField(),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                final name = names[index % names.length];
+                final image = images[index % images.length];
+                final isOnline = onlineStatus[index % onlineStatus.length];
+
+                return ChatItem(
+                    name: name,
+                    message: 'اريد ان ارى صور..',
+                    time: '5 ساعات',
+                    imageUrl: image,
+                    isOnline: isOnline);
+              },
+            ),
+          ),
+        ],
+      )),
+    );
   }
 }

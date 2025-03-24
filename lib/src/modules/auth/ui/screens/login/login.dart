@@ -27,90 +27,92 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => LoginProvider(),
-      child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 80.h),
-                Text("تسجيل دخول",
-                    style: TextStyle(
-                        fontSize: 25.sp,
-                        color: kprimaryColor,
-                        fontWeight: FontWeight.bold)),
-                SizedBox(height: 30.h),
-                CustomTextField(
-                    bgcolor: grey8,
-                    controller: TextEditingController(),
-                    hint: 'البريد الالكتروني /الاسم كاملاً'),
-                SizedBox(height: 16.h),
-                CustomPasswordField(
-                    isConfirmField: false,
-                    controller: TextEditingController(),
-                    hint: 'كلمة المرور'),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 8.0.w),
-                      child: GestureDetector(
-                        onTap: () => showForgotPassword(context),
-                        child: Text("نسيت كلمة المرور ؟",
-                            style: TextStyle(
-                                color: Colors.orange, fontSize: 14.sp)),
+      child: SafeArea(
+        child: Scaffold(
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 80.h),
+                  Text("تسجيل دخول",
+                      style: TextStyle(
+                          fontSize: 25.sp,
+                          color: kprimaryColor,
+                          fontWeight: FontWeight.bold)),
+                  SizedBox(height: 30.h),
+                  CustomTextField(
+                      bgcolor: grey8,
+                      controller: TextEditingController(),
+                      hint: 'البريد الالكتروني /الاسم كاملاً'),
+                  SizedBox(height: 16.h),
+                  CustomPasswordField(
+                      isConfirmField: false,
+                      controller: TextEditingController(),
+                      hint: 'كلمة المرور'),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 8.0.w),
+                        child: GestureDetector(
+                          onTap: () => showForgotPassword(context),
+                          child: Text("نسيت كلمة المرور ؟",
+                              style: TextStyle(
+                                  color: Colors.orange, fontSize: 14.sp)),
+                        ),
                       ),
-                    ),
-                    Spacer(),
-                    Consumer<LoginProvider>(
-                      builder: (context, loginProvider, child) {
-                        return Row(
-                          children: [
-                            Text(
-                              'تذكرني',
-                              style: GoogleFonts.tajawal(
-                                  fontSize: 14, fontWeight: FontWeight.w500),
-                            ),
-                            CustomCheckBox(
-                              title: "",
-                              value: loginProvider.rememberMe,
-                              onChanged: (value) =>
-                                  loginProvider.toggleRememberMe(value),
-                            ),
-                          ],
-                        );
-                      },
-                    )
-                  ],
-                ),
-                SizedBox(height: 16.h),
-                CustomElevatedButton(
-                  text: 'متابعة',
-                  onPressed: () =>
-                      Navigator.pushReplacementNamed(context, HomeScreen.id),
-                  backgroundColor: kprimaryColor,
-                  textColor: Colors.white,
-                  date: false,
-                ),
-                SizedBox(height: 16.h),
-                OrRow(),
-                SizedBox(height: 16.h),
-                SocialButton(
-                    facebook: false,
-                    text: "الاستمرار بجوجل Google",
-                    image: 'assets/imgs_icons/auth/assets/imgs/google.png'),
-                SizedBox(height: 8.h),
-                SocialButton(
-                    facebook: true,
-                    text: "الاستمرار بالفيسبوك Facebook",
-                    image: 'assets/imgs_icons/auth/assets/imgs/facebook.png',
-                    color: Colors.blue),
-                SizedBox(height: 16.h),
-                InsteadWidget(
-                    route: SignUpScreen.id,
-                    question: "ليس لديك حساب؟ ",
-                    action: 'سجل الآن')
-              ],
+                      Spacer(),
+                      Consumer<LoginProvider>(
+                        builder: (context, loginProvider, child) {
+                          return Row(
+                            children: [
+                              Text(
+                                'تذكرني',
+                                style: GoogleFonts.tajawal(
+                                    fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
+                              CustomCheckBox(
+                                title: "",
+                                value: loginProvider.rememberMe,
+                                onChanged: (value) =>
+                                    loginProvider.toggleRememberMe(value),
+                              ),
+                            ],
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 16.h),
+                  CustomElevatedButton(
+                    text: 'متابعة',
+                    onPressed: () =>
+                        Navigator.pushReplacementNamed(context, HomeScreen.id),
+                    backgroundColor: kprimaryColor,
+                    textColor: Colors.white,
+                    date: false,
+                  ),
+                  SizedBox(height: 16.h),
+                  OrRow(),
+                  SizedBox(height: 16.h),
+                  SocialButton(
+                      facebook: false,
+                      text: "الاستمرار بجوجل Google",
+                      image: 'assets/imgs_icons/auth/assets/imgs/google.png'),
+                  SizedBox(height: 8.h),
+                  SocialButton(
+                      facebook: true,
+                      text: "الاستمرار بالفيسبوك Facebook",
+                      image: 'assets/imgs_icons/auth/assets/imgs/facebook.png',
+                      color: Colors.blue),
+                  SizedBox(height: 16.h),
+                  InsteadWidget(
+                      route: SignUpScreen.id,
+                      question: "ليس لديك حساب؟ ",
+                      action: 'سجل الآن')
+                ],
+              ),
             ),
           ),
         ),

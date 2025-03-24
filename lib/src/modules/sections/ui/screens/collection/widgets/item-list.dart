@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/custom-action-button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,6 +36,9 @@ class ItemList extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(
+                        height: 8.h,
+                      ),
                       Text(
                         '\$41.1',
                         style: TextStyle(
@@ -45,12 +49,7 @@ class ItemList extends StatelessWidget {
                       Spacer(),
                       Text('12-7-2025',
                           style: GoogleFonts.tajawal(
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w200,
-                              fontSize: 12.sp,
-                              color: Colors.grey,
-                            ),
-                          )),
+                              textStyle: TextStyle(color: grey3)))
                     ],
                   ),
                 ),
@@ -58,6 +57,9 @@ class ItemList extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      SizedBox(
+                        height: 8.h,
+                      ),
                       Text(
                         'ايفون 14 برو ماكس',
                         textAlign: TextAlign.right,
@@ -91,7 +93,7 @@ class ItemList extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5.r),
                   child: SizedBox(
                     height: 120.h,
-                    width: 70.w,
+                    width: 120.w,
                     child: Image.asset(
                       'assets/imgs_icons/home/assets/imgs/ايفون4.png',
                       fit: BoxFit.cover,

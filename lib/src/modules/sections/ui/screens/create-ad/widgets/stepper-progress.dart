@@ -5,10 +5,10 @@ class StepperProgress extends StatelessWidget {
   final int currentStep, totalSteps;
 
   const StepperProgress({
-    Key? key,
+    super.key,
     required this.currentStep,
     required this.totalSteps,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

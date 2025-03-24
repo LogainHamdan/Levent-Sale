@@ -1,7 +1,10 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../config/constants.dart';
+import '../../../../../sections/ui/screens/section-details/section-details.dart';
 
 class CategoriesList extends StatelessWidget {
   final List<String> categoryNames;
@@ -47,31 +50,8 @@ class CategoriesList extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(categoryNames.length, (index) {
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6.0.w),
-                child: Column(
-                  children: [
-                    Center(
-                      child: CircleAvatar(
-                        radius: 30.r,
-                        backgroundColor: grey7,
-                        child: Padding(
-                          padding: EdgeInsets.all(
-                              6.r), // Adjust padding to make the image smaller
-                          child: Image.asset(
-                            categoryImages[index],
-                            fit: BoxFit
-                                .contain, // Ensures the image fits within the padding
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 8), // Spacing between image & text
-                    Text(categoryNames[index]),
-                  ],
-                ),
-              );
+              return SectionItem(
+                  category: categoryNames[index], img: categoryImages[index]);
             }),
           ),
         ),

@@ -11,23 +11,25 @@ class Sections extends StatelessWidget {
   const Sections({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(8.0.sp),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 30.h,
-              ),
-              TitleRow(title: 'الأقسام'),
-              TopBanner(),
-              CategoriesDisplay()
-            ],
+    return SafeArea(
+      child: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.all(8.0.sp),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 30.h,
+                ),
+                TitleRow(title: 'الأقسام'),
+                TopBanner(),
+                CategoriesDisplay()
+              ],
+            ),
           ),
         ),
+        bottomNavigationBar: CustomBottomNavigationBar(),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
