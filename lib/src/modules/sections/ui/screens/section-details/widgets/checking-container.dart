@@ -12,7 +12,7 @@ class CheckingContainer extends StatelessWidget {
     required this.provider,
   });
 
-  final PropertyFormProvider provider;
+  final SectionDetailsProvider provider;
 
   @override
   Widget build(BuildContext context) {

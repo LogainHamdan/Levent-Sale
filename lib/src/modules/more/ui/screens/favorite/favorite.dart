@@ -52,14 +52,17 @@ class FavoriteScreen extends StatelessWidget {
                                 CustomGridView()),
                       )),
               ProductSection(
+                  onMorePressed: () {},
                   isHalfed: true,
                   category: "العروض والخصومات",
                   products: products),
               ProductSection(
+                  onMorePressed: () {},
                   isHalfed: true,
                   category: "الإعلانات الجديدة",
                   products: products),
               ProductSection(
+                  onMorePressed: () {},
                   isHalfed: true,
                   category: "الإعلانات المفترحة",
                   products: products),

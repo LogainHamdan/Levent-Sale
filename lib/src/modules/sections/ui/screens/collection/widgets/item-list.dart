@@ -36,16 +36,9 @@ class ItemList extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      Text(
-                        '\$41.1',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      SizedBox(height: 8.h),
+                      Text('\$41.1',
+                          style: Theme.of(context).textTheme.bodyLarge),
                       Spacer(),
                       Text('12-7-2025',
                           style: GoogleFonts.tajawal(
@@ -57,9 +50,7 @@ class ItemList extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SizedBox(
-                        height: 8.h,
-                      ),
+                      SizedBox(height: 8.h),
                       Text(
                         'ايفون 14 برو ماكس',
                         textAlign: TextAlign.right,

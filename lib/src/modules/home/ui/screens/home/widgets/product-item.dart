@@ -28,8 +28,8 @@ class ProductItem extends StatelessWidget {
           margin: EdgeInsets.all(8.sp),
           child: isHalfed
               ? Container(
-                  height: 180.h,
-                  width: 200.w,
+                  height: 220.h,
+                  width: 220.w,
                   decoration: BoxDecoration(
                     color: grey7,
                     borderRadius: BorderRadius.circular(5.r),
@@ -65,36 +65,41 @@ class ProductItem extends StatelessWidget {
                         ),
                         Expanded(
                           flex: 4,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                product['name']!,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.sp),
-                                textAlign: TextAlign.right,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                              ),
-                              Text(
-                                textDirection: TextDirection.rtl,
-                                'هاتف ذكي متطور ب....',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.right,
-                              ),
-                              CustomRating(flexible: false, rateNum: true),
-                              Text(
-                                product['price']!,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.right,
-                              ),
-                            ],
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 4.0.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  product['name']!,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.sp),
+                                  textAlign: TextAlign.right,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                ),
+                                Text(
+                                  textDirection: TextDirection.rtl,
+                                  'هاتف ذكي متطور ب....',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                                CustomRating(flexible: false, rateNum: true),
+                                SizedBox(),
+                                Text(
+                                  product['price']!,
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

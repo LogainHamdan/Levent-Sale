@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/banner.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/category-list.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-section.dart';
@@ -29,15 +30,26 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: 22.h,
               ),
-              ProductSection(category: "العروض والخصومات", products: products),
-              ProductSection(category: "الإعلانات الجديدة", products: products),
               ProductSection(
-                  category: "الإعلانات المفترحة", products: products),
+                  onMorePressed: () =>
+                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                  category: "العروض والخصومات",
+                  products: products),
+              ProductSection(
+                  onMorePressed: () =>
+                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                  category: "الإعلانات الجديدة",
+                  products: products),
+              ProductSection(
+                  onMorePressed: () =>
+                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                  category: "الإعلانات المفترحة",
+                  products: products),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      // bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

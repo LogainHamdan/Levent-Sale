@@ -253,6 +253,26 @@ final List<Map<String, String>> products = [
     'description': 'سلسلة عصرية مصنوعة من الفضة النقية.',
   },
   //الاجهزة
+
+  {
+    'name': 'iPhone XR',
+    'image': 'assets/imgs_icons/home/assets/imgs/ايفون6.png',
+    'price': '\$500',
+    'description': 'iPhone XR بشاشة Liquid Retina وأداء ممتاز بسعر معقول.',
+  },
+  {
+    'name': 'iPhone 15 Pro Max',
+    'image': 'assets/imgs_icons/home/assets/imgs/ايفون 7.png',
+    'price': '\$1300',
+    'description':
+        'أحدث iPhone 15 Pro Max بتصميم من التيتانيوم ومعالج A17 Pro.',
+  },
+  {
+    'name': 'iPhone 14 Plus',
+    'image': 'assets/imgs_icons/home/assets/imgs/ايفون8.png',
+    'price': '\$1100',
+    'description': 'iPhone 14 Plus بشاشة كبيرة وبطارية تدوم طوال اليوم.',
+  },
   {
     'name': 'iPhone 13 Pro Max',
     'image': 'assets/imgs_icons/home/assets/imgs/ايفون1.png',
@@ -286,25 +306,6 @@ final List<Map<String, String>> products = [
     'price': '\$1200',
     'description':
         'iPhone 14 Pro مع ميزة Dynamic Island وكاميرا بدقة 48 ميجابكسل.',
-  },
-  {
-    'name': 'iPhone XR',
-    'image': 'assets/imgs_icons/home/assets/imgs/ايفون6.png',
-    'price': '\$500',
-    'description': 'iPhone XR بشاشة Liquid Retina وأداء ممتاز بسعر معقول.',
-  },
-  {
-    'name': 'iPhone 15 Pro Max',
-    'image': 'assets/imgs_icons/home/assets/imgs/ايفون 7.png',
-    'price': '\$1300',
-    'description':
-        'أحدث iPhone 15 Pro Max بتصميم من التيتانيوم ومعالج A17 Pro.',
-  },
-  {
-    'name': 'iPhone 14 Plus',
-    'image': 'assets/imgs_icons/home/assets/imgs/ايفون8.png',
-    'price': '\$1100',
-    'description': 'iPhone 14 Plus بشاشة كبيرة وبطارية تدوم طوال اليوم.',
   },
 ];
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 
-class PropertyFormProvider extends ChangeNotifier {
+class SectionDetailsProvider extends ChangeNotifier {
   String? selectedRooms;
   String? selectedBathrooms;
   String? selectedCondition;
@@ -10,6 +11,7 @@ class PropertyFormProvider extends ChangeNotifier {
   String? selectedOwnership;
   bool hasElevator = false;
   bool hasParking = true;
+
   Map<String, bool> services = {
     "مسبح": false,
     "تكييف مركزي": true,
@@ -24,6 +26,9 @@ class PropertyFormProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  final quill.QuillController _controller = quill.QuillController.basic();
+
+  quill.QuillController get controller => _controller;
   void setSelectedBathrooms(String value) {
     selectedBathrooms = value;
     notifyListeners();

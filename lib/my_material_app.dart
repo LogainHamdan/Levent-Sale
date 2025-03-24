@@ -26,7 +26,6 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-s
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/creted-ad-details/created-ad-details.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
@@ -67,7 +66,7 @@ class MyMaterialApp extends StatelessWidget {
                     color: Colors.black),
               ),
             ),
-            initialRoute: HomeScreen.id,
+            initialRoute: SplashScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),
@@ -85,7 +84,7 @@ class MyMaterialApp extends StatelessWidget {
                     noData: false,
                   ),
               MyCollectionScreen.id: (context) => MyCollectionScreen(
-                    empty: true,
+                    empty: false,
                   ),
               FavoriteScreen.id: (context) => FavoriteScreen(
                     suffix: Image.asset(
@@ -94,16 +93,12 @@ class MyMaterialApp extends StatelessWidget {
                     ),
                     empty: false,
                   ),
-              CreateAdScreen.id: (context) => CreateAdScreen(),
-              SectionTrack.id: (context) => SectionTrack(
-                    cardListIndex: 0,
+              CreateAdScreen.id: (context) => CreateAdScreen(
+                    lowerWidget: SectionChoose(),
                   ),
               FilterScreen.id: (context) => FilterScreen(
                     cardListIndex: 0,
                   ),
-              SectionDetails.id: (context) => SectionDetails(),
-              AdCreatedDetails.id: (context) => AdCreatedDetails(),
-              SectionChoose.id: (context) => SectionChoose(),
               Sections.id: (context) => Sections(),
               MenuScreen.id: (context) => MenuScreen(),
               EditProfileScreen.id: (context) => EditProfileScreen(),
@@ -114,7 +109,6 @@ class MyMaterialApp extends StatelessWidget {
               FollowersScreen.id: (context) => FollowersScreen(),
               JoinFollow.id: (context) => JoinFollow(),
               WhyToDeleteScreen.id: (context) => WhyToDeleteScreen(),
-              // JoinMyCollection.id: (context) => JoinMyCollection(),
               DeleteAccountScreen.id: (context) => DeleteAccountScreen(
                     phase1email: true,
                   ),

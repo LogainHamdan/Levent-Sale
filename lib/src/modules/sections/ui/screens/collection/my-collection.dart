@@ -29,10 +29,12 @@ class MyCollectionScreen extends StatelessWidget {
               height: 30.h,
             ),
             TitleRow(title: 'تشكيلتي'),
+            SizedBox(height: 16.h),
+
             empty
                 ? Expanded(child: EmptyCollection())
                 : Expanded(child: JoinMyCollection()),
-            CustomBottomNavigationBar()
+            // CustomBottomNavigationBar()
           ],
         ),
       ),

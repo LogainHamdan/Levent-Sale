@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/widgets/code-row.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -73,7 +74,8 @@ class VerificationScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               CustomElevatedButton(
                   text: 'تحقق',
-                  onPressed: () {},
+                  onPressed: () =>
+                      Navigator.pushReplacementNamed(context, HomeScreen.id),
                   backgroundColor: kprimaryColor,
                   textColor: Colors.white,
                   date: false),

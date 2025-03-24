@@ -173,7 +173,7 @@ void showSetNewPassword(BuildContext context) {
               SizedBox(height: 25.h),
               ConfirmCancelButton(
                 text: 'تأكيد',
-                onPressed: () {},
+                onPressed: () => showPasswordUpdated(context),
                 backgroundColor: kprimaryColor,
                 textColor: Colors.white,
               ),
@@ -231,7 +231,7 @@ void showForgotPassword(BuildContext context) {
               SizedBox(height: 25.h),
               ConfirmCancelButton(
                 text: 'ارسال',
-                onPressed: () {},
+                onPressed: () => showSetNewPassword(context),
                 backgroundColor: kprimaryColor,
                 textColor: Colors.white,
               ),
@@ -405,7 +405,7 @@ void showRatingDialog(BuildContext context) {
                                 width: 100.w,
                                 height: 50.h,
                                 decoration: BoxDecoration(
-                                  color: Colors.green[100],
+                                  color: kprimaryColor.withOpacity(0.2),
                                   borderRadius: BorderRadius.circular(10.r),
                                 ),
                                 child: Icon(Icons.add, color: kprimaryColor),
@@ -414,7 +414,7 @@ void showRatingDialog(BuildContext context) {
                             SizedBox(height: 30.h),
                             ConfirmCancelButton(
                               text: 'نشر',
-                              onPressed: () {},
+                              onPressed: () => Navigator.pop(context),
                               backgroundColor: kprimaryColor,
                               textColor: Colors.white,
                             ),
@@ -457,7 +457,10 @@ void showAdCreated(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     GestureDetector(
-                      onTap: () => Navigator.of(dialogContext).pop(),
+                      onTap: () {
+                        Navigator.of(dialogContext).pop();
+                        Navigator.pushReplacementNamed(context, HomeScreen.id);
+                      },
                       child: Padding(
                         padding: EdgeInsets.all(10.w),
                         child: Image.asset(

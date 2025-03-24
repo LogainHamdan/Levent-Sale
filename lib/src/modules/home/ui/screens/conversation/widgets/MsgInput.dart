@@ -5,6 +5,21 @@ import 'package:provider/provider.dart';
 
 import '../provider.dart';
 import 'attach-section.dart';
+import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
+import '../provider.dart';
+import 'attach-section.dart';
+
+import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
+import '../provider.dart';
+import 'attach-section.dart';
 
 class MessageInput extends StatelessWidget {
   const MessageInput({super.key});
@@ -19,14 +34,10 @@ class MessageInput extends StatelessWidget {
           color: grey7,
           borderRadius: BorderRadius.circular(10.r),
         ),
-        child: TextField(
-          textDirection: TextDirection.rtl,
-          decoration: InputDecoration(
-            hintText: 'اكتب رسالة',
-            hintTextDirection: TextDirection.rtl,
-            hintStyle: Theme.of(context).textTheme.bodyMedium,
-            border: InputBorder.none,
-            prefixIcon: Row(
+        child: Row(
+          children: [
+            // Attachments Section
+            Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 AttachSection(
@@ -36,9 +47,7 @@ class MessageInput extends StatelessWidget {
                     height: 20.w,
                   ),
                 ),
-                SizedBox(
-                  width: 8.w,
-                ),
+                SizedBox(width: 8.w),
                 AttachSection(
                   oneOrTwo: 2,
                   icon: Image.asset(
@@ -48,7 +57,38 @@ class MessageInput extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+            SizedBox(width: 8.w),
+            // Expanded TextField
+            Expanded(
+              child: TextField(
+                textDirection: TextDirection.rtl,
+                onChanged: (value) =>
+                    context.read<ConversationProvider>().updateMessage(value),
+                decoration: InputDecoration(
+                  hintText: 'اكتب رسالة',
+                  hintTextDirection: TextDirection.rtl,
+                  hintStyle: Theme.of(context).textTheme.bodyMedium,
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            // Send Icon Button (Visible only when text is entered)
+            Consumer<ConversationProvider>(
+              builder: (context, messageProvider, child) {
+                return messageProvider.message.trim().isNotEmpty
+                    ? IconButton(
+                        onPressed: () {
+                          // Handle send action
+                        },
+                        icon: Image.asset(
+                          'assets/imgs_icons/home/assets/icons/send.png',
+                          height: 20.h,
+                        ),
+                      )
+                    : SizedBox(); // Hides the button when there's no text
+              },
+            ),
+          ],
         ),
       ),
     );

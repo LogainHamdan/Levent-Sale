@@ -12,7 +12,7 @@ class ReviewWrite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showSetNewPassword(context),
+      onTap: () => showRatingDialog(context),
       child: Stack(
         children: [
           Container(
@@ -33,13 +33,10 @@ class ReviewWrite extends StatelessWidget {
             right: 80.w,
             top: 0,
             bottom: 2,
-            child: GestureDetector(
-              onTap: () {},
-              child: Image.asset(
-                'assets/imgs_icons/home/assets/icons/edit.png',
-                height: 25.h,
-                width: 25.w,
-              ),
+            child: Image.asset(
+              'assets/imgs_icons/home/assets/icons/edit.png',
+              height: 25.h,
+              width: 25.w,
             ),
           )
         ],

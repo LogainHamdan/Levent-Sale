@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../config/constants.dart';
 import '../../../../../home/ui/screens/home/data.dart';
+import '../../one-section/one-section.dart';
 
 class CategoriesDisplay extends StatelessWidget {
-  const CategoriesDisplay({super.key});
+  final Function() onSectionClicked;
+  const CategoriesDisplay({super.key, required this.onSectionClicked});
 
   @override
   Widget build(BuildContext context) {
@@ -21,41 +23,44 @@ class CategoriesDisplay extends StatelessWidget {
           childAspectRatio: 0.9,
         ),
         itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Container(
-                height: 80,
-                width: 80,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey[200],
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      spreadRadius: 1,
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(12.0.sp),
-                  child: ClipOval(
-                    child: Image.asset(
-                      categoryImages[index],
-                      fit: BoxFit.contain,
+          return InkWell(
+            onTap: onSectionClicked,
+            child: Column(
+              children: [
+                Container(
+                  height: 80,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey[200],
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        spreadRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(12.0.sp),
+                    child: ClipOval(
+                      child: Image.asset(
+                        categoryImages[index],
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 12.h),
-              Text(
-                categoryNames[index],
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    color: kprimaryColor,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
+                SizedBox(height: 12.h),
+                Text(
+                  categoryNames[index],
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      color: kprimaryColor,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           );
         },
       ),

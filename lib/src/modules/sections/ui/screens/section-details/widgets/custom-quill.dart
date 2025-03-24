@@ -10,7 +10,7 @@ class RichTextEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final editorProvider = Provider.of<EditorProvider>(context);
+    final editorProvider = Provider.of<SectionDetailsProvider>(context);
 
     return Scaffold(
       body: Column(

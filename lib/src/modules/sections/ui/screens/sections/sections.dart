@@ -1,5 +1,7 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/widgets/categories-display.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../home/ui/screens/home/widgets/banner.dart';
@@ -23,12 +25,15 @@ class Sections extends StatelessWidget {
                 ),
                 TitleRow(title: 'الأقسام'),
                 TopBanner(),
-                CategoriesDisplay()
+                CategoriesDisplay(
+                  onSectionClicked: () =>
+                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                )
               ],
             ),
           ),
         ),
-        bottomNavigationBar: CustomBottomNavigationBar(),
+        // bottomNavigationBar: CustomBottomNavigationBar(),
       ),
     );
   }

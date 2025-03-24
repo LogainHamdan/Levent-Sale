@@ -7,10 +7,18 @@ import 'package:provider/provider.dart';
 class ConversationProvider extends ChangeNotifier {
   File? _selectedImage1;
   File? _selectedImage2;
+  String _message = '';
+
+  String get message => _message;
 
   File? get selectedImage1 => _selectedImage1;
 
   File? get selectedImage2 => _selectedImage2;
+
+  void updateMessage(String newMessage) {
+    _message = newMessage;
+    notifyListeners();
+  }
 
   Future<void> pickImage1() async {
     final picker = ImagePicker();

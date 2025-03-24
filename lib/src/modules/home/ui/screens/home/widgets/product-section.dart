@@ -8,11 +8,13 @@ class ProductSection extends StatelessWidget {
   final String category;
   final List<Map<String, String>> products;
   final bool? isHalfed;
+  final Function() onMorePressed;
   const ProductSection({
     super.key,
     required this.category,
     required this.products,
     this.isHalfed = false,
+    required this.onMorePressed,
   });
 
   @override
@@ -21,7 +23,7 @@ class ProductSection extends StatelessWidget {
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomHeader(title: category),
+              CustomHeader(onPressed: onMorePressed, title: category),
               Transform.translate(
                 offset: Offset(0, -8.h),
                 child: SingleChildScrollView(
@@ -49,7 +51,7 @@ class ProductSection extends StatelessWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomHeader(title: category),
+              CustomHeader(onPressed: () {}, title: category),
               Transform.translate(
                 offset: Offset(0, -8.h),
                 child: SingleChildScrollView(

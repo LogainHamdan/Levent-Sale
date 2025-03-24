@@ -34,7 +34,7 @@ class MenuScreen extends StatelessWidget {
                     child: GuestColumn(),
                   ),
             Spacer(),
-            CustomBottomNavigationBar(),
+            // CustomBottomNavigationBar(),
           ],
         ),
       ),

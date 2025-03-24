@@ -7,6 +7,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../ads/ads.dart';
 import '../../ads/widgets/products-details.dart';
 
+import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../ads/ads.dart';
+import '../../ads/widgets/products-details.dart';
+
 class CustomDraggableScrollableSheet extends StatelessWidget {
   const CustomDraggableScrollableSheet({super.key});
 
@@ -31,21 +40,12 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
           ),
           child: ListView(
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(), // Smooth scrolling
-
+            physics: const BouncingScrollPhysics(),
             controller: scrollController,
             padding: const EdgeInsets.all(16.0),
             children: [
-              Center(
-                child: Container(
-                  width: 50,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[400],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
+              // Removed the top handle (grey line)
+
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,14 +72,14 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
+                          const Text(
                             "بسمة باسم",
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
                           ),
-                          Text(
+                          const Text(
                             "عضو منذ يناير 2024",
                             style: TextStyle(fontSize: 14, color: Colors.grey),
                           ),
@@ -105,7 +105,7 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                 date: false,
               ),
               SizedBox(height: 20.h),
-              ProductsDetails(),
+              const ProductsDetails(),
             ],
           ),
         );

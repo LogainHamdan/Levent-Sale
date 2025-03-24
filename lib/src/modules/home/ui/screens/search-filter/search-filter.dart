@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/widgets/card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +38,7 @@ class FilterScreen extends StatelessWidget {
                       icon: Image.asset(
                           height: 10.h,
                           'assets/imgs_icons/general/arrow-left.png'),
-                      title: categories[index]['title']!,
+                      title: categories[index]['name'],
                     );
                   }
                   if (cardListIndex == 1) {
@@ -48,6 +49,16 @@ class FilterScreen extends StatelessWidget {
                               builder: (context) => FilterScreen(
                                     cardListIndex: 2,
                                   ))),
+                      icon: Image.asset(
+                          height: 10.h,
+                          'assets/imgs_icons/general/arrow-left.png'),
+                      title: 'شقق فاخرة و مفروشة',
+                    );
+                  }
+                  if (cardListIndex == 2) {
+                    return CustomCard(
+                      onTap: () =>
+                          Navigator.pushReplacementNamed(context, AdsScreen.id),
                       icon: Image.asset(
                           height: 10.h,
                           'assets/imgs_icons/general/arrow-left.png'),

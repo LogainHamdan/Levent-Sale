@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../config/constants.dart';
 
 class CustomHeader extends StatelessWidget {
-  const CustomHeader({
-    super.key,
-    required this.title,
-  });
-
   final String title;
+  final Function() onPressed;
+
+  const CustomHeader({super.key, required this.title, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +18,16 @@ class CustomHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'مشاهدة المزيد',
-            textDirection: TextDirection.rtl,
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: kprimaryColor,
-            ),
-          ),
+          TextButton(
+              onPressed: onPressed,
+              child: Text('مشاهدة المزيد',
+                  textDirection: TextDirection.rtl,
+                  style: GoogleFonts.tajawal(
+                    textStyle: TextStyle(
+                      fontSize: 14.sp,
+                      color: kprimaryColor,
+                    ),
+                  ))),
           Text(
             title,
             textDirection: TextDirection.rtl,

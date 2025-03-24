@@ -5,6 +5,7 @@ import '../../../../../config/constants.dart';
 import '../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import '../ads/widgets/custom-rating.dart';
 import '../ads/widgets/title-row.dart';
+import '../evaluation/evaluations.dart';
 import '../home/data.dart';
 import '../home/widgets/custom-header.dart';
 import 'widgets/custom-carousel.dart';
@@ -104,6 +105,26 @@ class AdDetailsScreen extends StatelessWidget {
                                   'مقاومة الماء والغبار بمعيار (IP68).',
                                 ],
                               ),
+                              SimpleTitle(title: 'الفوائد:'),
+                              SizedBox(height: 10.h),
+                              SpecificationsSection(
+                                  title: 'تفاصيل:',
+                                  specifications: [
+                                    'الفوائد',
+                                    ' الأداء: أداء سريع وسلس مع تطبيقات متعددة.'
+                                        ' التصوير: تحسينات كبيرة فى جودة الصورة والفيديو.'
+                                        '  التوافق:  لتجربة إنترنت أسرع يدعم 65.'
+                                  ]),
+                              SimpleTitle(title: 'التسليم والمرتجعات:'),
+                              SizedBox(height: 10.h),
+                              SpecificationsSection(
+                                  title: 'تفاصيل:',
+                                  specifications: [
+                                    'الفوائد',
+                                    ' توصيل مجاني: عند طلب الهاتف من المتاجر المعتمدة.'
+                                        ' التسليم: عادةً ما يكون في غضون أيام عمل.'
+                                        '  سياسة المرتجعات:  تحقق من الشروط الخاصة بهم.'
+                                  ]),
                               SizedBox(height: 10.h),
                               Center(
                                 child: CustomElevatedButton(
@@ -142,7 +163,11 @@ class AdDetailsScreen extends StatelessWidget {
                             SizedBox(
                               height: 8.h,
                             ),
-                            CustomHeader(title: 'متوسط التقييم'),
+                            CustomHeader(
+                              onPressed: () => Navigator.pushReplacementNamed(
+                                  context, ReviewsScreen.id),
+                              title: 'متوسط التقييم',
+                            ),
                             RatingSection(),
                           ],
                         ),

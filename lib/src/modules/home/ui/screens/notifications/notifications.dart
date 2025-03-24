@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../ads/widgets/title-row.dart';
 import '../chats/no-info-widget.dart';
 import 'data.dart';
@@ -22,7 +23,12 @@ class NotificationsScreen extends StatelessWidget {
                   SizedBox(
                     height: 30.h,
                   ),
-                  TitleRow(title: 'الإشعارات'),
+                  TitleRow(
+                    title: 'الإشعارات',
+                    suffix: Image.asset(
+                      'assets/imgs_icons/home/assets/icons/seen.png',
+                    ),
+                  ),
                   SizedBox(
                     height: 30.h,
                   ),
@@ -59,11 +65,35 @@ class NotificationsScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    textDirection: TextDirection.rtl,
-                                    notifications[index]['message']!,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                  RichText(
+                                    textDirection: TextDirection.rtl, // Set RTL
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: notifications[index]['message']!
+                                                  .split(' ')
+                                                  .take(2)
+                                                  .join(' ') +
+                                              ' ', // Extract first two words
+                                          style: GoogleFonts.tajawal(
+                                            // Apply Tajawal font
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16.sp,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: notifications[index]['message']!
+                                              .split(' ')
+                                              .skip(2)
+                                              .join(' '), // Remaining message
+                                          style: GoogleFonts.tajawal(
+                                            fontSize: 16.sp,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   SizedBox(height: 4.h),
                                   Text(

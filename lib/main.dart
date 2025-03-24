@@ -12,7 +12,6 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
 import 'package:Levant_Sale/src/modules/nav-bar/nav_provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/creted-ad-details/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,10 +55,7 @@ class MyApp extends StatelessWidget {
         create: (_) => StepperProvider(),
       ),
       ChangeNotifierProvider(
-        create: (_) => PropertyFormProvider(),
-      ),
-      ChangeNotifierProvider(
-        create: (_) => EditorProvider(),
+        create: (_) => SectionDetailsProvider(),
       ),
       ChangeNotifierProvider(
         create: (context) => TabProvider(),

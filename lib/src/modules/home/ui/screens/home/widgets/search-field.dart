@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/search-filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,10 +27,14 @@ class SearchField extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                'assets/imgs_icons/home/assets/icons/filter.png',
-                width: 25.w,
-                height: 25.h,
+              InkWell(
+                onTap: () =>
+                    Navigator.pushReplacementNamed(context, FilterScreen.id),
+                child: Image.asset(
+                  'assets/imgs_icons/home/assets/icons/filter.png',
+                  width: 25.w,
+                  height: 25.h,
+                ),
               ),
               SizedBox(width: 5.w),
               Container(

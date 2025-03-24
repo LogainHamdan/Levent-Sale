@@ -9,7 +9,6 @@ class TabBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<TabProvider>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
