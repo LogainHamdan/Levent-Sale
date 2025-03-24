@@ -67,7 +67,7 @@ class MyMaterialApp extends StatelessWidget {
                     color: Colors.black),
               ),
             ),
-            initialRoute: SplashScreen.id,
+            initialRoute: HomeScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),

@@ -45,8 +45,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           child: FloatingActionButton(
             backgroundColor: kprimaryColor,
             shape: CircleBorder(),
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, CreateAdScreen.id),
+            onPressed: () => Navigator.pushNamed(context, CreateAdScreen.id),
             child: Icon(
               Icons.add,
               color: Colors.white,
