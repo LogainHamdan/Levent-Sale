@@ -24,9 +24,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     final List<Widget> screens = [
       HomeScreen(),
       Sections(),
-      MyCollectionScreen(
-        empty: false,
-      ),
+      MyCollectionScreen(empty: false),
       ProfileScreen(),
     ];
     final List<String> labels = [
@@ -35,92 +33,56 @@ class CustomBottomNavigationBar extends StatelessWidget {
       "تشكيلتي",
       "المزيد",
     ];
-    var provider = context.watch<NavigationProvider>();
 
     return SafeArea(
       child: Scaffold(
-        body: screens[provider.selectedIndex],
-        floatingActionButton: Padding(
-          padding: EdgeInsets.only(bottom: 8.0.h),
-          child: FloatingActionButton(
-            backgroundColor: kprimaryColor,
-            shape: CircleBorder(),
-            onPressed: () => Navigator.pushNamed(context, CreateAdScreen.id),
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 35.sp,
-            ),
-          ),
+        body: Consumer<NavigationProvider>(
+          builder: (context, provider, child) {
+            return screens[provider.selectedIndex];
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: kprimaryColor,
+          shape: CircleBorder(),
+          onPressed: () => Navigator.pushNamed(context, CreateAdScreen.id),
+          child: Icon(Icons.add, color: Colors.white, size: 35.sp),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 3.r,
-                    spreadRadius: 1.r,
-                  ),
-                ],
-              ),
-              child: AnimatedBottomNavigationBar.builder(
-                height: 60.h,
-                itemCount: screens.length,
-                tabBuilder: (int index, bool isActive) {
-                  return GestureDetector(
-                    onTap: () {
-                      provider.setIndex(index);
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 6.h),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            iconList[index],
-                            size: 24.sp,
-                            color: isActive ? kprimaryColor : grey4,
-                          ),
-                          SizedBox(height: 4.h),
-                          Text(
-                            labels[index],
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight:
-                                  isActive ? FontWeight.bold : FontWeight.w500,
-                              color: isActive ? kprimaryColor : grey4,
-                            ),
-                          ),
-                        ],
+        bottomNavigationBar: Consumer<NavigationProvider>(
+          builder: (context, provider, child) {
+            return AnimatedBottomNavigationBar.builder(
+              height: 60.h,
+              itemCount: iconList.length,
+              tabBuilder: (int index, bool isActive) {
+                return GestureDetector(
+                  onTap: () =>
+                      provider.setIndex(index), // ✅ Ensure tap functionality
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(iconList[index],
+                          size: 24.sp, color: isActive ? kprimaryColor : grey4),
+                      SizedBox(height: 4.h),
+                      Text(
+                        labels[index],
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight:
+                              isActive ? FontWeight.bold : FontWeight.w500,
+                          color: isActive ? kprimaryColor : grey4,
+                        ),
                       ),
-                    ),
-                  );
-                },
-                activeIndex: provider.selectedIndex,
-                gapLocation: GapLocation.center,
-                notchSmoothness: NotchSmoothness.smoothEdge,
-                onTap: (index) {
-                  provider.setIndex(index);
-                },
-                backgroundColor: Colors.white,
-              ),
-            ),
-            Positioned(
-              bottom: 10.h,
-              child: Text(
-                'إنشاء إعلان',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ],
+                    ],
+                  ),
+                );
+              },
+              activeIndex: provider.selectedIndex,
+              gapLocation: GapLocation.center,
+              notchSmoothness: NotchSmoothness.smoothEdge,
+              backgroundColor: Colors.white,
+              onTap: (index) => provider.setIndex(index),
+            );
+          },
         ),
       ),
     );
