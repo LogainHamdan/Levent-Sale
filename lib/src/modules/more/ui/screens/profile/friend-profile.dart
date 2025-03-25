@@ -1,5 +1,7 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/custom-small-button.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/follow-container.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/name-row.dart';
@@ -8,9 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FriendProfile extends StatelessWidget {
+  final bool? isFollowed;
   static const id = '/friend-profile';
 
-  const FriendProfile({super.key});
+  const FriendProfile({
+    super.key,
+    this.isFollowed = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +26,8 @@ class FriendProfile extends StatelessWidget {
           titleTextStyle: Theme.of(context).textTheme.bodyLarge,
           leading: SizedBox(),
           title: TitleRow(
+            onBackTap: () =>
+                Navigator.pushReplacementNamed(context, MenuScreen.id),
             title: 'منة الله',
           ),
         ),
@@ -71,7 +79,8 @@ class FriendProfile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomSmallButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.pushReplacementNamed(
+                        context, ConversationScreen.id),
                     isOutlined: true,
                     icon: Image.asset(
                       'assets/imgs_icons/more/assets/icons/محادثة.png',
@@ -81,15 +90,26 @@ class FriendProfile extends StatelessWidget {
                     textColor: kprimaryColor,
                   ),
                   SizedBox(width: 12.w),
-                  CustomSmallButton(
-                      isOutlined: false,
-                      onPressed: () {},
-                      icon: Image.asset(
-                        'assets/imgs_icons/more/assets/icons/متابعة.png',
-                        height: 20.h,
-                      ),
-                      text: 'متابعة',
-                      buttonColor: kprimaryColor),
+                  !isFollowed!
+                      ? CustomSmallButton(
+                          isOutlined: false,
+                          onPressed: () {},
+                          icon: Image.asset(
+                            'assets/imgs_icons/more/assets/icons/متابعة.png',
+                            height: 20.h,
+                          ),
+                          text: 'متابعة',
+                          buttonColor: kprimaryColor)
+                      : CustomSmallButton(
+                          isOutlined: false,
+                          onPressed: () {},
+                          icon: Image.asset(
+                            'assets/imgs_icons/more/assets/icons/متابعة.png',
+                            height: 20.h,
+                          ),
+                          text: 'الغاء المتابعة',
+                          textColor: Colors.black,
+                          buttonColor: grey8),
                 ],
               ),
               SizedBox(height: 16.h),

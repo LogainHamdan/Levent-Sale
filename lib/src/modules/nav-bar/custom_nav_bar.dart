@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../config/constants.dart';
+import '../more/ui/screens/menu/menu.dart';
 import '../sections/ui/screens/collection/my-collection.dart';
 import 'nav_provider.dart';
 
@@ -32,7 +33,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     HomeScreen(),
     Sections(),
     MyCollectionScreen(empty: false),
-    ProfileScreen(),
+    MenuScreen(),
   ];
 
   final List<String> labels = [

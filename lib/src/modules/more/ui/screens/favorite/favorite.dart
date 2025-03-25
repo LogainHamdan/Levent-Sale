@@ -1,6 +1,7 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/empty-fav.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/fav-grid.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:Levant_Sale/src/modules/nav-bar/custom_nav_bar.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
@@ -14,9 +15,14 @@ import '../../../../home/ui/screens/home/widgets/product-section.dart';
 class FavoriteScreen extends StatelessWidget {
   final bool empty;
   final Widget suffix;
+  final Function() onSuffixTap;
   static const id = '/fav';
 
-  const FavoriteScreen({super.key, required this.empty, required this.suffix});
+  const FavoriteScreen(
+      {super.key,
+      required this.empty,
+      required this.suffix,
+      required this.onSuffixTap});
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +34,18 @@ class FavoriteScreen extends StatelessWidget {
               SizedBox(
                 height: 30.h,
               ),
-              TitleRow(title: 'المفضلة', suffix: suffix),
+              TitleRow(
+                  onBackTap: () =>
+                      Navigator.pushReplacementNamed(context, MenuScreen.id),
+                  title: 'المفضلة',
+                  suffix: InkWell(onTap: onSuffixTap, child: suffix)),
               SizedBox(
                 height: 15.h,
               ),
               empty
                   ? Expanded(child: EmptyFav())
                   : SizedBox(
-                      height: 400.h,
+                      height: 270.h,
                       child: Padding(
                         padding: EdgeInsets.all(12.0.sp),
                         child: GridView.builder(

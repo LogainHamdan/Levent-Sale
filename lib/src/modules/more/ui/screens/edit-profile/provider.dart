@@ -1,25 +1,43 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProfileProvider extends ChangeNotifier {
   bool isCompanyAccount;
 
-  File? _image;
+  File? _profileImage;
+  File? _coverImage;
 
   EditProfileProvider({this.isCompanyAccount = true});
 
   final ImagePicker _picker = ImagePicker();
 
-  File? get image => _image;
+  File? get profileImage => _profileImage;
+  File? get coverImage => _coverImage;
 
-  Future<void> pickImage() async {
+  void setProfileImage(File? selectedImage) {
+    _profileImage = selectedImage;
+    notifyListeners();
+  }
+
+  void setCoverImage(File? selectedImage) {
+    _coverImage = selectedImage;
+    notifyListeners();
+  }
+
+  Future<void> pickProfileImage() async {
     final XFile? pickedFile =
         await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      _image = File(pickedFile.path);
-      notifyListeners();
+      setProfileImage(File(pickedFile.path));
+    }
+  }
+
+  Future<void> pickCoverImage() async {
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setCoverImage(File(pickedFile.path));
     }
   }
 }

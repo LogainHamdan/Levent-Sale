@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/cutom-druggable-scrollable-sheet.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../config/constants.dart';
@@ -36,7 +37,11 @@ class AdDetailsScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TitleRow(title: 'آيفون 14 برو ماكس'),
+                              TitleRow(
+                                  onBackTap: () =>
+                                      Navigator.pushReplacementNamed(
+                                          context, AdsScreen.id),
+                                  title: 'آيفون 14 برو ماكس'),
                               CustomCarousel(imgList: productImages),
                               SizedBox(height: 10.0.h),
                               Directionality(
@@ -44,8 +49,7 @@ class AdDetailsScreen extends StatelessWidget {
                                 child: Padding(
                                   padding: EdgeInsets.only(right: 8.w),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .end, // Align to the right
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
                                         '\$1000.1',
@@ -76,7 +80,7 @@ class AdDetailsScreen extends StatelessWidget {
                                           flexible: false,
                                         ),
                                       ),
-                                      SizedBox(height: 5.h), // Ensure spacing
+                                      SizedBox(height: 5.h),
                                       Text(
                                         'هاتف آيفون 14 برو ماكس هو هاتف ذكي متطور بشاشة 6.7 بوصة، وكاميرا ثلاثية احترافية تتيح تصويرا عالي الجودة. يتميز بتقنية Super Retina XD، مما يوفر ألوانا زاهية وتفاصيل دقيقة في جميع ظروف الإضاءة',
                                         maxLines: 4,
@@ -125,16 +129,6 @@ class AdDetailsScreen extends StatelessWidget {
                                         ' التسليم: عادةً ما يكون في غضون أيام عمل.'
                                         '  سياسة المرتجعات:  تحقق من الشروط الخاصة بهم.'
                                   ]),
-                              SizedBox(height: 10.h),
-                              Center(
-                                child: CustomElevatedButton(
-                                  text: 'متابعة',
-                                  onPressed: () {},
-                                  backgroundColor: kprimaryColor,
-                                  textColor: Colors.white,
-                                  date: false,
-                                ),
-                              ),
                               SizedBox(
                                 height: 10.h,
                               )

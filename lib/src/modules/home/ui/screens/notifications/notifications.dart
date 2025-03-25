@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../ads/widgets/title-row.dart';
 import '../chats/no-info-widget.dart';
+import '../home/home.dart';
 import 'data.dart';
 
 class NotificationsScreen extends StatelessWidget {
@@ -24,6 +25,8 @@ class NotificationsScreen extends StatelessWidget {
                     height: 30.h,
                   ),
                   TitleRow(
+                    onBackTap: () =>
+                        Navigator.pushReplacementNamed(context, HomeScreen.id),
                     title: 'الإشعارات',
                     suffix: Image.asset(
                       'assets/imgs_icons/home/assets/icons/seen.png',
@@ -42,7 +45,10 @@ class NotificationsScreen extends StatelessWidget {
             : Column(
                 children: [
                   SizedBox(height: 30.h),
-                  TitleRow(title: 'الإشعارات'),
+                  TitleRow(
+                      onBackTap: () => Navigator.pushReplacementNamed(
+                          context, HomeScreen.id),
+                      title: 'الإشعارات'),
                   Expanded(
                       child: ListView.builder(
                     padding:

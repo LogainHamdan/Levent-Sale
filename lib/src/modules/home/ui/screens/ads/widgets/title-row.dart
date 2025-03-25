@@ -5,11 +5,16 @@ import '../../home/home.dart';
 
 class TitleRow extends StatelessWidget {
   final Widget? suffix;
+  final Function()? onSuffixTap;
+  final Function() onBackTap;
+
   final String title;
   const TitleRow({
     super.key,
     required this.title,
     this.suffix,
+    this.onSuffixTap,
+    required this.onBackTap,
   });
 
   @override
@@ -23,7 +28,10 @@ class TitleRow extends StatelessWidget {
               ? SizedBox(
                   width: 35.w,
                 )
-              : suffix!,
+              : InkWell(
+                  child: suffix!,
+                  onTap: onSuffixTap!,
+                ),
           Text(
             title,
             style: TextStyle(
@@ -37,7 +45,7 @@ class TitleRow extends StatelessWidget {
               size: 25.sp,
               color: Colors.black,
             ),
-            onTap: () => Navigator.pushReplacementNamed(context, HomeScreen.id),
+            onTap: onBackTap,
           )
         ],
       ),

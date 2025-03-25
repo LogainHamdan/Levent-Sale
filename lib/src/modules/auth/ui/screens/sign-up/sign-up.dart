@@ -4,6 +4,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-d
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/phone-section.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/verify.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -102,8 +103,8 @@ class SignUpScreen extends StatelessWidget {
                   SizedBox(height: 16.h),
                   CustomElevatedButton(
                     text: 'متابعة',
-                    onPressed: () =>
-                        Navigator.pushReplacementNamed(context, HomeScreen.id),
+                    onPressed: () => Navigator.pushReplacementNamed(
+                        context, VerificationScreen.id),
                     backgroundColor: kprimaryColor,
                     textColor: Colors.white,
                     date: false,

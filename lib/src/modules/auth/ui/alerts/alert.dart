@@ -9,6 +9,8 @@ import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/option-tile.dart'
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/simple-title.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/custom-rating.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/change-password/change-pass-column.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -121,65 +123,11 @@ void showSetNewPassword(BuildContext context) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.of(dialogContext).pop(),
-                    child: Image.asset(
-                      'assets/imgs_icons/auth/assets/icons/cancel.png',
-                      height: 20.h,
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 8.0.h),
-                child: Text(
-                  'تعيين كلمة المرور',
-                  style: GoogleFonts.tajawal(
-                      color: kprimaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25.sp),
-                ),
-              ),
-              SizedBox(height: 5.h),
-              Text(
-                textAlign: TextAlign.center,
-                'قم بإدخال كلمة المرور الجديدة ومن ثم تأكيدها مرة أخرى',
-                style: GoogleFonts.tajawal(color: grey4, fontSize: 15.sp),
-              ),
-              CustomTextField(
-                  bgcolor: grey8,
-                  controller: firstController,
-                  hint: 'أدخل الرمز المرسل'),
-              SizedBox(
-                height: 8.h,
-              ),
-              CustomPasswordField(
-                  controller: secondController, hint: 'كلمة المرور الجديدة'),
-              SizedBox(
-                height: 8.h,
-              ),
-              CustomPasswordField(
-                  controller: thirdController,
-                  hint: 'تأكيد كلمة المرور الجديدة'),
-              SizedBox(
-                height: 8.h,
-              ),
-              SizedBox(height: 25.h),
-              ConfirmCancelButton(
-                text: 'تأكيد',
-                onPressed: () => showPasswordUpdated(context),
-                backgroundColor: kprimaryColor,
-                textColor: Colors.white,
-              ),
-            ],
-          ),
-        ),
+            content: ChangePassColumn(
+                firstController: firstController,
+                secondController: secondController,
+                thirdController: thirdController,
+                alert: true)),
       );
     },
   );
@@ -550,7 +498,7 @@ void _showLocationPermissionDialog(BuildContext context) {
   );
 }
 
-void showFavoriteAlert(BuildContext context) {
+void showAddToFavoriteAlert(BuildContext context) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -638,30 +586,30 @@ void showNewCollectionAlert(BuildContext context) {
           child: Dialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.r)),
-            child: GestureDetector(
-              onTap: () {},
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: Padding(
-                  padding: EdgeInsets.all(16.r),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CustomTitleCancel(title: "تشكيلة جديدة"),
-                      SizedBox(height: 20.h),
-                      EmptyTextField(controller: TextEditingController()),
-                      SizedBox(height: 20.h),
-                      CustomElevatedButton(
-                        text: 'حفظ',
-                        onPressed: () {},
-                        backgroundColor: kprimaryColor,
-                        textColor: Colors.white,
-                      ),
-                    ],
-                  ),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Padding(
+                padding: EdgeInsets.all(16.r),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CustomTitleCancel(title: "تشكيلة جديدة"),
+                    SizedBox(height: 20.h),
+                    EmptyTextField(controller: TextEditingController()),
+                    SizedBox(height: 20.h),
+                    CustomElevatedButton(
+                      text: 'حفظ',
+                      onPressed: () {
+                        Navigator.pop(context);
+                        showAddToFavoriteAlert(context);
+                      },
+                      backgroundColor: kprimaryColor,
+                      textColor: Colors.white,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -693,6 +641,20 @@ void deleteAccountAlert(BuildContext context) {
       onConfirm: () {});
 }
 
+void deleteCollectionAlert(BuildContext context) {
+  showCustomAlertDialog(
+      context: context,
+      title: 'هل أنت متأكد؟',
+      message: 'هل أنت متأكد من حذف التشكيلة',
+      confirmText: 'حذف',
+      confirmColor: Colors.red,
+      cancelColor: Colors.black,
+      onConfirm: () {
+        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, FavoriteScreen.id);
+      });
+}
+
 void logoutAlert(BuildContext context) {
   showCustomAlertDialog(
       context: context,
@@ -704,7 +666,23 @@ void logoutAlert(BuildContext context) {
       onConfirm: () {});
 }
 
-void changePictureOptionAlert(BuildContext context) {
+void changePictureOptionAlert(
+    BuildContext context, Function(File?) onImageSelected) {
+  final ImagePicker picker = ImagePicker();
+
+  Future<void> pickImage(ImageSource source) async {
+    final XFile? pickedFile = await picker.pickImage(source: source);
+    if (pickedFile != null) {
+      onImageSelected(File(pickedFile.path));
+    }
+    Navigator.of(context).pop();
+  }
+
+  void deleteImage() {
+    onImageSelected(null);
+    Navigator.of(context).pop();
+  }
+
   showDialog(
     context: context,
     barrierDismissible: true,
@@ -722,54 +700,51 @@ void changePictureOptionAlert(BuildContext context) {
               ),
             ),
             Center(
-              child: GestureDetector(
-                onTap: () {}, // Prevent tap inside dialog from dismissing
-                child: Dialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  backgroundColor: Colors.white,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16.r),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 12.h, right: 20.w),
-                          child: SimpleTitle(title: 'تغيير الصورة'),
+              child: Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                backgroundColor: Colors.white,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16.r),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 12.h, right: 20.w),
+                        child: SimpleTitle(title: 'تغيير الصورة'),
+                      ),
+                      CustomDivider(),
+                      OptionTile(
+                        color: grey0,
+                        title: "اخذ صورة",
+                        icon: Image.asset(
+                          'assets/imgs_icons/more/assets/icons/اخذ صورة.png',
+                          height: 20.h,
                         ),
-                        CustomDivider(),
-                        OptionTile(
-                          color: grey0,
-                          title: "اخذ صورة",
-                          icon: Image.asset(
-                            'assets/imgs_icons/more/assets/icons/اخذ صورة.png',
-                            height: 20.h,
-                          ),
-                          onTap: () {},
+                        onTap: () => pickImage(ImageSource.camera),
+                      ),
+                      CustomDivider(),
+                      OptionTile(
+                        color: grey4,
+                        title: "اختر من الاستديو",
+                        icon: Image.asset(
+                          'assets/imgs_icons/more/assets/icons/اختر من الاستديو.png',
+                          height: 20.h,
                         ),
-                        CustomDivider(),
-                        OptionTile(
-                          color: grey4,
-                          title: "اختر من الاستديو",
-                          icon: Image.asset(
-                            'assets/imgs_icons/more/assets/icons/اختر من الاستديو.png',
-                            height: 20.h,
-                          ),
-                          onTap: () {},
+                        onTap: () => pickImage(ImageSource.gallery),
+                      ),
+                      CustomDivider(),
+                      OptionTile(
+                        color: Colors.red,
+                        title: "حذف الصورة",
+                        icon: Image.asset(
+                          'assets/imgs_icons/more/assets/icons/حذف الصورة.png',
+                          height: 20.h,
                         ),
-                        CustomDivider(),
-                        OptionTile(
-                          color: Colors.red,
-                          title: "حذف الصورة",
-                          icon: Image.asset(
-                            'assets/imgs_icons/more/assets/icons/حذف الصورة.png',
-                            height: 20.h,
-                          ),
-                          onTap: () {},
-                        ),
-                      ],
-                    ),
+                        onTap: deleteImage,
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -4,6 +4,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-el
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/simple-title.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/why-to-delete.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -24,7 +25,10 @@ class DeleteAccountScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
             titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-            title: TitleRow(title: 'حذف الحساب'),
+            title: TitleRow(
+                onBackTap: () =>
+                    Navigator.pushReplacementNamed(context, MenuScreen.id),
+                title: 'حذف الحساب'),
             leading: SizedBox()),
         body: phase1email
             ? Padding(

@@ -1,4 +1,4 @@
-import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/sign-up.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/splash.dart';
@@ -11,9 +11,11 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.d
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notifications.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/search-filter.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/change-password/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/why-to-delete.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/edit-profile.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/fav-collection-screen/fav-collection-screen.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/followers.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/following.dart';
@@ -21,10 +23,8 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/follow/join-follow.dart'
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/friend-profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
-
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details.dart';
@@ -66,7 +66,7 @@ class MyMaterialApp extends StatelessWidget {
                     color: Colors.black),
               ),
             ),
-            initialRoute: SplashScreen.id,
+            initialRoute: EditProfileScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => LoginScreen(),
@@ -87,6 +87,7 @@ class MyMaterialApp extends StatelessWidget {
                     empty: false,
                   ),
               FavoriteScreen.id: (context) => FavoriteScreen(
+                    onSuffixTap: () => showNewCollectionAlert(context),
                     suffix: Image.asset(
                       'assets/imgs_icons/more/assets/icons/اضافة.png',
                       height: 25.h,
@@ -109,6 +110,11 @@ class MyMaterialApp extends StatelessWidget {
               FollowersScreen.id: (context) => FollowersScreen(),
               JoinFollow.id: (context) => JoinFollow(),
               WhyToDeleteScreen.id: (context) => WhyToDeleteScreen(),
+              FavoriteCollectionScreen.id: (context) =>
+                  FavoriteCollectionScreen(),
+              ChangePassColumn.id: (context) => ChangePassColumn(
+                    alert: false,
+                  ),
               DeleteAccountScreen.id: (context) => DeleteAccountScreen(
                     phase1email: true,
                   ),

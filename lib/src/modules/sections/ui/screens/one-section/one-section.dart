@@ -2,6 +2,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/ad-details.da
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/search-field.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,7 +20,10 @@ class Section extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 30.h),
-          TitleRow(title: 'الاجهزة'),
+          TitleRow(
+              onBackTap: () =>
+                  Navigator.pushReplacementNamed(context, Sections.id),
+              title: 'الاجهزة'),
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 16.0.w,

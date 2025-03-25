@@ -2,6 +2,7 @@ import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/edit-profile.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/add-cover-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/custom-small-button.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/follow-container.dart';
@@ -23,6 +24,8 @@ class ProfileScreen extends StatelessWidget {
           titleTextStyle: Theme.of(context).textTheme.bodyLarge,
           leading: SizedBox(),
           title: TitleRow(
+            onBackTap: () =>
+                Navigator.pushReplacementNamed(context, MenuScreen.id),
             title: 'منة الله',
           ),
         ),

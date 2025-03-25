@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../ads/widgets/title-row.dart';
 import '../home/data.dart';
+import '../home/home.dart';
 import '../home/widgets/search-field.dart';
 import 'no-info-widget.dart';
 
@@ -23,7 +24,10 @@ class ChatListScreen extends StatelessWidget {
           SizedBox(
             height: 30.h,
           ),
-          TitleRow(title: 'المحادثات'),
+          TitleRow(
+              onBackTap: () =>
+                  Navigator.pushReplacementNamed(context, HomeScreen.id),
+              title: 'المحادثات'),
           Padding(
             padding: EdgeInsets.all(8.0.sp),
             child: SearchField(),

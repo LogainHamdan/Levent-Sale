@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/add-photo-container.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/photo-section.dart';
 
@@ -41,85 +42,89 @@ class EditProfileScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            Expanded(child: ImageSection()),
-            SizedBox(height: 20),
-            CustomTextField(
-              controller: nameController,
-              label: 'الاسم',
-              bgcolor: grey8,
-            ),
-            CustomTextField(
-              controller: emailController,
-              label: 'البريد الإلكتروني',
-              keyboardType: TextInputType.emailAddress,
-              bgcolor: grey8,
-            ),
-            SizedBox(height: 20.h),
-            PhoneSection(),
-            SizedBox(height: 20.h),
-            CustomTextField(
-              prefix: GestureDetector(
-                onTap: () => showDatePickerDialog(context, dateController),
-                child: Icon(Icons.calendar_month_outlined, color: grey0),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: ListView(
+            children: [
+              SizedBox(height: 20.h),
+              ImageSection(),
+              SizedBox(height: 20.h),
+              CustomTextField(
+                controller: nameController,
+                label: 'الاسم',
+                bgcolor: grey8,
               ),
-              controller: dateController,
-              label: profileProvider.isCompanyAccount
-                  ? 'تاريخ إنشاء الشركة'
-                  : 'تاريخ الميلاد',
-              bgcolor: grey8,
-            ),
-            profileProvider.isCompanyAccount
-                ? CustomTextField(
-                    controller: addressController,
-                    label: 'عنوان الشركة',
-                    bgcolor: grey8,
-                  )
-                : SizedBox(),
-            profileProvider.isCompanyAccount
-                ? CustomTextField(
-                    controller: taxController,
-                    label: 'الرقم الضريبي',
-                    bgcolor: grey8,
-                  )
-                : SizedBox(),
-            SizedBox(
-              height: 10.w,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.height,
-              height: 40.h,
-              decoration: BoxDecoration(
-                  color: grey8, borderRadius: BorderRadius.circular(3.r)),
-              child: InkWell(
-                onTap: () => Navigator.pushReplacementNamed(
-                    context, DeleteAccountScreen.id),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/imgs_icons/general/arrow-left.png',
-                      height: 15.h,
-                    ),
-                    SizedBox(
-                      width: 16.w,
-                    ),
-                    Text(
-                      'حذف الحساب',
-                      style: TextStyle(fontSize: 15.sp),
-                    ),
-                  ],
+              CustomTextField(
+                controller: emailController,
+                label: 'البريد الإلكتروني',
+                keyboardType: TextInputType.emailAddress,
+                bgcolor: grey8,
+              ),
+              SizedBox(height: 20.h),
+              PhoneSection(),
+              SizedBox(height: 20.h),
+              CustomTextField(
+                prefix: GestureDetector(
+                  onTap: () => showDatePickerDialog(context, dateController),
+                  child: Icon(Icons.calendar_month_outlined, color: grey0),
+                ),
+                controller: dateController,
+                label: profileProvider.isCompanyAccount
+                    ? 'تاريخ إنشاء الشركة'
+                    : 'تاريخ الميلاد',
+                bgcolor: grey8,
+              ),
+              if (profileProvider.isCompanyAccount) ...[
+                CustomTextField(
+                  controller: addressController,
+                  label: 'عنوان الشركة',
+                  bgcolor: grey8,
+                ),
+                CustomTextField(
+                  controller: taxController,
+                  label: 'الرقم الضريبي',
+                  bgcolor: grey8,
+                ),
+              ],
+              SizedBox(height: 10.h),
+              Container(
+                width: double.infinity,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  color: grey8,
+                  borderRadius: BorderRadius.circular(3.r),
+                ),
+                child: InkWell(
+                  onTap: () => Navigator.pushReplacementNamed(
+                      context, DeleteAccountScreen.id),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/imgs_icons/general/arrow-left.png',
+                        height: 15.h,
+                      ),
+                      SizedBox(width: 16.w),
+                      Text(
+                        'حذف الحساب',
+                        style: TextStyle(fontSize: 15.sp),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: DraggableButton('حفظ التعديلات',
-                  onPressed: () => changePictureOptionAlert(context),
+              SizedBox(height: 20.h),
+              Center(
+                child: DraggableButton(
+                  'حفظ التعديلات',
+                  onPressed: () => editDoneAlert(context),
                   icon: Image.asset(
-                      'assets/imgs_icons/more/assets/icons/edit.png')),
-            )
-          ],
+                    'assets/imgs_icons/more/assets/icons/edit.png',
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

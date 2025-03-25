@@ -3,6 +3,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-el
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/nav-bar/custom_nav_bar.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
@@ -28,7 +29,10 @@ class MyCollectionScreen extends StatelessWidget {
             SizedBox(
               height: 30.h,
             ),
-            TitleRow(title: 'تشكيلتي'),
+            TitleRow(
+                onBackTap: () =>
+                    Navigator.pushReplacementNamed(context, HomeScreen.id),
+                title: 'تشكيلتي'),
             SizedBox(height: 16.h),
 
             empty

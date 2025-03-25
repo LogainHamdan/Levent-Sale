@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/widgets/categories-display.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,10 @@ class Sections extends StatelessWidget {
                 SizedBox(
                   height: 30.h,
                 ),
-                TitleRow(title: 'الأقسام'),
+                TitleRow(
+                    onBackTap: () =>
+                        Navigator.pushReplacementNamed(context, HomeScreen.id),
+                    title: 'الأقسام'),
                 TopBanner(),
                 CategoriesDisplay(
                   onSectionClicked: () =>

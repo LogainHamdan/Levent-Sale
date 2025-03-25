@@ -1,4 +1,7 @@
+import 'package:Levant_Sale/src/modules/more/ui/screens/change-password/change-pass-column.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/profile-menu-item.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,6 +26,8 @@ class LoggedInColumn extends StatelessWidget {
         ),
         SizedBox(height: 20.h),
         MenuItem(
+            onTap: () =>
+                Navigator.pushReplacementNamed(context, FavoriteScreen.id),
             color: kprimary4Color,
             "المفضلة",
             Image.asset(
@@ -31,6 +36,8 @@ class LoggedInColumn extends StatelessWidget {
             )),
         SizedBox(height: 15.h),
         MenuItem(
+            onTap: () =>
+                Navigator.pushReplacementNamed(context, ChangePassColumn.id),
             color: kprimary4Color,
             "كلمة المرور",
             Image.asset(
@@ -39,6 +46,8 @@ class LoggedInColumn extends StatelessWidget {
             )),
         SizedBox(height: 15.h),
         MenuItem(
+            onTap: () => Navigator.pushReplacementNamed(
+                context, TechnicalSupportScreen.id),
             color: kprimary4Color,
             "الدعم الفني",
             Image.asset(
@@ -47,6 +56,7 @@ class LoggedInColumn extends StatelessWidget {
             )),
         SizedBox(height: 15.h),
         MenuItem(
+            onTap: () {},
             color: kprimary4Color,
             "من نحن",
             Image.asset(
@@ -55,6 +65,7 @@ class LoggedInColumn extends StatelessWidget {
             )),
         SizedBox(height: 15.h),
         MenuItem(
+            onTap: () {},
             color: kprimary4Color,
             "سياسة الخصوصية",
             Image.asset(
@@ -62,7 +73,7 @@ class LoggedInColumn extends StatelessWidget {
               height: 15.h,
             )),
         SizedBox(height: 15.h),
-        CustomLogoutItem()
+        CustomLogoutItem(),
       ],
     );
   }

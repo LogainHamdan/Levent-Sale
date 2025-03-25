@@ -1,14 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../../../config/constants.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../../config/constants.dart';
 import '../provider.dart';
 
@@ -17,19 +10,20 @@ class UploadPhotoContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageProvider = Provider.of<EditProfileProvider>(context);
+    final editProfileProvider = Provider.of<EditProfileProvider>(context);
+    final File? coverImage = editProfileProvider.coverImage;
 
     return GestureDetector(
-      onTap: () => imageProvider.pickImage(),
+      onTap: () => editProfileProvider.pickCoverImage(),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
         height: 150.h,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: grey8,
+          color: kprimaryColor.withOpacity(0.1),
           borderRadius: BorderRadius.circular(3.r),
         ),
-        child: imageProvider.image == null
+        child: coverImage == null
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,10 +45,10 @@ class UploadPhotoContainer extends StatelessWidget {
             : ClipRRect(
                 borderRadius: BorderRadius.circular(3.r),
                 child: Image.file(
-                  imageProvider.image!,
+                  coverImage,
                   fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
+                  width: MediaQuery.of(context).size.width,
+                  height: 150.h,
                 ),
               ),
       ),

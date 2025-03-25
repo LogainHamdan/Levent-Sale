@@ -95,14 +95,17 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               CustomElevatedButton(
+                icon: Image.asset(
+                  'assets/imgs_icons/home/assets/icons/chat-white.png',
+                  height: 20.h,
+                ),
                 text: 'محادثة',
                 onPressed: () => Navigator.pushReplacementNamed(
                     context, ConversationScreen.id),
                 backgroundColor: kprimaryColor,
                 textColor: Colors.white,
-                date: false,
               ),
               SizedBox(height: 20.h),
               const ProductsDetails(),

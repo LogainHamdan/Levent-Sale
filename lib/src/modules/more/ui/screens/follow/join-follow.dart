@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/following.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +22,10 @@ class JoinFollow extends StatelessWidget {
             appBar: AppBar(
               titleTextStyle: Theme.of(context).textTheme.bodyLarge,
               leading: SizedBox(),
-              title: TitleRow(title: 'منة الله'),
+              title: TitleRow(
+                  onBackTap: () =>
+                      Navigator.pushReplacementNamed(context, ProfileScreen.id),
+                  title: 'منة الله'),
               bottom: TabBar(
                 dividerHeight: 0,
                 indicator: BoxDecoration(),

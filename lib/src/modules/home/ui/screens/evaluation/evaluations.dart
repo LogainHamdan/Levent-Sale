@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/widgets/custom-like-button.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/widgets/member-info.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,10 @@ class ReviewsScreen extends StatelessWidget {
               SizedBox(
                 height: 30.h,
               ),
-              TitleRow(title: 'التقييمات'),
+              TitleRow(
+                  onBackTap: () =>
+                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                  title: 'التقييمات'),
               ReviewWrite(),
               SizedBox(height: 16.h),
               Row(

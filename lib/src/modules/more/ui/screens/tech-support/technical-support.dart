@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/tech-support-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +28,10 @@ class TechnicalSupportScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.h),
-                    child: TitleRow(title: 'الدعم الفني'),
+                    child: TitleRow(
+                        onBackTap: () => Navigator.pushReplacementNamed(
+                            context, MenuScreen.id),
+                        title: 'الدعم الفني'),
                   ),
                   TabBar(
                     indicatorColor: kprimaryColor,
