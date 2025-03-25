@@ -108,7 +108,7 @@ class ProductItem extends StatelessWidget {
                 )
               : Container(
                   width: 150.w,
-                  height: 180.h,
+                  height: 200.h,
                   margin: EdgeInsets.only(right: 6.w, left: 6.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,

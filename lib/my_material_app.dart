@@ -11,6 +11,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.d
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notifications.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/search-filter.dart';
+import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/change-password/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/why-to-delete.dart';
@@ -32,7 +33,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.da
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+// import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'src/modules/sections/ui/screens/collection/my-collection.dart';
@@ -49,7 +50,7 @@ class MyMaterialApp extends StatelessWidget {
         builder: (_, child) {
           return MaterialApp(
             localizationsDelegates: const [
-              FlutterQuillLocalizations.delegate,
+              // FlutterQuillLocalizations.delegate,
             ],
             navigatorKey: GlobalKey<NavigatorState>(),
             debugShowCheckedModeBanner: false,
@@ -66,9 +67,10 @@ class MyMaterialApp extends StatelessWidget {
                     color: Colors.black),
               ),
             ),
-            initialRoute: HomeScreen.id,
+            initialRoute: MainScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
+              MainScreen.id:(context)=>MainScreen(),
               LoginScreen.id: (context) => LoginScreen(),
               SignUpScreen.id: (context) => SignUpScreen(),
               VerificationScreen.id: (context) => VerificationScreen(),

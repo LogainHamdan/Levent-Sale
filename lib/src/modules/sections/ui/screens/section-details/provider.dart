@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
+// import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 class SectionDetailsProvider extends ChangeNotifier {
   String? selectedRooms;
@@ -26,9 +26,9 @@ class SectionDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  final quill.QuillController _controller = quill.QuillController.basic();
-
-  quill.QuillController get controller => _controller;
+  // final quill.QuillController _controller = quill.QuillController.basic();
+  //
+  // quill.QuillController get controller => _controller;
   void setSelectedBathrooms(String value) {
     selectedBathrooms = value;
     notifyListeners();
