@@ -10,6 +10,7 @@ import '../../config/constants.dart';
 import '../more/ui/screens/menu/menu.dart';
 import '../sections/ui/screens/collection/my-collection.dart';
 import 'nav_provider.dart';
+import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({super.key});
@@ -47,12 +48,15 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: screens[_bottomNavIndex],
+        body: IndexedStack(
+          index: _bottomNavIndex,
+          children: screens,
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: kprimaryColor,
-          shape: CircleBorder(),
+          shape: const CircleBorder(),
           onPressed: () => Navigator.pushNamed(context, CreateAdScreen.id),
-          child: Icon(Icons.add, color: Colors.white, size: 35),
+          child: const Icon(Icons.add, color: Colors.white, size: 35),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: AnimatedBottomNavigationBar.builder(
@@ -66,7 +70,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 children: [
                   Icon(iconList[index],
                       size: 24, color: isActive ? kprimaryColor : grey4),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     labels[index],
                     style: TextStyle(
@@ -89,6 +93,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     );
   }
 }
+
 //
 // // clipBehavior: Clip.none,
 // // alignment: AlignmentDirectional.topCenter,
