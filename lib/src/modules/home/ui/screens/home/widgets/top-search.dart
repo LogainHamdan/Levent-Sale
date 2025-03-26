@@ -6,8 +6,12 @@ import '../../notifications/notifications.dart';
 import 'icon-stack.dart';
 
 class TopSearchBar extends StatelessWidget {
+  const TopSearchBar({super.key});
+
   @override
   Widget build(BuildContext context) {
+    TextEditingController homeSearchController = TextEditingController();
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
       child: Row(
@@ -25,7 +29,10 @@ class TopSearchBar extends StatelessWidget {
               img: 'assets/imgs_icons/home/assets/icons/chat-black.png',
               count: '3'),
           SizedBox(width: 10.w),
-          Expanded(child: SearchField()),
+          Expanded(
+              child: SearchField(
+            controller: homeSearchController,
+          )),
         ],
       ),
     );

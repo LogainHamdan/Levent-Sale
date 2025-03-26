@@ -2,7 +2,6 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/guest-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/logged-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
-import 'package:Levant_Sale/src/modules/nav-bar/custom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';

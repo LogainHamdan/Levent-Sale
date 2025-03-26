@@ -3,6 +3,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.da
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../main/ui/screens/main_screen.dart';
 import '../home/data.dart';
 import '../home/home.dart';
 import '../home/widgets/product-item.dart';
@@ -15,6 +16,7 @@ class AdsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController adController = TextEditingController();
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -24,12 +26,14 @@ class AdsScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                 child: TitleRow(
                     onBackTap: () =>
-                        Navigator.pushReplacementNamed(context, HomeScreen.id),
-                    title: 'الإعلانات')),
+                        Navigator.pushReplacementNamed(context, MainScreen.id),
+                    title: 'الإعلانات'),),
             SizedBox(height: 10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-              child: SearchField(),
+              child: SearchField(
+                controller: adController,
+              ),
             ),
             ProductsDetails()
           ],

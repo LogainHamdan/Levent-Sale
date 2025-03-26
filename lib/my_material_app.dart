@@ -11,6 +11,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.d
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notifications.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/search-filter.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/search/search.dart';
 import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/change-password/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
@@ -33,7 +34,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.da
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
 
 import 'package:flutter/material.dart';
-// import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'src/modules/sections/ui/screens/collection/my-collection.dart';
@@ -48,79 +49,86 @@ class MyMaterialApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (_, child) {
-          return MaterialApp(
-            localizationsDelegates: const [
-              // FlutterQuillLocalizations.delegate,
-            ],
-            navigatorKey: GlobalKey<NavigatorState>(),
-            debugShowCheckedModeBanner: false,
-            title: 'Levent Sale',
-            theme: ThemeData(
-              textTheme: TextTheme(
-                bodySmall:
-                    GoogleFonts.tajawal(fontSize: 16.sp, color: Colors.black),
-                bodyMedium:
-                    GoogleFonts.tajawal(fontSize: 16.sp, color: Colors.black),
-                bodyLarge: GoogleFonts.tajawal(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.sp,
-                    color: Colors.black),
+          return Directionality(
+            textDirection: TextDirection.rtl,
+            child: MaterialApp(
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
+              navigatorKey: GlobalKey<NavigatorState>(),
+              debugShowCheckedModeBanner: false,
+              title: 'Levent Sale',
+              theme: ThemeData(
+                textTheme: TextTheme(
+                  bodySmall: GoogleFonts.tajawal(
+                    fontSize: 16.sp,
+                    color: Colors.black,
+                  ),
+                  bodyMedium:
+                      GoogleFonts.tajawal(fontSize: 16.sp, color: Colors.black),
+                  bodyLarge: GoogleFonts.tajawal(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.sp,
+                      color: Colors.black),
+                ),
               ),
-            ),
-            initialRoute: MainScreen.id,
-            routes: {
-              SplashScreen.id: (context) => SplashScreen(),
-              MainScreen.id:(context)=>MainScreen(),
-              LoginScreen.id: (context) => LoginScreen(),
-              SignUpScreen.id: (context) => SignUpScreen(),
-              VerificationScreen.id: (context) => VerificationScreen(),
-              HomeScreen.id: (context) => HomeScreen(),
-              AdsScreen.id: (context) => AdsScreen(),
-              ReviewsScreen.id: (context) => ReviewsScreen(),
-              AdDetailsScreen.id: (context) => AdDetailsScreen(),
-              ChatListScreen.id: (context) => ChatListScreen(),
-              ConversationScreen.id: (context) =>
-                  ConversationScreen(msgsAvailable: true),
-              Section.id: (context) => Section(),
-              NotificationsScreen.id: (context) => NotificationsScreen(
-                    noData: false,
-                  ),
-              MyCollectionScreen.id: (context) => MyCollectionScreen(
-                    empty: false,
-                  ),
-              FavoriteScreen.id: (context) => FavoriteScreen(
-                    onSuffixTap: () => showNewCollectionAlert(context),
-                    suffix: Image.asset(
-                      'assets/imgs_icons/more/assets/icons/اضافة.png',
-                      height: 25.h,
+              initialRoute: SplashScreen.id,
+              routes: {
+                SplashScreen.id: (context) => SplashScreen(),
+                MainScreen.id: (context) => MainScreen(),
+                LoginScreen.id: (context) => LoginScreen(),
+                SignUpScreen.id: (context) => SignUpScreen(),
+                VerificationScreen.id: (context) => VerificationScreen(),
+                HomeScreen.id: (context) => HomeScreen(),
+                AdsScreen.id: (context) => AdsScreen(),
+                ReviewsScreen.id: (context) => ReviewsScreen(),
+                AdDetailsScreen.id: (context) => AdDetailsScreen(),
+                ChatListScreen.id: (context) => ChatListScreen(),
+                ConversationScreen.id: (context) =>
+                    ConversationScreen(msgsAvailable: true),
+                Section.id: (context) => Section(),
+                NotificationsScreen.id: (context) => NotificationsScreen(
+                      noData: false,
                     ),
-                    empty: false,
-                  ),
-              CreateAdScreen.id: (context) => CreateAdScreen(
-                    lowerWidget: SectionChoose(),
-                  ),
-              FilterScreen.id: (context) => FilterScreen(
-                    cardListIndex: 0,
-                  ),
-              Sections.id: (context) => Sections(),
-              MenuScreen.id: (context) => MenuScreen(),
-              EditProfileScreen.id: (context) => EditProfileScreen(),
-              TechnicalSupportScreen.id: (context) => TechnicalSupportScreen(),
-              ProfileScreen.id: (context) => ProfileScreen(),
-              FriendProfile.id: (context) => FriendProfile(),
-              FollowingScreen.id: (context) => FollowingScreen(),
-              FollowersScreen.id: (context) => FollowersScreen(),
-              JoinFollow.id: (context) => JoinFollow(),
-              WhyToDeleteScreen.id: (context) => WhyToDeleteScreen(),
-              FavoriteCollectionScreen.id: (context) =>
-                  FavoriteCollectionScreen(),
-              ChangePassColumn.id: (context) => ChangePassColumn(
-                    alert: false,
-                  ),
-              DeleteAccountScreen.id: (context) => DeleteAccountScreen(
-                    phase1email: true,
-                  ),
-            },
+                MyCollectionScreen.id: (context) => MyCollectionScreen(
+                      empty: false,
+                    ),
+                FavoriteScreen.id: (context) => FavoriteScreen(
+                      onSuffixTap: () => showNewCollectionAlert(context),
+                      suffix: Image.asset(
+                        'assets/imgs_icons/more/assets/icons/اضافة.png',
+                        height: 25.h,
+                      ),
+                      empty: false,
+                    ),
+                CreateAdScreen.id: (context) => CreateAdScreen(
+                      lowerWidget: SectionChoose(),
+                    ),
+                FilterScreen.id: (context) => FilterScreen(
+                      cardListIndex: 0,
+                    ),
+                Sections.id: (context) => Sections(),
+                MenuScreen.id: (context) => MenuScreen(),
+                EditProfileScreen.id: (context) => EditProfileScreen(),
+                TechnicalSupportScreen.id: (context) =>
+                    TechnicalSupportScreen(),
+                ProfileScreen.id: (context) => ProfileScreen(),
+                FriendProfile.id: (context) => FriendProfile(),
+                FollowingScreen.id: (context) => FollowingScreen(),
+                FollowersScreen.id: (context) => FollowersScreen(),
+                JoinFollow.id: (context) => JoinFollow(),
+                WhyToDeleteScreen.id: (context) => WhyToDeleteScreen(),
+                SearchScreen.id: (context) => SearchScreen(),
+                FavoriteCollectionScreen.id: (context) =>
+                    FavoriteCollectionScreen(),
+                ChangePassColumn.id: (context) => ChangePassColumn(
+                      alert: false,
+                    ),
+                DeleteAccountScreen.id: (context) => DeleteAccountScreen(
+                      phase1email: true,
+                    ),
+              },
+            ),
           );
         });
   }

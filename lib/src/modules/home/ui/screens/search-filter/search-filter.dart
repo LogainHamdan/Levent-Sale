@@ -15,13 +15,17 @@ class FilterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController filterController = TextEditingController();
+
     return SafeArea(
       child: Scaffold(
         body: Column(
           children: [
             Padding(
                 padding: EdgeInsets.only(left: 8.w, right: 8.w, top: 22.h),
-                child: SearchField()),
+                child: SearchField(
+                  controller: filterController,
+                )),
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
@@ -30,11 +34,11 @@ class FilterScreen extends StatelessWidget {
                   if (cardListIndex == 0) {
                     return CustomCard(
                       onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FilterScreen(
-                                    cardListIndex: 1,
-                                  ))),
+                        context,
+                        _createHorizontalPageRoute(
+                          FilterScreen(cardListIndex: 1),
+                        ),
+                      ),
                       icon: Image.asset(
                           height: 10.h,
                           'assets/imgs_icons/general/arrow-left.png'),
@@ -44,11 +48,11 @@ class FilterScreen extends StatelessWidget {
                   if (cardListIndex == 1) {
                     return CustomCard(
                       onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FilterScreen(
-                                    cardListIndex: 2,
-                                  ))),
+                        context,
+                        _createHorizontalPageRoute(
+                          FilterScreen(cardListIndex: 2),
+                        ),
+                      ),
                       icon: Image.asset(
                           height: 10.h,
                           'assets/imgs_icons/general/arrow-left.png'),
@@ -71,6 +75,23 @@ class FilterScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Route _createHorizontalPageRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(-1.0, 0); // الانتقال يبدأ من اليسار
+        const end = Offset.zero;
+        const curve = Curves.easeInOut;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
     );
   }
 }

@@ -30,9 +30,9 @@ class CustomPasswordField extends StatelessWidget {
           child: TextField(
             controller: controller,
             obscureText: !isVisible,
-            textDirection: TextDirection.ltr,
             cursorColor: Colors.black,
             style: TextStyle(fontSize: 14.sp, color: Colors.black),
+            textDirection: TextDirection.rtl,
             decoration: InputDecoration(
               fillColor: grey8,
               filled: true,

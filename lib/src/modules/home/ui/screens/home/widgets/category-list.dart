@@ -2,9 +2,11 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/section-det
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../sections/ui/screens/section-details/section-details.dart';
+import '../../../../../sections/ui/screens/sections/sections.dart';
 
 class CategoriesList extends StatelessWidget {
   final List<String> categoryNames;
@@ -26,14 +28,17 @@ class CategoriesList extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'مشاهدة المزيد',
-                textDirection: TextDirection.rtl,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: kprimaryColor,
-                ),
-              ),
+              TextButton(
+                  onPressed: () =>
+                      Navigator.pushReplacementNamed(context, Sections.id),
+                  child: Text('مشاهدة المزيد',
+                      textDirection: TextDirection.rtl,
+                      style: GoogleFonts.tajawal(
+                        textStyle: TextStyle(
+                          fontSize: 14.sp,
+                          color: kprimaryColor,
+                        ),
+                      ))),
               Text(
                 'الأقسام',
                 textDirection: TextDirection.rtl,

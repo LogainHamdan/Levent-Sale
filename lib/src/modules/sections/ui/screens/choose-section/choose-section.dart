@@ -3,7 +3,6 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../nav-bar/custom_nav_bar.dart';
 import '../create-ad/provider.dart';
 
 class SectionChoose extends StatelessWidget {

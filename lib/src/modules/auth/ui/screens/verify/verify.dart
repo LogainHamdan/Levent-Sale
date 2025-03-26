@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
+import '../../../../main/ui/screens/main_screen.dart';
 import '../login/widgets/or-row.dart';
 import '../login/widgets/instead-widget.dart';
 import '../splash/widgets/custom-elevated-button.dart';
@@ -75,7 +76,7 @@ class VerificationScreen extends StatelessWidget {
               CustomElevatedButton(
                   text: 'تحقق',
                   onPressed: () =>
-                      Navigator.pushReplacementNamed(context, HomeScreen.id),
+                      Navigator.pushReplacementNamed(context, MainScreen.id),
                   backgroundColor: kprimaryColor,
                   textColor: Colors.white,
                   date: false),

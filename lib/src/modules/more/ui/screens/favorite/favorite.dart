@@ -2,8 +2,8 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.da
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/empty-fav.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/fav-grid.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
-import 'package:Levant_Sale/src/modules/nav-bar/custom_nav_bar.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-collection.dart';
+
+import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-widget.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,6 +35,7 @@ class FavoriteScreen extends StatelessWidget {
                 height: 30.h,
               ),
               TitleRow(
+                  onSuffixTap: () {},
                   onBackTap: () =>
                       Navigator.pushReplacementNamed(context, MenuScreen.id),
                   title: 'المفضلة',

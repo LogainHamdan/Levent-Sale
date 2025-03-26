@@ -15,6 +15,8 @@ class FavoriteCollectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController collectionSearchController = TextEditingController();
+
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -35,7 +37,9 @@ class FavoriteCollectionScreen extends StatelessWidget {
             SizedBox(height: 10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-              child: SearchField(),
+              child: SearchField(
+                controller: collectionSearchController,
+              ),
             ),
             ProductsDetails()
           ],

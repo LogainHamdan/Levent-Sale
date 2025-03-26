@@ -3,6 +3,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notificati
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../main/ui/screens/main_screen.dart';
 import '../ads/widgets/title-row.dart';
 import '../home/data.dart';
 import '../home/home.dart';
@@ -17,6 +18,8 @@ class ChatListScreen extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    TextEditingController chatsController = TextEditingController();
+
     return SafeArea(
       child: Scaffold(
           body: Column(
@@ -26,11 +29,13 @@ class ChatListScreen extends StatelessWidget {
           ),
           TitleRow(
               onBackTap: () =>
-                  Navigator.pushReplacementNamed(context, HomeScreen.id),
+                  Navigator.pushReplacementNamed(context, MainScreen.id),
               title: 'المحادثات'),
           Padding(
             padding: EdgeInsets.all(8.0.sp),
-            child: SearchField(),
+            child: SearchField(
+              controller: chatsController,
+            ),
           ),
           Expanded(
             child: ListView.builder(
