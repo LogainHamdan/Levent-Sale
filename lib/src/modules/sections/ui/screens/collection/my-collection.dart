@@ -1,18 +1,12 @@
-import 'package:Levant_Sale/src/config/constants.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
-
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
-import 'package:Levant_Sale/src/modules/nav-bar/custom_nav_bar.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-collection.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-widget.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../../home/ui/screens/ads/widgets/products-details.dart';
-import '../../../../home/ui/screens/home/data.dart';
-import '../../../../home/ui/screens/home/widgets/product-section.dart';
+import '../../../../../config/constants.dart';
+import '../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
+import '../../../../main/ui/screens/main_screen.dart';
+import '../create-ad/create-ad.dart';
 
 class MyCollectionScreen extends StatelessWidget {
   final bool empty;
@@ -31,12 +25,28 @@ class MyCollectionScreen extends StatelessWidget {
             ),
             TitleRow(
                 onBackTap: () =>
-                    Navigator.pushReplacementNamed(context, HomeScreen.id),
+                    Navigator.pushReplacementNamed(context, MainScreen.id),
                 title: 'تشكيلتي'),
             SizedBox(height: 16.h),
 
             empty
-                ? Expanded(child: EmptyCollection())
+                ? Expanded(
+                    child: EmptyWidget(
+                    msg: 'إعلاناتي فارغة',
+                    img:
+                        'assets/imgs_icons/sections/assets/icons/اعلاناتي فارغة.png',
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+                      child: CustomElevatedButton(
+                        text: 'ابدأ في انشاء إعلانك',
+                        onPressed: () => Navigator.pushReplacementNamed(
+                            context, CreateAdScreen.id),
+                        backgroundColor: kprimaryColor,
+                        textColor: Colors.white,
+                        date: false,
+                      ),
+                    ),
+                  ))
                 : Expanded(child: JoinMyCollection()),
             // CustomBottomNavigationBar()
           ],

@@ -16,6 +16,7 @@ import '../../../../../config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../main/ui/screens/main_screen.dart';
 import '../splash/widgets/custom-elevated-button.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -88,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                   CustomElevatedButton(
                     text: 'متابعة',
                     onPressed: () =>
-                        Navigator.pushReplacementNamed(context, HomeScreen.id),
+                        Navigator.pushReplacementNamed(context, MainScreen.id),
                     backgroundColor: kprimaryColor,
                     textColor: Colors.white,
                     date: false,

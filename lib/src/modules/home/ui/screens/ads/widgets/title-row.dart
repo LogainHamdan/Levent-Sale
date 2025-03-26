@@ -45,7 +45,7 @@ class TitleRow extends StatelessWidget {
               size: 25.sp,
               color: Colors.black,
             ),
-            onTap: onBackTap,
+            onTap: () => Navigator.pop(context),
           )
         ],
       ),

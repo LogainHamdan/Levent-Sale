@@ -6,7 +6,6 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/top-search.
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../nav-bar/custom_nav_bar.dart';
 import 'data.dart';
 
 class HomeScreen extends StatelessWidget {

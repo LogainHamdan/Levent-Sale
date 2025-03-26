@@ -5,8 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../config/constants.dart';
 
 class SearchField extends StatelessWidget {
+  final TextEditingController controller;
   const SearchField({
     super.key,
+    required this.controller,
   });
 
   @override

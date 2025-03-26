@@ -16,6 +16,8 @@ class Section extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController sectionController = TextEditingController();
+
     return Scaffold(
       body: Column(
         children: [
@@ -28,7 +30,9 @@ class Section extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: 16.0.w,
             ),
-            child: SearchField(),
+            child: SearchField(
+              controller: sectionController,
+            ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),

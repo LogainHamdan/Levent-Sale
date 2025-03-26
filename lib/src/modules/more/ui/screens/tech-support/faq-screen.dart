@@ -9,6 +9,8 @@ class FAQScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController faqController = TextEditingController();
+
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(20.0.sp),
@@ -17,7 +19,9 @@ class FAQScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            SearchField(),
+            SearchField(
+              controller: faqController,
+            ),
             SizedBox(
               height: 30.h,
             ),
