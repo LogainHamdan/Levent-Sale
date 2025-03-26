@@ -35,6 +35,7 @@ class FavoriteScreen extends StatelessWidget {
                 height: 30.h,
               ),
               TitleRow(
+                  onSuffixTap: () {},
                   onBackTap: () =>
                       Navigator.pushReplacementNamed(context, MenuScreen.id),
                   title: 'المفضلة',

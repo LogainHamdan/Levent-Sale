@@ -9,7 +9,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.
 import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 
 class BottomNavProvider extends ChangeNotifier {
-  int _currentIndex = 0;
+  int _currentIndex = 3;
   int get currentIndex => _currentIndex;
 
   void setIndex(int index) {

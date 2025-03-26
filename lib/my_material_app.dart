@@ -34,7 +34,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.da
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
 
 import 'package:flutter/material.dart';
-// import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'src/modules/sections/ui/screens/collection/my-collection.dart';
@@ -52,7 +52,9 @@ class MyMaterialApp extends StatelessWidget {
           return Directionality(
             textDirection: TextDirection.rtl,
             child: MaterialApp(
-
+              localizationsDelegates: const [
+                FlutterQuillLocalizations.delegate,
+              ],
               navigatorKey: GlobalKey<NavigatorState>(),
               debugShowCheckedModeBanner: false,
               title: 'Levent Sale',
@@ -70,7 +72,7 @@ class MyMaterialApp extends StatelessWidget {
                       color: Colors.black),
                 ),
               ),
-              initialRoute: LoginScreen.id,
+              initialRoute: SplashScreen.id,
               routes: {
                 SplashScreen.id: (context) => SplashScreen(),
                 MainScreen.id: (context) => MainScreen(),

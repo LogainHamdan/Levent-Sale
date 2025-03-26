@@ -23,8 +23,7 @@ class ProductsDetails extends StatelessWidget {
           controller: scrollProvider.scrollController,
           child: GridView.builder(
             shrinkWrap: true,
-            physics:
-                const NeverScrollableScrollPhysics(), // Scroll handled by SingleChildScrollView
+            physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 8.0,
@@ -36,7 +35,7 @@ class ProductsDetails extends StatelessWidget {
               return ProductItem(
                 isHalfed: true,
                 product: products[index],
-                category: '',
+                category: categoryNames[index],
               );
             },
           ),

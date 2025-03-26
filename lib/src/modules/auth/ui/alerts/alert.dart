@@ -556,7 +556,7 @@ void showAddToFavoriteAlert(BuildContext context) {
                         SizedBox(height: 20.h),
                         CustomElevatedButton(
                           text: 'حفظ',
-                          onPressed: () => showNewCollectionAlert(context),
+                          onPressed: () => Navigator.pop(context),
                           backgroundColor: kprimaryColor,
                           textColor: Colors.white,
                         ),
