@@ -72,9 +72,3 @@ class CustomElevatedButton extends StatelessWidget {
           );
   }
 }
-//
-// Image.asset('assets/imgs_icons/home/assets/icons/chat-white.png',
-//                 icon! ,
-//                   height: 20.h,
-//                   width: 20.w,
-//                 ),

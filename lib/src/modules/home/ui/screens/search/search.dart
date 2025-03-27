@@ -23,10 +23,10 @@ class SearchScreen extends StatelessWidget {
     final provider =
         context.watch<SearchProvider>(); // استخدام watch للحصول على التحديثات
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0.w),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),

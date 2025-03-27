@@ -20,7 +20,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../../config/constants.dart';
 import '../../../home/ui/screens/evaluation/widgets/img-picker.dart';
-
 import '../../../main/ui/screens/main_screen.dart';
 import '../../../more/ui/screens/edit-profile/widgets/title-cancel.dart';
 import '../screens/login/widgets/confrm-cancel-button.dart';
@@ -66,7 +65,7 @@ void showPasswordUpdated(BuildContext context) {
                 Padding(
                   padding: EdgeInsets.only(top: 12.h),
                   child: Image.asset(
-                    'assets/imgs_icons/auth/assets/imgs/tick.png',
+                    'assets/imgs_icons/auth/assets/imgs/tick.svg',
                     height: 120.h,
                   ),
                 ),
@@ -408,7 +407,6 @@ void showAdCreated(BuildContext context) {
                     GestureDetector(
                       onTap: () {
                         Navigator.of(dialogContext).pop();
-                        Navigator.pushReplacementNamed(context, MainScreen.id);
                       },
                       child: Padding(
                         padding: EdgeInsets.all(10.w),

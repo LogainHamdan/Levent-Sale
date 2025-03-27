@@ -14,9 +14,9 @@ class FollowersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Expanded(
+    return Scaffold(
+      body: SafeArea(
+        child: Expanded(
           child: ListView.builder(
             itemCount: 10,
             itemBuilder: (context, index) {

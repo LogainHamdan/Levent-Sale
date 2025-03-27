@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/widgets/card.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/widgets/horizontal-navigate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -35,7 +36,7 @@ class FilterScreen extends StatelessWidget {
                     return CustomCard(
                       onTap: () => Navigator.push(
                         context,
-                        _createHorizontalPageRoute(
+                        createHorizontalPageRoute(
                           FilterScreen(cardListIndex: 1),
                         ),
                       ),
@@ -49,7 +50,7 @@ class FilterScreen extends StatelessWidget {
                     return CustomCard(
                       onTap: () => Navigator.push(
                         context,
-                        _createHorizontalPageRoute(
+                        createHorizontalPageRoute(
                           FilterScreen(cardListIndex: 2),
                         ),
                       ),
@@ -75,23 +76,6 @@ class FilterScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Route _createHorizontalPageRoute(Widget page) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => page,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(-1.0, 0); // الانتقال يبدأ من اليسار
-        const end = Offset.zero;
-        const curve = Curves.easeInOut;
-
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-        var offsetAnimation = animation.drive(tween);
-
-        return SlideTransition(position: offsetAnimation, child: child);
-      },
     );
   }
 }

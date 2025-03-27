@@ -22,9 +22,9 @@ class AdDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
           children: [
             Column(
               children: [
@@ -84,6 +84,7 @@ class AdDetailsScreen extends StatelessWidget {
                                       Text(
                                         'هاتف آيفون 14 برو ماكس هو هاتف ذكي متطور بشاشة 6.7 بوصة، وكاميرا ثلاثية احترافية تتيح تصويرا عالي الجودة. يتميز بتقنية Super Retina XD، مما يوفر ألوانا زاهية وتفاصيل دقيقة في جميع ظروف الإضاءة',
                                         maxLines: 4,
+                                        textDirection: TextDirection.rtl,
                                         style: TextStyle(
                                           fontSize: 10.sp,
                                           color: grey4,

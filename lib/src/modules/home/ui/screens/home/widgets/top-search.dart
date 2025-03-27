@@ -18,8 +18,7 @@ class TopSearchBar extends StatelessWidget {
         children: [
           SizedBox(width: 10.w),
           IconStack(
-              onTap: () => Navigator.pushReplacementNamed(
-                  context, NotificationsScreen.id),
+              onTap: () => Navigator.pushNamed(context, NotificationsScreen.id),
               img: 'assets/imgs_icons/home/assets/icons/notification-black.png',
               count: '3'),
           SizedBox(width: 10.w),

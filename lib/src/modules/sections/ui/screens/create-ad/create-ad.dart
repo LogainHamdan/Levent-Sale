@@ -14,9 +14,9 @@ class CreateAdScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Consumer<StepperProvider>(
+    return Scaffold(
+      body: SafeArea(
+        child: Consumer<StepperProvider>(
           builder: (context, stepper, child) {
             return Column(
               children: [

@@ -20,9 +20,9 @@ class ChatListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController chatsController = TextEditingController();
 
-    return SafeArea(
-      child: Scaffold(
-          body: Column(
+    return Scaffold(
+        body: SafeArea(
+      child: Column(
         children: [
           SizedBox(
             height: 30.h,
@@ -55,7 +55,7 @@ class ChatListScreen extends StatelessWidget {
             ),
           ),
         ],
-      )),
-    );
+      ),
+    ));
   }
 }

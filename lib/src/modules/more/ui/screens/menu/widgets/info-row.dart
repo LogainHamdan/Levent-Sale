@@ -19,13 +19,13 @@ class InfoRow extends StatelessWidget {
         ? Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20.0.w),
+                padding: EdgeInsets.all( 10.0.sp),
                 child: InkWell(
                   onTap: () => Navigator.pushReplacementNamed(
                       context, EditProfileScreen.id),
                   child: Image.asset(
                     'assets/imgs_icons/more/assets/icons/edit-black.png',
-                    height: 15.h,
+                    height: 30.h,
                   ),
                 ),
               ),

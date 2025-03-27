@@ -6,10 +6,10 @@ class SpecificationsSection extends StatelessWidget {
   final List<String> specifications;
 
   const SpecificationsSection({
-    Key? key,
+    super.key,
     required this.title,
     required this.specifications,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +23,18 @@ class SpecificationsSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 14.sp,
             ),
-            textAlign: TextAlign.right, // Aligns the title properly
+            textAlign: TextAlign.right,
           ),
           SizedBox(height: 5.h),
           ...specifications.map((spec) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2),
                 child: Align(
-                  alignment:
-                      Alignment.centerRight, // Ensures full RTL alignment
+                  alignment: Alignment.centerRight,
                   child: Text(
                     '- $spec',
                     style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.right, // Aligns text correctly
-                    textDirection: TextDirection.rtl, // Forces RTL direction
+                    textAlign: TextAlign.right,
+                    textDirection: TextDirection.rtl,
                   ),
                 ),
               )),

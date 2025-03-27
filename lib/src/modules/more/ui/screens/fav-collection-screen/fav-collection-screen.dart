@@ -17,9 +17,9 @@ class FavoriteCollectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController collectionSearchController = TextEditingController();
 
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: [
             SizedBox(height: 35.h),
             Padding(

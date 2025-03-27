@@ -15,30 +15,28 @@ class ProductsDetails extends StatelessWidget {
 
     scrollProvider.scrollToEnd();
 
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.all(8.0.sp),
-        child: SingleChildScrollView(
-          reverse: true,
-          controller: scrollProvider.scrollController,
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
-              childAspectRatio: 0.8,
-            ),
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              return ProductItem(
-                isHalfed: true,
-                product: products[index],
-                category: categoryNames[index],
-              );
-            },
+    return Padding(
+      padding: EdgeInsets.all(8.0.sp),
+      child: SingleChildScrollView(
+        reverse: true,
+        controller: scrollProvider.scrollController,
+        child: GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 8.0,
+            childAspectRatio: 0.8,
           ),
+          itemCount: products.length,
+          itemBuilder: (context, index) {
+            return ProductItem(
+              isHalfed: true,
+              product: products[index],
+              category: '',
+            );
+          },
         ),
       ),
     );

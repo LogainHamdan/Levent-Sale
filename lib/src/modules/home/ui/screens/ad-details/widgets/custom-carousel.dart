@@ -13,7 +13,7 @@ class CustomCarousel extends StatelessWidget {
 
   final List<String> imgList;
 
-  CustomCarousel({required this.imgList});
+  CustomCarousel({super.key, required this.imgList});
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +36,16 @@ class CustomCarousel extends StatelessWidget {
                     ),
                     items: imgList.map((item) {
                       return ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0), // Adjust border radius here
+                        borderRadius: BorderRadius.circular(
+                            8.0), // Adjust border radius here
                         child: Image.asset(
                           item,
-                          fit: BoxFit.cover, // Ensure image covers the area with borders
-                          width: double.infinity, // Ensures the image stretches across the full width
-                          height: 200.0.h, // Matches the height of the CarouselSlider
+                          fit: BoxFit
+                              .cover, // Ensure image covers the area with borders
+                          width: double
+                              .infinity, // Ensures the image stretches across the full width
+                          height: 200.0
+                              .h, // Matches the height of the CarouselSlider
                           errorBuilder: (context, error, stackTrace) {
                             return Center(
                               child: Icon(Icons.broken_image,
@@ -58,7 +62,7 @@ class CustomCarousel extends StatelessWidget {
                     child: Container(
                       width: 70.w,
                       padding:
-                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                       decoration: BoxDecoration(
                         color: grey5.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(10.r),

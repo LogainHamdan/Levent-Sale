@@ -11,23 +11,21 @@ class SectionChoose extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<StepperProvider>(context);
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            CategoriesDisplay(onSectionClicked: () {
-              provider.nextStep();
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CategoriesDisplay(onSectionClicked: () {
+            provider.nextStep();
 
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CreateAdScreen(
-                          lowerWidget: SectionTrack(cardListIndex: 0))));
-            })
-          ],
-        ),
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CreateAdScreen(
+                        lowerWidget: SectionTrack(cardListIndex: 0))));
+          })
+        ],
       ),
-      // bottomNavigationBar: CustomBottomNavigationBar(),
     );
+    // bottomNavigationBar: CustomBottomNavigationBar
   }
 }

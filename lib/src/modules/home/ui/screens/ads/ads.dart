@@ -17,17 +17,18 @@ class AdsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController adController = TextEditingController();
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           children: [
             SizedBox(height: 35.h),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-                child: TitleRow(
-                    onBackTap: () =>
-                        Navigator.pushReplacementNamed(context, MainScreen.id),
-                    title: 'الإعلانات'),),
+              padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+              child: TitleRow(
+                  onBackTap: () =>
+                      Navigator.pushReplacementNamed(context, MainScreen.id),
+                  title: 'الإعلانات'),
+            ),
             SizedBox(height: 10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0.w),

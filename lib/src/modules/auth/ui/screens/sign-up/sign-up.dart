@@ -23,9 +23,9 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => RegisterProvider(),
-      child: SafeArea(
-        child: Scaffold(
-          body: Padding(
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0.w),
             child: SingleChildScrollView(
               child: Column(
@@ -70,7 +70,7 @@ class SignUpScreen extends StatelessWidget {
                   PhoneSection(),
                   SizedBox(height: 16.h),
                   CustomDropdown(
-                    items: ["مستخدم", "مزود خدمة"],
+                    items: ["شخصي", "شركة"],
                     hint: "اختر نوع الحساب",
                   ),
                   SizedBox(height: 16.h),
@@ -115,13 +115,13 @@ class SignUpScreen extends StatelessWidget {
                   SocialButton(
                     facebook: false,
                     text: "الاستمرار بجوجل Google",
-                    image: 'assets/imgs_icons/auth/assets/imgs/google.png',
+                    image: 'assets/imgs_icons/auth/assets/imgs/google.svg',
                   ),
                   SizedBox(height: 8.h),
                   SocialButton(
                     facebook: true,
                     text: "الاستمرار بالفيسبوك Facebook",
-                    image: 'assets/imgs_icons/auth/assets/imgs/facebook.png',
+                    image: 'assets/imgs_icons/auth/assets/imgs/facebook.svg',
                     color: Colors.blue,
                   ),
                   SizedBox(height: 16.h),

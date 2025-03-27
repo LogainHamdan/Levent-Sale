@@ -15,9 +15,9 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLoggedIn = Provider.of<MenuProvider>(context).isLoggedIn;
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(

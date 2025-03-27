@@ -12,9 +12,9 @@ class Sections extends StatelessWidget {
   const Sections({super.key});
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
           padding: EdgeInsets.all(8.0.sp),
           child: SingleChildScrollView(
             child: Column(
@@ -36,8 +36,8 @@ class Sections extends StatelessWidget {
             ),
           ),
         ),
-        // bottomNavigationBar: CustomBottomNavigationBar(),
       ),
+      // bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

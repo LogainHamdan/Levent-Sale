@@ -16,9 +16,9 @@ class VerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 14.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
