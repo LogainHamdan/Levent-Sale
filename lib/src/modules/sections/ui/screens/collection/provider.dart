@@ -1,10 +1,10 @@
-import 'package:Levant_Sale/src/config/constants.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/ad-details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:Levant_Sale/src/config/constants.dart';
 
 class TabProvider extends ChangeNotifier {
   int _currentIndex = 0;
+  final PageController pageController = PageController();
 
   final List<String> _buttons = ['مراجعة', 'تعديل', 'عرض'];
   final List<Color> _buttonColors = [
@@ -44,6 +44,13 @@ class TabProvider extends ChangeNotifier {
   Widget get buttonIcon => _buttonIcons[_currentIndex];
 
   void changeTab(int index) {
+    _currentIndex = index;
+    pageController.animateToPage(index,
+        duration: const Duration(milliseconds: 300), curve: Curves.ease);
+    notifyListeners();
+  }
+
+  void updateIndex(int index) {
     _currentIndex = index;
     notifyListeners();
   }

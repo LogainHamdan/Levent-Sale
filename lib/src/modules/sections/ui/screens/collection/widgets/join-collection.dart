@@ -21,8 +21,9 @@ class JoinMyCollection extends StatelessWidget {
           TabBarWidget(),
           SizedBox(height: 16.h),
           Expanded(
-            child: IndexedStack(
-              index: provider.currentIndex,
+            child: PageView(
+              controller: provider.pageController,
+              onPageChanged: provider.updateIndex,
               children: const [
                 ReviewScreen(),
                 EditScreen(),
