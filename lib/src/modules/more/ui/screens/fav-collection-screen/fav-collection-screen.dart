@@ -19,30 +19,32 @@ class FavoriteCollectionScreen extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 35.h),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-                child: TitleRow(
-                  onBackTap: () => Navigator.pushReplacementNamed(
-                      context, FavoriteScreen.id),
-                  onSuffixTap: () => deleteCollectionAlert(context),
-                  title: 'المفضلة',
-                  suffix: Image.asset(
-                    'assets/imgs_icons/more/assets/icons/حذف الصورة.png',
-                    height: 15.h,
-                  ),
-                )),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-              child: SearchField(
-                controller: collectionSearchController,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 35.h),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                  child: TitleRow(
+                    onBackTap: () =>
+                        Navigator.pushNamed(context, FavoriteScreen.id),
+                    onSuffixTap: () => deleteCollectionAlert(context),
+                    title: 'المفضلة',
+                    suffix: Image.asset(
+                      'assets/imgs_icons/more/assets/icons/حذف الصورة.png',
+                      height: 20.h,
+                    ),
+                  )),
+              SizedBox(height: 10.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                child: SearchField(
+                  controller: collectionSearchController,
+                ),
               ),
-            ),
-            ProductsDetails()
-          ],
+              ProductsDetails()
+            ],
+          ),
         ),
       ),
     );

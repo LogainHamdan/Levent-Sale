@@ -1,4 +1,6 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,6 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              flex: 1,
               child: Container(
                 width: double.infinity,
                 color: kprimaryColor,
@@ -29,47 +30,49 @@ class SplashScreen extends StatelessWidget {
                       height: 100.h,
                     ),
                     Text(
-                      "أهلا بعودتك!",
+                      "اهلا بعودتك!",
                       textDirection: TextDirection.rtl,
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 30.sp),
                     ),
-                    SizedBox(height: 14.h),
+                    SizedBox(
+                      height: 8.h,
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 30.0.w),
                       child: Text(
-                          "استمتع بتجربة تسوق فريدة واشتر منتجاتك بكل سهولة",
+                          "استمتع بتجربة تسوق فريدة انشر منتجاتك واشتري بكل سهولة",
                           textAlign: TextAlign.center,
                           textDirection: TextDirection.rtl,
-                          style: TextStyle(color: grey7)),
+                          style: TextStyle(color: greySplash)),
                     ),
                   ],
                 ),
               ),
             ),
-            Expanded(
-              flex: 2,
+            SizedBox(
+              height: 380.h,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: 60.h),
                     CustomElevatedButton(
                       text: "تسجيل دخول",
                       onPressed: () => Navigator.pushReplacementNamed(
                           context, LoginScreen.id),
                       backgroundColor: kprimaryColor,
-                      textColor: Colors.white,
+                      textColor: grey9,
                       date: false,
                     ),
                     SizedBox(height: 16.h),
                     CustomElevatedButton(
                       text: "الاستمرار كضيف",
                       onPressed: () => Navigator.pushReplacementNamed(
-                          context, SignUpScreen.id),
-                      backgroundColor: Colors.white,
+                          context, MainScreen.id),
+                      backgroundColor: grey9,
                       textColor: kprimaryColor,
                       date: false,
                     ),

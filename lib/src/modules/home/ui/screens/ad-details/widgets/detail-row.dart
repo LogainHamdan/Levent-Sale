@@ -19,9 +19,9 @@ class DetailRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
-      color: bgColor, // Solid background color for each row
+      color: bgColor,
       child: Row(
-        textDirection: TextDirection.rtl, // Ensures proper RTL layout
+        textDirection: TextDirection.rtl,
         children: [
           Expanded(
             child: Text(

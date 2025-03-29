@@ -26,18 +26,17 @@ class DraggableButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 80.h, // You can adjust this height as needed
+      height: 80.h,
       child: DraggableScrollableSheet(
-        initialChildSize:
-            1, // Increase the initial size to 60% of screen height
-        minChildSize: 0.4, // Keep the minimum height as 30% of screen height
+        initialChildSize: 1,
+        minChildSize: 0.4,
         maxChildSize: 1.0,
         builder: (context, scrollController) {
           return Container(
-            width: double.infinity, // Maximizes the width of the container
+            width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: 10.h),
             decoration: BoxDecoration(
-              color: Colors.white, // White background
+              color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
               boxShadow: [
                 BoxShadow(
@@ -60,7 +59,7 @@ class DraggableButton extends StatelessWidget {
                     text: title,
                     onPressed: onPressed,
                     backgroundColor: kprimaryColor,
-                    textColor: Colors.white,
+                    textColor: grey9,
                   ),
                 ),
               ],

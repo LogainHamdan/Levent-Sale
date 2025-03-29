@@ -28,8 +28,7 @@ class ReviewsScreen extends StatelessWidget {
                 height: 30.h,
               ),
               TitleRow(
-                  onBackTap: () =>
-                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                  onBackTap: () => Navigator.pushNamed(context, AdsScreen.id),
                   title: 'التقييمات'),
               ReviewWrite(),
               SizedBox(height: 16.h),

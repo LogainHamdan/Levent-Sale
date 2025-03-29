@@ -62,14 +62,12 @@ class MyMaterialApp extends StatelessWidget {
                 textTheme: TextTheme(
                   bodySmall: GoogleFonts.tajawal(
                     fontSize: 16.sp,
-                    color: Colors.black,
                   ),
-                  bodyMedium:
-                      GoogleFonts.tajawal(fontSize: 16.sp, color: Colors.black),
+                  bodyMedium: GoogleFonts.tajawal(
+                    fontSize: 16.sp,
+                  ),
                   bodyLarge: GoogleFonts.tajawal(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.sp,
-                      color: Colors.black),
+                      fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),
               ),
               initialRoute: SplashScreen.id,
@@ -121,12 +119,14 @@ class MyMaterialApp extends StatelessWidget {
                 SearchScreen.id: (context) => SearchScreen(),
                 FavoriteCollectionScreen.id: (context) =>
                     FavoriteCollectionScreen(),
-                ChangePassColumn.id: (context) => ChangePassColumn(
-                      alert: false,
-                    ),
                 DeleteAccountScreen.id: (context) => DeleteAccountScreen(
                       phase1email: true,
                     ),
+              },
+              onUnknownRoute: (settings) {
+                return MaterialPageRoute(
+                  builder: (context) => MainScreen(),
+                );
               },
             ),
           );

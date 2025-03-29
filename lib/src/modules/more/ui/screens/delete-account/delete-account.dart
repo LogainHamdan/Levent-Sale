@@ -26,8 +26,7 @@ class DeleteAccountScreen extends StatelessWidget {
         appBar: AppBar(
             titleTextStyle: Theme.of(context).textTheme.bodyLarge,
             title: TitleRow(
-                onBackTap: () =>
-                    Navigator.pushReplacementNamed(context, MenuScreen.id),
+                onBackTap: () => Navigator.pushNamed(context, MenuScreen.id),
                 title: 'حذف الحساب'),
             leading: SizedBox()),
         body: phase1email
@@ -59,7 +58,7 @@ class DeleteAccountScreen extends StatelessWidget {
                                 builder: (context) =>
                                     DeleteAccountScreen(phase1email: false))),
                         backgroundColor: kprimaryColor,
-                        textColor: Colors.white),
+                        textColor: grey9),
                   ],
                 ),
               )
@@ -95,8 +94,8 @@ class DeleteAccountScreen extends StatelessWidget {
                     SizedBox(height: 30.sp),
                     CustomElevatedButton(
                         text: 'حذف الحساب',
-                        onPressed: () => Navigator.pushReplacementNamed(
-                            context, WhyToDeleteScreen.id),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, WhyToDeleteScreen.id),
                         backgroundColor: kprimaryColor,
                         textColor: Colors.white),
                   ],

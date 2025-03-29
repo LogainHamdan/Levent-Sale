@@ -36,8 +36,18 @@ class LoggedInColumn extends StatelessWidget {
             )),
         SizedBox(height: 15.h),
         MenuItem(
-            onTap: () =>
-                Navigator.pushReplacementNamed(context, ChangePassColumn.id),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MaterialApp(
+                          home: Scaffold(
+                            body: SafeArea(
+                                child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                              child: ChangePassColumn(alert: false),
+                            )),
+                          ),
+                        ))),
             color: kprimary4Color,
             "كلمة المرور",
             Image.asset(

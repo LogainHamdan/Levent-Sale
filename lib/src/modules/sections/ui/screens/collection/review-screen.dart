@@ -9,11 +9,11 @@ class ReviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<TabProvider>(context);
+    var provider = Provider.of<MyCollectionScreenProvider>(context);
     return ItemList(
       provider.buttonText,
       provider.buttonColor,
-      () => Navigator.pushReplacementNamed(context, AdDetailsScreen.id),
+      () => Navigator.pushNamed(context, AdDetailsScreen.id),
       buttonIcon: provider.buttonIcon,
       buttonTextColor: provider.buttonTextColor,
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
@@ -25,49 +27,57 @@ class CustomPasswordField extends StatelessWidget {
             ? loginProvider.confirmPasswordVisible
             : loginProvider.passwordVisible;
 
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 4.h),
-          child: TextField(
-            controller: controller,
-            obscureText: !isVisible,
-            cursorColor: Colors.black,
-            style: TextStyle(fontSize: 14.sp, color: Colors.black),
-            textDirection: TextDirection.rtl,
-            decoration: InputDecoration(
-              fillColor: grey8,
-              filled: true,
-              hintTextDirection: TextDirection.rtl,
-              hintStyle: TextStyle(
+        return TextField(
+          controller: controller,
+          obscureText: !isVisible,
+          cursorColor: Colors.black,
+          style: GoogleFonts.tajawal(
+            textStyle: TextStyle(
+              fontSize: 14.sp,
+              color: Colors.black,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+          textDirection: TextDirection.rtl,
+          decoration: InputDecoration(
+            fillColor: grey8,
+            filled: true,
+            hintTextDirection: TextDirection.rtl,
+            hintStyle: GoogleFonts.tajawal(
+              textStyle: TextStyle(
+                fontSize: 16.sp,
                 color: grey4,
-                fontSize: 14.sp,
+                fontWeight: FontWeight.normal,
               ),
-              hintText: hint,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6.r),
-                borderSide: BorderSide.none,
+            ),
+            hintText: hint,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(6.r),
+              borderSide: BorderSide.none,
+            ),
+            prefixIcon: GestureDetector(
+              onTap: () => loginProvider.togglePasswordVisibility(
+                isConfirmField: isConfirmField,
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6.r),
-                borderSide: BorderSide.none,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6.r),
-                borderSide: BorderSide.none,
-              ),
-              prefixIcon: GestureDetector(
-                onTap: () => loginProvider.togglePasswordVisibility(
-                  isConfirmField: isConfirmField,
-                ),
-                child: Padding(
+              child: Padding(
                   padding: EdgeInsets.all(12.0.sp),
-                  child: Image.asset(
-                    isVisible
-                        ? 'assets/imgs_icons/auth/assets/icons/seen.png'
-                        : 'assets/imgs_icons/auth/assets/icons/unseen.png',
-                    height: 1.h,
-                  ),
-                ),
-              ),
+                  child: !isVisible
+                      ? SvgPicture.asset(
+                          unseenPath,
+                          height: 1.h,
+                        )
+                      : Image.asset(
+                          seenPath,
+                          height: 1.h,
+                        )),
             ),
           ),
         );

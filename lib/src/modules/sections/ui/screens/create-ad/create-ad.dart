@@ -16,14 +16,14 @@ class CreateAdScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Consumer<StepperProvider>(
+        child: Consumer<CreateAdProvider>(
           builder: (context, stepper, child) {
             return Column(
               children: [
                 SizedBox(height: 30.h),
                 TitleRow(
-                    onBackTap: () => Navigator.pushReplacementNamed(
-                        context, MyCollectionScreen.id),
+                    onBackTap: () =>
+                        Navigator.pushNamed(context, MyCollectionScreen.id),
                     title: 'انشاء اعلان'),
                 Padding(
                   padding:

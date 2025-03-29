@@ -25,20 +25,20 @@ class UploadPhotoContainer extends StatelessWidget {
         ),
         child: coverImage == null
             ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Icon(
+                    Icons.arrow_downward,
+                    color: kprimaryColor,
+                    size: 30.sp,
+                  ),
+                  SizedBox(height: 10.h),
                   Text(
                     'أضف صورة غلاف الملف الشخصي',
                     textDirection: TextDirection.rtl,
                     textAlign: TextAlign.right,
                     style: TextStyle(color: kprimaryColor),
-                  ),
-                  SizedBox(height: 10.h),
-                  Icon(
-                    Icons.arrow_downward,
-                    color: kprimaryColor,
-                    size: 30,
                   ),
                 ],
               )

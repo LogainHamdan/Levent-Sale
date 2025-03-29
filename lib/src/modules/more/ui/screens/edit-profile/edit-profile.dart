@@ -5,6 +5,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/dra
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/photo-section.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -49,15 +50,16 @@ class EditProfileScreen extends StatelessWidget {
                   label: 'الاسم',
                   bgcolor: grey8,
                 ),
+                SizedBox(height: 16.h),
                 CustomTextField(
                   controller: emailController,
                   label: 'البريد الإلكتروني',
                   keyboardType: TextInputType.emailAddress,
                   bgcolor: grey8,
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 16.h),
                 PhoneSection(),
-                SizedBox(height: 20.h),
+                SizedBox(height: 16.h),
                 CustomTextField(
                   prefix: GestureDetector(
                     onTap: () => showDatePickerDialog(context, dateController),
@@ -70,18 +72,20 @@ class EditProfileScreen extends StatelessWidget {
                   bgcolor: grey8,
                 ),
                 if (profileProvider.isCompanyAccount) ...[
+                  SizedBox(height: 16.h),
                   CustomTextField(
                     controller: addressController,
                     label: 'عنوان الشركة',
                     bgcolor: grey8,
                   ),
+                  SizedBox(height: 16.h),
                   CustomTextField(
                     controller: taxController,
                     label: 'الرقم الضريبي',
                     bgcolor: grey8,
                   ),
                 ],
-                SizedBox(height: 10.h),
+                SizedBox(height: 20.h),
                 Container(
                   width: double.infinity,
                   height: 40.h,
@@ -90,27 +94,25 @@ class EditProfileScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(3.r),
                   ),
                   child: InkWell(
-                    onTap: () => Navigator.pushReplacementNamed(
-                        context, DeleteAccountScreen.id),
+                    onTap: () =>
+                        Navigator.pushNamed(context, DeleteAccountScreen.id),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          'assets/imgs_icons/general/arrow-left.png',
+                        SvgPicture.asset(
+                          arrowLeftPath,
                           height: 15.h,
                         ),
-                        SizedBox(width: 16.w),
+                        SizedBox(width: 8.w),
                         Text(
                           'حذف الحساب',
                           style: TextStyle(fontSize: 15.sp),
                         ),
-                        SizedBox(
-                          height: 50.h,
-                        )
                       ],
                     ),
                   ),
                 ),
+                SizedBox(height: 16.h),
               ],
             ),
           ),

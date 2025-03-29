@@ -28,8 +28,7 @@ class ChatListScreen extends StatelessWidget {
             height: 30.h,
           ),
           TitleRow(
-              onBackTap: () =>
-                  Navigator.pushReplacementNamed(context, MainScreen.id),
+              onBackTap: () => Navigator.pushNamed(context, MainScreen.id),
               title: 'المحادثات'),
           Padding(
             padding: EdgeInsets.all(8.0.sp),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../../../config/constants.dart';
 
 class CustomTitleCancel extends StatelessWidget {
   final String title;
@@ -25,8 +28,8 @@ class CustomTitleCancel extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () => Navigator.pop(context),
-          child: Image.asset(
-            'assets/imgs_icons/auth/assets/icons/cancel.png',
+          child: SvgPicture.asset(
+            cancelPath,
             height: 15.h,
           ),
         )

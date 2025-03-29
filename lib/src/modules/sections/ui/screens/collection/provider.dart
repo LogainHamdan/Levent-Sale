@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:Levant_Sale/src/config/constants.dart';
 
-class TabProvider extends ChangeNotifier {
+class MyCollectionScreenProvider extends ChangeNotifier {
   int _currentIndex = 0;
   final PageController pageController = PageController();
 

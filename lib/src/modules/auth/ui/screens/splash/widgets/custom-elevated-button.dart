@@ -31,7 +31,7 @@ class CustomElevatedButton extends StatelessWidget {
                   fontSize: fontSize!.sp, fontWeight: FontWeight.w500),
               backgroundColor: backgroundColor,
               minimumSize:
-                  date! ? Size(140.w, 50.h) : Size(double.infinity, 50.h),
+                  date! ? Size(140.w, 45.h) : Size(double.infinity, 45.h),
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r),

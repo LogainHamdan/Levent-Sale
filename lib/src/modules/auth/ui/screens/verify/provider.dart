@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../login/login.dart';
@@ -21,6 +22,6 @@ class VerificationProvider extends ChangeNotifier {
   }
 
   void submitOtpAction(BuildContext context) {
-    Navigator.pushReplacementNamed(context, LoginScreen.id);
+    Navigator.pushNamed(context, MainScreen.id);
   }
 }

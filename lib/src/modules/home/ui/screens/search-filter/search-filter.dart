@@ -1,8 +1,10 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/widgets/card.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/widgets/horizontal-navigate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../home/data.dart';
 import '../home/widgets/search-field.dart';
@@ -40,9 +42,7 @@ class FilterScreen extends StatelessWidget {
                           FilterScreen(cardListIndex: 1),
                         ),
                       ),
-                      icon: Image.asset(
-                          height: 10.h,
-                          'assets/imgs_icons/general/arrow-left.png'),
+                      icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
                       title: categories[index]['name'],
                     );
                   }
@@ -54,19 +54,14 @@ class FilterScreen extends StatelessWidget {
                           FilterScreen(cardListIndex: 2),
                         ),
                       ),
-                      icon: Image.asset(
-                          height: 10.h,
-                          'assets/imgs_icons/general/arrow-left.png'),
+                      icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
                       title: 'شقق فاخرة و مفروشة',
                     );
                   }
                   if (cardListIndex == 2) {
                     return CustomCard(
-                      onTap: () =>
-                          Navigator.pushReplacementNamed(context, AdsScreen.id),
-                      icon: Image.asset(
-                          height: 10.h,
-                          'assets/imgs_icons/general/arrow-left.png'),
+                      onTap: () => Navigator.pushNamed(context, AdsScreen.id),
+                      icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
                       title: 'شقق فاخرة و مفروشة',
                     );
                   }

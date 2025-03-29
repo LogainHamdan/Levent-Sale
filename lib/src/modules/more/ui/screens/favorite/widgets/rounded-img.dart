@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RoundedImage extends StatelessWidget {
   final String assetPath;
@@ -20,10 +21,10 @@ class RoundedImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
-        topLeft: isTopLeft ? Radius.circular(5) : Radius.zero,
-        topRight: isTopRight ? Radius.circular(5) : Radius.zero,
-        bottomLeft: isBottomLeft ? Radius.circular(5) : Radius.zero,
-        bottomRight: isBottomRight ? Radius.circular(5) : Radius.zero,
+        topLeft: isTopLeft ? Radius.circular(5.r) : Radius.zero,
+        topRight: isTopRight ? Radius.circular(5.r) : Radius.zero,
+        bottomLeft: isBottomLeft ? Radius.circular(5.r) : Radius.zero,
+        bottomRight: isBottomRight ? Radius.circular(5.r) : Radius.zero,
       ),
       child: Image.asset(assetPath, fit: BoxFit.cover),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
@@ -52,8 +53,8 @@ class TopBanner extends StatelessWidget {
                   fit: BoxFit.contain,
                   height: 120.h,
                 ),
-                Image.asset(
-                  'assets/imgs_icons/home/assets/imgs/عروض الكترونية محدودة الوقت.png',
+                SvgPicture.asset(
+                  rightOfBannerPath,
                   fit: BoxFit.contain,
                   height: 130.h,
                 ),

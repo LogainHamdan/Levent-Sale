@@ -29,3 +29,45 @@ Color grey6 = const Color(0xFFE0E0E0);
 Color grey7 = Colors.grey[100]!;
 Color grey8 = const Color(0xFFF5F5F5);
 Color grey9 = const Color(0xFFFAFAFA);
+
+//buttons
+Color greySplash = const Color(0xFFEEEEEE);
+
+Color cancelColor = const Color(0xFFF75555);
+
+//images, icons paths
+
+///logo
+String logo = 'assets/imgs_icons/general/logo.png';
+
+///auth
+String cancelPath = 'assets/imgs_icons/auth/assets/icons/cancel.svg';
+String unseenPath = 'assets/imgs_icons/auth/assets/icons/unseen.svg';
+String seenPath = 'assets/imgs_icons/auth/assets/icons/seen.png';
+String facebookPath = 'assets/imgs_icons/auth/assets/imgs/facebook.svg';
+String googlePath = 'assets/imgs_icons/auth/assets/imgs/google.svg';
+String tickPath = 'assets/imgs_icons/auth/assets/imgs/tick.svg';
+
+///general
+String aboveGreyPath = 'assets/imgs_icons/general/above-grey.svg';
+String arrowAbovePath = 'assets/imgs_icons/general/arrow-above.svg';
+String arrowDownPath = 'assets/imgs_icons/general/arrow-down.svg';
+String arrowLeftPath = 'assets/imgs_icons/general/arrow-left.svg';
+String arrowRightPath = 'assets/imgs_icons/general/arrow-right.svg';
+String calendarArrowLeftPath =
+    'assets/imgs_icons/general/calendar-arrow-left.svg';
+String calendarArrowRightPath =
+    'assets/imgs_icons/general/calendar-arrow-right.svg';
+String arrowDownGreyPath = 'assets/imgs_icons/general/arrow-down-grey.png';
+String greyArrowDownPath = 'assets/imgs_icons/general/arrow-down-grey.png';
+String greyArrowLeftPath = 'assets/imgs_icons/general/arrow-down-grey.png';
+String pageArrowBackPath = 'assets/imgs_icons/general/page-arrow-back.svg';
+
+///home
+String callPath = 'assets/imgs_icons/home/assets/icons/call.svg';
+String favColoredPath = 'assets/imgs_icons/home/assets/icons/fav-colored.svg';
+String favUncoloredPath =
+    'assets/imgs_icons/home/assets/icons/fav-uncolored.svg';
+String rightOfBannerPath =
+    'assets/imgs_icons/home/assets/icons/right-of-banner.svg';
+String iphone12Path = 'assets/imgs_icons/home/assets/imgs/iphone12.svg';

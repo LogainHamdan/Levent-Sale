@@ -24,8 +24,7 @@ class ProfileScreen extends StatelessWidget {
           titleTextStyle: Theme.of(context).textTheme.bodyLarge,
           leading: SizedBox(),
           title: TitleRow(
-            onBackTap: () =>
-                Navigator.pushReplacementNamed(context, MenuScreen.id),
+            onBackTap: () => Navigator.pushNamed(context, MenuScreen.id),
             title: 'منة الله',
           ),
         ),
@@ -76,8 +75,8 @@ class ProfileScreen extends StatelessWidget {
               ),
               CustomElevatedButton(
                 text: 'تعديل الملف الشخصي',
-                onPressed: () => Navigator.pushReplacementNamed(
-                    context, EditProfileScreen.id),
+                onPressed: () =>
+                    Navigator.pushNamed(context, EditProfileScreen.id),
                 backgroundColor: kprimaryColor,
                 textColor: Colors.white,
                 icon: Image.asset(

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../config/constants.dart';
+import '../../../../../main/ui/screens/main_screen.dart';
 import '../../../../../sections/ui/screens/section-details/section-details.dart';
 import '../../../../../sections/ui/screens/sections/sections.dart';
 
@@ -29,8 +30,8 @@ class CategoriesList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(
-                  onPressed: () =>
-                      Navigator.pushReplacementNamed(context, Sections.id),
+                  onPressed: () => Navigator.pushNamed(context, Sections.id),
+                  //sections
                   child: Text('مشاهدة المزيد',
                       textDirection: TextDirection.rtl,
                       style: GoogleFonts.tajawal(

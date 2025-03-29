@@ -23,7 +23,7 @@ class ProductItem extends StatelessWidget {
     String productKey = '$category-${product['name']!}';
 
     return InkWell(
-      onTap: () => Navigator.pushReplacementNamed(context, AdDetailsScreen.id),
+      onTap: () => Navigator.pushNamed(context, AdDetailsScreen.id),
       child: Container(
           margin: EdgeInsets.all(8.sp),
           child: isHalfed

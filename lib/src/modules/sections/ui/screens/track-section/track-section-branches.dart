@@ -1,5 +1,7 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../home/ui/screens/home/data.dart';
@@ -20,7 +22,7 @@ class SectionTrack extends StatelessWidget {
       shrinkWrap: true,
       itemCount: 6,
       itemBuilder: (context, index) {
-        final provider = Provider.of<StepperProvider>(context);
+        final provider = Provider.of<CreateAdProvider>(context);
 
         if (cardListIndex == 0) {
           return CustomCard(
@@ -31,8 +33,7 @@ class SectionTrack extends StatelessWidget {
                 cardListIndex: 1,
               ))),
             ),
-            icon: Image.asset(
-                height: 10.h, 'assets/imgs_icons/general/arrow-left.png'),
+            icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
             title: categories[index]['name'],
           );
         }
@@ -45,15 +46,13 @@ class SectionTrack extends StatelessWidget {
                 cardListIndex: 2,
               ))),
             ),
-            icon: Image.asset(
-                height: 10.h, 'assets/imgs_icons/general/arrow-left.png'),
+            icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
             title: 'شقق فاخرة و مفروشة',
           );
         }
         if (cardListIndex == 2) {
           return CustomCard(
-              icon: Image.asset(
-                  height: 10.h, 'assets/imgs_icons/general/arrow-left.png'),
+              icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
               title: "شقق في أبراح عالية",
               onTap: () {
                 provider.nextStep();

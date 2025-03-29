@@ -38,9 +38,8 @@ class AdDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TitleRow(
-                                  onBackTap: () =>
-                                      Navigator.pushReplacementNamed(
-                                          context, AdsScreen.id),
+                                  onBackTap: () => Navigator.pushNamed(
+                                      context, AdsScreen.id),
                                   title: 'آيفون 14 برو ماكس'),
                               CustomCarousel(imgList: productImages),
                               SizedBox(height: 10.0.h),
@@ -159,7 +158,7 @@ class AdDetailsScreen extends StatelessWidget {
                               height: 8.h,
                             ),
                             CustomHeader(
-                              onPressed: () => Navigator.pushReplacementNamed(
+                              onPressed: () => Navigator.pushNamed(
                                   context, ReviewsScreen.id),
                               title: 'متوسط التقييم',
                             ),

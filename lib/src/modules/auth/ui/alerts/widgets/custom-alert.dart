@@ -60,6 +60,7 @@ Future<void> showCustomAlertDialog({
                         onPressed: () => Navigator.pop(context),
                         child: Text(cancelText,
                             style: GoogleFonts.tajawal(
+                              fontSize: 18.sp,
                               textStyle: TextStyle(
                                 color: cancelColor,
                               ),
@@ -80,6 +81,7 @@ Future<void> showCustomAlertDialog({
                         child: Text(confirmText,
                             style: GoogleFonts.tajawal(
                               textStyle: TextStyle(
+                                  fontSize: 20.sp,
                                   color: confirmColor,
                                   fontWeight: FontWeight.bold),
                             )),

@@ -10,7 +10,7 @@ class SectionChoose extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<StepperProvider>(context);
+    final provider = Provider.of<CreateAdProvider>(context);
     return SingleChildScrollView(
       child: Column(
         children: [

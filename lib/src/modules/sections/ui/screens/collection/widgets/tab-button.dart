@@ -13,7 +13,7 @@ class TabButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<TabProvider>(context);
+    var provider = Provider.of<MyCollectionScreenProvider>(context);
     return GestureDetector(
       onTap: () => provider.changeTab(index),
       child: Column(

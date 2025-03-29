@@ -15,7 +15,6 @@ class PhoneSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // Ensure width is constrained
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,27 +46,27 @@ class PhoneSection extends StatelessWidget {
           ),
           SizedBox(width: 10.w),
           Container(
-            width: 100.w, // Defined width for consistency
+            width: 100.w,
             height: 50.h,
             decoration: BoxDecoration(
               color: grey7,
               borderRadius: BorderRadius.circular(10.r),
             ),
+            alignment: Alignment.center,
             child: Padding(
-              padding: EdgeInsets.only(top: 10.0.h),
+              padding: EdgeInsets.only(left: 20.w),
               child: IntlPhoneField(
-                decoration: InputDecoration(
-                    labelText: 'Phone',
-                    labelStyle: TextStyle(color: Colors.black, fontSize: 12.sp),
-                    border: InputBorder.none,
-                    hintStyle:
-                        TextStyle(fontWeight: FontWeight.bold, color: grey4)),
-                style: TextStyle(color: Colors.black, fontSize: 14.sp),
-                cursorColor: Colors.black,
                 initialCountryCode: 'SY',
-                dropdownIcon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                onChanged: (phone) {},
-                disableLengthCheck: true,
+                enabled: false,
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Colors.grey),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
+                ),
+                onChanged: (phone) {
+                  print(phone.completeNumber);
+                },
               ),
             ),
           )

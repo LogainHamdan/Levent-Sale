@@ -24,8 +24,7 @@ class MyCollectionScreen extends StatelessWidget {
               height: 30.h,
             ),
             TitleRow(
-                onBackTap: () =>
-                    Navigator.pushReplacementNamed(context, MainScreen.id),
+                onBackTap: () => Navigator.pushNamed(context, MainScreen.id),
                 title: 'تشكيلتي'),
             SizedBox(height: 16.h),
 
@@ -39,10 +38,10 @@ class MyCollectionScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 12.0.w),
                       child: CustomElevatedButton(
                         text: 'ابدأ في انشاء إعلانك',
-                        onPressed: () => Navigator.pushReplacementNamed(
-                            context, CreateAdScreen.id),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, CreateAdScreen.id),
                         backgroundColor: kprimaryColor,
-                        textColor: Colors.white,
+                        textColor: grey9,
                         date: false,
                       ),
                     ),

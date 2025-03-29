@@ -19,25 +19,27 @@ class AdsScreen extends StatelessWidget {
     TextEditingController adController = TextEditingController();
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 35.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-              child: TitleRow(
-                  onBackTap: () =>
-                      Navigator.pushReplacementNamed(context, MainScreen.id),
-                  title: 'الإعلانات'),
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-              child: SearchField(
-                controller: adController,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 35.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                child: TitleRow(
+                    onBackTap: () =>
+                        Navigator.pushNamed(context, MainScreen.id),
+                    title: 'الإعلانات'),
               ),
-            ),
-            ProductsDetails()
-          ],
+              SizedBox(height: 10.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                child: SearchField(
+                  controller: adController,
+                ),
+              ),
+              ProductsDetails()
+            ],
+          ),
         ),
       ),
     );

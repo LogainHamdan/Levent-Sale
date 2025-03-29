@@ -7,6 +7,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widg
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-label.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-quill.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-switch.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/selected-img-section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,7 @@ class SectionDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<SectionDetailsProvider>(context);
-    final stepperProvider = Provider.of<StepperProvider>(context);
+    final stepperProvider = Provider.of<CreateAdProvider>(context);
 
     return Padding(
         padding: EdgeInsets.all(16.w),
@@ -136,7 +137,7 @@ class SectionDetails extends StatelessWidget {
                               builder: (context) => CreateAdScreen(
                                   lowerWidget: SectionDetails(id: 1)))),
                       backgroundColor: kprimaryColor,
-                      textColor: Colors.white,
+                      textColor: grey9,
                       date: false,
                     ),
                   ],
@@ -168,6 +169,7 @@ class SectionDetails extends StatelessWidget {
                     SizedBox(height: 10.h),
                     Align(alignment: Alignment.centerRight, child: Text('صور')),
                     ImagePickerColumn(),
+                    SelectedImagesSection(),
                     SizedBox(height: 10.h),
                     CustomTextField(
                         label: 'رقم هاتف للتواصل',
@@ -194,7 +196,7 @@ class SectionDetails extends StatelessWidget {
                           showAdCreated(context);
                         },
                         backgroundColor: kprimaryColor,
-                        textColor: Colors.white,
+                        textColor: grey9,
                         date: false),
                   ],
                 ),

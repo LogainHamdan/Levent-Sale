@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -34,61 +35,64 @@ class CustomDropdownSection extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DropdownButtonHideUnderline(
-              child: DropdownButton2<String>(
-                isExpanded: true,
-                value: selectedValue,
-                buttonStyleData: ButtonStyleData(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  height: 50.h,
-                  decoration: BoxDecoration(
-                    color: grey7,
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                ),
-                iconStyleData: IconStyleData(icon: Container()),
-                dropdownStyleData: DropdownStyleData(
-                  decoration: BoxDecoration(
-                    color: grey6,
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  offset: Offset(0, 5),
-                ),
-                hint: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(
-                      'assets/imgs_icons/general/arrow-down.png',
-                      width: 20.w,
-                      height: 20.h,
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton2<String>(
+                  isExpanded: true,
+                  value: selectedValue,
+                  buttonStyleData: ButtonStyleData(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    height: 50.h,
+                    decoration: BoxDecoration(
+                      color: grey8,
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
-                    Text(
-                      hint,
-                      style: GoogleFonts.tajawal(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                        color: grey4,
-                      ),
+                  ),
+                  iconStyleData: IconStyleData(icon: Container()),
+                  dropdownStyleData: DropdownStyleData(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                  ],
-                ),
-                items: uniqueItems.map((String item) {
-                  return DropdownMenuItem<String>(
-                    value: item,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.h),
-                      child: Text(
-                        item,
+                    offset: Offset(0, 5),
+                  ),
+                  hint: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        hint,
                         style: GoogleFonts.tajawal(
                           fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: grey4,
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  provider.setSelectedValue(dropdownKey, value);
-                },
+                      SvgPicture.asset(
+                        arrowDownPath,
+                        width: 15.w,
+                        height: 15.h,
+                      ),
+                    ],
+                  ),
+                  items: uniqueItems.map((String item) {
+                    return DropdownMenuItem<String>(
+                      value: item,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.h),
+                        child: Text(
+                          item,
+                          style: GoogleFonts.tajawal(
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    provider.setSelectedValue(dropdownKey, value);
+                  },
+                ),
               ),
             ),
           ],

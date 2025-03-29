@@ -25,8 +25,8 @@ class NotificationsScreen extends StatelessWidget {
                       height: 30.h,
                     ),
                     TitleRow(
-                      onBackTap: () => Navigator.pushReplacementNamed(
-                          context, HomeScreen.id),
+                      onBackTap: () =>
+                          Navigator.pushNamed(context, HomeScreen.id),
                       title: 'الإشعارات',
                       suffix: Image.asset(
                         'assets/imgs_icons/home/assets/icons/seen.png',
@@ -46,8 +46,8 @@ class NotificationsScreen extends StatelessWidget {
                   children: [
                     SizedBox(height: 30.h),
                     TitleRow(
-                        onBackTap: () => Navigator.pushReplacementNamed(
-                            context, HomeScreen.id),
+                        onBackTap: () =>
+                            Navigator.pushNamed(context, HomeScreen.id),
                         title: 'الإشعارات'),
                     Expanded(
                         child: ListView.builder(

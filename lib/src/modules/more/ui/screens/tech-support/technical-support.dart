@@ -29,8 +29,8 @@ class TechnicalSupportScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                     child: TitleRow(
-                        onBackTap: () => Navigator.pushReplacementNamed(
-                            context, MenuScreen.id),
+                        onBackTap: () =>
+                            Navigator.pushNamed(context, MenuScreen.id),
                         title: 'الدعم الفني'),
                   ),
                   TabBar(
@@ -38,11 +38,11 @@ class TechnicalSupportScreen extends StatelessWidget {
                     unselectedLabelColor: grey5,
                     unselectedLabelStyle: GoogleFonts.tajawal(
                         textStyle: TextStyle(
-                            fontSize: 22.sp, fontWeight: FontWeight.w600)),
+                            fontSize: 18.sp, fontWeight: FontWeight.w600)),
                     labelColor: kprimaryColor,
                     labelStyle: GoogleFonts.tajawal(
                         textStyle: TextStyle(
-                            fontSize: 22.sp, fontWeight: FontWeight.w600)),
+                            fontSize: 18.sp, fontWeight: FontWeight.w600)),
                     tabs: [
                       Tab(
                         text: "الأسئلة الشائعة",

@@ -13,7 +13,7 @@ class JoinMyCollection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<TabProvider>(context);
+    var provider = Provider.of<MyCollectionScreenProvider>(context);
 
     return Scaffold(
       body: Column(

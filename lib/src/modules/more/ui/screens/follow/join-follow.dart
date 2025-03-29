@@ -24,7 +24,7 @@ class JoinFollow extends StatelessWidget {
               leading: SizedBox(),
               title: TitleRow(
                   onBackTap: () =>
-                      Navigator.pushReplacementNamed(context, ProfileScreen.id),
+                      Navigator.pushNamed(context, ProfileScreen.id),
                   title: 'منة الله'),
               bottom: TabBar(
                 dividerHeight: 0,

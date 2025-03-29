@@ -50,13 +50,13 @@ class MyApp extends StatelessWidget {
         create: (_) => EvaluationProvider(4.4),
       ),
       ChangeNotifierProvider(
-        create: (_) => StepperProvider(),
+        create: (_) => CreateAdProvider(),
       ),
       ChangeNotifierProvider(
         create: (_) => SectionDetailsProvider(),
       ),
       ChangeNotifierProvider(
-        create: (context) => TabProvider(),
+        create: (context) => MyCollectionScreenProvider(),
       ),
       ChangeNotifierProvider(
         create: (context) => MenuProvider(),
@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
         create: (context) => FollowProvider(),
       ),
       ChangeNotifierProvider(
-        create: (context) => DeleteProvider(),
+        create: (context) => DeleteScreenProvider(),
       ),
       ChangeNotifierProvider(
         create: (context) => ConversationProvider(),

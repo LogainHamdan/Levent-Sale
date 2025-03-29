@@ -6,6 +6,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collec
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -15,10 +16,10 @@ class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   final List<IconData> iconList = const [
-    Icons.grid_view,
+    CupertinoIcons.square_grid_2x2,
     Icons.shopping_bag_outlined,
     Icons.menu,
-    Icons.home,
+    Icons.home_filled
   ];
 
   final List<Widget> screens = const [
@@ -58,7 +59,8 @@ class MainScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(iconList[index],
-                    size: 24.sp, color: isActive ? kprimaryColor : grey4),
+                    size: isActive ? 24.sp : 24.sp,
+                    color: isActive ? kprimaryColor : grey4),
                 SizedBox(height: 4.h),
                 Text(
                   labels[index],

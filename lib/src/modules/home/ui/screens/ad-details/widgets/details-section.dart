@@ -5,6 +5,8 @@ import '../../../../../../config/constants.dart';
 import 'detail-row.dart';
 
 class DetailsSection extends StatelessWidget {
+  const DetailsSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -16,8 +18,7 @@ class DetailsSection extends StatelessWidget {
           SizedBox(height: 5),
           DetailRow(title: 'النوع', value: 'آيفون', bgColor: grey8),
           DetailRow(title: 'الحالة', value: 'مستعمل', bgColor: grey6),
-          DetailRow(
-              title: 'نوع السعر', value: 'قابل للنقاش', bgColor: grey8),
+          DetailRow(title: 'نوع السعر', value: 'قابل للنقاش', bgColor: grey8),
           DetailRow(title: 'مودل', value: 'موديل آخر', bgColor: grey6),
         ],
       ),

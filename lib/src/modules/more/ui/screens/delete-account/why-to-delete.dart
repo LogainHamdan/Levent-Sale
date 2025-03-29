@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../auth/ui/alerts/alert.dart';
+
 class WhyToDeleteScreen extends StatelessWidget {
   static const id = '/why';
 
@@ -17,13 +19,13 @@ class WhyToDeleteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: ChangeNotifierProvider(
-        create: (_) => DeleteProvider(),
+        create: (_) => DeleteScreenProvider(),
         child: Scaffold(
           appBar: AppBar(
             titleTextStyle: Theme.of(context).textTheme.bodyLarge,
             title: TitleRow(
-                onBackTap: () => Navigator.pushReplacementNamed(
-                    context, DeleteAccountScreen.id),
+                onBackTap: () =>
+                    Navigator.pushNamed(context, DeleteAccountScreen.id),
                 title: 'حذف الحساب'),
             leading: SizedBox(),
           ),
@@ -38,7 +40,7 @@ class WhyToDeleteScreen extends StatelessWidget {
                       TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20.h),
-                Consumer<DeleteProvider>(
+                Consumer<DeleteScreenProvider>(
                   builder: (context, provider, child) {
                     final reasons = [
                       "تجربة مستخدم غير مرضية",
@@ -87,23 +89,10 @@ class WhyToDeleteScreen extends StatelessWidget {
                 CustomElevatedButton(
                   text: 'حذف الحساب',
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'تم حذف الحساب بنجاح',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16.sp),
-                        ),
-                        backgroundColor: kprimaryColor,
-                        duration: Duration(seconds: 3),
-                      ),
-                    );
-                    Future.delayed(Duration(seconds: 1), () {
-                      Navigator.pushReplacementNamed(context, SplashScreen.id);
-                    });
+                    deleteAccountAlert(context);
                   },
                   backgroundColor: kprimaryColor,
-                  textColor: Colors.white,
+                  textColor: grey9,
                 )
               ],
             ),

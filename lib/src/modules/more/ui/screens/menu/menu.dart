@@ -24,8 +24,7 @@ class MenuScreen extends StatelessWidget {
               height: 30.h,
             ),
             TitleRow(
-                onBackTap: () =>
-                    Navigator.pushReplacementNamed(context, ProfileScreen.id),
+                onBackTap: () => Navigator.pushNamed(context, ProfileScreen.id),
                 title: 'المزيد'),
             isLoggedIn
                 ? Padding(

@@ -30,7 +30,7 @@ class Sections extends StatelessWidget {
                 ),
                 CategoriesDisplay(
                   onSectionClicked: () =>
-                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                      Navigator.pushNamed(context, AdsScreen.id),
                 )
               ],
             ),

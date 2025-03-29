@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class ImagePickerWidget extends StatelessWidget {
@@ -31,22 +33,13 @@ class ImagePickerWidget extends StatelessWidget {
               ),
               Positioned(
                 top: 2,
-                right: 2,
+                left: 1,
                 child: GestureDetector(
-                  onTap: () => imageProvider.removeImage(),
-                  child: Container(
-                    padding: EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.white,
-                      size: 14,
-                    ),
-                  ),
-                ),
+                    onTap: () => imageProvider.removeImage(),
+                    child: SvgPicture.asset(
+                      cancelPath,
+                      height: 6.h,
+                    )),
               ),
             ],
           ),

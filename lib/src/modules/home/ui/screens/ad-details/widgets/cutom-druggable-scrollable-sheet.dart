@@ -94,7 +94,7 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                     onPressed: () => Navigator.pushReplacementNamed(
                         context, ConversationScreen.id),
                     backgroundColor: kprimaryColor,
-                    textColor: Colors.white,
+                    textColor: grey9,
                   ),
                   SizedBox(height: 20.h),
                   const ProductsDetails(),

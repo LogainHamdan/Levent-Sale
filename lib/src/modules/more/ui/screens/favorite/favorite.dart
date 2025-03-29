@@ -7,6 +7,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/e
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../auth/ui/alerts/alert.dart';
 import '../../../../home/ui/screens/ads/ads.dart';
 import '../../../../home/ui/screens/ads/widgets/products-details.dart';
 import '../../../../home/ui/screens/home/data.dart';
@@ -35,7 +36,7 @@ class FavoriteScreen extends StatelessWidget {
                 height: 30.h,
               ),
               TitleRow(
-                  onSuffixTap: () {},
+                  onSuffixTap: () => deleteCollectionAlert(context),
                   onBackTap: () =>
                       Navigator.pushReplacementNamed(context, MenuScreen.id),
                   title: 'المفضلة',
@@ -63,17 +64,20 @@ class FavoriteScreen extends StatelessWidget {
                                 CustomGridView()),
                       )),
               ProductSection(
-                  onMorePressed: () {},
+                  onMorePressed: () =>
+                      Navigator.pushNamed(context, AdsScreen.id),
                   isHalfed: true,
                   category: "العروض والخصومات",
                   products: products),
               ProductSection(
-                  onMorePressed: () {},
+                  onMorePressed: () =>
+                      Navigator.pushNamed(context, AdsScreen.id),
                   isHalfed: true,
                   category: "الإعلانات الجديدة",
                   products: products),
               ProductSection(
-                  onMorePressed: () {},
+                  onMorePressed: () =>
+                      Navigator.pushNamed(context, AdsScreen.id),
                   isHalfed: true,
                   category: "الإعلانات المفترحة",
                   products: products),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class DeleteProvider extends ChangeNotifier {
+class DeleteScreenProvider extends ChangeNotifier {
   int? _selectedReason;
 
   int? get selectedReason => _selectedReason;

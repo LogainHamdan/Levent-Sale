@@ -8,6 +8,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/verify.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
 import '../../alerts/alert.dart';
@@ -19,8 +20,12 @@ import '../splash/widgets/custom-elevated-button.dart';
 class SignUpScreen extends StatelessWidget {
   static const id = '/register';
 
+  const SignUpScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final TextEditingController dateController = TextEditingController(
+        text: DateFormat('MMMM dd, yyyy').format(DateTime.now()));
     return ChangeNotifierProvider(
       create: (context) => RegisterProvider(),
       child: Scaffold(
@@ -40,13 +45,11 @@ class SignUpScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 30.h),
                   CustomTextField(
                     bgcolor: grey8,
                     controller: TextEditingController(),
                     hint: "الاسم كاملاً",
                   ),
-                  SizedBox(height: 16.h),
                   CustomTextField(
                     bgcolor: grey8,
                     controller: TextEditingController(),
@@ -65,15 +68,61 @@ class SignUpScreen extends StatelessWidget {
                     controller: TextEditingController(),
                     hint: "تأكيد كلمة المرور",
                   ),
-                  SizedBox(height: 16.h),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 18.h),
                   PhoneSection(),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 18.h),
                   CustomDropdown(
                     items: ["شخصي", "شركة"],
                     hint: "اختر نوع الحساب",
                   ),
-                  SizedBox(height: 16.h),
+                  Consumer<RegisterProvider>(
+                    builder: (context, provider, child) {
+                      if (provider.selectedValue == "شخصي") {
+                        return Column(
+                          children: [
+                            CustomTextField(
+                              prefix: GestureDetector(
+                                onTap: () => showDatePickerDialog(
+                                    context, dateController),
+                                child: Icon(Icons.calendar_month_outlined,
+                                    color: grey0),
+                              ),
+                              controller: dateController,
+                              bgcolor: grey8,
+                              hint: 'تاريخ الميلاد',
+                            ),
+                          ],
+                        );
+                      } else if (provider.selectedValue == "شركة") {
+                        return Column(
+                          children: [
+                            CustomTextField(
+                              prefix: GestureDetector(
+                                onTap: () => showDatePickerDialog(
+                                    context, dateController),
+                                child: Icon(Icons.calendar_month_outlined,
+                                    color: grey0),
+                              ),
+                              controller: dateController,
+                              bgcolor: grey8,
+                              hint: 'تاريخ انشاء الشركة',
+                            ),
+                            CustomTextField(
+                              bgcolor: grey8,
+                              controller: TextEditingController(),
+                              hint: "عنوان الشركة",
+                            ),
+                            CustomTextField(
+                              bgcolor: grey8,
+                              controller: TextEditingController(),
+                              hint: "الرقم الضريبي",
+                            ),
+                          ],
+                        );
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                   Consumer<RegisterProvider>(
                     builder: (context, registerProvider, child) {
                       return Row(
@@ -106,7 +155,7 @@ class SignUpScreen extends StatelessWidget {
                     onPressed: () => Navigator.pushReplacementNamed(
                         context, VerificationScreen.id),
                     backgroundColor: kprimaryColor,
-                    textColor: Colors.white,
+                    textColor: grey9,
                     date: false,
                   ),
                   SizedBox(height: 16.h),
@@ -115,13 +164,13 @@ class SignUpScreen extends StatelessWidget {
                   SocialButton(
                     facebook: false,
                     text: "الاستمرار بجوجل Google",
-                    image: 'assets/imgs_icons/auth/assets/imgs/google.svg',
+                    image: googlePath,
                   ),
                   SizedBox(height: 8.h),
                   SocialButton(
                     facebook: true,
                     text: "الاستمرار بالفيسبوك Facebook",
-                    image: 'assets/imgs_icons/auth/assets/imgs/facebook.svg',
+                    image: facebookPath,
                     color: Colors.blue,
                   ),
                   SizedBox(height: 16.h),
@@ -130,9 +179,7 @@ class SignUpScreen extends StatelessWidget {
                     action: 'سجل دخول',
                     route: LoginScreen.id,
                   ),
-                  SizedBox(
-                    height: 12.h,
-                  ),
+                  SizedBox(height: 12.h),
                 ],
               ),
             ),

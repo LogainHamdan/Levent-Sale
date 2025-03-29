@@ -14,6 +14,8 @@ import '../splash/widgets/custom-elevated-button.dart';
 class VerificationScreen extends StatelessWidget {
   static const id = '/verify';
 
+  const VerificationScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,10 +77,9 @@ class VerificationScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               CustomElevatedButton(
                   text: 'تحقق',
-                  onPressed: () =>
-                      Navigator.pushReplacementNamed(context, MainScreen.id),
+                  onPressed: () => Navigator.pushNamed(context, MainScreen.id),
                   backgroundColor: kprimaryColor,
-                  textColor: Colors.white,
+                  textColor: grey9,
                   date: false),
               SizedBox(height: 20.h),
               OrRow(),

@@ -20,7 +20,7 @@ import '../../../../main/ui/screens/main_screen.dart';
 import '../splash/widgets/custom-elevated-button.dart';
 
 class LoginScreen extends StatelessWidget {
-  static const id = '/login';
+  static const id = '/loginId';
 
   const LoginScreen({super.key});
 
@@ -91,7 +91,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () =>
                         Navigator.pushReplacementNamed(context, MainScreen.id),
                     backgroundColor: kprimaryColor,
-                    textColor: Colors.white,
+                    textColor: grey9,
                     date: false,
                   ),
                   SizedBox(height: 16.h),
@@ -100,12 +100,12 @@ class LoginScreen extends StatelessWidget {
                   SocialButton(
                       facebook: false,
                       text: "الاستمرار بجوجل Google",
-                      image: 'assets/imgs_icons/auth/assets/imgs/google.svg'),
+                      image: googlePath),
                   SizedBox(height: 8.h),
                   SocialButton(
                       facebook: true,
                       text: "الاستمرار بالفيسبوك Facebook",
-                      image: 'assets/imgs_icons/auth/assets/imgs/facebook.svg',
+                      image: facebookPath,
                       color: Colors.blue),
                   SizedBox(height: 16.h),
                   InsteadWidget(

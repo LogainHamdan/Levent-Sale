@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,8 +22,9 @@ class SupportScreen extends StatelessWidget {
               ),
               label: 'البريد الإلكتروني',
               controller: TextEditingController(),
-              hint: 'logain.s.m.hamdan@gmail.com',
+              hint: 'menna@gmail.com',
               bgcolor: grey8),
+          SizedBox(height: 16.h),
           CustomTextField(
             controller: TextEditingController(),
             label: 'الرسالة',
@@ -33,9 +35,9 @@ class SupportScreen extends StatelessWidget {
           SizedBox(height: 10.h),
           CustomElevatedButton(
             text: 'ارسال',
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(context, MenuScreen.id),
             backgroundColor: kprimaryColor,
-            textColor: Colors.white,
+            textColor: grey9,
           )
         ],
       ),

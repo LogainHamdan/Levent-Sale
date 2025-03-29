@@ -33,17 +33,17 @@ class HomeScreen extends StatelessWidget {
                 ),
                 ProductSection(
                     onMorePressed: () =>
-                        Navigator.pushReplacementNamed(context, AdsScreen.id),
+                        Navigator.pushNamed(context, AdsScreen.id),
                     category: "العروض والخصومات",
                     products: products),
                 ProductSection(
                     onMorePressed: () =>
-                        Navigator.pushReplacementNamed(context, AdsScreen.id),
+                        Navigator.pushNamed(context, AdsScreen.id),
                     category: "الإعلانات الجديدة",
                     products: products),
                 ProductSection(
                     onMorePressed: () =>
-                        Navigator.pushReplacementNamed(context, AdsScreen.id),
+                        Navigator.pushNamed(context, AdsScreen.id),
                     category: "الإعلانات المفترحة",
                     products: products),
               ],

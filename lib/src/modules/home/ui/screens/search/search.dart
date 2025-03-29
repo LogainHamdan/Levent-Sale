@@ -20,8 +20,7 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider =
-        context.watch<SearchProvider>(); // استخدام watch للحصول على التحديثات
+    final provider = context.watch<SearchProvider>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -50,21 +49,21 @@ class SearchScreen extends StatelessWidget {
                 ProductSection(
                   isHalfed: true,
                   onMorePressed: () =>
-                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                      Navigator.pushNamed(context, AdsScreen.id),
                   category: "العروض والخصومات",
                   products: products,
                 ),
                 ProductSection(
                   isHalfed: true,
                   onMorePressed: () =>
-                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                      Navigator.pushNamed(context, AdsScreen.id),
                   category: "الإعلانات الجديدة",
                   products: products,
                 ),
                 ProductSection(
                   isHalfed: true,
                   onMorePressed: () =>
-                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                      Navigator.pushNamed(context, AdsScreen.id),
                   category: "الإعلانات المفترحة",
                   products: products,
                 ),

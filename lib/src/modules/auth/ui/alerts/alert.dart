@@ -6,15 +6,19 @@ import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/custom-divider.da
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/custom-option.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/empty-text-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/option-tile.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/splash.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/simple-title.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/custom-rating.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/change-password/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -28,22 +32,19 @@ import '../screens/sign-up/widgets/custom-text-field.dart';
 import '../screens/splash/widgets/custom-elevated-button.dart';
 
 void showPasswordUpdated(BuildContext context) {
-  if (!context.mounted) return;
-
   showDialog(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.2),
     builder: (dialogContext) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: AlertDialog(
+          backgroundColor: Colors.white,
           contentPadding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.r),
           ),
           content: SizedBox(
             width: 350.w,
-            height: 360.h,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -54,8 +55,8 @@ void showPasswordUpdated(BuildContext context) {
                       onTap: () => Navigator.of(dialogContext).pop(),
                       child: Padding(
                         padding: EdgeInsets.all(10.w),
-                        child: Image.asset(
-                          'assets/imgs_icons/auth/assets/icons/cancel.png',
+                        child: SvgPicture.asset(
+                          cancelPath,
                           height: 25.h,
                         ),
                       ),
@@ -64,9 +65,9 @@ void showPasswordUpdated(BuildContext context) {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 12.h),
-                  child: Image.asset(
-                    'assets/imgs_icons/auth/assets/imgs/tick.svg',
-                    height: 120.h,
+                  child: SvgPicture.asset(
+                    tickPath,
+                    height: 100.h,
                   ),
                 ),
                 SizedBox(height: 15.h),
@@ -76,10 +77,9 @@ void showPasswordUpdated(BuildContext context) {
                   style: GoogleFonts.tajawal(
                     color: kprimaryColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 28.sp,
+                    fontSize: 18.sp,
                   ),
                 ),
-                SizedBox(height: 8.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Text(
@@ -87,21 +87,23 @@ void showPasswordUpdated(BuildContext context) {
                     textAlign: TextAlign.center,
                     textDirection: TextDirection.rtl,
                     style: GoogleFonts.tajawal(
-                      color: grey4,
-                      fontSize: 18.sp,
+                      color: grey3,
+                      fontSize: 12.sp,
                     ),
                   ),
                 ),
                 SizedBox(height: 20.h),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.w),
-                  child: ConfirmCancelButton(
-                    text: 'تسجيل دخول',
-                    onPressed: () => Navigator.of(dialogContext).pop(),
-                    backgroundColor: kprimaryColor,
-                    textColor: Colors.white,
-                  ),
-                ),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: CustomElevatedButton(
+                        text: 'تسجيل دخول',
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.pushNamed(context, LoginScreen.id);
+                        },
+                        backgroundColor: kprimaryColor,
+                        textColor: greySplash)),
+                SizedBox(height: 14.h),
               ],
             ),
           ),
@@ -123,11 +125,15 @@ void showSetNewPassword(BuildContext context) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: AlertDialog(
-            content: ChangePassColumn(
-                firstController: firstController,
-                secondController: secondController,
-                thirdController: thirdController,
-                alert: true)),
+            backgroundColor: Colors.white,
+            content: Container(
+              width: 400.w,
+              child: ChangePassColumn(
+                  firstController: firstController,
+                  secondController: secondController,
+                  thirdController: thirdController,
+                  alert: true),
+            )),
       );
     },
   );
@@ -139,54 +145,63 @@ void showForgotPassword(BuildContext context) {
     barrierColor: Colors.black.withOpacity(0.2),
     builder: (dialogContext) {
       return BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.of(dialogContext).pop(),
-                    child: Image.asset(
-                      'assets/imgs_icons/auth/assets/icons/cancel.png',
-                      height: 20.h,
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              content: SizedBox(
+                width: 300.w,
+                height: 220.h,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.of(dialogContext).pop(),
+                          child: SvgPicture.asset(
+                            cancelPath,
+                            height: 20.h,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 8.0.h),
-                child: Text(
-                  'نسيت كلمة المرور',
-                  style: GoogleFonts.tajawal(
-                      color: kprimaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25.sp),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.0.h),
+                      child: Text(
+                        'نسيت كلمة المرور',
+                        style: GoogleFonts.tajawal(
+                            color: kprimaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.sp),
+                      ),
+                    ),
+                    Text(
+                      textAlign: TextAlign.center,
+                      'أدخل البريد الإلكتروني الخاص بك وسنقوم بإرسال رمز التحقق لإعادة تعيين كلمة المرور',
+                      style: GoogleFonts.tajawal(color: grey3, fontSize: 12.sp),
+                    ),
+                    CustomTextField(
+                        bgcolor: grey7,
+                        controller: TextEditingController(),
+                        hint: 'البريد الإلكتروني'),
+                    SizedBox(height: 20.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: CustomElevatedButton(
+                          text: 'ارسال',
+                          onPressed: () {
+                            Navigator.pop(context);
+                            showSetNewPassword(context);
+                          },
+                          backgroundColor: kprimaryColor,
+                          textColor: greySplash),
+                    )
+                  ],
                 ),
-              ),
-              SizedBox(height: 5.h),
-              Text(
-                textAlign: TextAlign.center,
-                'أدخل البريد الإلكتروني الخاص بك وسنقوم بإرسال رمز التحقق لإعادة تعيين كلمة المرور',
-                style: GoogleFonts.tajawal(color: grey4, fontSize: 15.sp),
-              ),
-              CustomTextField(
-                  bgcolor: grey8,
-                  controller: TextEditingController(),
-                  hint: 'البريد الإلكتروني'),
-              SizedBox(height: 25.h),
-              ConfirmCancelButton(
-                text: 'ارسال',
-                onPressed: () => showSetNewPassword(context),
-                backgroundColor: kprimaryColor,
-                textColor: Colors.white,
-              ),
-            ],
-          ),
-        ),
-      );
+              )));
     },
   );
 }
@@ -232,12 +247,12 @@ void showDatePickerDialog(
                       headerStyle: HeaderStyle(
                         titleCentered: true,
                         formatButtonVisible: false,
-                        leftChevronIcon: Image.asset(
-                          'assets/imgs_icons/general/arrow-left.png',
+                        leftChevronIcon: SvgPicture.asset(
+                          calendarArrowLeftPath,
                           width: 20.w,
                         ),
-                        rightChevronIcon: Image.asset(
-                          'assets/imgs_icons/general/arrow-right.png',
+                        rightChevronIcon: SvgPicture.asset(
+                          calendarArrowRightPath,
                           width: 20.w,
                         ),
                         titleTextStyle: TextStyle(
@@ -391,6 +406,7 @@ void showAdCreated(BuildContext context) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
         child: AlertDialog(
+          backgroundColor: Colors.white,
           contentPadding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.r),
@@ -410,8 +426,8 @@ void showAdCreated(BuildContext context) {
                       },
                       child: Padding(
                         padding: EdgeInsets.all(10.w),
-                        child: Image.asset(
-                          'assets/imgs_icons/auth/assets/icons/cancel.png',
+                        child: SvgPicture.asset(
+                          cancelPath,
                           height: 25.h,
                         ),
                       ),
@@ -432,7 +448,7 @@ void showAdCreated(BuildContext context) {
                   style: GoogleFonts.tajawal(
                     color: kprimaryColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 28.sp,
+                    fontSize: 24.sp,
                   ),
                 ),
                 SizedBox(height: 8.h),
@@ -444,20 +460,21 @@ void showAdCreated(BuildContext context) {
                     textAlign: TextAlign.center,
                     textDirection: TextDirection.rtl,
                     style: GoogleFonts.tajawal(
-                      color: grey4,
-                      fontSize: 18.sp,
+                      color: grey3,
+                      fontSize: 15.sp,
                     ),
                   ),
                 ),
                 SizedBox(height: 20.h),
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30.w),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
                     child: CustomElevatedButton(
                       text: 'عرض تشكيلتي',
-                      onPressed: () => Navigator.pushReplacementNamed(
-                          context, MyCollectionScreen.id),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, MainScreen.id),
+                      //my collection
                       backgroundColor: kprimaryColor,
-                      textColor: Colors.white,
+                      textColor: grey9,
                       date: false,
                     )),
               ],
@@ -474,6 +491,7 @@ void _showLocationPermissionDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
+        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -556,7 +574,7 @@ void showAddToFavoriteAlert(BuildContext context) {
                           text: 'حفظ',
                           onPressed: () => Navigator.pop(context),
                           backgroundColor: kprimaryColor,
-                          textColor: Colors.white,
+                          textColor: grey9,
                         ),
                       ],
                     ),
@@ -574,7 +592,6 @@ void showAddToFavoriteAlert(BuildContext context) {
 void showNewCollectionAlert(BuildContext context) {
   showDialog(
     context: context,
-    barrierColor: Colors.black.withOpacity(0.5),
     barrierDismissible: true,
     builder: (context) {
       return GestureDetector(
@@ -583,6 +600,7 @@ void showNewCollectionAlert(BuildContext context) {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
           child: Dialog(
+            backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.r)),
             child: SizedBox(
@@ -606,7 +624,7 @@ void showNewCollectionAlert(BuildContext context) {
                         showAddToFavoriteAlert(context);
                       },
                       backgroundColor: kprimaryColor,
-                      textColor: Colors.white,
+                      textColor: grey9,
                     ),
                   ],
                 ),
@@ -625,8 +643,11 @@ void editDoneAlert(BuildContext context) {
       title: 'تم التعديل',
       message: 'هل أنت متأكد من التعديلات؟',
       confirmText: 'تعديل',
-      confirmColor: Colors.blue,
-      onConfirm: () {});
+      confirmColor: infoColor,
+      onConfirm: () {
+        Navigator.pop(context);
+        Navigator.pushNamed(context, ProfileScreen.id);
+      });
 }
 
 void deleteAccountAlert(BuildContext context) {
@@ -635,9 +656,11 @@ void deleteAccountAlert(BuildContext context) {
       title: 'هل أنت متأكد؟',
       message: 'هل أنت متأكد من حذف حسابك',
       confirmText: 'حذف الحساب',
-      confirmColor: Colors.red,
+      confirmColor: errorColor,
       cancelColor: Colors.black,
-      onConfirm: () {});
+      onConfirm: () {
+        Navigator.pushNamed(context, SplashScreen.id);
+      });
 }
 
 void deleteCollectionAlert(BuildContext context) {
@@ -646,11 +669,11 @@ void deleteCollectionAlert(BuildContext context) {
       title: 'هل أنت متأكد؟',
       message: 'هل أنت متأكد من حذف التشكيلة',
       confirmText: 'حذف',
-      confirmColor: Colors.red,
+      confirmColor: errorColor,
       cancelColor: Colors.black,
       onConfirm: () {
         Navigator.pop(context);
-        Navigator.pushReplacementNamed(context, FavoriteScreen.id);
+        Navigator.pushNamed(context, FavoriteScreen.id);
       });
 }
 
@@ -660,9 +683,12 @@ void logoutAlert(BuildContext context) {
       title: 'هل أنت متأكد؟',
       message: 'هل أنت متأكد من تسجيل الخروج؟',
       confirmText: 'تسجيل خروج',
-      confirmColor: Colors.red,
+      confirmColor: errorColor,
       cancelColor: Colors.black,
-      onConfirm: () {});
+      onConfirm: () {
+        Navigator.pop(context);
+        Navigator.pushNamed(context, SplashScreen.id);
+      });
 }
 
 void changePictureOptionAlert(
@@ -735,7 +761,7 @@ void changePictureOptionAlert(
                       ),
                       CustomDivider(),
                       OptionTile(
-                        color: Colors.red,
+                        color: errorColor,
                         title: "حذف الصورة",
                         icon: Image.asset(
                           'assets/imgs_icons/more/assets/icons/حذف الصورة.png',

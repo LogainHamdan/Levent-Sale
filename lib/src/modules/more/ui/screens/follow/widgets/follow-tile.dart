@@ -43,8 +43,7 @@ class FollowTile extends StatelessWidget {
               onPressed: () => provider.toggleFollow(index),
               backgroundColor:
                   provider.isFollowing(index) ? grey7 : kprimaryColor,
-              textColor:
-                  provider.isFollowing(index) ? Colors.black : Colors.white),
+              textColor: provider.isFollowing(index) ? Colors.black : grey9),
         ));
   }
 }

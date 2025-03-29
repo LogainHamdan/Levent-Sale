@@ -32,14 +32,7 @@ class CategoriesDisplay extends StatelessWidget {
                   width: 80,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey[200],
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        spreadRadius: 1,
-                      ),
-                    ],
+                    color: grey8,
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(12.0.sp),

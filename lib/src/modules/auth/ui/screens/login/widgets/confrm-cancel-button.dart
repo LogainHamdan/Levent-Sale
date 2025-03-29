@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../../../config/constants.dart';
+
 class ConfirmCancelButton extends StatelessWidget {
   final Function() onPressed;
   final Color backgroundColor;
@@ -23,7 +25,7 @@ class ConfirmCancelButton extends StatelessWidget {
           child: Text(
             'الغاء',
             style: GoogleFonts.tajawal(
-                color: Colors.orange,
+                color: cancelColor,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),

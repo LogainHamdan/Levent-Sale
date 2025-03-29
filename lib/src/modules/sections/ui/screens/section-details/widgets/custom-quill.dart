@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
@@ -16,7 +17,7 @@ class RichTextEditor extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            color: grey7,
+            color: grey8,
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: quill.QuillSimpleToolbar(
               controller: editorProvider.controller,
@@ -29,7 +30,7 @@ class RichTextEditor extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0.sp),
               color: grey9,
               child: quill.QuillEditor.basic(
                 controller: editorProvider.controller,

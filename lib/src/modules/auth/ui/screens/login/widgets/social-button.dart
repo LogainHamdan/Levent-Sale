@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../config/constants.dart';
@@ -32,7 +33,7 @@ class SocialButton extends StatelessWidget {
         children: [
           facebook
               ? Padding(
-                  padding: EdgeInsets.only(left: 80.0.w),
+                  padding: EdgeInsets.only(left: 74.0.w),
                   child: Text(
                     text,
                     style: TextStyle(color: Colors.black),
@@ -51,13 +52,12 @@ class SocialButton extends StatelessWidget {
             width: 10.w,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0.sp),
-            child: Image.asset(
-              image,
-              width: 24.w,
-              height: 24.h,
-            ),
-          ),
+              padding: EdgeInsets.symmetric(vertical: 8.0.sp),
+              child: SvgPicture.asset(
+                image,
+                width: 24.w,
+                height: 24.h,
+              )),
         ],
       ),
     );

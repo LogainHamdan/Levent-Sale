@@ -1,7 +1,7 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/chats/chats.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../../config/constants.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -51,8 +51,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: SizedBox(
                     height: 20.h,
                     width: 20.w,
-                    child: Image.asset(
-                      'assets/imgs_icons/general/page-arrow-back.png',
+                    child: SvgPicture.asset(
+                      pageArrowBackPath,
                     ),
                   ),
                 ),
