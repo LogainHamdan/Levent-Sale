@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
 import '../provider.dart';
@@ -47,8 +49,8 @@ class ImageSection extends StatelessWidget {
                         ),
                 ),
               ),
-              Image.asset(
-                'assets/imgs_icons/more/assets/icons/camera.png',
+              SvgPicture.asset(
+                changeProfilePicIcon,
                 height: 25.h,
               ),
             ],

@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/sign-up.dart';
@@ -36,6 +37,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'src/modules/sections/ui/screens/collection/my-collection.dart';
 
@@ -70,7 +72,7 @@ class MyMaterialApp extends StatelessWidget {
                       fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),
               ),
-              initialRoute: SplashScreen.id,
+              initialRoute: HomeScreen.id,
               routes: {
                 SplashScreen.id: (context) => SplashScreen(),
                 MainScreen.id: (context) => MainScreen(),
@@ -93,8 +95,8 @@ class MyMaterialApp extends StatelessWidget {
                     ),
                 FavoriteScreen.id: (context) => FavoriteScreen(
                       onSuffixTap: () => showNewCollectionAlert(context),
-                      suffix: Image.asset(
-                        'assets/imgs_icons/more/assets/icons/اضافة.png',
+                      suffix: SvgPicture.asset(
+                        addCircleGreenIcon,
                         height: 25.h,
                       ),
                       empty: false,

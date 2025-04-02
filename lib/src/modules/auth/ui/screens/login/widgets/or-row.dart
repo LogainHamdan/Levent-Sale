@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../config/constants.dart';
 
@@ -12,17 +13,20 @@ class OrRow extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Divider(color: grey6),
+          child: Divider(color: greySplash),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: EdgeInsets.symmetric(horizontal: 8.0.w),
           child: Text(
             "OR",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 16.sp),
           ),
         ),
         Expanded(
-          child: Divider(color: grey6),
+          child: Divider(color: greySplash),
         ),
       ],
     );

@@ -145,15 +145,15 @@ void showForgotPassword(BuildContext context) {
     barrierColor: Colors.black.withOpacity(0.2),
     builder: (dialogContext) {
       return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
           child: AlertDialog(
               backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.r),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               content: SizedBox(
-                width: 300.w,
-                height: 220.h,
+                width: 327.w,
+                height: 293.h,
                 child: Column(
                   children: [
                     Row(
@@ -163,42 +163,44 @@ void showForgotPassword(BuildContext context) {
                           onTap: () => Navigator.of(dialogContext).pop(),
                           child: SvgPicture.asset(
                             cancelPath,
-                            height: 20.h,
+                            height: 24.h,
+                            width: 24.w,
                           ),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 8.0.h),
-                      child: Text(
-                        'نسيت كلمة المرور',
-                        style: GoogleFonts.tajawal(
-                            color: kprimaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.sp),
-                      ),
+                    SizedBox(
+                      height: 24.h,
+                    ),
+                    Text(
+                      'نسيت كلمة المرور',
+                      style: GoogleFonts.tajawal(
+                          color: kprimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.sp),
+                    ),
+                    SizedBox(
+                      height: 8.h,
                     ),
                     Text(
                       textAlign: TextAlign.center,
                       'أدخل البريد الإلكتروني الخاص بك وسنقوم بإرسال رمز التحقق لإعادة تعيين كلمة المرور',
                       style: GoogleFonts.tajawal(color: grey3, fontSize: 12.sp),
                     ),
+                    SizedBox(height: 16.h),
                     CustomTextField(
-                        bgcolor: grey7,
+                        bgcolor: grey8,
                         controller: TextEditingController(),
                         hint: 'البريد الإلكتروني'),
-                    SizedBox(height: 20.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.w),
-                      child: CustomElevatedButton(
-                          text: 'ارسال',
-                          onPressed: () {
-                            Navigator.pop(context);
-                            showSetNewPassword(context);
-                          },
-                          backgroundColor: kprimaryColor,
-                          textColor: greySplash),
-                    )
+                    SizedBox(height: 24.h),
+                    CustomElevatedButton(
+                        text: 'ارسال',
+                        onPressed: () {
+                          Navigator.pop(context);
+                          showSetNewPassword(context);
+                        },
+                        backgroundColor: kprimaryColor,
+                        textColor: greySplash)
                   ],
                 ),
               )));
@@ -436,8 +438,8 @@ void showAdCreated(BuildContext context) {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 12.h),
-                  child: Image.asset(
-                    'assets/imgs_icons/sections/assets/imgs/تم انشاء اعلانك.png',
+                  child: SvgPicture.asset(
+                    adCreatedIcon,
                     height: 120.h,
                   ),
                 ),
@@ -743,8 +745,8 @@ void changePictureOptionAlert(
                       OptionTile(
                         color: grey0,
                         title: "اخذ صورة",
-                        icon: Image.asset(
-                          'assets/imgs_icons/more/assets/icons/اخذ صورة.png',
+                        icon: SvgPicture.asset(
+                          takePhotoIcon,
                           height: 20.h,
                         ),
                         onTap: () => pickImage(ImageSource.camera),
@@ -753,8 +755,8 @@ void changePictureOptionAlert(
                       OptionTile(
                         color: grey4,
                         title: "اختر من الاستديو",
-                        icon: Image.asset(
-                          'assets/imgs_icons/more/assets/icons/اختر من الاستديو.png',
+                        icon: SvgPicture.asset(
+                          fromGalleryIcon,
                           height: 20.h,
                         ),
                         onTap: () => pickImage(ImageSource.gallery),
@@ -763,8 +765,8 @@ void changePictureOptionAlert(
                       OptionTile(
                         color: errorColor,
                         title: "حذف الصورة",
-                        icon: Image.asset(
-                          'assets/imgs_icons/more/assets/icons/حذف الصورة.png',
+                        icon: SvgPicture.asset(
+                          deleteCollectionIcon,
                           height: 20.h,
                         ),
                         onTap: deleteImage,

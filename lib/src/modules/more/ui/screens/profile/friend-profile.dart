@@ -8,6 +8,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/name-row
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/product-card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class FriendProfile extends StatelessWidget {
   final bool? isFollowed;
@@ -82,8 +83,8 @@ class FriendProfile extends StatelessWidget {
                     onPressed: () => Navigator.pushReplacementNamed(
                         context, ConversationScreen.id),
                     isOutlined: true,
-                    icon: Image.asset(
-                      'assets/imgs_icons/more/assets/icons/محادثة.png',
+                    icon: SvgPicture.asset(
+                      chatGreenIcon,
                       height: 20.h,
                     ),
                     text: 'محادثة',
@@ -94,8 +95,8 @@ class FriendProfile extends StatelessWidget {
                       ? CustomSmallButton(
                           isOutlined: false,
                           onPressed: () {},
-                          icon: Image.asset(
-                            'assets/imgs_icons/more/assets/icons/متابعة.png',
+                          icon: SvgPicture.asset(
+                            addCircleGreenIcon,
                             height: 20.h,
                           ),
                           text: 'متابعة',
@@ -103,10 +104,7 @@ class FriendProfile extends StatelessWidget {
                       : CustomSmallButton(
                           isOutlined: false,
                           onPressed: () {},
-                          icon: Image.asset(
-                            'assets/imgs_icons/more/assets/icons/متابعة.png',
-                            height: 20.h,
-                          ),
+                          icon: SizedBox(),
                           text: 'الغاء المتابعة',
                           textColor: Colors.black,
                           buttonColor: grey8),

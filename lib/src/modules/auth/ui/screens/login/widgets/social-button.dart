@@ -19,46 +19,46 @@ class SocialButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      onPressed: () {},
-      style: OutlinedButton.styleFrom(
-        textStyle:
-            GoogleFonts.tajawal(fontSize: 14.sp, fontWeight: FontWeight.w500),
-        side: BorderSide(color: grey6),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6.r),
-        ),
-      ),
-      child: Row(
-        children: [
-          facebook
-              ? Padding(
-                  padding: EdgeInsets.only(left: 74.0.w),
-                  child: Text(
-                    text,
-                    style: TextStyle(color: Colors.black),
-                    textDirection: TextDirection.rtl,
-                  ),
-                )
-              : Padding(
-                  padding: EdgeInsets.only(left: 110.0.w),
-                  child: Text(
-                    text,
-                    style: TextStyle(color: Colors.black),
-                    textDirection: TextDirection.rtl,
-                  ),
-                ),
-          SizedBox(
-            width: 10.w,
+    return SizedBox(
+      height: 48.h,
+      width: 327.w,
+      child: OutlinedButton(
+        onPressed: () {},
+        style: OutlinedButton.styleFrom(
+          textStyle:
+              GoogleFonts.tajawal(fontSize: 14.sp, fontWeight: FontWeight.w500),
+          side: BorderSide(color: grey6),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6.r),
           ),
-          Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0.sp),
-              child: SvgPicture.asset(
-                image,
-                width: 24.w,
-                height: 24.h,
-              )),
-        ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            facebook
+                ? Text(
+                    text,
+                    style: TextStyle(color: Colors.black, fontSize: 16.sp),
+                    textDirection: TextDirection.rtl,
+                  )
+                : Text(
+                    text,
+                    style: TextStyle(color: Colors.black, fontSize: 16.sp),
+                    textDirection: TextDirection.rtl,
+                  ),
+            SizedBox(
+              width: 10.w,
+            ),
+            Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0.sp),
+                child: SvgPicture.asset(
+                  image,
+                  width: 24.w,
+                  height: 24.h,
+                )),
+          ],
+        ),
       ),
     );
   }

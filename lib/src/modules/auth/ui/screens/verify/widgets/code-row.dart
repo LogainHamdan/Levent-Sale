@@ -32,17 +32,17 @@ class CodeRow extends StatelessWidget {
                 bool isSelected = provider.selectedIndex == index;
 
                 return Container(
-                  width: 50.w,
-                  height: 50.h,
+                  width: 48.w,
+                  height: 48.h,
                   margin: EdgeInsets.symmetric(horizontal: 2.w),
                   decoration: BoxDecoration(
-                    color: grey7,
+                    color: grey8,
                     border: Border.all(
                       color: (isSelected ||
                               (!isEmpty && otpList[index].isNotEmpty))
                           ? kprimaryColor
                           : Colors.transparent,
-                      width: 2,
+                      width: 0.5.w,
                     ),
                     borderRadius: BorderRadius.circular(10.r),
                   ),

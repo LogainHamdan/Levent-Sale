@@ -21,8 +21,7 @@ class ChatItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () =>
-          Navigator.pushReplacementNamed(context, ConversationScreen.id),
+      onTap: () => Navigator.pushNamed(context, ConversationScreen.id),
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: ListTile(

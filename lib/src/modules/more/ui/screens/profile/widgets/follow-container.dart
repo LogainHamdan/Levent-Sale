@@ -18,7 +18,7 @@ class FollowContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.pushReplacementNamed(context, JoinFollow.id),
+      onTap: () => Navigator.pushNamed(context, JoinFollow.id),
       child: Container(
         height: 100.h,
         decoration: BoxDecoration(

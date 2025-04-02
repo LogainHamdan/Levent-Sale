@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
@@ -23,7 +24,7 @@ class FollowTile extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Icon(Icons.verified, color: kprimaryColor, size: 16.sp),
+            SvgPicture.asset(verifiedGreenIcon),
             SizedBox(width: 5.w),
             Text(
               'بسمة باسم',

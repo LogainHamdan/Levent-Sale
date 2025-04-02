@@ -3,6 +3,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-el
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../ads/widgets/products-details.dart';
 
@@ -86,8 +87,8 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                   ),
                   SizedBox(height: 20.h),
                   CustomElevatedButton(
-                    icon: Image.asset(
-                      'assets/imgs_icons/home/assets/icons/chat-white.png',
+                    icon: SvgPicture.asset(
+                      chatWhiteIcon,
                       height: 20.h,
                     ),
                     text: 'محادثة',

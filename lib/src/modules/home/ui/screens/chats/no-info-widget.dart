@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class NoInfoWidget extends StatelessWidget {
   final String img;
@@ -18,7 +19,7 @@ class NoInfoWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(img),
+          SvgPicture.asset(img),
           SizedBox(height: 16.h),
           Text(
             msg,

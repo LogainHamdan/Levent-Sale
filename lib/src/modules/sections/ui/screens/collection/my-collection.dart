@@ -32,8 +32,7 @@ class MyCollectionScreen extends StatelessWidget {
                 ? Expanded(
                     child: EmptyWidget(
                     msg: 'إعلاناتي فارغة',
-                    img:
-                        'assets/imgs_icons/sections/assets/icons/اعلاناتي فارغة.png',
+                    img: emptyAdsIcon,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.0.w),
                       child: CustomElevatedButton(

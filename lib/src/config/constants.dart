@@ -54,8 +54,7 @@ String arrowAbovePath = 'assets/imgs_icons/general/arrow-above.svg';
 String arrowDownPath = 'assets/imgs_icons/general/arrow-down.svg';
 String arrowLeftPath = 'assets/imgs_icons/general/arrow-left.svg';
 String arrowRightPath = 'assets/imgs_icons/general/arrow-right.svg';
-String calendarArrowLeftPath =
-    'assets/imgs_icons/general/calendar-arrow-left.svg';
+String calendarArrowLeftPath = 'assets/imgs_icons/auth/assets/icons/Back.svg';
 String calendarArrowRightPath =
     'assets/imgs_icons/general/calendar-arrow-right.svg';
 String arrowDownGreyPath = 'assets/imgs_icons/general/arrow-down-grey.png';
@@ -65,9 +64,104 @@ String pageArrowBackPath = 'assets/imgs_icons/general/page-arrow-back.svg';
 
 ///home
 String callPath = 'assets/imgs_icons/home/assets/icons/call.svg';
+String sendIcon = 'assets/imgs_icons/home/assets/icons/sendIcon.svg';
 String favColoredPath = 'assets/imgs_icons/home/assets/icons/fav-colored.svg';
 String favUncoloredPath =
     'assets/imgs_icons/home/assets/icons/fav-uncolored.svg';
 String rightOfBannerPath =
     'assets/imgs_icons/home/assets/icons/right-of-banner.svg';
 String iphone12Path = 'assets/imgs_icons/home/assets/imgs/iphone12.svg';
+String editBlackIcon = 'assets/imgs_icons/home/assets/icons/edit.svg';
+String emptyChatIcon =
+    'assets/imgs_icons/home/assets/icons/ic-chat-empty 1.svg';
+String searchNoResultIcon =
+    'assets/imgs_icons/home/assets/icons/light_no-results.svg';
+String notificationsIcon =
+    'assets/imgs_icons/home/assets/icons/notification.svg';
+String filterIcon = 'assets/imgs_icons/home/assets/icons/setting-4.svg';
+String greenSeenIcon = 'assets/imgs_icons/home/assets/icons/Vector.svg';
+String chatBlackIcon = 'assets/imgs_icons/home/assets/icons/message.svg';
+String chatWhiteIcon = 'assets/imgs_icons/home/assets/icons/message1.svg';
+String shareIcon = 'assets/imgs_icons/home/assets/icons/Vector-1.svg';
+String photoAttachIcon =
+    'assets/imgs_icons/home/assets/icons/direct-notification.svg';
+String linkAttachIcon = 'assets/imgs_icons/home/assets/icons/linkAttach.svg';
+String moreIcon = 'assets/imgs_icons/home/assets/icons/more.svg';
+String searchIcon = 'assets/imgs_icons/home/assets/icons/search.png';
+String emptyNotificationsIcon =
+    'assets/imgs_icons/sections/assets/imgs/empty-notification.svg';
+
+///sections
+String addImageIcon = 'assets/imgs_icons/sections/assets/icons/add image.svg';
+String jobsIcon =
+    'assets/imgs_icons/sections/assets/icons/9d4d6514-8c97-4267-a241-6adc0f11fc97 1.svg';
+String animalsIcon = 'assets/imgs_icons/sections/assets/icons/Animals 1.svg';
+String clothesIcon =
+    'assets/imgs_icons/sections/assets/icons/download-removebg-preview (2) 1.svg';
+String booksIcons =
+    'assets/imgs_icons/sections/assets/icons/download-removebg-preview (4) 1.svg';
+String devicesIcon =
+    'assets/imgs_icons/sections/assets/icons/download-removebg-preview (7) 2.svg';
+String mixIcon = 'assets/imgs_icons/sections/assets/icons/element-4.svg';
+String foodIcon = 'assets/imgs_icons/sections/assets/icons/Food 1.svg';
+String gamesIcon = 'assets/imgs_icons/sections/assets/icons/Gaming 1.svg';
+String furnitureIcon =
+    'assets/imgs_icons/sections/assets/icons/images-removebg-preview 1.svg';
+String carsIcon = 'assets/imgs_icons/sections/assets/icons/image 17.svg';
+String propertiesIcon =
+    'assets/imgs_icons/sections/assets/icons/Properties 3.svg';
+String servicesIcon = 'assets/imgs_icons/sections/assets/icons/Services 1.svg';
+String emptyAdsIcon =
+    'assets/imgs_icons/sections/assets/icons/shopping-bag.svg';
+String sportsIcon = 'assets/imgs_icons/sections/assets/icons/Sports 1.svg';
+String travelIcon =
+    'assets/imgs_icons/sections/assets/icons/unsplash_X_MOr6oa4-k-removebg-preview 1.svg';
+String industryIcon =
+    'assets/imgs_icons/sections/assets/icons/unsplash_4_Bgqgl8TiU-removebg-preview 1.svg';
+String accessoriesIcon =
+    'assets/imgs_icons/sections/assets/icons/unsplash_202NAwjisYA-removebg-preview 1.svg';
+String motherAndKidIcon =
+    'assets/imgs_icons/sections/assets/icons/unsplash_Z4GKcFAGck4-removebg-preview 1.svg';
+String computerIcon =
+    'assets/imgs_icons/sections/assets/imgs/download-removebg-preview (5).svg';
+String mobileIcon =
+    'assets/imgs_icons/sections/assets/imgs/Rectangle_395-removebg-preview 1.svg';
+
+///more
+String adCreatedIcon = 'assets/imgs_icons/sections/assets/icons/Group 297.svg';
+String cultureIcon =
+    'assets/imgs_icons/sections/assets/icons/unsplash_nEFIjn-NK-0-removebg-preview 1.svg';
+String healthAndBeautyIcon =
+    'assets/imgs_icons/sections/assets/icons/unsplash_vKQeOUqrrOg-removebg-preview 1.svg';
+String addCircleWhiteIcon =
+    'assets/imgs_icons/more/assets/icons/add-circle.svg';
+String addCircleBlackIcon =
+    'assets/imgs_icons/more/assets/icons/add-circle-1.svg';
+String addCircleGreenIcon =
+    'assets/imgs_icons/more/assets/icons/add-circlelll.svg';
+String myFavIcon = 'assets/imgs_icons/more/assets/icons/dddddddd.svg';
+String editWhiteIcon = 'assets/imgs_icons/more/assets/icons/jjjjjjjjjj.svg';
+String editProfileIcon = 'assets/imgs_icons/more/assets/icons/edit-black.png';
+String logoutIcon = 'assets/imgs_icons/more/assets/icons/fffffff.svg';
+String verifiedGreenIcon =
+    'assets/imgs_icons/more/assets/icons/fluent_checkmark-starburst-16-filled.svg';
+String takePhotoIcon = 'assets/imgs_icons/more/assets/icons/Frame.svg';
+String techSupportIcon = 'assets/imgs_icons/more/assets/icons/Frame 2483-1.svg';
+String changePassIcon = 'assets/imgs_icons/more/assets/icons/Frame 2483-1.svg';
+String whoAreWeIcon = 'assets/imgs_icons/more/assets/icons/gggggg.svg';
+String privacyIcon = 'assets/imgs_icons/more/assets/icons/ggggg.svg';
+String deleteCollectionIcon =
+    'assets/imgs_icons/more/assets/icons/h4elrfhnwekl.svg';
+String fromGalleryIcon = 'assets/imgs_icons/more/assets/icons/jm.svg';
+String emailBlackIcon = 'assets/imgs_icons/more/assets/icons/k.svg';
+String emailWhiteIcon = 'assets/imgs_icons/more/assets/icons/k.svg';
+String chatGreenIcon = 'assets/imgs_icons/more/assets/icons/message.svg';
+String emptyFavIcon = 'assets/imgs_icons/more/assets/icons/Vector.svg';
+String callBlackIcon = 'assets/imgs_icons/more/assets/icons/Vector-1.svg';
+String verifiedWhiteIcon = 'assets/imgs_icons/more/assets/icons/Vector-2.svg';
+String personIcon = 'assets/imgs_icons/more/assets/imgs/person.svg';
+String editGreenIcon = 'assets/imgs_icons/more/assets/icons/edit-green.svg';
+String viewIcon = 'assets/imgs_icons/more/assets/icons/view.svg';
+String reviewIcon = 'assets/imgs_icons/more/assets/icons/review.svg';
+String changeProfilePicIcon =
+    'assets/imgs_icons/home/assets/icons/cameraaaaa.svg';

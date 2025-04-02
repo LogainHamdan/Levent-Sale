@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../../../../config/constants.dart';
@@ -29,12 +30,16 @@ class PhoneSection extends StatelessWidget {
               child: TextField(
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  hintStyle: TextStyle(
-                    color: grey8,
-                    fontSize: 18.sp,
+                  hintText: hint,
+                  hintStyle: GoogleFonts.tajawal(
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      color: grey4,
+                      fontSize: 16.sp,
+                    ),
                   ),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 12),
+                  contentPadding: EdgeInsets.symmetric(vertical: 12.h),
                 ),
                 textAlign: TextAlign.center,
                 style: TextStyle(

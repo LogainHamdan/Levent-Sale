@@ -1,6 +1,7 @@
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
@@ -21,8 +22,8 @@ class EmptyFav extends StatelessWidget {
         SizedBox(
           height: 30.h,
         ),
-        Image.asset(
-          'assets/imgs_icons/more/assets/imgs/المفضلة فارغة.png',
+        SvgPicture.asset(
+          emptyFavIcon,
           height: 120.h,
         ),
         SizedBox(
@@ -44,17 +45,17 @@ class EmptyFav extends StatelessWidget {
             children: [
               ProductSection(
                   onMorePressed: () =>
-                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                      Navigator.pushNamed(context, AdsScreen.id),
                   category: "العروض والخصومات",
                   products: products),
               ProductSection(
                   onMorePressed: () =>
-                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                      Navigator.pushNamed(context, AdsScreen.id),
                   category: "الإعلانات الجديدة",
                   products: products),
               ProductSection(
                   onMorePressed: () =>
-                      Navigator.pushReplacementNamed(context, AdsScreen.id),
+                      Navigator.pushNamed(context, AdsScreen.id),
                   category: "الإعلانات المقترحة",
                   products: products),
             ],

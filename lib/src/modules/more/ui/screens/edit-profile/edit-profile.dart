@@ -121,8 +121,8 @@ class EditProfileScreen extends StatelessWidget {
       bottomNavigationBar: DraggableButton(
         'حفظ التعديلات',
         onPressed: () => editDoneAlert(context),
-        icon: Image.asset(
-          'assets/imgs_icons/more/assets/icons/edit.png',
+        icon: SvgPicture.asset(
+          editWhiteIcon,
           height: 20.h,
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/profile/friend-profile.d
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../../../config/constants.dart';
 import 'info-row.dart';
@@ -26,22 +27,21 @@ class GuestColumn extends StatelessWidget {
         ),
         SizedBox(height: 20.h),
         MenuItem(
-            onTap: () =>
-                Navigator.pushReplacementNamed(context, FavoriteScreen.id),
+            onTap: () => Navigator.pushNamed(context, FavoriteScreen.id),
             color: kprimary4Color,
             "المفضلة",
-            Image.asset(
-              'assets/imgs_icons/more/assets/icons/المفضلة.png',
+            SvgPicture.asset(
+              myFavIcon,
               height: 15.h,
             )),
         SizedBox(height: 15.h),
         MenuItem(
-            onTap: () => Navigator.pushReplacementNamed(
-                context, TechnicalSupportScreen.id),
+            onTap: () =>
+                Navigator.pushNamed(context, TechnicalSupportScreen.id),
             color: kprimary4Color,
             "الدعم الفني",
-            Image.asset(
-              'assets/imgs_icons/more/assets/icons/الدعم الفني.png',
+            SvgPicture.asset(
+              techSupportIcon,
               height: 15.h,
             )),
         SizedBox(height: 15.h),
@@ -49,8 +49,8 @@ class GuestColumn extends StatelessWidget {
             onTap: () {},
             color: kprimary4Color,
             "من نحن",
-            Image.asset(
-              'assets/imgs_icons/more/assets/icons/من نحن.png',
+            SvgPicture.asset(
+              whoAreWeIcon,
               height: 15.h,
             )),
         SizedBox(height: 15.h),
@@ -58,8 +58,8 @@ class GuestColumn extends StatelessWidget {
             onTap: () {},
             color: kprimary4Color,
             "سياسة الخصوصية",
-            Image.asset(
-              'assets/imgs_icons/more/assets/icons/سياسة الخصوصية.png',
+            SvgPicture.asset(
+              privacyIcon,
               height: 15.h,
             )),
         SizedBox(height: 15.h),

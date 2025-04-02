@@ -4,6 +4,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/widgets/membe
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:like_button/like_button.dart';
 import '../../../../../config/constants.dart';
 import '../ads/widgets/custom-rating.dart';
@@ -112,7 +113,7 @@ class ReviewsScreen extends StatelessWidget {
                                       child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(12.r),
-                                        child: Image.asset(
+                                        child: SvgPicture.asset(
                                           image,
                                           width: 100.w,
                                           height: 80.h,

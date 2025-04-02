@@ -1,5 +1,7 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class NameRow extends StatelessWidget {
   final String name;
@@ -19,7 +21,7 @@ class NameRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        isVerified! ? Icon(Icons.verified, color: Colors.white) : SizedBox(),
+        isVerified! ? SvgPicture.asset(verifiedWhiteIcon): SizedBox(),
         SizedBox(
           width: 12.w,
         ),

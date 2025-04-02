@@ -1,6 +1,7 @@
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../sections/ui/screens/one-section/one-section.dart';
@@ -18,7 +19,7 @@ class SectionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushReplacementNamed(context, Section.id),
+      onTap: () => Navigator.pushNamed(context, Section.id),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 6.0.w),
         child: Column(
@@ -29,9 +30,9 @@ class SectionItem extends StatelessWidget {
                 backgroundColor: grey7,
                 child: Padding(
                   padding: EdgeInsets.all(6.r),
-                  child: Image.asset(
+                  child: SvgPicture.asset(
                     img,
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),

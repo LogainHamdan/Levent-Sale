@@ -26,7 +26,7 @@ class VerificationScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 90.h, bottom: 50.h),
+                padding: EdgeInsets.only(top: 48.h, bottom: 32.h),
                 child: Center(
                   child: Text(
                     "تسجيل جديد",
@@ -48,7 +48,7 @@ class VerificationScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 8.h),
               Padding(
                 padding: EdgeInsets.only(right: 8.0.sp),
                 child: Text(
@@ -57,12 +57,12 @@ class VerificationScreen extends StatelessWidget {
                   textDirection: TextDirection.rtl,
                 ),
               ),
-              SizedBox(height: 20.h),
+              SizedBox(height: 24.h),
               SizedBox(
-                width: 350.w,
+                width: 327.w,
                 child: CodeRow(),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 12.h),
               Padding(
                 padding: EdgeInsets.only(right: 8.0.w),
                 child: Text(

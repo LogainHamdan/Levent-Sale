@@ -27,7 +27,7 @@ class SplashScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 100.h,
+                      height: 161.h,
                     ),
                     Text(
                       "اهلا بعودتك!",
@@ -35,7 +35,7 @@ class SplashScreen extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 30.sp),
+                          fontSize: 24.sp),
                     ),
                     SizedBox(
                       height: 8.h,
@@ -43,22 +43,25 @@ class SplashScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 30.0.w),
                       child: Text(
-                          "استمتع بتجربة تسوق فريدة انشر منتجاتك واشتري بكل سهولة",
+                          "استمتع بتجربة تسوق فريدة انشر منتجاتك واشتري\nبكل سهولة",
                           textAlign: TextAlign.center,
                           textDirection: TextDirection.rtl,
-                          style: TextStyle(color: greySplash)),
+                          style: TextStyle(color: greySplash, fontSize: 14.sp)),
                     ),
+                    SizedBox(
+                      height: 64.h,
+                    )
                   ],
                 ),
               ),
             ),
             SizedBox(
-              height: 380.h,
+              height: 360.h,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Column(
                   children: [
-                    SizedBox(height: 60.h),
+                    SizedBox(height: 32.h),
                     CustomElevatedButton(
                       text: "تسجيل دخول",
                       onPressed: () => Navigator.pushReplacementNamed(

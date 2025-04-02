@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
@@ -36,16 +37,12 @@ class CustomCarousel extends StatelessWidget {
                     ),
                     items: imgList.map((item) {
                       return ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                            8.0), // Adjust border radius here
-                        child: Image.asset(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: SvgPicture.asset(
                           item,
-                          fit: BoxFit
-                              .cover, // Ensure image covers the area with borders
-                          width: double
-                              .infinity, // Ensures the image stretches across the full width
-                          height: 200.0
-                              .h, // Matches the height of the CarouselSlider
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: 200.0.h,
                           errorBuilder: (context, error, stackTrace) {
                             return Center(
                               child: Icon(Icons.broken_image,

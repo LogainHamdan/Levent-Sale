@@ -1,6 +1,8 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/edit-profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -19,12 +21,12 @@ class InfoRow extends StatelessWidget {
         ? Row(
             children: [
               Padding(
-                padding: EdgeInsets.all( 10.0.sp),
+                padding: EdgeInsets.all(10.0.sp),
                 child: InkWell(
                   onTap: () => Navigator.pushReplacementNamed(
                       context, EditProfileScreen.id),
                   child: Image.asset(
-                    'assets/imgs_icons/more/assets/icons/edit-black.png',
+                    editProfileIcon,
                     height: 30.h,
                   ),
                 ),
@@ -71,11 +73,14 @@ class InfoRow extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 12.w),
-              CircleAvatar(
-                  radius: 30.r,
-                  backgroundColor: Colors.white,
-                  backgroundImage: AssetImage(
-                      "assets/imgs_icons/more/assets/icons/person.png")),
+              ClipOval(
+                child: SvgPicture.asset(
+                  personIcon,
+                  width: 60.r, // Adjust according to your needs
+                  height: 60.r,
+                  fit: BoxFit.cover,
+                ),
+              )
             ],
           );
   }

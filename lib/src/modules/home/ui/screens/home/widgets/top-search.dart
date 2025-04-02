@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/chats/chats.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/search-field.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +20,12 @@ class TopSearchBar extends StatelessWidget {
           SizedBox(width: 10.w),
           IconStack(
               onTap: () => Navigator.pushNamed(context, NotificationsScreen.id),
-              img: 'assets/imgs_icons/home/assets/icons/notification-black.png',
+              img: notificationsIcon,
               count: '3'),
           SizedBox(width: 10.w),
           IconStack(
-              onTap: () =>
-                  Navigator.pushReplacementNamed(context, ChatListScreen.id),
-              img: 'assets/imgs_icons/home/assets/icons/chat-black.png',
+              onTap: () => Navigator.pushNamed(context, ChatListScreen.id),
+              img: chatBlackIcon,
               count: '3'),
           SizedBox(width: 10.w),
           Expanded(

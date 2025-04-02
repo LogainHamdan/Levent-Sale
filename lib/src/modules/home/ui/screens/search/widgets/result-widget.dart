@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -38,8 +39,8 @@ class SearchResultsWidget extends StatelessWidget {
               int endIndex = startIndex + query.length;
 
               return ListTile(
-                leading: Image.asset(
-                  'assets/imgs_icons/home/assets/icons/search.png',
+                leading: SvgPicture.asset(
+                  searchIcon,
                   height: 20.h,
                 ),
                 title: Text.rich(
@@ -79,8 +80,8 @@ class SearchResultsWidget extends StatelessWidget {
               );
             } else {
               return ListTile(
-                leading: Image.asset(
-                  'assets/imgs_icons/home/assets/icons/search.png',
+                leading: SvgPicture.asset(
+                  searchIcon,
                   height: 20.h,
                 ),
                 title: Text(

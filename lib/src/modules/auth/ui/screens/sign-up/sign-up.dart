@@ -31,20 +31,21 @@ class SignUpScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+            padding: EdgeInsets.symmetric(horizontal: 24.0.w),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 40.h),
+                  SizedBox(height: 48.h),
                   Text(
                     "تسجيل جديد",
                     style: TextStyle(
-                      fontSize: 25.sp,
+                      fontSize: 18.sp,
                       color: kprimaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(height: 16.h),
                   CustomTextField(
                     bgcolor: grey8,
                     controller: TextEditingController(),

@@ -1,5 +1,7 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../ads/widgets/title-row.dart';
 import '../chats/no-info-widget.dart';
@@ -28,8 +30,8 @@ class NotificationsScreen extends StatelessWidget {
                       onBackTap: () =>
                           Navigator.pushNamed(context, HomeScreen.id),
                       title: 'الإشعارات',
-                      suffix: Image.asset(
-                        'assets/imgs_icons/home/assets/icons/seen.png',
+                      suffix: SvgPicture.asset(
+                        greenSeenIcon,
                       ),
                     ),
                     SizedBox(
@@ -37,8 +39,7 @@ class NotificationsScreen extends StatelessWidget {
                     ),
                     NoInfoWidget(
                       msg: 'لا يوجد إشعارات',
-                      img:
-                          'assets/imgs_icons/home/assets/icons/no-notifications.png',
+                      img: emptyNotificationsIcon,
                     ),
                   ],
                 )

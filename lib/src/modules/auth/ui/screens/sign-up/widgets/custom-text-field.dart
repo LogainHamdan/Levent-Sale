@@ -54,7 +54,7 @@ class CustomTextField extends StatelessWidget {
                 cursorColor: Colors.black,
                 style: GoogleFonts.tajawal(
                   textStyle: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                   ),
@@ -69,7 +69,7 @@ class CustomTextField extends StatelessWidget {
                   hintStyle: GoogleFonts.tajawal(
                     textStyle: TextStyle(
                       fontSize: 16.sp,
-                      color: grey4,
+                      color: grey3,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
@@ -113,7 +113,7 @@ class CustomTextField extends StatelessWidget {
                     fillColor: bgcolor,
                     filled: true,
                     hintText: hint!,
-                    hintStyle: TextStyle(color: grey4, fontSize: 16.sp),
+                    hintStyle: TextStyle(color: grey3, fontSize: 16.sp),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.r),
                       borderSide: BorderSide.none,

@@ -10,6 +10,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/name-row
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/product-card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const id = '/profile';
@@ -79,8 +80,8 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.pushNamed(context, EditProfileScreen.id),
                 backgroundColor: kprimaryColor,
                 textColor: Colors.white,
-                icon: Image.asset(
-                  'assets/imgs_icons/more/assets/icons/edit.png',
+                icon: SvgPicture.asset(
+                  editWhiteIcon,
                   height: 30.h,
                 ),
               ),

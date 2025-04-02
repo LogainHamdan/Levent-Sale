@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:flutter_svg/svg.dart';
 
 class MyCollectionScreenProvider extends ChangeNotifier {
   int _currentIndex = 0;
@@ -20,19 +21,19 @@ class MyCollectionScreenProvider extends ChangeNotifier {
   final List<Widget> _buttonIcons = [
     Padding(
       padding: EdgeInsets.only(bottom: 9.0),
-      child: Image.asset(
-        'assets/imgs_icons/sections/assets/icons/مراجعة.png',
+      child: SvgPicture.asset(
+        reviewIcon,
         height: 25.h,
       ),
     ),
     Padding(
         padding: EdgeInsets.only(bottom: 4.0),
-        child: Icon(
-          Icons.note_alt_outlined,
-          color: kprimaryColor,
+        child: SvgPicture.asset(
+          editGreenIcon,
+          height: 25.h,
         )),
-    Image.asset(
-      'assets/imgs_icons/sections/assets/icons/عرض.png',
+    SvgPicture.asset(
+      viewIcon,
       height: 25.h,
     ),
   ];

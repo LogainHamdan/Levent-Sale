@@ -4,6 +4,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/profile-men
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../config/constants.dart';
 import 'info-row.dart';
@@ -26,12 +27,11 @@ class LoggedInColumn extends StatelessWidget {
         ),
         SizedBox(height: 20.h),
         MenuItem(
-            onTap: () =>
-                Navigator.pushReplacementNamed(context, FavoriteScreen.id),
+            onTap: () => Navigator.pushNamed(context, FavoriteScreen.id),
             color: kprimary4Color,
             "المفضلة",
-            Image.asset(
-              'assets/imgs_icons/more/assets/icons/المفضلة.png',
+            SvgPicture.asset(
+              myFavIcon,
               height: 15.h,
             )),
         SizedBox(height: 15.h),
@@ -50,8 +50,8 @@ class LoggedInColumn extends StatelessWidget {
                         ))),
             color: kprimary4Color,
             "كلمة المرور",
-            Image.asset(
-              'assets/imgs_icons/more/assets/icons/كلمة المرور.png',
+            SvgPicture.asset(
+              changePassIcon,
               height: 15.h,
             )),
         SizedBox(height: 15.h),
@@ -60,8 +60,8 @@ class LoggedInColumn extends StatelessWidget {
                 context, TechnicalSupportScreen.id),
             color: kprimary4Color,
             "الدعم الفني",
-            Image.asset(
-              'assets/imgs_icons/more/assets/icons/الدعم الفني.png',
+            SvgPicture.asset(
+              techSupportIcon,
               height: 15.h,
             )),
         SizedBox(height: 15.h),
@@ -69,8 +69,8 @@ class LoggedInColumn extends StatelessWidget {
             onTap: () {},
             color: kprimary4Color,
             "من نحن",
-            Image.asset(
-              'assets/imgs_icons/more/assets/icons/من نحن.png',
+            SvgPicture.asset(
+              whoAreWeIcon,
               height: 15.h,
             )),
         SizedBox(height: 15.h),
@@ -78,8 +78,8 @@ class LoggedInColumn extends StatelessWidget {
             onTap: () {},
             color: kprimary4Color,
             "سياسة الخصوصية",
-            Image.asset(
-              'assets/imgs_icons/more/assets/icons/سياسة الخصوصية.png',
+            SvgPicture.asset(
+              privacyIcon,
               height: 15.h,
             )),
         SizedBox(height: 15.h),

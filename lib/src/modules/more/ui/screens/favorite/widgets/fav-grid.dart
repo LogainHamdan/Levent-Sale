@@ -12,8 +12,7 @@ class CustomGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () =>
-          Navigator.pushReplacementNamed(context, FavoriteCollectionScreen.id),
+      onTap: () => Navigator.pushNamed(context, FavoriteCollectionScreen.id),
       child: Center(
         child: Stack(
           children: [

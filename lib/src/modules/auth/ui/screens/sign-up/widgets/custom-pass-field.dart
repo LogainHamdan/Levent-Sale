@@ -46,7 +46,7 @@ class CustomPasswordField extends StatelessWidget {
             hintStyle: GoogleFonts.tajawal(
               textStyle: TextStyle(
                 fontSize: 16.sp,
-                color: grey4,
+                color: grey3,
                 fontWeight: FontWeight.normal,
               ),
             ),
@@ -72,11 +72,13 @@ class CustomPasswordField extends StatelessWidget {
                   child: !isVisible
                       ? SvgPicture.asset(
                           unseenPath,
-                          height: 1.h,
+                          height: 20.h,
+                          width: 20.h,
                         )
                       : Image.asset(
                           seenPath,
-                          height: 1.h,
+                          height: 20.h,
+                          width: 20.h,
                         )),
             ),
           ),

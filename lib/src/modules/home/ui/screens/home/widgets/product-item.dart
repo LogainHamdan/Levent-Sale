@@ -2,6 +2,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/ad-details.da
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../../../../config/constants.dart';
 import '../../ads/widgets/custom-rating.dart';
 import 'dicount-badge.dart';
@@ -47,7 +48,7 @@ class ProductItem extends StatelessWidget {
                             ),
                             child: Stack(
                               children: [
-                                Image.asset(
+                                SvgPicture.asset(
                                   product['image']!,
                                   width: double.infinity,
                                   height: double.infinity,
@@ -120,7 +121,7 @@ class ProductItem extends StatelessWidget {
                             child: SizedBox(
                               width: double.infinity,
                               height: 80.h,
-                              child: Image.asset(
+                              child: SvgPicture.asset(
                                 product['image']!,
                                 fit: BoxFit.cover,
                               ),

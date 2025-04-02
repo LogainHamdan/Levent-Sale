@@ -1,9 +1,11 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/MsgInput.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/custom-app-bar.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/recieved-msg.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/sent-msg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../chats/no-info-widget.dart';
 
@@ -18,17 +20,15 @@ class ConversationScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(
-          leadingIcon: Image.asset(
-            'assets/imgs_icons/home/assets/icons/more.png',
+          leadingIcon: SvgPicture.asset(
+            moreIcon,
             height: 22.h,
           ),
           name: 'محمد',
           profileImageAsset: 'assets/imgs_icons/home/assets/imgs/محمد.png',
         ),
         body: !msgsAvailable
-            ? NoInfoWidget(
-                img: 'assets/imgs_icons/home/assets/icons/no-chat.png',
-                msg: 'لا يوجد محادثة !')
+            ? NoInfoWidget(img: emptyChatIcon, msg: 'لا يوجد محادثة !')
             : Column(
                 children: [
                   Expanded(

@@ -31,15 +31,15 @@ class LoginScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+            padding: EdgeInsets.symmetric(horizontal: 24.0.w),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 80.h),
+                  SizedBox(height: 48.h),
                   Text("تسجيل دخول",
                       style: TextStyle(
-                          fontSize: 25.sp,
+                          fontSize: 18.sp,
                           color: kprimaryColor,
                           fontWeight: FontWeight.bold)),
                   SizedBox(height: 30.h),
@@ -52,10 +52,15 @@ class LoginScreen extends StatelessWidget {
                       isConfirmField: false,
                       controller: TextEditingController(),
                       hint: 'كلمة المرور'),
+                  SizedBox(
+                    height: 8.h,
+                  ),
                   Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 8.0.w),
+                        padding: EdgeInsets.only(
+                          left: 8.0.w,
+                        ),
                         child: GestureDetector(
                           onTap: () => showForgotPassword(context),
                           child: Text("نسيت كلمة المرور ؟",
@@ -71,7 +76,8 @@ class LoginScreen extends StatelessWidget {
                               Text(
                                 'تذكرني',
                                 style: GoogleFonts.tajawal(
-                                    fontSize: 14, fontWeight: FontWeight.w500),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
                               CustomCheckBox(
                                 title: "",
@@ -85,18 +91,18 @@ class LoginScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 32.h),
                   CustomElevatedButton(
                     text: 'متابعة',
                     onPressed: () =>
-                        Navigator.pushReplacementNamed(context, MainScreen.id),
+                        Navigator.pushNamed(context, MainScreen.id),
                     backgroundColor: kprimaryColor,
-                    textColor: grey9,
+                    textColor: greySplash,
                     date: false,
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 8.h),
                   OrRow(),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 8.h),
                   SocialButton(
                       facebook: false,
                       text: "الاستمرار بجوجل Google",

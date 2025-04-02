@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../config/constants.dart';
 
@@ -23,6 +24,7 @@ class InsteadWidget extends StatelessWidget {
           TextSpan(
             text: action,
             style: TextStyle(
+              fontSize: 14.sp,
               color: kprimaryColor,
               fontWeight: FontWeight.bold,
             ),

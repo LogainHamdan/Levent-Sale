@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
@@ -33,8 +34,8 @@ class ReviewWrite extends StatelessWidget {
             right: 80.w,
             top: 0,
             bottom: 2,
-            child: Image.asset(
-              'assets/imgs_icons/home/assets/icons/edit.png',
+            child: SvgPicture.asset(
+              editBlackIcon,
               height: 25.h,
               width: 25.w,
             ),

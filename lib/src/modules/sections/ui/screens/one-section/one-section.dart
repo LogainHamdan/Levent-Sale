@@ -5,6 +5,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/search-fiel
 import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../home/ui/screens/ads/widgets/products-details.dart';
 import '../../../../home/ui/screens/home/data.dart';
@@ -64,7 +65,7 @@ class Section extends StatelessWidget {
                           color: Colors.grey.shade200,
                         ),
                         child: Center(
-                          child: Image.asset(category['image']!,
+                          child: SvgPicture.asset(category['image']!,
                               width: 40.w, height: 40.h),
                         ),
                       ),

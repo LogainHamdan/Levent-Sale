@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
@@ -18,9 +19,10 @@ class CustomLogoutItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: ListTile(
-          trailing: Image.asset(
-              height: 22.h,
-              'assets/imgs_icons/more/assets/icons/تسجيل الخروج.png'),
+          trailing: SvgPicture.asset(
+            height: 22.h,
+            logoutIcon,
+          ),
           title: Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(

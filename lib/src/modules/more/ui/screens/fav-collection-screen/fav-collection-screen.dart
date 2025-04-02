@@ -1,7 +1,9 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../auth/ui/alerts/alert.dart';
 import '../../../../home/ui/screens/ads/widgets/products-details.dart';
@@ -30,8 +32,8 @@ class FavoriteCollectionScreen extends StatelessWidget {
                         Navigator.pushNamed(context, FavoriteScreen.id),
                     onSuffixTap: () => deleteCollectionAlert(context),
                     title: 'المفضلة',
-                    suffix: Image.asset(
-                      'assets/imgs_icons/more/assets/icons/حذف الصورة.png',
+                    suffix: SvgPicture.asset(
+                      deleteCollectionIcon,
                       height: 20.h,
                     ),
                   )),

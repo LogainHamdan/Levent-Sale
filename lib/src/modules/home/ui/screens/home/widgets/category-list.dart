@@ -31,7 +31,6 @@ class CategoriesList extends StatelessWidget {
             children: [
               TextButton(
                   onPressed: () => Navigator.pushNamed(context, Sections.id),
-                  //sections
                   child: Text('مشاهدة المزيد',
                       textDirection: TextDirection.rtl,
                       style: GoogleFonts.tajawal(
