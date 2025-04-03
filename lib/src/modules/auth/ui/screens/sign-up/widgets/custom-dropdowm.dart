@@ -40,8 +40,7 @@ class CustomDropdown extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
-                  iconStyleData:
-                      IconStyleData(icon: Container()), // Hide default icon
+                  iconStyleData: IconStyleData(icon: Container()),
                   dropdownStyleData: DropdownStyleData(
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
@@ -62,8 +61,8 @@ class CustomDropdown extends StatelessWidget {
                       ),
                       SvgPicture.asset(
                         arrowDownPath,
-                        width: 20.w,
-                        height: 20.h,
+                        width: 24.w,
+                        height: 24.h,
                       ),
                     ],
                   ),
@@ -86,8 +85,8 @@ class CustomDropdown extends StatelessWidget {
                           ),
                           SvgPicture.asset(
                             arrowDownPath,
-                            width: 20.w,
-                            height: 20.h,
+                            width: 24.w,
+                            height: 24.h,
                           ),
                         ],
                       );

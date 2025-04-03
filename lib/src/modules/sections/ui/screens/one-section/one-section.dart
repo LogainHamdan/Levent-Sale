@@ -23,9 +23,7 @@ class Section extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 30.h),
-          TitleRow(
-              onBackTap: () => Navigator.pushNamed(context, Sections.id),
-              title: 'الاجهزة'),
+          TitleRow(title: 'الاجهزة'),
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 16.0.w,

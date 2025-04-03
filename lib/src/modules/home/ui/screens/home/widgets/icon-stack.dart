@@ -41,7 +41,7 @@ class IconStack extends StatelessWidget {
                 top: -6.r,
                 right: -4.r,
                 child: CircleAvatar(
-                  radius: 10.r,
+                  radius: 8.r,
                   backgroundColor: kprimaryColor,
                   child: Text(
                     count,

@@ -37,8 +37,6 @@ class FavoriteScreen extends StatelessWidget {
               ),
               TitleRow(
                   onSuffixTap: () => deleteCollectionAlert(context),
-                  onBackTap: () =>
-                      Navigator.pushReplacementNamed(context, MenuScreen.id),
                   title: 'المفضلة',
                   suffix: InkWell(onTap: onSuffixTap, child: suffix)),
               SizedBox(

@@ -11,12 +11,9 @@ class CustomLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 4.h),
-      child: Text(
-        text,
-        style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
-      ),
+    return Text(
+      text,
+      style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
     );
   }
 }

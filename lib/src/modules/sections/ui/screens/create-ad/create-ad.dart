@@ -6,11 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../more/ui/screens/edit-profile/widgets/draggable-button.dart';
+import '../section-details/section-details.dart';
+
 class CreateAdScreen extends StatelessWidget {
   static const id = '/create_ad';
   final Widget lowerWidget;
+  final Widget? bottomNavBar;
 
-  const CreateAdScreen({super.key, required this.lowerWidget});
+  const CreateAdScreen(
+      {super.key, required this.lowerWidget, this.bottomNavBar});
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +27,8 @@ class CreateAdScreen extends StatelessWidget {
               children: [
                 SizedBox(height: 30.h),
                 TitleRow(
-                    onBackTap: () =>
-                        Navigator.pushNamed(context, MyCollectionScreen.id),
-                    title: 'انشاء اعلان'),
+                    title: 'انشاء اعلان',
+                    additionalBackFunction: () => stepper.previousStep()),
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
@@ -41,6 +45,7 @@ class CreateAdScreen extends StatelessWidget {
           },
         ),
       ),
+      bottomNavigationBar: bottomNavBar ?? SizedBox(),
     );
   }
 }

@@ -9,19 +9,26 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatelessWidget {
   static const id = '/main';
-  const MainScreen({super.key});
+  MainScreen({super.key});
 
-  final List<IconData> iconList = const [
-    CupertinoIcons.square_grid_2x2,
-    Icons.shopping_bag_outlined,
-    Icons.menu,
-    Icons.home_filled
+  final List<String> unselectedIcons = [
+    menuUnselected,
+    collectionUnselected,
+    sectionsUnselected,
+    homeUnselected
   ];
 
+  final List<String> selectedIcons = [
+    menuSelected,
+    collectionSelected,
+    sectionsSelected,
+    homeSelected
+  ];
   final List<Widget> screens = const [
     MenuScreen(),
     MyCollectionScreen(empty: false),
@@ -51,16 +58,18 @@ class MainScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar.builder(
         height: 60.h,
-        itemCount: iconList.length,
+        itemCount: unselectedIcons.length,
         tabBuilder: (int index, bool isActive) {
           return GestureDetector(
             onTap: () => bottomNavProvider.setIndex(index),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(iconList[index],
-                    size: isActive ? 24.sp : 24.sp,
-                    color: isActive ? kprimaryColor : grey4),
+                SvgPicture.asset(
+                  isActive ? selectedIcons[index] : unselectedIcons[index],
+                  width: 24.sp,
+                  height: 24.sp,
+                ),
                 SizedBox(height: 4.h),
                 Text(
                   labels[index],

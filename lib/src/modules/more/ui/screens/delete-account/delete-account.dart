@@ -25,9 +25,7 @@ class DeleteAccountScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
             titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-            title: TitleRow(
-                onBackTap: () => Navigator.pushNamed(context, MenuScreen.id),
-                title: 'حذف الحساب'),
+            title: TitleRow(title: 'حذف الحساب'),
             leading: SizedBox()),
         body: phase1email
             ? Padding(

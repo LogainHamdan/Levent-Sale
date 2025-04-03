@@ -27,12 +27,12 @@ class ChatListScreen extends StatelessWidget {
           SizedBox(
             height: 30.h,
           ),
-          TitleRow(
-              onBackTap: () => Navigator.pushNamed(context, MainScreen.id),
-              title: 'المحادثات'),
+          TitleRow(title: 'المحادثات'),
           Padding(
             padding: EdgeInsets.all(8.0.sp),
             child: SearchField(
+              width: 327,
+              hasFilterIcon: false,
               controller: chatsController,
             ),
           ),

@@ -28,8 +28,6 @@ class FavoriteCollectionScreen extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                   child: TitleRow(
-                    onBackTap: () =>
-                        Navigator.pushNamed(context, FavoriteScreen.id),
                     onSuffixTap: () => deleteCollectionAlert(context),
                     title: 'المفضلة',
                     suffix: SvgPicture.asset(

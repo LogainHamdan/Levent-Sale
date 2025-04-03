@@ -20,55 +20,74 @@ class FilterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController filterController = TextEditingController();
 
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: [
-            Padding(
-                padding: EdgeInsets.only(left: 8.w, right: 8.w, top: 22.h),
-                child: SearchField(
-                  controller: filterController,
-                )),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: categories.length,
-                itemBuilder: (context, index) {
-                  if (cardListIndex == 0) {
-                    return CustomCard(
-                      onTap: () => Navigator.push(
-                        context,
-                        createHorizontalPageRoute(
-                          FilterScreen(cardListIndex: 1),
-                        ),
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+          child: Column(
+            children: [
+              SizedBox(height: 16.h),
+              Row(
+                children: [
+                  SearchField(
+                    width: 295,
+                    controller: filterController,
+                  ),
+                  SizedBox(
+                    width: 8.w,
+                  ),
+                  InkWell(
+                      child: Icon(
+                        Icons.arrow_forward_outlined,
+                        size: 24.sp,
+                        color: Colors.black,
                       ),
-                      icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
-                      title: categories[index]['name'],
-                    );
-                  }
-                  if (cardListIndex == 1) {
-                    return CustomCard(
-                      onTap: () => Navigator.push(
-                        context,
-                        createHorizontalPageRoute(
-                          FilterScreen(cardListIndex: 2),
-                        ),
-                      ),
-                      icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
-                      title: 'شقق فاخرة و مفروشة',
-                    );
-                  }
-                  if (cardListIndex == 2) {
-                    return CustomCard(
-                      onTap: () => Navigator.pushNamed(context, AdsScreen.id),
-                      icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
-                      title: 'شقق فاخرة و مفروشة',
-                    );
-                  }
-                },
+                      onTap: () {
+                        Navigator.pop(context);
+                      })
+                ],
               ),
-            ),
-          ],
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    if (cardListIndex == 0) {
+                      return CustomCard(
+                        onTap: () => Navigator.push(
+                          context,
+                          createHorizontalPageRoute(
+                            FilterScreen(cardListIndex: 1),
+                          ),
+                        ),
+                        icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
+                        title: categories[index]['name'],
+                      );
+                    }
+                    if (cardListIndex == 1) {
+                      return CustomCard(
+                        onTap: () => Navigator.push(
+                          context,
+                          createHorizontalPageRoute(
+                            FilterScreen(cardListIndex: 2),
+                          ),
+                        ),
+                        icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
+                        title: 'شقق فاخرة و مفروشة',
+                      );
+                    }
+                    if (cardListIndex == 2) {
+                      return CustomCard(
+                        onTap: () => Navigator.pushNamed(context, AdsScreen.id),
+                        icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
+                        title: 'شقق فاخرة و مفروشة',
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

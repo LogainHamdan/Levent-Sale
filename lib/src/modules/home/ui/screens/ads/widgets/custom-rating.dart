@@ -2,6 +2,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/provider.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
@@ -20,25 +21,31 @@ class CustomRating extends StatelessWidget {
     final ratingProvider = Provider.of<EvaluationProvider>(context);
 
     return !flexible
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              rateNum
-                  ? Text(
-                      '4.4',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    )
-                  : SizedBox(),
-              SizedBox(width: 2.w),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: StarRating(
-                  rating: 4.4,
-                  size: 16.sp,
-                  color: amberColor,
+        ? SizedBox(
+            height: 8.h,
+            width: 56.w,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                rateNum
+                    ? Text(
+                        '4.4',
+                        style: GoogleFonts.tajawal(
+                            textStyle: TextStyle(fontSize: 12.sp)),
+                      )
+                    : SizedBox(),
+                SizedBox(width: 2.w),
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: StarRating(
+                    rating: 4.4,
+                    size: 8.sp,
+                    starCount: 4,
+                    color: amberColor,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )
         : Row(
             mainAxisAlignment: MainAxisAlignment.end,

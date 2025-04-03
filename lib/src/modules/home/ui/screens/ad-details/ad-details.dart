@@ -37,10 +37,7 @@ class AdDetailsScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TitleRow(
-                                  onBackTap: () => Navigator.pushNamed(
-                                      context, AdsScreen.id),
-                                  title: 'آيفون 14 برو ماكس'),
+                              TitleRow(title: 'آيفون 14 برو ماكس'),
                               CustomCarousel(imgList: productImages),
                               SizedBox(height: 10.0.h),
                               Directionality(

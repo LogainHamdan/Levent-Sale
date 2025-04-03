@@ -19,9 +19,8 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(top: 20.0.h),
+            padding: EdgeInsets.only(top: 12.0.h, right: 10.w, left: 10.w),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TopSearchBar(),
                 TopBanner(),
@@ -32,16 +31,19 @@ class HomeScreen extends StatelessWidget {
                   height: 22.h,
                 ),
                 ProductSection(
+                    width: 156,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "العروض والخصومات",
                     products: products),
                 ProductSection(
+                    width: 156,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "الإعلانات الجديدة",
                     products: products),
                 ProductSection(
+                    width: 156,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "الإعلانات المفترحة",

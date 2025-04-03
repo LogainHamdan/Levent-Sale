@@ -20,27 +20,30 @@ class SectionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, Section.id),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 6.0.w),
-        child: Column(
-          children: [
-            Center(
-              child: CircleAvatar(
-                radius: 30.r,
-                backgroundColor: grey7,
-                child: Padding(
-                  padding: EdgeInsets.all(6.r),
-                  child: SvgPicture.asset(
-                    img,
-                    fit: BoxFit.cover,
-                  ),
+      child: Column(
+        children: [
+          Center(
+            child: CircleAvatar(
+              radius: 30.r,
+              backgroundColor: grey7,
+              child: Padding(
+                padding: EdgeInsets.all(6.r),
+                child: SvgPicture.asset(
+                  img,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-            SizedBox(height: 8.h),
-            Text(category),
-          ],
-        ),
+          ),
+          SizedBox(height: 9.h),
+          Text(
+            category,
+            style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 12.sp,
+                color: kprimaryColor),
+          ),
+        ],
       ),
     );
   }

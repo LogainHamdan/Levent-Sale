@@ -22,10 +22,7 @@ class JoinFollow extends StatelessWidget {
             appBar: AppBar(
               titleTextStyle: Theme.of(context).textTheme.bodyLarge,
               leading: SizedBox(),
-              title: TitleRow(
-                  onBackTap: () =>
-                      Navigator.pushNamed(context, ProfileScreen.id),
-                  title: 'منة الله'),
+              title: TitleRow(title: 'منة الله'),
               bottom: TabBar(
                 dividerHeight: 0,
                 indicator: BoxDecoration(),

@@ -9,12 +9,16 @@ class ProductSection extends StatelessWidget {
   final List<Map<String, String>> products;
   final bool? isHalfed;
   final Function() onMorePressed;
+  final double? height;
+  final double? width;
   const ProductSection({
     super.key,
     required this.category,
     required this.products,
     this.isHalfed = false,
     required this.onMorePressed,
+    this.height = 169,
+    this.width = 144,
   });
 
   @override
@@ -33,13 +37,11 @@ class ProductSection extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: products
                         .map(
-                          (product) => Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.w),
-                            child: ProductItem(
-                              product: product,
-                              category: category,
-                              isHalfed: false,
-                            ),
+                          (product) => ProductItem(
+                            height: height!,
+                            width: width!,
+                            product: product,
+                            category: category,
                           ),
                         )
                         .toList(),
@@ -61,13 +63,11 @@ class ProductSection extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: products
                         .map(
-                          (product) => Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.w),
-                            child: ProductItem(
-                              product: product,
-                              category: category,
-                              isHalfed: true,
-                            ),
+                          (product) => ProductItem(
+                            height: height!,
+                            width: width!,
+                            product: product,
+                            category: category,
                           ),
                         )
                         .toList(),

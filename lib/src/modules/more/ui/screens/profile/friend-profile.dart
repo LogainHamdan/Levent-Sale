@@ -27,8 +27,6 @@ class FriendProfile extends StatelessWidget {
           titleTextStyle: Theme.of(context).textTheme.bodyLarge,
           leading: SizedBox(),
           title: TitleRow(
-            onBackTap: () =>
-                Navigator.pushReplacementNamed(context, MenuScreen.id),
             title: 'منة الله',
           ),
         ),
@@ -80,8 +78,8 @@ class FriendProfile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomSmallButton(
-                    onPressed: () => Navigator.pushReplacementNamed(
-                        context, ConversationScreen.id),
+                    onPressed: () =>
+                        Navigator.pushNamed(context, ConversationScreen.id),
                     isOutlined: true,
                     icon: SvgPicture.asset(
                       chatGreenIcon,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StepperProgress extends StatelessWidget {
   final int currentStep, totalSteps;
@@ -35,7 +37,7 @@ class StepperProgress extends StatelessWidget {
               return index.isOdd
                   ? Expanded(
                       child: Container(
-                        height: 1.5.h,
+                        height: 2.5.h,
                         color: isStepCompleted
                             ? Colors.green.withOpacity(0.6)
                             : Colors.grey.withOpacity(0.3),
@@ -68,7 +70,7 @@ class StepperProgress extends StatelessWidget {
                               ),
                           ],
                         ),
-                        SizedBox(height: 5.h),
+                        SizedBox(height: 0.h), // Adjusted for middle alignment
                       ],
                     );
             }),

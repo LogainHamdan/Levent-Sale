@@ -2,21 +2,7 @@ import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-
-import '../provider.dart';
-import 'attach-section.dart';
-import 'package:Levant_Sale/src/config/constants.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-
-import '../provider.dart';
-import 'attach-section.dart';
-
-import 'package:Levant_Sale/src/config/constants.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../provider.dart';
@@ -44,48 +30,71 @@ class MessageInput extends StatelessWidget {
                   oneOrTwo: 1,
                   icon: SvgPicture.asset(
                     photoAttachIcon,
-                    height: 20.w,
+                    height: 24.h,
+                    width: 24.w,
                   ),
                 ),
-                SizedBox(width: 8.w),
+                SizedBox(width: 16.w),
                 AttachSection(
                   oneOrTwo: 2,
                   icon: SvgPicture.asset(
                     linkAttachIcon,
-                    height: 20.w,
+                    height: 24.h,
+                    width: 24.w,
                   ),
                 ),
               ],
             ),
-            SizedBox(width: 8.w),
-            // Expanded TextField
+            SizedBox(width: 16.w),
             Expanded(
-              child: TextField(
-                textDirection: TextDirection.rtl,
-                onChanged: (value) =>
-                    context.read<ConversationProvider>().updateMessage(value),
-                decoration: InputDecoration(
-                  hintText: 'اكتب رسالة',
-                  hintTextDirection: TextDirection.rtl,
-                  hintStyle: Theme.of(context).textTheme.bodyMedium,
-                  border: InputBorder.none,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+                child: Container(
+                  height: 48.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4.r),
+                    color: grey8,
+                  ),
+                  child: TextField(
+                    textDirection: TextDirection.rtl,
+                    onChanged: (value) => context
+                        .read<ConversationProvider>()
+                        .updateMessage(value),
+                    style: GoogleFonts.tajawal(
+                        textStyle: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18.sp)),
+                    decoration: InputDecoration(
+                      hintText: 'اكتب رسالة',
+                      hintTextDirection: TextDirection.rtl,
+                      hintStyle: GoogleFonts.tajawal(
+                        textStyle: TextStyle(
+                          fontSize: 18.sp,
+                          color: grey5,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.only(
+                          right: 24.0.w, top: 13.h, bottom: 13.h),
+                    ),
+                  ),
                 ),
               ),
             ),
-
-            Consumer<ConversationProvider>(
-              builder: (context, messageProvider, child) {
-                return messageProvider.message.trim().isNotEmpty
+            Selector<ConversationProvider, String>(
+              selector: (_, provider) => provider.message,
+              builder: (context, message, child) {
+                return message.trim().isNotEmpty
                     ? IconButton(
-                        onPressed: () {
-                          // Handle send action
-                        },
+                        onPressed: () {},
                         icon: SvgPicture.asset(
                           sendIcon,
                           height: 20.h,
                         ),
                       )
-                    : SizedBox();
+                    : SizedBox.shrink();
               },
             ),
           ],

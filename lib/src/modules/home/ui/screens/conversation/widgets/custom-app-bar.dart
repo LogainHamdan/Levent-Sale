@@ -44,19 +44,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               SizedBox(width: 10.w),
               SizedBox(
-                height: 80.h,
-                child: InkWell(
-                  onTap: () => Navigator.pushReplacementNamed(
-                      context, ChatListScreen.id),
-                  child: SizedBox(
-                    height: 20.h,
-                    width: 20.w,
-                    child: SvgPicture.asset(
-                      pageArrowBackPath,
-                    ),
-                  ),
-                ),
-              ),
+                  height: 80.h,
+                  child: InkWell(
+                      child: Icon(
+                        Icons.arrow_forward_outlined,
+                        size: 24.sp,
+                        color: Colors.black,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      })),
             ],
           ),
         ),

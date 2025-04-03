@@ -25,10 +25,7 @@ class AdsScreen extends StatelessWidget {
               SizedBox(height: 35.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-                child: TitleRow(
-                    onBackTap: () =>
-                        Navigator.pushNamed(context, MainScreen.id),
-                    title: 'الإعلانات'),
+                child: TitleRow(title: 'الإعلانات'),
               ),
               SizedBox(height: 10.h),
               Padding(

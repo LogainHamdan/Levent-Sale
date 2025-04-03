@@ -46,6 +46,9 @@ class CustomTextField extends StatelessWidget {
                   textDirection: TextDirection.rtl,
                 ),
               ),
+              SizedBox(
+                height: 16.h,
+              ),
               TextField(
                 controller: controller,
                 keyboardType: keyboardType,
@@ -53,12 +56,10 @@ class CustomTextField extends StatelessWidget {
                 textDirection: textDirection,
                 cursorColor: Colors.black,
                 style: GoogleFonts.tajawal(
-                  textStyle: TextStyle(
-                    fontSize: 16.sp,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
+                    textStyle: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18.sp)),
                 decoration: InputDecoration(
                   prefixIcon: prefix,
                   suffixIcon: suffix,

@@ -23,9 +23,7 @@ class MyCollectionScreen extends StatelessWidget {
             SizedBox(
               height: 30.h,
             ),
-            TitleRow(
-                onBackTap: () => Navigator.pushNamed(context, MainScreen.id),
-                title: 'تشكيلتي'),
+            TitleRow(title: 'تشكيلتي'),
             SizedBox(height: 16.h),
 
             empty

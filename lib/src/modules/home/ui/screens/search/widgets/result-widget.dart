@@ -25,8 +25,7 @@ class SearchResultsWidget extends StatelessWidget {
       builder: (context, provider, child) {
         return ListView.separated(
           shrinkWrap: true,
-          physics:
-              const NeverScrollableScrollPhysics(), // تجنب التمرير المتداخل
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: provider.searchResults.length,
           itemBuilder: (context, index) {
             String query = provider.searchController.text.trim();
@@ -39,65 +38,85 @@ class SearchResultsWidget extends StatelessWidget {
               int endIndex = startIndex + query.length;
 
               return ListTile(
-                leading: SvgPicture.asset(
-                  searchIcon,
-                  height: 20.h,
-                ),
-                title: Text.rich(
-                  TextSpan(
-                    children: [
+                // Removed content padding to reduce space between items
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text.rich(
                       TextSpan(
-                        text: result.substring(0, startIndex),
-                        style: GoogleFonts.tajawal(
-                          textStyle: TextStyle(
-                            fontSize: 16.sp,
-                            color: Colors.grey,
+                        children: [
+                          TextSpan(
+                            text: result.substring(0, startIndex),
+                            style: GoogleFonts.tajawal(
+                              textStyle: TextStyle(
+                                fontSize: 16.sp,
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      TextSpan(
-                        text: result.substring(startIndex, endIndex),
-                        style: GoogleFonts.tajawal(
-                          textStyle: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                          TextSpan(
+                            text: result.substring(startIndex, endIndex),
+                            style: GoogleFonts.tajawal(
+                              textStyle: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      TextSpan(
-                        text: result.substring(endIndex),
-                        style: GoogleFonts.tajawal(
-                          textStyle: TextStyle(
-                            fontSize: 16.sp,
-                            color: Colors.grey,
+                          TextSpan(
+                            text: result.substring(endIndex),
+                            style: GoogleFonts.tajawal(
+                              textStyle: TextStyle(
+                                fontSize: 16.sp,
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                      textAlign: TextAlign.right,
+                    ),
+                    SizedBox(width: 11.w),
+                    Image.asset(
+                      searchIcon,
+                      height: 24.h,
+                      width: 24.w,
+                    ),
+                  ],
                 ),
               );
             } else {
               return ListTile(
-                leading: SvgPicture.asset(
-                  searchIcon,
-                  height: 20.h,
-                ),
-                title: Text(
-                  result,
-                  style: GoogleFonts.tajawal(
-                    textStyle: TextStyle(
-                      fontSize: 16.sp,
-                      color: Colors.grey,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      result,
+                      style: GoogleFonts.tajawal(
+                        textStyle: TextStyle(
+                          fontSize: 16.sp,
+                          color: grey5,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      textAlign: TextAlign.right,
                     ),
-                  ),
+                    SizedBox(width: 11.w),
+                    Image.asset(
+                      searchIcon,
+                      height: 24.h,
+                      width: 24.w,
+                    ),
+                  ],
                 ),
               );
             }
           },
-          separatorBuilder: (context, index) =>
-              Divider(color: Colors.grey[300]),
+          separatorBuilder: (context, index) => Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 2.h),
+            child: Divider(color: greySplash),
+          ),
         );
       },
     );

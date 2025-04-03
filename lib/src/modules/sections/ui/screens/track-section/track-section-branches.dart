@@ -4,11 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../auth/ui/alerts/alert.dart';
 import '../../../../home/ui/screens/home/data.dart';
 import '../../../../home/ui/screens/search-filter/widgets/card.dart';
 import '../../../../home/ui/screens/search-filter/widgets/horizontal-navigate.dart';
+import '../../../../more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import '../create-ad/create-ad.dart';
 import '../create-ad/provider.dart';
+import '../section-details/provider.dart';
 import '../section-details/section-details.dart';
 
 class SectionTrack extends StatelessWidget {
@@ -18,6 +21,8 @@ class SectionTrack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final stepperProvider = Provider.of<CreateAdProvider>(context);
+
     return ListView.builder(
       shrinkWrap: true,
       itemCount: 6,
@@ -59,9 +64,21 @@ class SectionTrack extends StatelessWidget {
                 Navigator.push(
                   context,
                   createHorizontalPageRoute(CreateAdScreen(
+                      bottomNavBar: DraggableButton('متابعة', onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateAdScreen(
+                                    bottomNavBar: DraggableButton('متابعة',
+                                        onPressed: () {
+                                      stepperProvider.nextStep();
+                                      showAdCreated(context);
+                                    }),
+                                    lowerWidget: SectionDetails(id: 1))));
+                      }),
                       lowerWidget: SectionDetails(
-                    id: 0,
-                  ))),
+                        id: 0,
+                      ))),
                 );
               });
         }

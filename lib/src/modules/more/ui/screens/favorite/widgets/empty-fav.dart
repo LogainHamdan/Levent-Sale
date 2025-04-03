@@ -24,7 +24,8 @@ class EmptyFav extends StatelessWidget {
         ),
         SvgPicture.asset(
           emptyFavIcon,
-          height: 120.h,
+          height: 180.h,
+          width: 180.w,
         ),
         SizedBox(
           height: 30.h,

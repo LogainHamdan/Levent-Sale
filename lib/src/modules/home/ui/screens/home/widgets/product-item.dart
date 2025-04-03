@@ -11,12 +11,15 @@ import 'favorite-bitton.dart';
 class ProductItem extends StatelessWidget {
   final Map<String, String> product;
   final String category;
-  final bool isHalfed;
+  final double? height;
+  final double? width;
+
   const ProductItem({
     super.key,
     required this.product,
     required this.category,
-    this.isHalfed = false,
+    this.height = 169,
+    this.width = 144,
   });
 
   @override
@@ -24,157 +27,96 @@ class ProductItem extends StatelessWidget {
     String productKey = '$category-${product['name']!}';
 
     return InkWell(
-      onTap: () => Navigator.pushNamed(context, AdDetailsScreen.id),
-      child: Container(
-          margin: EdgeInsets.all(8.sp),
-          child: isHalfed
-              ? Container(
-                  height: 220.h,
-                  width: 220.w,
-                  decoration: BoxDecoration(
-                    color: grey7,
-                    borderRadius: BorderRadius.circular(5.r),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 8.0.h),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(5.r),
-                              topLeft: Radius.circular(5.r),
-                            ),
-                            child: Stack(
-                              children: [
-                                SvgPicture.asset(
-                                  product['image']!,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                                Positioned(
-                                  top: 5.h,
-                                  left: 5.w,
-                                  child: CustomButton(
-                                      favIcon: true, productKey: productKey),
-                                ),
-                              ],
-                            ),
-                          ),
+        onTap: () => Navigator.pushNamed(context, AdDetailsScreen.id),
+        child: Container(
+            margin: EdgeInsets.all(8.sp),
+            child: Container(
+              height: height!.h,
+              width: width!.w,
+              decoration: BoxDecoration(
+                color: grey7,
+                borderRadius: BorderRadius.circular(4.r),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(top: 8.0.h),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 84.h,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(5.r),
+                          topLeft: Radius.circular(5.r),
                         ),
-                        Expanded(
-                          flex: 4,
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 4.0.w),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  product['name']!,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14.sp),
-                                  textAlign: TextAlign.right,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
-                                ),
-                                Text(
-                                  textDirection: TextDirection.rtl,
-                                  'هاتف ذكي متطور ب....',
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.right,
-                                ),
-                                CustomRating(flexible: false, rateNum: true),
-                                SizedBox(),
-                                Text(
-                                  product['price']!,
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.right,
-                                ),
-                              ],
+                        child: Stack(
+                          children: [
+                            SvgPicture.asset(
+                              product['image']!,
+                              fit: BoxFit.cover,
                             ),
-                          ),
+                            Positioned(
+                              top: 8.h,
+                              left: 8.w,
+                              child: CustomButton(
+                                  favIcon: true, productKey: productKey),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                )
-              : Container(
-                  width: 150.w,
-                  height: 200.h,
-                  margin: EdgeInsets.only(right: 6.w, left: 6.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(4.r),
-                            child: SizedBox(
-                              width: double.infinity,
-                              height: 80.h,
-                              child: SvgPicture.asset(
-                                product['image']!,
-                                fit: BoxFit.cover,
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 4.0.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              product['name']!,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 12.sp),
+                              textAlign: TextAlign.right,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                            Text(
+                              textDirection: TextDirection.rtl,
+                              'هاتف ذكي متطور ب....',
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.right,
+                            ),
+                            SizedBox(
+                              height: 12.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  CustomRating(flexible: false, rateNum: true),
+                                  Expanded(
+                                    child: Text(
+                                      product['price']!,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14.sp,
+                                      ),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                          Positioned(
-                            top: 8.h,
-                            left: 110.w,
-                            child: DiscountBadge(),
-                          ),
-                          Positioned(
-                            top: 6.h,
-                            left: 6.w,
-                            child: CustomButton(
-                                favIcon: true, productKey: productKey),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        product['name']!,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14.sp),
-                        textAlign: TextAlign.right,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
-                      Text(
-                        product['description']!,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.right,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
-                      CustomRating(flexible: false, rateNum: true),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          product['price']!,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14.sp,
-                          ),
-                          textAlign: TextAlign.right,
+                          ],
                         ),
                       ),
-                    ],
-                  ))),
-    );
+                    ),
+                  ],
+                ),
+              ),
+            )));
   }
 }

@@ -65,13 +65,13 @@ final List<Map<String, String>> products = [
   {
     'name': 'مطلوب مصمم جرافيك',
     'image': jobsIcon,
-    'price': 'راتب شهري',
+    'price': '\$1500',
     'description': 'فرصة رائعة لمصممي الجرافيك المبدعين للعمل ضمن فريق محترف.',
   },
   {
     'name': 'فرصة عمل مهندس برمجيات',
     'image': jobsIcon,
-    'price': 'راتب تنافسي',
+    'price': '\$1500',
     'description': 'وظيفة مميزة لمهندسي البرمجيات ببيئة عمل إبداعية.',
   },
 
@@ -93,13 +93,13 @@ final List<Map<String, String>> products = [
   {
     'name': 'خدمات تصميم مواقع',
     'image': servicesIcon,
-    'price': 'حسب الطلب',
+    'price': '\$1500',
     'description': 'تصميم مواقع إلكترونية احترافية بأحدث التقنيات.',
   },
   {
     'name': 'خدمات الترجمة الاحترافية',
     'image': servicesIcon,
-    'price': 'حسب الكلمات',
+    'price': '\$1500',
     'description': 'ترجمة دقيقة من وإلى عدة لغات بأعلى جودة.',
   },
 

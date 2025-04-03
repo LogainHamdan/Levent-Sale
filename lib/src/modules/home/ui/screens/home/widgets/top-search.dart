@@ -13,27 +13,24 @@ class TopSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController homeSearchController = TextEditingController();
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-      child: Row(
-        children: [
-          SizedBox(width: 10.w),
-          IconStack(
-              onTap: () => Navigator.pushNamed(context, NotificationsScreen.id),
-              img: notificationsIcon,
-              count: '3'),
-          SizedBox(width: 10.w),
-          IconStack(
-              onTap: () => Navigator.pushNamed(context, ChatListScreen.id),
-              img: chatBlackIcon,
-              count: '3'),
-          SizedBox(width: 10.w),
-          Expanded(
-              child: SearchField(
+    return Row(
+      children: [
+        IconStack(
+            onTap: () => Navigator.pushNamed(context, NotificationsScreen.id),
+            img: notificationsIcon,
+            count: '3'),
+        SizedBox(width: 8.w),
+        IconStack(
+            onTap: () => Navigator.pushNamed(context, ChatListScreen.id),
+            img: chatBlackIcon,
+            count: '3'),
+        SizedBox(width: 16.w),
+        Expanded(
+          child: SearchField(
             controller: homeSearchController,
-          )),
-        ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

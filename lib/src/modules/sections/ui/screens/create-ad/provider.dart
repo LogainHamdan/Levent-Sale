@@ -1,8 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-
 
 class CreateAdProvider extends ChangeNotifier {
   int _currentStep = 0;
@@ -25,5 +21,5 @@ class CreateAdProvider extends ChangeNotifier {
     }
   }
 
-
+  bool isLastStep() => _currentStep == _totalSteps - 1;
 }

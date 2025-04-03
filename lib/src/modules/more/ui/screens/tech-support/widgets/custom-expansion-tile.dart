@@ -1,6 +1,7 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter/material.dart';
@@ -59,10 +60,10 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(
-                    _isExpanded ? Icons.expand_less : Icons.expand_more,
-                    color: grey2,
-                  ),
+                  SvgPicture.asset(
+                      height: 15.h,
+                      width: 7.w,
+                      _isExpanded ? aboveGreyPath : greyArrowDownPath),
                   Expanded(
                     child: Text(
                       widget.title,

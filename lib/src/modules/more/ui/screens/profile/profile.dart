@@ -25,7 +25,6 @@ class ProfileScreen extends StatelessWidget {
           titleTextStyle: Theme.of(context).textTheme.bodyLarge,
           leading: SizedBox(),
           title: TitleRow(
-            onBackTap: () => Navigator.pushNamed(context, MenuScreen.id),
             title: 'منة الله',
           ),
         ),

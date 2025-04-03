@@ -47,11 +47,15 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                             width: 50.w,
                             height: 50.h,
                             decoration: BoxDecoration(
-                              color: grey7,
+                              color: greySplash,
                               shape: BoxShape.circle,
                             ),
                             child: IconButton(
-                              icon: Icon(Icons.call, color: kprimaryColor),
+                              icon: Icon(
+                                Icons.call,
+                                color: kprimaryColor,
+                                size: 18.sp,
+                              ),
                               onPressed: () {},
                             ),
                           ),
@@ -92,8 +96,8 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                       height: 20.h,
                     ),
                     text: 'محادثة',
-                    onPressed: () => Navigator.pushReplacementNamed(
-                        context, ConversationScreen.id),
+                    onPressed: () =>
+                        Navigator.pushNamed(context, ConversationScreen.id),
                     backgroundColor: kprimaryColor,
                     textColor: grey9,
                   ),

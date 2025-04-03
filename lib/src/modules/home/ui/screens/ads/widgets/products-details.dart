@@ -32,7 +32,6 @@ class ProductsDetails extends StatelessWidget {
           itemCount: products.length,
           itemBuilder: (context, index) {
             return ProductItem(
-              isHalfed: true,
               product: products[index],
               category: '',
             );

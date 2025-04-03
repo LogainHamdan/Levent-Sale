@@ -27,8 +27,6 @@ class NotificationsScreen extends StatelessWidget {
                       height: 30.h,
                     ),
                     TitleRow(
-                      onBackTap: () =>
-                          Navigator.pushNamed(context, HomeScreen.id),
                       title: 'الإشعارات',
                       suffix: SvgPicture.asset(
                         greenSeenIcon,
@@ -46,10 +44,7 @@ class NotificationsScreen extends StatelessWidget {
               : Column(
                   children: [
                     SizedBox(height: 30.h),
-                    TitleRow(
-                        onBackTap: () =>
-                            Navigator.pushNamed(context, HomeScreen.id),
-                        title: 'الإشعارات'),
+                    TitleRow(title: 'الإشعارات'),
                     Expanded(
                         child: ListView.builder(
                       padding:

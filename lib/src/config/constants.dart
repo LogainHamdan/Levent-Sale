@@ -57,10 +57,21 @@ String arrowRightPath = 'assets/imgs_icons/general/arrow-right.svg';
 String calendarArrowLeftPath = 'assets/imgs_icons/auth/assets/icons/Back.svg';
 String calendarArrowRightPath =
     'assets/imgs_icons/general/calendar-arrow-right.svg';
-String arrowDownGreyPath = 'assets/imgs_icons/general/arrow-down-grey.png';
-String greyArrowDownPath = 'assets/imgs_icons/general/arrow-down-grey.png';
-String greyArrowLeftPath = 'assets/imgs_icons/general/arrow-down-grey.png';
-String pageArrowBackPath = 'assets/imgs_icons/general/page-arrow-back.svg';
+String greyArrowDownPath = 'assets/imgs_icons/general/grey-arrow-down.svg';
+String greyArrowLeftPath = 'assets/imgs_icons/general/grey-arrow-left.svg';
+String greyArrowRightPath = 'assets/imgs_icons/general/grey-arrow-right.svg';
+
+///navigation bar
+String homeUnselected = 'assets/imgs_icons/general/home-2.svg';
+String homeSelected = 'assets/imgs_icons/general/Vector.svg';
+String sectionsUnselected = 'assets/imgs_icons/general/element-3.svg';
+String sectionsSelected = 'assets/imgs_icons/general/element-4.svg';
+String menuUnselected = 'assets/imgs_icons/general/menu.svg';
+String menuSelected = 'assets/imgs_icons/general/menu-colored.svg';
+String collectionUnselected = 'assets/imgs_icons/general/shopping-bag.svg';
+String collectionSelected =
+    'assets/imgs_icons/general/shopping-bag-colored.svg';
+String addIcon = 'assets/imgs_icons/general/Vectorplus.svg';
 
 ///home
 String callPath = 'assets/imgs_icons/home/assets/icons/call.svg';
@@ -141,7 +152,8 @@ String addCircleGreenIcon =
     'assets/imgs_icons/more/assets/icons/add-circlelll.svg';
 String myFavIcon = 'assets/imgs_icons/more/assets/icons/dddddddd.svg';
 String editWhiteIcon = 'assets/imgs_icons/more/assets/icons/jjjjjjjjjj.svg';
-String editProfileIcon = 'assets/imgs_icons/more/assets/icons/edit-black.png';
+String editProfileIcon =
+    'assets/imgs_icons/more/assets/icons/nenfduwefubfud.svg';
 String logoutIcon = 'assets/imgs_icons/more/assets/icons/fffffff.svg';
 String verifiedGreenIcon =
     'assets/imgs_icons/more/assets/icons/fluent_checkmark-starburst-16-filled.svg';

@@ -47,7 +47,6 @@ class ChangePassColumn extends StatelessWidget {
                 ],
               )
             : TitleRow(
-                onBackTap: () => Navigator.pushNamed(context, MenuScreen.id),
                 title: 'تغيير كلمة المرور',
               ),
         alert

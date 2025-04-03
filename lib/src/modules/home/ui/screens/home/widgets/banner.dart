@@ -40,43 +40,49 @@ class TopBanner extends StatelessWidget {
           margin: EdgeInsets.all(10.sp),
           decoration: BoxDecoration(
             color: kprimaryColor,
-            borderRadius: BorderRadius.circular(10.r),
+            borderRadius: BorderRadius.circular(4.r),
           ),
-          height: 170.h,
+          height: 140.h,
+          width: 327.w,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            padding: EdgeInsets.symmetric(horizontal: 32.0.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
                   'assets/imgs_icons/home/assets/imgs/iphone12.png',
                   fit: BoxFit.contain,
-                  height: 120.h,
+                  height: 100.h,
+                  width: 98.w,
                 ),
                 SvgPicture.asset(
                   rightOfBannerPath,
                   fit: BoxFit.contain,
-                  height: 130.h,
+                  height: 114.h,
+                  width: 77.w,
                 ),
               ],
             ),
           ),
         ),
-        Positioned(
-          bottom: 14.h,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(3, (i) {
-              return Container(
-                width: 6.w,
-                height: 6.w,
-                margin: EdgeInsets.symmetric(horizontal: 4.w),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: bannerProvider.currentIndex == i ? grey9 : grey6,
-                ),
-              );
-            }),
+        Directionality(
+          textDirection: TextDirection.rtl,
+          child: Positioned(
+            bottom: 14.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(3, (i) {
+                return Container(
+                  width: 6.w,
+                  height: 6.w,
+                  margin: EdgeInsets.symmetric(horizontal: 4.w),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: bannerProvider.currentIndex == i ? grey9 : grey6,
+                  ),
+                );
+              }),
+            ),
           ),
         ),
       ],

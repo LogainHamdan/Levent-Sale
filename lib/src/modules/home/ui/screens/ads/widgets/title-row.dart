@@ -7,7 +7,7 @@ import '../../home/home.dart';
 class TitleRow extends StatelessWidget {
   final Widget? suffix;
   final Function()? onSuffixTap;
-  final Function() onBackTap;
+  final Function()? additionalBackFunction;
 
   final String title;
   const TitleRow({
@@ -15,7 +15,7 @@ class TitleRow extends StatelessWidget {
     required this.title,
     this.suffix,
     this.onSuffixTap,
-    required this.onBackTap,
+    this.additionalBackFunction,
   });
 
   @override
@@ -43,11 +43,12 @@ class TitleRow extends StatelessWidget {
           InkWell(
               child: Icon(
                 Icons.arrow_forward_outlined,
-                size: 25.sp,
+                size: 24.sp,
                 color: Colors.black,
               ),
               onTap: () {
                 Navigator.pop(context);
+                additionalBackFunction?.call();
               })
         ],
       ),

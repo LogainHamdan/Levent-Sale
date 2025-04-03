@@ -24,7 +24,8 @@ class CustomHeader extends StatelessWidget {
                   textDirection: TextDirection.rtl,
                   style: GoogleFonts.tajawal(
                     textStyle: TextStyle(
-                      fontSize: 14.sp,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500,
                       color: kprimaryColor,
                     ),
                   ))),
@@ -32,8 +33,8 @@ class CustomHeader extends StatelessWidget {
             title,
             textDirection: TextDirection.rtl,
             style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ],

@@ -8,7 +8,6 @@ import '../../../../../../config/constants.dart';
 import '../provider.dart';
 
 class CustomDropdownSection extends StatelessWidget {
-  //بدي اعملها نفس الويدجت الي بصفحة انشاء الحساب بس مش عارفة كيف امرر البروفايدر
   final String hint;
   final List<String> items;
   final String dropdownKey;
@@ -24,16 +23,15 @@ class CustomDropdownSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<SectionDetailsProvider>(
       builder: (context, provider, child) {
-        List<String> uniqueItems = items.toSet().toList(); // إزالة التكرارات
+        List<String> uniqueItems = items.toSet().toList();
         String? selectedValue = provider.getSelectedValue(dropdownKey);
 
-        // إذا لم تكن القيمة المختارة موجودة في القائمة، نجعلها `null`
         if (selectedValue != null && !uniqueItems.contains(selectedValue)) {
           selectedValue = null;
         }
 
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Directionality(
               textDirection: TextDirection.rtl,
@@ -42,14 +40,20 @@ class CustomDropdownSection extends StatelessWidget {
                   isExpanded: true,
                   value: selectedValue,
                   buttonStyleData: ButtonStyleData(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    padding: EdgeInsets.symmetric(horizontal: 14.w),
                     height: 50.h,
                     decoration: BoxDecoration(
                       color: grey8,
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
-                  iconStyleData: IconStyleData(icon: Container()),
+                  iconStyleData: IconStyleData(
+                    icon: SvgPicture.asset(
+                      arrowDownPath,
+                      width: 24.w,
+                      height: 24.h,
+                    ),
+                  ),
                   dropdownStyleData: DropdownStyleData(
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
@@ -68,15 +72,11 @@ class CustomDropdownSection extends StatelessWidget {
                           color: grey4,
                         ),
                       ),
-                      SvgPicture.asset(
-                        arrowDownPath,
-                        width: 15.w,
-                        height: 15.h,
-                      ),
                     ],
                   ),
                   items: uniqueItems.map((String item) {
                     return DropdownMenuItem<String>(
+                      alignment: Alignment.centerRight,
                       value: item,
                       child: Padding(
                         padding: EdgeInsets.symmetric(vertical: 8.h),

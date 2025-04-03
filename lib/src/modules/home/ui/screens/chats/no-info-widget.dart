@@ -19,11 +19,15 @@ class NoInfoWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset(img),
+          SvgPicture.asset(
+            img,
+            height: 180.h,
+            width: 180.w,
+          ),
           SizedBox(height: 16.h),
           Text(
             msg,
-            style: TextStyle(fontSize: 30.sp, color: Colors.grey.shade600),
+            style: TextStyle(fontSize: 18.sp, color: Colors.grey.shade600),
           ),
         ],
       ),

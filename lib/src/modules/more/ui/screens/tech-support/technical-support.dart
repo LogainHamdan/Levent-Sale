@@ -28,10 +28,7 @@ class TechnicalSupportScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.h),
-                    child: TitleRow(
-                        onBackTap: () =>
-                            Navigator.pushNamed(context, MenuScreen.id),
-                        title: 'الدعم الفني'),
+                    child: TitleRow(title: 'الدعم الفني'),
                   ),
                   TabBar(
                     indicatorColor: kprimaryColor,

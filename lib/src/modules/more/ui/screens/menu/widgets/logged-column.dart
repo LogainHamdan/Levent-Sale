@@ -56,8 +56,8 @@ class LoggedInColumn extends StatelessWidget {
             )),
         SizedBox(height: 15.h),
         MenuItem(
-            onTap: () => Navigator.pushReplacementNamed(
-                context, TechnicalSupportScreen.id),
+            onTap: () =>
+                Navigator.pushNamed(context, TechnicalSupportScreen.id),
             color: kprimary4Color,
             "الدعم الفني",
             SvgPicture.asset(

@@ -22,8 +22,7 @@ class Sections extends StatelessWidget {
                 SizedBox(
                   height: 30.h,
                 ),
-                TitleRow(
-                    onBackTap: () => Navigator.pop(context), title: 'الأقسام'),
+                TitleRow(title: 'الأقسام'),
                 TopBanner(),
                 SizedBox(
                   height: 20.h,

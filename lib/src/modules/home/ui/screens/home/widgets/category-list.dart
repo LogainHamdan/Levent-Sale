@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-header.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/section-details.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
 import 'package:flutter/material.dart';
@@ -24,42 +25,24 @@ class CategoriesList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(
-                  onPressed: () => Navigator.pushNamed(context, Sections.id),
-                  child: Text('مشاهدة المزيد',
-                      textDirection: TextDirection.rtl,
-                      style: GoogleFonts.tajawal(
-                        textStyle: TextStyle(
-                          fontSize: 14.sp,
-                          color: kprimaryColor,
-                        ),
-                      ))),
-              Text(
-                'الأقسام',
-                textDirection: TextDirection.rtl,
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
+        CustomHeader(
+            title: 'الأقسام',
+            onPressed: () => Navigator.pushNamed(context, Sections.id)),
         SingleChildScrollView(
           reverse: true,
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(categoryNames.length, (index) {
-              return SectionItem(
-                  category: categoryNames[index], img: categoryImages[index]);
+              return Padding(
+                padding: EdgeInsets.only(left: index == 0 ? 0 : 16.w),
+                child: SectionItem(
+                  category: categoryNames[index],
+                  img: categoryImages[index],
+                ),
+              );
             }),
           ),
-        ),
+        )
       ],
     );
   }
