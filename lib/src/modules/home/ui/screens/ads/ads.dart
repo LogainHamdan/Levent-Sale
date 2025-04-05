@@ -31,6 +31,8 @@ class AdsScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                 child: SearchField(
+                  width: 327,
+                  hasFilterIcon: true,
                   controller: adController,
                 ),
               ),

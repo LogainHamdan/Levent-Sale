@@ -28,7 +28,7 @@ class SectionItem extends StatelessWidget {
               backgroundColor: grey7,
               child: Padding(
                 padding: EdgeInsets.all(6.r),
-                child: SvgPicture.asset(
+                child: Image.asset(
                   img,
                   fit: BoxFit.cover,
                 ),

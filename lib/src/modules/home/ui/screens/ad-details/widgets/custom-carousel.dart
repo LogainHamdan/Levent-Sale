@@ -14,7 +14,7 @@ class CustomCarousel extends StatelessWidget {
 
   final List<String> imgList;
 
-  CustomCarousel({super.key, required this.imgList});
+  const CustomCarousel({super.key, required this.imgList});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class CustomCarousel extends StatelessWidget {
                     items: imgList.map((item) {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
-                        child: SvgPicture.asset(
+                        child: Image.asset(
                           item,
                           fit: BoxFit.cover,
                           width: double.infinity,

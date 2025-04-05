@@ -2,7 +2,6 @@ import '../../../../../config/constants.dart';
 
 final List<Map<String, dynamic>> categories = [
   {'name': 'العقارات', 'image': propertiesIcon, 'count': '12K'},
-  {'name': 'المتفرقات', 'image': mixIcon, 'count': '12K'},
   {'name': 'المركبات', 'image': carsIcon, 'count': '8.5K'},
   {'name': 'الهواتف الذكية', 'image': mobileIcon, 'count': '15K'},
   {'name': 'الأثاث', 'image': furnitureIcon, 'count': '9.2K'},
@@ -27,23 +26,27 @@ final List<Map<String, dynamic>> categories = [
 final List<String> categoryImages = [
   propertiesIcon,
   carsIcon,
+  mobileIcon,
   furnitureIcon,
   jobsIcon,
-  devicesIcon,
+  computerIcon,
   clothesIcon,
-  gamesIcon,
+  servicesIcon,
   mobileIcon,
   healthAndBeautyIcon,
   cultureIcon,
   servicesIcon,
   travelIcon,
-  accessoriesIcon,
+  gamesIcon,
   animalsIcon,
   foodIcon,
+  accessoriesIcon,
+  cultureIcon,
+  healthAndBeautyIcon,
   devicesIcon,
-  motherAndKidIcon,
   sportsIcon,
   makeupIcon,
+  motherAndKidIcon,
   mixIcon,
 ];
 
@@ -64,6 +67,8 @@ final List<String> categoryNames = [
   'الاثار',
   'الصحة والجمال',
   'الاجهزة',
+  'الرياضة',
+  'التجميل',
   'الأم وطفلها',
   'المتفرقات',
 ];
@@ -194,61 +199,61 @@ final List<Map<String, String>> products = [
     'price': '\$120',
     'description': 'سلسلة عصرية مصنوعة من الفضة النقية.',
   },
-  //الاجهزة
+  // الاجهزة
 
-  // {
-  //   'name': 'iPhone XR',
-  //   'image': 'assets/imgs_icons/home/assets/imgs/ايفون6.png',
-  //   'price': '\$500',
-  //   'description': 'iPhone XR بشاشة Liquid Retina وأداء ممتاز بسعر معقول.',
-  // },
-  // {
-  //   'name': 'iPhone 15 Pro Max',
-  //   'image': 'assets/imgs_icons/home/assets/imgs/ايفون 7.png',
-  //   'price': '\$1300',
-  //   'description':
-  //       'أحدث iPhone 15 Pro Max بتصميم من التيتانيوم ومعالج A17 Pro.',
-  // },
-  // {
-  //   'name': 'iPhone 14 Plus',
-  //   'image': 'assets/imgs_icons/home/assets/imgs/ايفون8.png',
-  //   'price': '\$1100',
-  //   'description': 'iPhone 14 Plus بشاشة كبيرة وبطارية تدوم طوال اليوم.',
-  // },
-  // {
-  //   'name': 'iPhone 13 Pro Max',
-  //   'image': 'assets/imgs_icons/home/assets/imgs/ايفون1.png',
-  //   'price': '\$1100',
-  //   'description':
-  //       'هاتف iPhone 13 Pro Max مع شاشة Super Retina XDR وكاميرا احترافية.',
-  // },
-  // {
-  //   'name': 'iPhone 12 Pro',
-  //   'image': 'assets/imgs_icons/home/assets/imgs/ايفون2.png',
-  //   'price': '\$900',
-  //   'description':
-  //       'iPhone 12 Pro بتصميم أنيق، ومعالج A14 Bionic لتجربة أداء مذهلة.',
-  // },
-  // {
-  //   'name': 'iPhone 11',
-  //   'image': 'assets/imgs_icons/home/assets/imgs/ايفون3.png',
-  //   'price': '\$650',
-  //   'description': 'iPhone 11 بشاشة Liquid Retina ومعالج A13 Bionic القوي.',
-  // },
-  // {
-  //   'name': 'iPhone SE (2022)',
-  //   'image': 'assets/imgs_icons/home/assets/imgs/ايفون4.png',
-  //   'price': '\$450',
-  //   'description':
-  //       'iPhone SE (الجيل الثالث) بمعالج A15 Bionic بحجم صغير وأداء قوي.',
-  // },
-  // {
-  //   'name': 'iPhone 14 Pro',
-  //   'image': 'assets/imgs_icons/home/assets/imgs/ايفون5.png',
-  //   'price': '\$1200',
-  //   'description':
-  //       'iPhone 14 Pro مع ميزة Dynamic Island وكاميرا بدقة 48 ميجابكسل.',
-  // },
+  {
+    'name': 'iPhone XR',
+    'image': 'assets/imgs_icons/home/assets/imgs/ايفون6.png',
+    'price': '\$500',
+    'description': 'iPhone XR بشاشة Liquid Retina وأداء ممتاز بسعر معقول.',
+  },
+  {
+    'name': 'iPhone 15 Pro Max',
+    'image': 'assets/imgs_icons/home/assets/imgs/ايفون 7.png',
+    'price': '\$1300',
+    'description':
+        'أحدث iPhone 15 Pro Max بتصميم من التيتانيوم ومعالج A17 Pro.',
+  },
+  {
+    'name': 'iPhone 14 Plus',
+    'image': 'assets/imgs_icons/home/assets/imgs/ايفون8.png',
+    'price': '\$1100',
+    'description': 'iPhone 14 Plus بشاشة كبيرة وبطارية تدوم طوال اليوم.',
+  },
+  {
+    'name': 'iPhone 13 Pro Max',
+    'image': 'assets/imgs_icons/home/assets/imgs/ايفون1.png',
+    'price': '\$1100',
+    'description':
+        'هاتف iPhone 13 Pro Max مع شاشة Super Retina XDR وكاميرا احترافية.',
+  },
+  {
+    'name': 'iPhone 12 Pro',
+    'image': 'assets/imgs_icons/home/assets/imgs/ايفون2.png',
+    'price': '\$900',
+    'description':
+        'iPhone 12 Pro بتصميم أنيق، ومعالج A14 Bionic لتجربة أداء مذهلة.',
+  },
+  {
+    'name': 'iPhone 11',
+    'image': 'assets/imgs_icons/home/assets/imgs/ايفون3.png',
+    'price': '\$650',
+    'description': 'iPhone 11 بشاشة Liquid Retina ومعالج A13 Bionic القوي.',
+  },
+  {
+    'name': 'iPhone SE (2022)',
+    'image': 'assets/imgs_icons/home/assets/imgs/ايفون4.png',
+    'price': '\$450',
+    'description':
+        'iPhone SE (الجيل الثالث) بمعالج A15 Bionic بحجم صغير وأداء قوي.',
+  },
+  {
+    'name': 'iPhone 14 Pro',
+    'image': 'assets/imgs_icons/home/assets/imgs/ايفون5.png',
+    'price': '\$1200',
+    'description':
+        'iPhone 14 Pro مع ميزة Dynamic Island وكاميرا بدقة 48 ميجابكسل.',
+  },
 ];
 
 final List<String> productImages = products.map((p) => p['image']!).toList();

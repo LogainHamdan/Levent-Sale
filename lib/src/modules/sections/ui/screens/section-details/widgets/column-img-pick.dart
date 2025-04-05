@@ -22,7 +22,7 @@ class ImagePickerColumn extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.r),
         ),
         child: Center(
-          child: SvgPicture.asset(
+          child: Image.asset(
             height: 78.h,
             width: 78.w,
             addImageIcon,

@@ -18,7 +18,7 @@ class CustomButton extends StatelessWidget {
       builder: (context, favoriteProvider, child) {
         final isFav = favoriteProvider.isFavorite(productKey);
         return ClipRRect(
-          borderRadius: BorderRadius.circular(18.w),
+          borderRadius: BorderRadius.circular(18.r),
           child: InkWell(
             onTap: () {
               favoriteProvider.toggleFavorite(productKey);
@@ -39,8 +39,8 @@ class CustomButton extends StatelessWidget {
                         : SvgPicture.asset(
                             favUncoloredPath,
                             color: grey4,
-                            height: 25.h,
-                            width: 25.w,
+                            height: 24.h,
+                            width: 24.w,
                           )
                     : SvgPicture.asset(
                         shareIcon,

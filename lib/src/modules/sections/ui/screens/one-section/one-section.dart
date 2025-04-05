@@ -20,61 +20,63 @@ class Section extends StatelessWidget {
     TextEditingController sectionController = TextEditingController();
 
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(height: 16.h),
-          TitleRow(title: 'الاجهزة'),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.0.w,
-            ),
-            child: SearchField(
-              controller: sectionController,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
-            child: SingleChildScrollView(
-              reverse: true,
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: categories.map((category) {
-                  return Row(
-                    children: [
-                      SizedBox(width: 10.w),
-                      Text(
-                        '(${category['count']})',
-                        style: TextStyle(
-                            fontSize: 14.sp, color: Colors.grey.shade600),
-                      ),
-                      SizedBox(width: 2.w),
-                      Text(
-                        category['name']!,
-                        style: TextStyle(
-                            fontSize: 16.sp, fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(width: 5.w),
-                      Container(
-                        width: 60.w,
-                        height: 60.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey.shade200,
-                        ),
-                        child: Center(
-                          child: SvgPicture.asset(category['image']!,
-                              width: 40.w, height: 40.h),
-                        ),
-                      ),
-                    ],
-                  );
-                }).toList(),
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(height: 16.h),
+            TitleRow(title: 'الاجهزة'),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.0.w,
+              ),
+              child: SearchField(
+                controller: sectionController,
               ),
             ),
-          ),
-          Expanded(child: ProductsDetails()),
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
+              child: SingleChildScrollView(
+                reverse: true,
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: categories.map((category) {
+                    return Row(
+                      children: [
+                        SizedBox(width: 10.w),
+                        Text(
+                          '(${category['count']})',
+                          style: TextStyle(
+                              fontSize: 14.sp, color: Colors.grey.shade600),
+                        ),
+                        SizedBox(width: 2.w),
+                        Text(
+                          category['name']!,
+                          style: TextStyle(
+                              fontSize: 16.sp, fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(width: 5.w),
+                        Container(
+                          width: 60.w,
+                          height: 60.h,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey.shade200,
+                          ),
+                          child: Center(
+                            child: Image.asset(category['image']!,
+                                width: 40.w, height: 40.h),
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+            Expanded(child: ProductsDetails()),
+          ],
+        ),
       ),
     );
   }

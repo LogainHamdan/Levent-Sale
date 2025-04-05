@@ -532,7 +532,7 @@ void showAddToFavoriteAlert(BuildContext context) {
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
               child: Container(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.white.withOpacity(0.2),
               ),
             ),
             Positioned(
@@ -722,7 +722,7 @@ void changePictureOptionAlert(
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
                 child: Container(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.white.withOpacity(0.2),
                 ),
               ),
             ),

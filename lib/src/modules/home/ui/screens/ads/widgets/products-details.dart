@@ -5,6 +5,13 @@ import 'package:provider/provider.dart';
 import '../../home/data.dart';
 import '../../home/provider.dart';
 import '../../home/widgets/product-item.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
+import '../../home/data.dart';
+import '../../home/provider.dart';
+import '../../home/widgets/product-item.dart';
 
 class ProductsDetails extends StatelessWidget {
   const ProductsDetails({super.key});
@@ -32,7 +39,8 @@ class ProductsDetails extends StatelessWidget {
           itemCount: products.length,
           itemBuilder: (context, index) {
             return ProductItem(
-              product: products[index],
+              hasDiscount: false,
+              product: products.reversed.toList()[index],
               category: '',
             );
           },

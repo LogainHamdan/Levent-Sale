@@ -31,19 +31,19 @@ class HomeScreen extends StatelessWidget {
                   height: 22.h,
                 ),
                 ProductSection(
-                    width: 156,
+                    width: 156.w,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "العروض والخصومات",
                     products: products),
                 ProductSection(
-                    width: 156,
+                    width: 156.w,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "الإعلانات الجديدة",
                     products: products),
                 ProductSection(
-                    width: 156,
+                    width: 156.w,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "الإعلانات المقترحة",
@@ -53,8 +53,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-
-      // bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

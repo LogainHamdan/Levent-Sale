@@ -103,48 +103,48 @@ String emptyNotificationsIcon =
     'assets/imgs_icons/sections/assets/imgs/empty-notification.svg';
 
 ///sections
-String addImageIcon = 'assets/imgs_icons/sections/assets/icons/add image.svg';
+String addImageIcon = 'assets/imgs_icons/sections/assets/icons/img.png';
 String jobsIcon =
-    'assets/imgs_icons/home/assets/imgs/9d4d6514-8c97-4267-a241-6adc0f11fc97 1.svg';
-String animalsIcon = 'assets/imgs_icons/home/assets/imgs/Animals 1.svg';
+    'assets/imgs_icons/sections/assets/imgs/9d4d6514-8c97-4267-a241-6adc0f11fc97 1.png';
+String animalsIcon = 'assets/imgs_icons/sections/assets/imgs/Animals 1.png';
 String clothesIcon =
-    'assets/imgs_icons/home/assets/imgs/download-removebg-preview (2) 1.svg';
+    'assets/imgs_icons/sections/assets/imgs/download-removebg-preview (2) 1.png';
 String booksIcons =
-    'assets/imgs_icons/home/assets/imgs/download-removebg-preview (4) 1.svg';
+    'assets/imgs_icons/sections/assets/imgs/download-removebg-preview (4) 1.png';
 String devicesIcon =
-    'assets/imgs_icons/home/assets/imgs/download-removebg-preview (7) 2.svg';
-String mixIcon = 'assets/imgs_icons/sections/assets/icons/element-4.svg';
-String foodIcon = 'assets/imgs_icons/home/assets/imgs/Food 1.svg';
-String gamesIcon = 'assets/imgs_icons/home/assets/imgs/Gaming 1.svg';
+    'assets/imgs_icons/sections/assets/imgs/download-removebg-preview (7) 2.png';
+String mixIcon = 'assets/imgs_icons/sections/assets/imgs/img_2.png';
+String foodIcon = 'assets/imgs_icons/sections/assets/imgs/Food 1.png';
+String gamesIcon = 'assets/imgs_icons/sections/assets/imgs/Gaming 1.png';
 String furnitureIcon =
-    'assets/imgs_icons/home/assets/imgs/images-removebg-preview 1.svg';
-String carsIcon = 'assets/imgs_icons/home/assets/imgs/image 17.svg';
-String propertiesIcon = 'assets/imgs_icons/home/assets/imgs/Properties 3.svg';
-String servicesIcon = 'assets/imgs_icons/home/assets/imgs/Services 1.svg';
+    'assets/imgs_icons/sections/assets/imgs/images-removebg-preview 1.png';
+String carsIcon = 'assets/imgs_icons/sections/assets/imgs/image 17.png';
+String propertiesIcon =
+    'assets/imgs_icons/sections/assets/imgs/Properties 3.png';
+String servicesIcon = 'assets/imgs_icons/sections/assets/imgs/Services 1.png';
 String emptyAdsIcon =
     'assets/imgs_icons/sections/assets/icons/shopping-bag.svg';
-String sportsIcon = 'assets/imgs_icons/home/assets/imgs/Sports 1.svg';
+String sportsIcon = 'assets/imgs_icons/sections/assets/imgs/Sports 1.png';
 String travelIcon =
-    'assets/imgs_icons/home/assets/imgs/unsplash_X_MOr6oa4-k-removebg-preview 1.svg';
+    'assets/imgs_icons/sections/assets/imgs/unsplash_X_MOr6oa4-k-removebg-preview 1.png';
 String industryIcon =
-    'assets/imgs_icons/home/assets/imgs/unsplash_4_Bgqgl8TiU-removebg-preview 1.svg';
+    'assets/imgs_icons/sections/assets/imgs/unsplash_4_Bgqgl8TiU-removebg-preview 1.png';
 String accessoriesIcon =
-    'assets/imgs_icons/home/assets/imgs/unsplash_202NAwjisYA-removebg-preview 1.svg';
+    'assets/imgs_icons/sections/assets/imgs/unsplash_202NAwjisYA-removebg-preview 1.png';
 String makeupIcon =
-    'assets/imgs_icons/home/assets/imgs/unsplash_EyrjiJAwLjQ-removebg-preview 1.svg';
+    'assets/imgs_icons/sections/assets/imgs/unsplash_EyrjiJAwLjQ-removebg-preview 1.png';
 String motherAndKidIcon =
-    'assets/imgs_icons/home/assets/imgs/unsplash_Z4GKcFAGck4-removebg-preview 1.svg';
-String computerIcon =
-    'assets/imgs_icons/sections/assets/imgs/download-removebg-preview (5).svg';
-String mobileIcon =
-    'assets/imgs_icons/sections/assets/imgs/Rectangle_395-removebg-preview 1.svg';
+    'assets/imgs_icons/sections/assets/imgs/unsplash_Z4GKcFAGck4-removebg-preview 1.png';
+String computerIcon = 'assets/imgs_icons/sections/assets/imgs/img_1.png';
+String mobileIcon = 'assets/imgs_icons/sections/assets/imgs/img.png';
+String cultureIcon =
+    'assets/imgs_icons/sections/assets/imgs/unsplash_nEFIjn-NK-0-removebg-preview 1.png';
+String healthAndBeautyIcon =
+    'assets/imgs_icons/sections/assets/imgs/unsplash_vKQeOUqrrOg-removebg-preview 1.png';
 
 ///more
 String adCreatedIcon = 'assets/imgs_icons/sections/assets/icons/Group 297.svg';
-String cultureIcon =
-    'assets/imgs_icons/home/assets/imgs/unsplash_nEFIjn-NK-0-removebg-preview 1.svg';
-String healthAndBeautyIcon =
-    'assets/imgs_icons/home/assets/imgs/unsplash_vKQeOUqrrOg-removebg-preview 1.svg';
+
 String addCircleWhiteIcon =
     'assets/imgs_icons/more/assets/icons/add-circle.svg';
 String addCircleBlackIcon =
