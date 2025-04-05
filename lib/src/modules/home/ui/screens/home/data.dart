@@ -18,6 +18,10 @@ final List<Map<String, dynamic>> categories = [
   {'name': 'الآثار', 'image': cultureIcon, 'count': '3.6K'},
   {'name': 'الصحة والجمال', 'image': healthAndBeautyIcon, 'count': '12.4K'},
   {'name': 'الأجهزة', 'image': devicesIcon, 'count': '8.9K'},
+  {'name': 'الأم وطفلها', 'image': motherAndKidIcon, 'count': '8.9K'},
+  {'name': 'الرياضة', 'image': sportsIcon, 'count': '8.9K'},
+  {'name': 'التجميل', 'image': makeupIcon, 'count': '8.9K'},
+  {'name': 'المتفرقات', 'image': mixIcon, 'count': '882'},
 ];
 
 final List<String> categoryImages = [
@@ -37,6 +41,9 @@ final List<String> categoryImages = [
   animalsIcon,
   foodIcon,
   devicesIcon,
+  motherAndKidIcon,
+  sportsIcon,
+  makeupIcon,
   mixIcon,
 ];
 
@@ -55,9 +62,10 @@ final List<String> categoryNames = [
   'الاطعمة',
   'المجوهرات',
   'الاثار',
-  'الصجة والجمال',
+  'الصحة والجمال',
   'الاجهزة',
-  'المتفرقات'
+  'الأم وطفلها',
+  'المتفرقات',
 ];
 
 final List<Map<String, String>> products = [

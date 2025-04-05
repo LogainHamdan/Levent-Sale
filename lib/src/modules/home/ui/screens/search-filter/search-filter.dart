@@ -34,7 +34,7 @@ class FilterScreen extends StatelessWidget {
                     controller: filterController,
                   ),
                   SizedBox(
-                    width: 8.w,
+                    width: 24.w,
                   ),
                   InkWell(
                       child: Icon(

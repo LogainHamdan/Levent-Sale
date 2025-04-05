@@ -22,7 +22,7 @@ class Section extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(height: 30.h),
+          SizedBox(height: 16.h),
           TitleRow(title: 'الاجهزة'),
           Padding(
             padding: EdgeInsets.symmetric(

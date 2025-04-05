@@ -21,7 +21,7 @@ class MenuScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 30.h,
+              height: 16.h,
             ),
             TitleRow(title: 'المزيد'),
             isLoggedIn

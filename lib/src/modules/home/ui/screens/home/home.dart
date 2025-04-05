@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                     width: 156,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
-                    category: "الإعلانات المفترحة",
+                    category: "الإعلانات المقترحة",
                     products: products),
               ],
             ),

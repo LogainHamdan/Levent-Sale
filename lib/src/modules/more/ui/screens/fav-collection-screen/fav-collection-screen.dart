@@ -24,7 +24,7 @@ class FavoriteCollectionScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 35.h),
+              SizedBox(height: 16.h),
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                   child: TitleRow(

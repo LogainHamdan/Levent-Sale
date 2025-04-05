@@ -40,12 +40,10 @@ class CategoriesDisplay extends StatelessWidget {
                     padding: EdgeInsets.all(12.0.sp),
                     child: ClipOval(
                         child: SvgPicture.asset(
-                      categoryImages[index], // ✅ Correct placement
+                      categoryImages[index],
                       height: 30.h,
                       width: 30.w,
                       fit: BoxFit.contain,
-                      placeholderBuilder: (context) =>
-                          CircularProgressIndicator(),
                     )),
                   ),
                 ),

@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 class MainScreen extends StatelessWidget {
   static const id = '/main';
+
   MainScreen({super.key});
 
   final List<String> unselectedIcons = [
@@ -49,45 +50,71 @@ class MainScreen extends StatelessWidget {
 
     return Scaffold(
       body: screens[bottomNavProvider.currentIndex],
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: kprimaryColor,
-        shape: const CircleBorder(),
-        onPressed: () => Navigator.pushNamed(context, CreateAdScreen.id),
-        child: Icon(Icons.add, color: Colors.white, size: 35.sp),
+      floatingActionButton: SizedBox(
+        height: 56.h,
+        width: 56.w,
+        child: FloatingActionButton(
+          backgroundColor: kprimaryColor,
+          shape: const CircleBorder(),
+          onPressed: () => Navigator.pushNamed(context, CreateAdScreen.id),
+          child: SvgPicture.asset(
+            addIcon,
+            height: 24.h,
+            width: 24.w,
+          ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-        height: 60.h,
-        itemCount: unselectedIcons.length,
-        tabBuilder: (int index, bool isActive) {
-          return GestureDetector(
-            onTap: () => bottomNavProvider.setIndex(index),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SvgPicture.asset(
-                  isActive ? selectedIcons[index] : unselectedIcons[index],
-                  width: 24.sp,
-                  height: 24.sp,
+      bottomNavigationBar: Stack(
+        children: [
+          AnimatedBottomNavigationBar.builder(
+            height: 83.h,
+            itemCount: unselectedIcons.length,
+            tabBuilder: (int index, bool isActive) {
+              return GestureDetector(
+                onTap: () => bottomNavProvider.setIndex(index),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: 16.h),
+                    SvgPicture.asset(
+                      isActive ? selectedIcons[index] : unselectedIcons[index],
+                      width: 24.sp,
+                      height: 24.sp,
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      labels[index],
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500,
+                        color: isActive ? kprimaryColor : grey4,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 4.h),
-                Text(
-                  labels[index],
+              );
+            },
+            activeIndex: bottomNavProvider.currentIndex,
+            gapLocation: GapLocation.center,
+            notchSmoothness: NotchSmoothness.smoothEdge,
+            backgroundColor: Colors.white,
+            onTap: (index) => bottomNavProvider.setIndex(index),
+          ),
+          Positioned(
+              top: 34.h,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Text(
+                  'انشاء اعلان',
                   style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-                    color: isActive ? kprimaryColor : grey4,
-                  ),
+                      color: Colors.black,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500),
                 ),
-              ],
-            ),
-          );
-        },
-        activeIndex: bottomNavProvider.currentIndex,
-        gapLocation: GapLocation.center,
-        notchSmoothness: NotchSmoothness.smoothEdge,
-        backgroundColor: Colors.white,
-        onTap: (index) => bottomNavProvider.setIndex(index),
+              ))
+        ],
       ),
     );
   }

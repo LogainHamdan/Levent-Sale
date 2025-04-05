@@ -105,34 +105,35 @@ String emptyNotificationsIcon =
 ///sections
 String addImageIcon = 'assets/imgs_icons/sections/assets/icons/add image.svg';
 String jobsIcon =
-    'assets/imgs_icons/sections/assets/icons/9d4d6514-8c97-4267-a241-6adc0f11fc97 1.svg';
-String animalsIcon = 'assets/imgs_icons/sections/assets/icons/Animals 1.svg';
+    'assets/imgs_icons/home/assets/imgs/9d4d6514-8c97-4267-a241-6adc0f11fc97 1.svg';
+String animalsIcon = 'assets/imgs_icons/home/assets/imgs/Animals 1.svg';
 String clothesIcon =
-    'assets/imgs_icons/sections/assets/icons/download-removebg-preview (2) 1.svg';
+    'assets/imgs_icons/home/assets/imgs/download-removebg-preview (2) 1.svg';
 String booksIcons =
-    'assets/imgs_icons/sections/assets/icons/download-removebg-preview (4) 1.svg';
+    'assets/imgs_icons/home/assets/imgs/download-removebg-preview (4) 1.svg';
 String devicesIcon =
-    'assets/imgs_icons/sections/assets/icons/download-removebg-preview (7) 2.svg';
+    'assets/imgs_icons/home/assets/imgs/download-removebg-preview (7) 2.svg';
 String mixIcon = 'assets/imgs_icons/sections/assets/icons/element-4.svg';
-String foodIcon = 'assets/imgs_icons/sections/assets/icons/Food 1.svg';
-String gamesIcon = 'assets/imgs_icons/sections/assets/icons/Gaming 1.svg';
+String foodIcon = 'assets/imgs_icons/home/assets/imgs/Food 1.svg';
+String gamesIcon = 'assets/imgs_icons/home/assets/imgs/Gaming 1.svg';
 String furnitureIcon =
-    'assets/imgs_icons/sections/assets/icons/images-removebg-preview 1.svg';
-String carsIcon = 'assets/imgs_icons/sections/assets/icons/image 17.svg';
-String propertiesIcon =
-    'assets/imgs_icons/sections/assets/icons/Properties 3.svg';
-String servicesIcon = 'assets/imgs_icons/sections/assets/icons/Services 1.svg';
+    'assets/imgs_icons/home/assets/imgs/images-removebg-preview 1.svg';
+String carsIcon = 'assets/imgs_icons/home/assets/imgs/image 17.svg';
+String propertiesIcon = 'assets/imgs_icons/home/assets/imgs/Properties 3.svg';
+String servicesIcon = 'assets/imgs_icons/home/assets/imgs/Services 1.svg';
 String emptyAdsIcon =
     'assets/imgs_icons/sections/assets/icons/shopping-bag.svg';
-String sportsIcon = 'assets/imgs_icons/sections/assets/icons/Sports 1.svg';
+String sportsIcon = 'assets/imgs_icons/home/assets/imgs/Sports 1.svg';
 String travelIcon =
-    'assets/imgs_icons/sections/assets/icons/unsplash_X_MOr6oa4-k-removebg-preview 1.svg';
+    'assets/imgs_icons/home/assets/imgs/unsplash_X_MOr6oa4-k-removebg-preview 1.svg';
 String industryIcon =
-    'assets/imgs_icons/sections/assets/icons/unsplash_4_Bgqgl8TiU-removebg-preview 1.svg';
+    'assets/imgs_icons/home/assets/imgs/unsplash_4_Bgqgl8TiU-removebg-preview 1.svg';
 String accessoriesIcon =
-    'assets/imgs_icons/sections/assets/icons/unsplash_202NAwjisYA-removebg-preview 1.svg';
+    'assets/imgs_icons/home/assets/imgs/unsplash_202NAwjisYA-removebg-preview 1.svg';
+String makeupIcon =
+    'assets/imgs_icons/home/assets/imgs/unsplash_EyrjiJAwLjQ-removebg-preview 1.svg';
 String motherAndKidIcon =
-    'assets/imgs_icons/sections/assets/icons/unsplash_Z4GKcFAGck4-removebg-preview 1.svg';
+    'assets/imgs_icons/home/assets/imgs/unsplash_Z4GKcFAGck4-removebg-preview 1.svg';
 String computerIcon =
     'assets/imgs_icons/sections/assets/imgs/download-removebg-preview (5).svg';
 String mobileIcon =
@@ -141,9 +142,9 @@ String mobileIcon =
 ///more
 String adCreatedIcon = 'assets/imgs_icons/sections/assets/icons/Group 297.svg';
 String cultureIcon =
-    'assets/imgs_icons/sections/assets/icons/unsplash_nEFIjn-NK-0-removebg-preview 1.svg';
+    'assets/imgs_icons/home/assets/imgs/unsplash_nEFIjn-NK-0-removebg-preview 1.svg';
 String healthAndBeautyIcon =
-    'assets/imgs_icons/sections/assets/icons/unsplash_vKQeOUqrrOg-removebg-preview 1.svg';
+    'assets/imgs_icons/home/assets/imgs/unsplash_vKQeOUqrrOg-removebg-preview 1.svg';
 String addCircleWhiteIcon =
     'assets/imgs_icons/more/assets/icons/add-circle.svg';
 String addCircleBlackIcon =

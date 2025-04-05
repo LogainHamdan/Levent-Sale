@@ -20,7 +20,7 @@ class Sections extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(
-                  height: 30.h,
+                  height: 16.h,
                 ),
                 TitleRow(title: 'الأقسام'),
                 TopBanner(),
