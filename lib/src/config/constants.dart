@@ -47,6 +47,7 @@ String seenPath = 'assets/imgs_icons/auth/assets/icons/seen.png';
 String facebookPath = 'assets/imgs_icons/auth/assets/imgs/facebook.svg';
 String googlePath = 'assets/imgs_icons/auth/assets/imgs/google.svg';
 String tickPath = 'assets/imgs_icons/auth/assets/imgs/tick.svg';
+String calendarIcon = 'assets/imgs_icons/auth/assets/icons/calendar.svg';
 
 ///general
 String aboveGreyPath = 'assets/imgs_icons/general/above-grey.svg';

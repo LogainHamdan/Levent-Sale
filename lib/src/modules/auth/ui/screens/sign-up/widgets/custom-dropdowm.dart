@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import '../../../../../../config/constants.dart';
 import '../provider.dart';
 
@@ -24,98 +23,70 @@ class CustomDropdown extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton2<String>(
-                  isExpanded: true,
-                  value: provider.selectedValue.isNotEmpty
-                      ? provider.selectedValue
-                      : null,
-                  buttonStyleData: ButtonStyleData(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    height: 50.h,
-                    decoration: BoxDecoration(
-                      color: grey8,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                  ),
-                  iconStyleData: IconStyleData(icon: Container()),
-                  dropdownStyleData: DropdownStyleData(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    offset: Offset(0, 5),
-                  ),
-                  hint: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        hint,
-                        style: GoogleFonts.tajawal(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: grey4,
-                        ),
-                      ),
-                      SvgPicture.asset(
-                        arrowDownPath,
-                        width: 24.w,
-                        height: 24.h,
-                      ),
-                    ],
-                  ),
-                  selectedItemBuilder: (BuildContext context) {
-                    return items.map((String item) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            provider.selectedValue.isNotEmpty
-                                ? provider.selectedValue
-                                : hint,
-                            style: GoogleFonts.tajawal(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: provider.selectedValue.isNotEmpty
-                                  ? Colors.black
-                                  : grey4,
-                            ),
-                          ),
-                          SvgPicture.asset(
-                            arrowDownPath,
-                            width: 24.w,
-                            height: 24.h,
-                          ),
-                        ],
-                      );
-                    }).toList();
-                  },
-                  items: items.map((String item) {
-                    return DropdownMenuItem<String>(
-                      value: item,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              textDirection: TextDirection.rtl,
-                              item,
-                              style: GoogleFonts.tajawal(
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    provider.setSelectedValue(value);
-                  },
+            InkWell(
+              onTap: () {
+                provider.setDropdownOpened(!provider.isDropdownOpened);
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
+                decoration: BoxDecoration(
+                  color: grey8,
+                  borderRadius: BorderRadius.circular(8.r),
                 ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SvgPicture.asset(
+                      provider.isDropdownOpened
+                          ? arrowAbovePath
+                          : arrowDownPath,
+                      height: provider.isDropdownOpened ? 8.h : 22.h,
+                      width: provider.isDropdownOpened ? 8.w : 22.w,
+                    ),
+                    Text(
+                      provider.selectedValue.isNotEmpty
+                          ? provider.selectedValue
+                          : hint,
+                      style: GoogleFonts.tajawal(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: provider.selectedValue.isNotEmpty
+                            ? Colors.black
+                            : grey4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Visibility(
+              visible: provider.isDropdownOpened,
+              maintainSize: false,
+              maintainAnimation: false,
+              maintainState: false,
+              child: Column(
+                children: items.map((item) {
+                  return InkWell(
+                    onTap: () {
+                      provider.setSelectedValue(item);
+                      provider.setDropdownOpened(false);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                        vertical: 12.h,
+                        horizontal: 12.w,
+                      ),
+                      child: Text(
+                        item,
+                        textDirection: TextDirection.rtl,
+                        style: GoogleFonts.tajawal(
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
           ],

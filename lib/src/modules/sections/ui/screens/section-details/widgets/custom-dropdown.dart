@@ -7,6 +7,10 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import '../../../../../../config/constants.dart';
 import '../provider.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 class CustomDropdownSection extends StatelessWidget {
   final String hint;
   final List<String> items;
@@ -30,72 +34,72 @@ class CustomDropdownSection extends StatelessWidget {
           selectedValue = null;
         }
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Directionality(
+        bool isOpen = provider.isDropdownOpened(dropdownKey);
+
+        return Material(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.r),
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              dividerColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+            ),
+            child: Directionality(
               textDirection: TextDirection.rtl,
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton2<String>(
-                  isExpanded: true,
-                  value: selectedValue,
-                  buttonStyleData: ButtonStyleData(
-                    padding: EdgeInsets.symmetric(horizontal: 14.w),
-                    height: 50.h,
-                    decoration: BoxDecoration(
-                      color: grey8,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
+              child: ExpansionTile(
+                tilePadding: EdgeInsets.symmetric(horizontal: 14.w),
+                childrenPadding: EdgeInsets.symmetric(horizontal: 14.w),
+                onExpansionChanged: (isOpen) {
+                  provider.setDropdownOpened(dropdownKey, isOpen);
+                },
+                trailing: SizedBox(
+                  width: 36.w,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: isOpen
+                        ? SvgPicture.asset(
+                            arrowAbovePath,
+                            height: 8.h,
+                            width: 8.w,
+                          )
+                        : SvgPicture.asset(
+                            arrowDownPath,
+                            height: 22.h,
+                            width: 22.w,
+                          ),
                   ),
-                  iconStyleData: IconStyleData(
-                    icon: SvgPicture.asset(
-                      arrowDownPath,
-                      width: 24.w,
-                      height: 24.h,
-                    ),
+                ),
+                title: Text(
+                  selectedValue ?? "اختر",
+                  style: GoogleFonts.tajawal(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                    color: selectedValue != null ? Colors.black : grey4,
                   ),
-                  dropdownStyleData: DropdownStyleData(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    offset: Offset(0, 5),
-                  ),
-                  hint: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        hint,
+                ),
+                children: uniqueItems.map((item) {
+                  return InkWell(
+                    onTap: () {
+                      provider.setSelectedValue(dropdownKey, item);
+                      provider.setDropdownOpened(dropdownKey, false);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                      child: Text(
+                        item,
+                        textDirection: TextDirection.rtl,
                         style: GoogleFonts.tajawal(
                           fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: grey4,
                         ),
                       ),
-                    ],
-                  ),
-                  items: uniqueItems.map((String item) {
-                    return DropdownMenuItem<String>(
-                      alignment: Alignment.centerRight,
-                      value: item,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.h),
-                        child: Text(
-                          item,
-                          style: GoogleFonts.tajawal(
-                            fontSize: 14.sp,
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    provider.setSelectedValue(dropdownKey, value);
-                  },
-                ),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
-          ],
+          ),
         );
       },
     );

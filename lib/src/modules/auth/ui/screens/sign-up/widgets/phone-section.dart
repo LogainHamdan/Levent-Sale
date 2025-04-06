@@ -7,10 +7,11 @@ import '../../../../../../config/constants.dart';
 
 class PhoneSection extends StatelessWidget {
   final String? hint;
-
+  final TextEditingController controller;
   const PhoneSection({
     super.key,
     this.hint = '598 789 458',
+    required this.controller,
   });
 
   @override
@@ -28,6 +29,7 @@ class PhoneSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: TextField(
+                controller: controller,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   hintText: hint,

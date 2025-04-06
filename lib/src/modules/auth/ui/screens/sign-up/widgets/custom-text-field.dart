@@ -61,11 +61,12 @@ class CustomTextField extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         fontSize: 18.sp)),
                 decoration: InputDecoration(
-                  prefixIcon: prefix,
+                  prefix: prefix,
                   suffixIcon: suffix,
                   hintText: hint!,
                   fillColor: bgcolor,
                   filled: true,
+                  isDense: true,
                   hintTextDirection: TextDirection.rtl,
                   hintStyle: GoogleFonts.tajawal(
                     textStyle: TextStyle(
@@ -102,40 +103,38 @@ class CustomTextField extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              Container(
-                child: TextField(
-                  controller: controller,
-                  keyboardType: keyboardType,
-                  obscureText: isPassword,
-                  textDirection: textDirection,
-                  cursorColor: Colors.black,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                    fillColor: bgcolor,
-                    filled: true,
-                    hintText: hint!,
-                    hintStyle: TextStyle(color: grey3, fontSize: 16.sp),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(paragraphBorderRadius!.r),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(paragraphBorderRadius!.r),
-                      borderSide: BorderSide.none,
-                    ),
+              TextField(
+                controller: controller,
+                keyboardType: keyboardType,
+                obscureText: isPassword,
+                textDirection: textDirection,
+                cursorColor: Colors.black,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  fillColor: bgcolor,
+                  filled: true,
+                  hintText: hint!,
+                  hintStyle: TextStyle(color: grey3, fontSize: 16.sp),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                    borderSide: BorderSide.none,
                   ),
-                  style: TextStyle(
-                    fontSize: 16.0.sp,
-                    color: Colors.black,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(paragraphBorderRadius!.r),
+                    borderSide: BorderSide.none,
                   ),
-                  onChanged: onChanged,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(paragraphBorderRadius!.r),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
+                style: TextStyle(
+                  fontSize: 16.0.sp,
+                  color: Colors.black,
+                ),
+                onChanged: onChanged,
               ),
             ],
           );

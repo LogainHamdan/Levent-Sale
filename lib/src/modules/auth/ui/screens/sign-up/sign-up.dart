@@ -8,6 +8,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/verify.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
@@ -26,6 +27,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextEditingController dateController = TextEditingController(
         text: DateFormat('MMMM dd, yyyy').format(DateTime.now()));
+    final TextEditingController phoneController = TextEditingController();
     return ChangeNotifierProvider(
       create: (context) => RegisterProvider(),
       child: Scaffold(
@@ -45,7 +47,6 @@ class SignUpScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 16.h),
                   CustomTextField(
                     bgcolor: grey8,
                     controller: TextEditingController(),
@@ -70,7 +71,9 @@ class SignUpScreen extends StatelessWidget {
                     hint: "تأكيد كلمة المرور",
                   ),
                   SizedBox(height: 18.h),
-                  PhoneSection(),
+                  PhoneSection(
+                    controller: phoneController,
+                  ),
                   SizedBox(height: 18.h),
                   CustomDropdown(
                     items: ["شخصي", "شركة"],
@@ -79,20 +82,19 @@ class SignUpScreen extends StatelessWidget {
                   Consumer<RegisterProvider>(
                     builder: (context, provider, child) {
                       if (provider.selectedValue == "شخصي") {
-                        return Column(
-                          children: [
-                            CustomTextField(
-                              prefix: GestureDetector(
-                                onTap: () => showDatePickerDialog(
-                                    context, dateController),
-                                child: Icon(Icons.calendar_month_outlined,
-                                    color: grey0),
-                              ),
-                              controller: dateController,
-                              bgcolor: grey8,
-                              hint: 'تاريخ الميلاد',
+                        return CustomTextField(
+                          prefix: GestureDetector(
+                            onTap: () =>
+                                showDatePickerDialog(context, dateController),
+                            child: SvgPicture.asset(
+                              calendarIcon,
+                              height: 24.h,
+                              width: 24.w,
                             ),
-                          ],
+                          ),
+                          controller: dateController,
+                          bgcolor: grey8,
+                          hint: 'تاريخ الميلاد',
                         );
                       } else if (provider.selectedValue == "شركة") {
                         return Column(
@@ -101,8 +103,11 @@ class SignUpScreen extends StatelessWidget {
                               prefix: GestureDetector(
                                 onTap: () => showDatePickerDialog(
                                     context, dateController),
-                                child: Icon(Icons.calendar_month_outlined,
-                                    color: grey0),
+                                child: SvgPicture.asset(
+                                  calendarIcon,
+                                  height: 24.h,
+                                  width: 24.w,
+                                ),
                               ),
                               controller: dateController,
                               bgcolor: grey8,

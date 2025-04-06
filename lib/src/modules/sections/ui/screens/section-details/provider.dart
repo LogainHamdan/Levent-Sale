@@ -7,10 +7,12 @@ import 'package:image_picker/image_picker.dart';
 class SectionDetailsProvider extends ChangeNotifier {
   Map<String, String?> selectedValues = {};
   final List<File> _selectedImages = [];
+  Map<String, bool> _dropdownOpenedMap = {};
 
   List<File> get selectedImages => _selectedImages;
   bool hasElevator = false;
   bool hasParking = true;
+  bool isDropdownOpened(String key) => _dropdownOpenedMap[key] ?? false;
 
   Map<String, bool> services = {
     "مسبح": false,
@@ -32,6 +34,11 @@ class SectionDetailsProvider extends ChangeNotifier {
 
   String? getSelectedValue(String key) {
     return selectedValues[key];
+  }
+
+  void setDropdownOpened(String key, bool value) {
+    _dropdownOpenedMap[key] = value;
+    notifyListeners();
   }
 
   void toggleElevator(bool value) {

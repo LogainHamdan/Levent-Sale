@@ -11,6 +11,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/provider.
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
@@ -78,6 +79,9 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (context) => SearchProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => ChoosesSectionProvider(),
       ),
     ], child: MyMaterialApp());
   }

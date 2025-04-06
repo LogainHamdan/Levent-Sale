@@ -58,12 +58,18 @@ class EditProfileScreen extends StatelessWidget {
                   bgcolor: grey8,
                 ),
                 SizedBox(height: 16.h),
-                PhoneSection(),
+                PhoneSection(
+                  controller: phoneController,
+                ),
                 SizedBox(height: 16.h),
                 CustomTextField(
                   prefix: GestureDetector(
                     onTap: () => showDatePickerDialog(context, dateController),
-                    child: Icon(Icons.calendar_month_outlined, color: grey0),
+                    child: SvgPicture.asset(
+                      calendarIcon,
+                      height: 24.h,
+                      width: 24.w,
+                    ),
                   ),
                   controller: dateController,
                   label: profileProvider.isCompanyAccount
