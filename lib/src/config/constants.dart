@@ -174,7 +174,7 @@ String callBlackIcon = 'assets/imgs_icons/more/assets/icons/Vector-1.svg';
 String verifiedWhiteIcon = 'assets/imgs_icons/more/assets/icons/Vector-2.svg';
 String personIcon = 'assets/imgs_icons/more/assets/imgs/person.svg';
 String editGreenIcon = 'assets/imgs_icons/more/assets/icons/edit-green.svg';
-String viewIcon = 'assets/imgs_icons/more/assets/icons/view.svg';
+String viewIcon = 'assets/imgs_icons/more/assets/icons/eye.svg';
 String reviewIcon = 'assets/imgs_icons/more/assets/icons/review.svg';
 String changeProfilePicIcon =
     'assets/imgs_icons/home/assets/icons/cameraaaaa.svg';

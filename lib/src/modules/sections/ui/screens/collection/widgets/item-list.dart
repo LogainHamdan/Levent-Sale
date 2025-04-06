@@ -19,82 +19,98 @@ class ItemList extends StatelessWidget {
     return ListView.builder(
       itemCount: 3,
       itemBuilder: (context, index) {
-        return Card(
-          elevation: 0,
-          margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.r),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(8.sp),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 120.h,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 8.h),
-                      Text('\$41.1',
-                          style: Theme.of(context).textTheme.bodyLarge),
-                      Spacer(),
-                      Text('12-7-2025',
-                          style: GoogleFonts.tajawal(
-                              textStyle: TextStyle(color: grey3)))
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      SizedBox(height: 8.h),
-                      Text(
-                        'ايفون 14 برو ماكس',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
+        return SizedBox(
+            width: 327.w,
+            child: Card(
+              color: grey8,
+              elevation: 0,
+              margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(8.sp),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 120.h,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 8.h),
+                          Text(
+                            '\$41.1',
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            '12-7-2025',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          )
+                        ],
                       ),
-                      SizedBox(height: 3.h),
-                      Text(
-                        'الاجهزة',
-                        textAlign: TextAlign.right,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      SizedBox(height: 5.h),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: CustomActionButton(
-                          text: buttonText,
-                          icon: buttonIcon,
-                          onPressed: onPressed,
-                          backgroundColor: buttonColor,
-                          textColor: buttonTextColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 8.w),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(5.r),
-                  child: SizedBox(
-                    height: 120.h,
-                    width: 120.w,
-                    child: Image.asset(
-                      'assets/imgs_icons/home/assets/imgs/ايفون4.png',
-                      fit: BoxFit.cover,
                     ),
-                  ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          SizedBox(height: 12.h),
+                          Text(
+                            'ايفون 14 برو ماكس',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(height: 8.h),
+                          Text(
+                            'الاجهزة',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: grey3,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(height: 5.h),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: CustomActionButton(
+                              text: buttonText,
+                              icon: buttonIcon,
+                              onPressed: onPressed,
+                              backgroundColor: buttonColor,
+                              textColor: buttonTextColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(4.r),
+                      child: SizedBox(
+                        height: 115.h,
+                        width: 69.w,
+                        child: Image.asset(
+                          'assets/imgs_icons/home/assets/imgs/ايفون4.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        );
+              ),
+            ));
       },
     );
   }

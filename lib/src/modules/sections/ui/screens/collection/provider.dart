@@ -9,39 +9,46 @@ class MyCollectionScreenProvider extends ChangeNotifier {
 
   final List<String> _buttons = ['مراجعة', 'تعديل', 'عرض'];
   final List<Color> _buttonColors = [
-    Colors.red.withOpacity(0.2),
-    kprimaryColor.withOpacity(0.2),
-    amberColor.withOpacity(0.1),
+    Color(0x1FF75555),
+    Color(0x1F74BD07),
+    Color(0xFFFACC15).withOpacity(0.2),
   ];
   final List<Color> _buttonTextColors = [
-    Colors.red,
-    kprimaryColor,
-    amberColor,
+    Color(0xFFF75555),
+    Color(0xFF07BD74),
+    Color(0xFFFACC15),
   ];
   final List<Widget> _buttonIcons = [
     Padding(
       padding: EdgeInsets.only(bottom: 9.0),
       child: SvgPicture.asset(
         reviewIcon,
-        height: 25.h,
+        height: 16.h,
+        width: 16.w,
       ),
     ),
     Padding(
         padding: EdgeInsets.only(bottom: 4.0),
         child: SvgPicture.asset(
           editGreenIcon,
-          height: 25.h,
+          height: 16.h,
+          width: 16.w,
         )),
     SvgPicture.asset(
       viewIcon,
-      height: 25.h,
+      height: 16.h,
+      width: 16.w,
     ),
   ];
 
   int get currentIndex => _currentIndex;
+
   String get buttonText => _buttons[_currentIndex];
+
   Color get buttonColor => _buttonColors[_currentIndex];
+
   Color get buttonTextColor => _buttonTextColors[_currentIndex];
+
   Widget get buttonIcon => _buttonIcons[_currentIndex];
 
   void changeTab(int index) {

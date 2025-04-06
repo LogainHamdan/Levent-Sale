@@ -22,8 +22,8 @@ class CustomActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        height: 50.h,
-        width: 100.w,
+        height: 40.h,
+        width: 108.w,
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.circular(3.r),
@@ -34,7 +34,7 @@ class CustomActionButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon,
-              SizedBox(width: 5.w),
+              SizedBox(width: 4.w),
               Text(
                 text,
                 style: TextStyle(
