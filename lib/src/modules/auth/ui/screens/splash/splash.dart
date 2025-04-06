@@ -27,7 +27,7 @@ class SplashScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 161.h,
+                      height: 155.h,
                     ),
                     Text(
                       "اهلا بعودتك!",
@@ -35,7 +35,7 @@ class SplashScreen extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 24.sp),
+                          fontSize: 26.sp),
                     ),
                     SizedBox(
                       height: 8.h,
@@ -75,7 +75,8 @@ class SplashScreen extends StatelessWidget {
                       text: "الاستمرار كضيف",
                       onPressed: () => Navigator.pushReplacementNamed(
                           context, MainScreen.id),
-                      backgroundColor: grey9,
+                      backgroundColor:Colors.grey.shade300.withOpacity(.4),
+
                       textColor: kprimaryColor,
                       date: false,
                     ),

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
+// import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:image_picker/image_picker.dart';
 
 class SectionDetailsProvider extends ChangeNotifier {
@@ -21,9 +21,9 @@ class SectionDetailsProvider extends ChangeNotifier {
     "نظام أمان": false,
   };
 
-  final quill.QuillController _controller = quill.QuillController.basic();
-
-  quill.QuillController get controller => _controller;
+  // final quill.QuillController _controller = quill.QuillController.basic();
+  //
+  // quill.QuillController get controller => _controller;
 
   void setSelectedValue(String key, String? value) {
     selectedValues[key] = value;
