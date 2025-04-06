@@ -41,6 +41,10 @@ class LoggedInColumn extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => MaterialApp(
                           home: Scaffold(
+                            backgroundColor: Colors.white,
+                            appBar: AppBar(
+                              toolbarHeight: 0,
+                            ),
                             body: SafeArea(
                                 child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 8.0.w),

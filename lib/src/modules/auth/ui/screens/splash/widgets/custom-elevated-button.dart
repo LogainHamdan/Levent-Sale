@@ -27,6 +27,7 @@ class CustomElevatedButton extends StatelessWidget {
         ? ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
               textStyle: GoogleFonts.tajawal(
                   fontSize: fontSize!.sp, fontWeight: FontWeight.w500),
               backgroundColor: backgroundColor,

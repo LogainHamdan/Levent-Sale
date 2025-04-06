@@ -37,61 +37,46 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return !paragraph!
-        ? Column(
-            children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  label!,
-                  textDirection: TextDirection.rtl,
-                ),
+        ? TextField(
+          controller: controller,
+          keyboardType: keyboardType,
+          obscureText: isPassword,
+          textDirection: textDirection,
+          cursorColor: Colors.black,
+          style: GoogleFonts.tajawal(
+              textStyle: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18.sp)),
+          decoration: InputDecoration(
+            prefixIcon: prefix,
+            suffixIcon: suffix,
+            hintText: hint!,
+            fillColor: bgcolor,
+            filled: true,
+            hintTextDirection: TextDirection.rtl,
+            hintStyle: GoogleFonts.tajawal(
+              textStyle: TextStyle(
+                fontSize: 16.sp,
+                color: grey3,
+                fontWeight: FontWeight.normal,
               ),
-              SizedBox(
-                height: 16.h,
-              ),
-              TextField(
-                controller: controller,
-                keyboardType: keyboardType,
-                obscureText: isPassword,
-                textDirection: textDirection,
-                cursorColor: Colors.black,
-                style: GoogleFonts.tajawal(
-                    textStyle: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18.sp)),
-                decoration: InputDecoration(
-                  prefix: prefix,
-                  suffixIcon: suffix,
-                  hintText: hint!,
-                  fillColor: bgcolor,
-                  filled: true,
-                  isDense: true,
-                  hintTextDirection: TextDirection.rtl,
-                  hintStyle: GoogleFonts.tajawal(
-                    textStyle: TextStyle(
-                      fontSize: 16.sp,
-                      color: grey3,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                onChanged: onChanged,
-              ),
-            ],
-          )
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.r),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.r),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.r),
+              borderSide: BorderSide.none,
+            ),
+          ),
+          onChanged: onChanged,
+        )
         : Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -103,38 +88,40 @@ class CustomTextField extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              TextField(
-                controller: controller,
-                keyboardType: keyboardType,
-                obscureText: isPassword,
-                textDirection: textDirection,
-                cursorColor: Colors.black,
-                maxLines: 5,
-                decoration: InputDecoration(
-                  fillColor: bgcolor,
-                  filled: true,
-                  hintText: hint!,
-                  hintStyle: TextStyle(color: grey3, fontSize: 16.sp),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                    borderSide: BorderSide.none,
+              Container(
+                child: TextField(
+                  controller: controller,
+                  keyboardType: keyboardType,
+                  obscureText: isPassword,
+                  textDirection: textDirection,
+                  cursorColor: Colors.black,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    fillColor: bgcolor,
+                    filled: true,
+                    hintText: hint!,
+                    hintStyle: TextStyle(color: grey3, fontSize: 16.sp),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                      borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(paragraphBorderRadius!.r),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(paragraphBorderRadius!.r),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(paragraphBorderRadius!.r),
-                    borderSide: BorderSide.none,
+                  style: TextStyle(
+                    fontSize: 16.0.sp,
+                    color: Colors.black,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(paragraphBorderRadius!.r),
-                    borderSide: BorderSide.none,
-                  ),
+                  onChanged: onChanged,
                 ),
-                style: TextStyle(
-                  fontSize: 16.0.sp,
-                  color: Colors.black,
-                ),
-                onChanged: onChanged,
               ),
             ],
           );

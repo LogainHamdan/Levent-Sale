@@ -42,11 +42,11 @@ class LoginScreen extends StatelessWidget {
                           fontSize: 18.sp,
                           color: kprimaryColor,
                           fontWeight: FontWeight.bold)),
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 28.h),
                   CustomTextField(
                       bgcolor: grey8,
                       controller: TextEditingController(),
-                      hint: 'البريد الالكتروني /الاسم كاملاً'),
+                      hint: 'البريد الالكتروني / رقم الجوال '),
                   SizedBox(height: 16.h),
                   CustomPasswordField(
                       isConfirmField: false,
@@ -57,21 +57,17 @@ class LoginScreen extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 8.0.w,
-                        ),
-                        child: GestureDetector(
-                          onTap: () => showForgotPassword(context),
-                          child: Text("نسيت كلمة المرور ؟",
-                              style: TextStyle(
-                                  color: Colors.orange, fontSize: 14.sp)),
-                        ),
+                      GestureDetector(
+                        onTap: () => showForgotPassword(context),
+                        child: Text("نسيت كلمة المرور ؟",
+                            style: TextStyle(
+                                color: Color(0xffF75555), fontSize: 12.sp)),
                       ),
                       Spacer(),
                       Consumer<LoginProvider>(
                         builder: (context, loginProvider, child) {
                           return Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
                                 'تذكرني',

@@ -35,7 +35,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.da
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+// import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,12 +55,14 @@ class MyMaterialApp extends StatelessWidget {
             textDirection: TextDirection.rtl,
             child: MaterialApp(
               localizationsDelegates: const [
-                FlutterQuillLocalizations.delegate,
+                // FlutterQuillLocalizations.delegate,
               ],
               navigatorKey: GlobalKey<NavigatorState>(),
               debugShowCheckedModeBanner: false,
               title: 'Levent Sale',
               theme: ThemeData(
+                scaffoldBackgroundColor: Colors.white,
+                primaryColor: Color(0xff82B81C),
                 textTheme: TextTheme(
                   bodySmall: GoogleFonts.tajawal(
                     fontSize: 16.sp,
