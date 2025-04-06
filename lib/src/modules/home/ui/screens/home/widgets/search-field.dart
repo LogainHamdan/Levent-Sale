@@ -25,7 +25,7 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width!.w,
-      height: 48.h,
+      height: 44.h,
       child: TextField(
         controller: controller,
         style: GoogleFonts.tajawal(
@@ -36,6 +36,7 @@ class SearchField extends StatelessWidget {
         textAlign: TextAlign.right,
         onChanged: onChanged,
         decoration: InputDecoration(
+          
           suffixIcon: Padding(
             padding: EdgeInsets.all(10.w),
             child: InkWell(
@@ -72,7 +73,7 @@ class SearchField extends StatelessWidget {
                   color: grey5, fontWeight: FontWeight.w500, fontSize: 16.sp)),
           hintText: 'بحث',
           filled: true,
-          fillColor: grey8,
+          fillColor: grey8.withOpacity(.2),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
             borderSide: BorderSide.none,

@@ -26,59 +26,64 @@ class CustomPasswordField extends StatelessWidget {
             ? loginProvider.confirmPasswordVisible
             : loginProvider.passwordVisible;
 
-        return TextField(
-          controller: controller,
-          obscureText: !isVisible,
-          cursorColor: Colors.black,
-          style: GoogleFonts.tajawal(
-            textStyle: TextStyle(
-              fontSize: 14.sp,
-              color: Colors.black,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
-          textDirection: TextDirection.rtl,
-          decoration: InputDecoration(
-            fillColor: grey8,
-            filled: true,
-            hintTextDirection: TextDirection.rtl,
-            hintStyle: GoogleFonts.tajawal(
+        return SizedBox(
+          height: 48.h,
+          child: TextField(
+            controller: controller,
+            obscureText: !isVisible,
+            cursorColor: Colors.black,
+            style: GoogleFonts.tajawal(
               textStyle: TextStyle(
-                fontSize: 16.sp,
-                color: grey3,
+                fontSize: 14.sp,
+                color: Colors.black,
                 fontWeight: FontWeight.normal,
               ),
             ),
-            hintText: hint,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.r),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.r),
-              borderSide: BorderSide.none,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6.r),
-              borderSide: BorderSide.none,
-            ),
-            prefixIcon: GestureDetector(
-              onTap: () => loginProvider.togglePasswordVisibility(
-                isConfirmField: isConfirmField,
+            textDirection: TextDirection.rtl,
+            decoration: InputDecoration(
+              fillColor: grey8,
+
+              filled: true,
+              hintTextDirection: TextDirection.rtl,
+              hintStyle: GoogleFonts.tajawal(
+                textStyle: TextStyle(
+                  fontSize: 16.sp,
+                  color: grey3,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
-              child: Padding(
-                  padding: EdgeInsets.all(12.0.sp),
-                  child: !isVisible
-                      ? SvgPicture.asset(
-                          unseenPath,
-                          height: 20.h,
-                          width: 20.h,
-                        )
-                      : Image.asset(
-                          seenPath,
-                          height: 20.h,
-                          width: 20.h,
-                        )),
+              hintText: hint,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6.r),
+
+                borderSide: BorderSide(color: Color(0xffe5e7eb)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6.r),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6.r),
+                borderSide: BorderSide.none,
+              ),
+              prefixIcon: GestureDetector(
+                onTap: () => loginProvider.togglePasswordVisibility(
+                  isConfirmField: isConfirmField,
+                ),
+                child: Padding(
+                    padding: EdgeInsets.all(12.0.sp),
+                    child: !isVisible
+                        ? SvgPicture.asset(
+                            unseenPath,
+                            height: 20.h,
+                            width: 20.h,
+                          )
+                        : Image.asset(
+                            seenPath,
+                            height: 20.h,
+                            width: 20.h,
+                          )),
+              ),
             ),
           ),
         );

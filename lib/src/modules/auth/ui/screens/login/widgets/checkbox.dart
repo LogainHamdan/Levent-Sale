@@ -20,23 +20,26 @@ class CustomCheckBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Checkbox(
+          visualDensity: VisualDensity.compact, // Reduces internal padding
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, // Removes extra tap area
           value: value,
           onChanged: (bool? newValue) {
             if (newValue != null) {
               onChanged(newValue);
             }
           },
-          fillColor: MaterialStateProperty.resolveWith((states) {
+          fillColor: WidgetStateProperty.resolveWith((states) {
             return value ? kprimaryColor : Colors.white;
           }),
           checkColor: Colors.white,
           activeColor: kprimaryColor,
           focusColor: kprimaryColor,
         ),
-        SizedBox(width: 8), // Add space between checkbox and text
-        Text(
+    SizedBox(width:     title==""?0:8), // Add space between checkbox and text
+        title==""?SizedBox():  Text(
           title,
           style: GoogleFonts.tajawal(fontSize: 14, fontWeight: FontWeight.w500),
         ),

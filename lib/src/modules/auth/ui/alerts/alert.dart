@@ -187,7 +187,7 @@ void showForgotPassword(BuildContext context) {
                       'أدخل البريد الإلكتروني الخاص بك وسنقوم بإرسال رمز التحقق لإعادة تعيين كلمة المرور',
                       style: GoogleFonts.tajawal(color: grey3, fontSize: 12.sp),
                     ),
-                    SizedBox(height: 16.h),
+                    SizedBox(height: 2.h),
                     CustomTextField(
                         bgcolor: grey8,
                         controller: TextEditingController(),
