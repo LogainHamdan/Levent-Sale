@@ -13,92 +13,99 @@ import '../../../../auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 
 class ChangePassColumn extends StatelessWidget {
-  TextEditingController? firstController;
+  TextEditingController? currentPassController;
+  TextEditingController? sentCodeController;
+
   TextEditingController? secondController;
   TextEditingController? thirdController;
   final bool alert;
 
   ChangePassColumn(
       {super.key,
-      this.firstController,
       this.secondController,
+      this.sentCodeController,
+      this.currentPassController,
       this.thirdController,
       required this.alert});
 
   @override
   Widget build(BuildContext context) {
-    firstController = TextEditingController(text: '');
+    secondController = TextEditingController(text: '');
+    sentCodeController = TextEditingController(text: '');
     secondController = TextEditingController(text: '');
     thirdController = TextEditingController(text: '');
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          alert
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: SvgPicture.asset(
-                        cancelPath,
-                        height: 20.h,
-                      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        alert
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: SvgPicture.asset(
+                      cancelPath,
+                      height: 18.h,
+                      width: 18.w,
                     ),
-                  ],
-                )
-              : TitleRow(
-                  title: 'تغيير كلمة المرور',
-                ),
-          alert
-              ? SizedBox(
-                  height: 20.h,
-                )
-              : SizedBox(),
-          alert?      Text(
-            'تعيين كلمة المرور',
-            style: GoogleFonts.tajawal(
-                color: kprimaryColor,
-                fontWeight: FontWeight.bold,
-                fontSize: 18.sp),
-          ):SizedBox(),
-          alert?    SizedBox(height: 5.h):SizedBox(),
-         alert? Text(
-            textAlign: TextAlign.center,
-            'قم بإدخال كلمة المرور الجديدة ومن ثم تأكيدها مرة أخرى',
-            style: GoogleFonts.tajawal(color: grey3, fontSize: 12.sp),
-          ):SizedBox(),
-          SizedBox(
-            height: 16.h,
-          ),
-          alert
-              ? CustomTextField(
-                  bgcolor: grey8,
-                  controller: firstController!,
-                  hint: 'أدخل الرمز المرسل')
-              : CustomPasswordField(
-                  controller: firstController!, hint: 'كلمة المرور الحالية'),
-          SizedBox(
-            height: 16.h,
-          ),
-          CustomPasswordField(
-              controller: secondController!, hint: 'كلمة المرور الجديدة'),
-          SizedBox(
-            height: 16.h,
-          ),
-          CustomPasswordField(
-              controller: thirdController!, hint: 'تأكيد كلمة المرور الجديدة'),
-          SizedBox(
-            height: 16.h,
-          ),
-          CustomElevatedButton(
-              text: 'تغيير كلمة المرور',
-              onPressed: () => showPasswordUpdated(context),
-              backgroundColor: kprimaryColor,
-              textColor: grey9)
-        ],
-      ),
+                  ),
+                ],
+              )
+            : TitleRow(
+                title: 'تغيير كلمة المرور',
+              ),
+        alert
+            ? SizedBox(
+                height: 16.h,
+              )
+            : SizedBox(),
+        alert
+            ? Text(
+                'تعيين كلمة المرور',
+                style: GoogleFonts.tajawal(
+                    color: kprimaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.sp),
+              )
+            : SizedBox(),
+        alert ? SizedBox(height: 5.h) : SizedBox(),
+        alert
+            ? Text(
+                textAlign: TextAlign.center,
+                'قم بإدخال كلمة المرور الجديدة ومن ثم تأكيدها مرة أخرى',
+                style: GoogleFonts.tajawal(color: grey3, fontSize: 12.sp),
+              )
+            : SizedBox(),
+        SizedBox(
+          height: 16.h,
+        ),
+        alert
+            ? CustomTextField(
+                bgcolor: grey8,
+                controller: sentCodeController!,
+                hint: 'أدخل الرمز المرسل')
+            : CustomPasswordField(
+                controller: currentPassController!,
+                hint: 'كلمة المرور الحالية'),
+        SizedBox(
+          height: 12.h,
+        ),
+        CustomPasswordField(
+            controller: secondController!, hint: 'كلمة المرور الجديدة'),
+        SizedBox(
+          height: 12.h,
+        ),
+        CustomPasswordField(
+            controller: thirdController!, hint: 'تأكيد كلمة المرور الجديدة'),
+        SizedBox(
+          height: 24.h,
+        ),
+        CustomElevatedButton(
+            text: 'تغيير كلمة المرور',
+            onPressed: () => showPasswordUpdated(context),
+            backgroundColor: kprimaryColor,
+            textColor: grey9)
+      ],
     );
   }
 }

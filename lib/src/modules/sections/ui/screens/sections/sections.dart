@@ -13,16 +13,20 @@ class Sections extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+        leading: SizedBox(),
+        title: TitleRow(
+          title: 'الاقسام',
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(8.0.sp),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
-                  height: 16.h,
-                ),
-                TitleRow(title: 'الأقسام'),
                 TopBanner(),
                 SizedBox(
                   height: 20.h,

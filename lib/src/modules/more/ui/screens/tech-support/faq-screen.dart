@@ -13,22 +13,23 @@ class FAQScreen extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(20.0.sp),
+        padding: EdgeInsets.symmetric(horizontal: 24.0.sp),
         child: Column(
           children: [
             SizedBox(
-              height: 20.h,
+              height: 16.h,
             ),
             SearchField(
+              width: 370.w,
               controller: faqController,
             ),
             SizedBox(
-              height: 30.h,
+              height: 16.h,
             ),
             SizedBox(
-              height: 300.h,
+              height: 700.h,
               child: ListView.builder(
-                itemCount: 5,
+                itemCount: 20,
                 itemBuilder: (context, index) {
                   return CustomExpansionTile(
                       title: 'هل علي تسجيل حساب في السوق المفتوحة؟',

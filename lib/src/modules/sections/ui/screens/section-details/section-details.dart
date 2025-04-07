@@ -90,7 +90,9 @@ class SectionDetails extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 24.h),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       CustomLabel(text: "عمر العقار"),
                       SizedBox(
                         height: 16.h,
@@ -103,7 +105,9 @@ class SectionDetails extends StatelessWidget {
                             "5-10 سنوات",
                             "أكثر من 10 سنوات"
                           ]),
-                      SizedBox(height: 24.h),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       CustomLabel(text: "الطابق"),
                       SizedBox(
                         height: 16.h,
@@ -121,7 +125,9 @@ class SectionDetails extends StatelessWidget {
                           dropdownKey: "مفروش",
                           hint: "اختر",
                           items: ["نعم", "لا"]),
-                      SizedBox(height: 24.h),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       CustomLabel(text: "نوع الملكية"),
                       SizedBox(
                         height: 16.h,
@@ -130,7 +136,9 @@ class SectionDetails extends StatelessWidget {
                           dropdownKey: "نوع الملكية",
                           hint: "اختر",
                           items: ["تمليك", "إيجار"]),
-                      SizedBox(height: 24.h),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       Text("هل يحتوي على مصعد؟",
                           textDirection: TextDirection.rtl,
                           style: TextStyle(
@@ -149,7 +157,9 @@ class SectionDetails extends StatelessWidget {
                         onChanged: provider.toggleParking,
                         activeColor: kprimaryColor,
                       ),
-                      SizedBox(height: 24.h),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       CheckingContainer(provider: provider),
                       SizedBox(height: 41.h),
                     ],
@@ -162,7 +172,9 @@ class SectionDetails extends StatelessWidget {
                           hint: '',
                           label: 'عنوان',
                           bgcolor: grey8),
-                      SizedBox(height: 24.h),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       CustomTextField(
                         label: 'وصف صغير',
                         controller: shortDescController,
@@ -172,7 +184,9 @@ class SectionDetails extends StatelessWidget {
                         keyboardType: TextInputType.multiline,
                         paragraph: true,
                       ),
-                      SizedBox(height: 24.h),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       Align(
                           alignment: Alignment.centerRight,
                           child: Text('محتوى')),
@@ -182,25 +196,34 @@ class SectionDetails extends StatelessWidget {
                           alignment: Alignment.centerRight, child: Text('صور')),
                       ImagePickerColumn(),
                       SelectedImagesSection(),
-                      SizedBox(height: 24.h),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       CustomTextField(
                           label: 'رقم هاتف للتواصل',
                           controller: phoneController,
                           hint: '',
                           bgcolor: grey8),
-                      SizedBox(height: 24.h),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       CustomTextField(
                           label: 'السعر',
                           controller: priceController,
                           hint: '',
                           bgcolor: grey8),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                       CustomTextField(
                           suffix: Icon(Icons.percent, color: grey4),
                           label: 'خصم بنسبة',
                           controller: discountController,
                           hint: '',
                           bgcolor: grey8),
-                      SizedBox(height: 24.h),
+                      SizedBox(
+                        height: 16.h,
+                      ),
                     ],
                   )));
   }

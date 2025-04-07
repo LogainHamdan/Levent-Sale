@@ -13,32 +13,29 @@ class CustomHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TextButton(
-              onPressed: onPressed,
-              child: Text('مشاهدة المزيد',
-                  textDirection: TextDirection.rtl,
-                  style: GoogleFonts.tajawal(
-                    textStyle: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500,
-                      color: kprimaryColor,
-                    ),
-                  ))),
-          Text(
-            title,
-            textDirection: TextDirection.rtl,
-            style: TextStyle(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w700,
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TextButton(
+            onPressed: onPressed,
+            child: Text('مشاهدة المزيد',
+                textDirection: TextDirection.rtl,
+                style: GoogleFonts.tajawal(
+                  textStyle: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: kprimaryColor,
+                  ),
+                ))),
+        Text(
+          title,
+          textDirection: TextDirection.rtl,
+          style: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w700,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

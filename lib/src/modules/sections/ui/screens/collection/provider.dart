@@ -10,8 +10,8 @@ class MyCollectionScreenProvider extends ChangeNotifier {
   final List<String> _buttons = ['مراجعة', 'تعديل', 'عرض'];
   final List<Color> _buttonColors = [
     Color(0x1FF75555),
-    Color(0x1F74BD07),
-    Color(0xFFFACC15).withOpacity(0.2),
+    Color(0xFF07BD74).withOpacity(0.1),
+    Color(0xFFFACC15).withOpacity(0.1),
   ];
   final List<Color> _buttonTextColors = [
     Color(0xFFF75555),

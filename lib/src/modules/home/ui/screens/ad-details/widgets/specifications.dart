@@ -20,21 +20,24 @@ class SpecificationsSection extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontSize: 14.sp,
-            ),
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400),
             textAlign: TextAlign.right,
           ),
           SizedBox(height: 5.h),
           ...specifications.map((spec) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
+                padding: EdgeInsets.symmetric(vertical: 2.h),
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    '- $spec',
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.right,
-                    textDirection: TextDirection.rtl,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 10.w),
+                    child: Text(
+                      '- $spec',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                      ),
+                      textAlign: TextAlign.right,
+                      textDirection: TextDirection.rtl,
+                    ),
                   ),
                 ),
               )),

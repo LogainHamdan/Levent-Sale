@@ -75,8 +75,7 @@ class SplashScreen extends StatelessWidget {
                       text: "الاستمرار كضيف",
                       onPressed: () => Navigator.pushReplacementNamed(
                           context, MainScreen.id),
-                      backgroundColor:Colors.grey.shade300.withOpacity(.4),
-
+                      backgroundColor: grey8,
                       textColor: kprimaryColor,
                       date: false,
                     ),

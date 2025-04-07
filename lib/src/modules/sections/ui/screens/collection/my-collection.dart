@@ -17,13 +17,17 @@ class MyCollectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+        leading: SizedBox(),
+        title: TitleRow(
+          title: 'تشكيلتي',
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
-              height: 30.h,
-            ),
-            TitleRow(title: 'تشكيلتي'),
             SizedBox(height: 16.h),
 
             empty

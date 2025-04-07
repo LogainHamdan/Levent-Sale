@@ -63,12 +63,10 @@ class ImageSection extends StatelessWidget {
             textDirection: TextDirection.rtl,
             'صورة غلاف الملف الشخصي',
             style: TextStyle(
-              color: Colors.grey[500],
+              color: grey5,
             ),
           ),
         ),
-        SizedBox(height: 5.h),
-        UploadPhotoContainer(),
       ],
     );
   }

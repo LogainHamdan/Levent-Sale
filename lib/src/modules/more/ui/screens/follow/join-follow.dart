@@ -20,6 +20,7 @@ class JoinFollow extends StatelessWidget {
         child: SafeArea(
           child: Scaffold(
             appBar: AppBar(
+              backgroundColor: Colors.white,
               titleTextStyle: Theme.of(context).textTheme.bodyLarge,
               leading: SizedBox(),
               title: TitleRow(title: 'منة الله'),

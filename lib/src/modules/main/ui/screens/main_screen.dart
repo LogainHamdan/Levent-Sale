@@ -21,7 +21,7 @@ class MainScreen extends StatelessWidget {
     menuUnselected,
     collectionUnselected,
     sectionsUnselected,
-    homeUnselected
+    homeUnselected,
   ];
 
   final List<String> selectedIcons = [
@@ -59,8 +59,8 @@ class MainScreen extends StatelessWidget {
           onPressed: () => Navigator.pushNamed(context, CreateAdScreen.id),
           child: SvgPicture.asset(
             addIcon,
-            height: 24.h,
-            width: 24.w,
+            height: 20.h,
+            width: 20.w,
           ),
         ),
       ),
@@ -68,6 +68,10 @@ class MainScreen extends StatelessWidget {
       bottomNavigationBar: Stack(
         children: [
           AnimatedBottomNavigationBar.builder(
+            shadow: BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                spreadRadius: 2),
             height: 83.h,
             itemCount: unselectedIcons.length,
             tabBuilder: (int index, bool isActive) {
@@ -86,8 +90,8 @@ class MainScreen extends StatelessWidget {
                     Text(
                       labels[index],
                       style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w800,
                         color: isActive ? kprimaryColor : grey4,
                       ),
                     ),
@@ -110,8 +114,8 @@ class MainScreen extends StatelessWidget {
                   'انشاء اعلان',
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500),
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600),
                 ),
               ))
         ],

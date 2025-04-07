@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/add-photo-container.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/photo-section.dart';
 
@@ -15,6 +16,7 @@ import '../../../../../config/constants.dart';
 import '../../../../auth/ui/alerts/alert.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/phone-section.dart';
+import '../../../../home/ui/screens/ads/widgets/title-row.dart';
 
 class EditProfileScreen extends StatelessWidget {
   static const id = '/edit-profile';
@@ -36,22 +38,36 @@ class EditProfileScreen extends StatelessWidget {
         TextEditingController(text: '23456789');
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+        leading: SizedBox(),
+        title: Center(
+          child: TitleRow(
+            title: 'تعديل منة الله',
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(height: 20.h),
                 ImageSection(),
+                SizedBox(height: 5.h),
+                UploadPhotoContainer(),
                 SizedBox(height: 20.h),
                 CustomTextField(
+                  labelGrey: true,
                   controller: nameController,
                   label: 'الاسم',
                   bgcolor: grey8,
                 ),
                 SizedBox(height: 16.h),
                 CustomTextField(
+                  labelGrey: true,
                   controller: emailController,
                   label: 'البريد الإلكتروني',
                   keyboardType: TextInputType.emailAddress,
@@ -63,6 +79,7 @@ class EditProfileScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
                 CustomTextField(
+                  labelGrey: true,
                   prefix: GestureDetector(
                     onTap: () => showDatePickerDialog(context, dateController),
                     child: SvgPicture.asset(
@@ -80,42 +97,36 @@ class EditProfileScreen extends StatelessWidget {
                 if (profileProvider.isCompanyAccount) ...[
                   SizedBox(height: 16.h),
                   CustomTextField(
+                    labelGrey: true,
                     controller: addressController,
                     label: 'عنوان الشركة',
                     bgcolor: grey8,
                   ),
                   SizedBox(height: 16.h),
                   CustomTextField(
+                    labelGrey: true,
                     controller: taxController,
                     label: 'الرقم الضريبي',
                     bgcolor: grey8,
                   ),
                 ],
                 SizedBox(height: 20.h),
-                Container(
-                  width: double.infinity,
-                  height: 40.h,
-                  decoration: BoxDecoration(
-                    color: grey8,
-                    borderRadius: BorderRadius.circular(3.r),
-                  ),
-                  child: InkWell(
-                    onTap: () =>
-                        Navigator.pushNamed(context, DeleteAccountScreen.id),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          arrowLeftPath,
-                          height: 15.h,
-                        ),
-                        SizedBox(width: 8.w),
-                        Text(
-                          'حذف الحساب',
-                          style: TextStyle(fontSize: 15.sp),
-                        ),
-                      ],
-                    ),
+                InkWell(
+                  onTap: () =>
+                      Navigator.pushNamed(context, DeleteAccountScreen.id),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        arrowLeftPath,
+                        height: 15.h,
+                      ),
+                      SizedBox(width: 8.w),
+                      Text(
+                        'حذف الحساب',
+                        style: TextStyle(fontSize: 15.sp),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: 16.h),

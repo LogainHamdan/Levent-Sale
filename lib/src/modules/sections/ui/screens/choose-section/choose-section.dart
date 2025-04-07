@@ -14,15 +14,17 @@ class SectionChoose extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          CategoriesDisplay(onSectionClicked: () {
-            provider.nextStep();
+          CategoriesDisplay(
+              selectable: true,
+              onSectionClicked: () {
+                provider.nextStep();
 
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CreateAdScreen(
-                        lowerWidget: SectionTrack(cardListIndex: 0))));
-          })
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreateAdScreen(
+                            lowerWidget: SectionTrack(cardListIndex: 0))));
+              })
         ],
       ),
     );

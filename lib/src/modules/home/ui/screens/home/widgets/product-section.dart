@@ -11,6 +11,7 @@ class ProductSection extends StatelessWidget {
   final Function() onMorePressed;
   final double? height;
   final double? width;
+  final bool? hasDiscount;
   const ProductSection({
     super.key,
     required this.category,
@@ -19,6 +20,7 @@ class ProductSection extends StatelessWidget {
     required this.onMorePressed,
     this.height = 169,
     this.width = 144,
+    this.hasDiscount = true,
   });
 
   @override
@@ -28,6 +30,9 @@ class ProductSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomHeader(onPressed: onMorePressed, title: category),
+              SizedBox(
+                height: 5.h,
+              ),
               Transform.translate(
                 offset: Offset(0, -8.h),
                 child: SingleChildScrollView(
@@ -37,11 +42,15 @@ class ProductSection extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: products
                         .map(
-                          (product) => ProductItem(
-                            height: height!,
-                            width: width!,
-                            product: product,
-                            category: category,
+                          (product) => Padding(
+                            padding: EdgeInsets.only(left: 16.0.w),
+                            child: ProductItem(
+                              hasDiscount: hasDiscount!,
+                              height: height!,
+                              width: width!,
+                              product: product,
+                              category: category,
+                            ),
                           ),
                         )
                         .toList(),
@@ -63,11 +72,15 @@ class ProductSection extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: products
                         .map(
-                          (product) => ProductItem(
-                            height: height!,
-                            width: width!,
-                            product: product,
-                            category: category,
+                          (product) => Padding(
+                            padding: EdgeInsets.only(left: 16.0.w),
+                            child: ProductItem(
+                              hasDiscount: hasDiscount,
+                              height: height!,
+                              width: width!,
+                              product: product,
+                              category: category,
+                            ),
                           ),
                         )
                         .toList(),

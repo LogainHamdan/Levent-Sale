@@ -21,10 +21,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../../config/constants.dart';
 import '../../../home/ui/screens/evaluation/widgets/img-picker.dart';
 import '../../../main/ui/screens/main_screen.dart';
+import '../../../main/ui/screens/provider.dart';
 import '../../../more/ui/screens/edit-profile/widgets/title-cancel.dart';
 import '../screens/login/widgets/confrm-cancel-button.dart';
 import '../screens/sign-up/widgets/custom-pass-field.dart';
@@ -38,13 +40,13 @@ void showPasswordUpdated(BuildContext context) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: AlertDialog(
-          backgroundColor: Colors.white,
+          backgroundColor: grey9,
           contentPadding: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.r),
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
           content: SizedBox(
-            width: 350.w,
+            height: 300.h,
+            width: 427.w,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -57,7 +59,8 @@ void showPasswordUpdated(BuildContext context) {
                         padding: EdgeInsets.all(10.w),
                         child: SvgPicture.asset(
                           cancelPath,
-                          height: 25.h,
+                          height: 18.h,
+                          width: 18.w,
                         ),
                       ),
                     ),
@@ -125,11 +128,13 @@ void showSetNewPassword(BuildContext context) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: AlertDialog(
-            backgroundColor: Colors.white,
-            content: Container(
-              width: 400.w,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r)),
+            backgroundColor: grey9,
+            content: SizedBox(
+              height: 350.h,
               child: ChangePassColumn(
-                  firstController: firstController,
+                  sentCodeController: firstController,
                   secondController: secondController,
                   thirdController: thirdController,
                   alert: true),
@@ -147,24 +152,27 @@ void showForgotPassword(BuildContext context) {
       return BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
           child: AlertDialog(
-              backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.r),
-              ),
+                  borderRadius: BorderRadius.circular(16.r)),
+              backgroundColor: grey9,
               content: SizedBox(
-                width: 327.w,
-                height: 293.h,
+                width: 330.w,
+                height: 250.h,
                 child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        GestureDetector(
-                          onTap: () => Navigator.of(dialogContext).pop(),
-                          child: SvgPicture.asset(
-                            cancelPath,
-                            height: 24.h,
-                            width: 24.w,
+                        Positioned(
+                          top: 24.h,
+                          left: 14.h,
+                          child: GestureDetector(
+                            onTap: () => Navigator.of(dialogContext).pop(),
+                            child: SvgPicture.asset(
+                              cancelPath,
+                              height: 18.h,
+                              width: 18.w,
+                            ),
                           ),
                         ),
                       ],
@@ -187,7 +195,7 @@ void showForgotPassword(BuildContext context) {
                       'أدخل البريد الإلكتروني الخاص بك وسنقوم بإرسال رمز التحقق لإعادة تعيين كلمة المرور',
                       style: GoogleFonts.tajawal(color: grey3, fontSize: 12.sp),
                     ),
-                    SizedBox(height: 2.h),
+                    SizedBox(height: 16.h),
                     CustomTextField(
                         bgcolor: grey8,
                         controller: TextEditingController(),
@@ -200,7 +208,7 @@ void showForgotPassword(BuildContext context) {
                           showSetNewPassword(context);
                         },
                         backgroundColor: kprimaryColor,
-                        textColor: greySplash)
+                        textColor: greySplash),
                   ],
                 ),
               )));
@@ -208,7 +216,7 @@ void showForgotPassword(BuildContext context) {
   );
 }
 
-DateTime? _selectedDay = DateTime.now();
+DateTime _selectedDay = DateTime.now();
 
 void showDatePickerDialog(
     BuildContext context, TextEditingController dateController) {
@@ -220,8 +228,9 @@ void showDatePickerDialog(
         builder: (context, setState) => BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: AlertDialog(
+            backgroundColor: grey9,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(16.r),
             ),
             title: Text(
               "حدد التاريخ",
@@ -233,8 +242,8 @@ void showDatePickerDialog(
               textAlign: TextAlign.center,
             ),
             content: SizedBox(
-              width: 300,
-              height: 400,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.4,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -242,7 +251,7 @@ void showDatePickerDialog(
                     TableCalendar(
                       firstDay: DateTime(2025),
                       lastDay: DateTime(2030),
-                      focusedDay: _selectedDay ?? DateTime.now(),
+                      focusedDay: _selectedDay,
                       selectedDayPredicate: (day) {
                         return isSameDay(_selectedDay, day);
                       },
@@ -267,12 +276,10 @@ void showDatePickerDialog(
                         outsideTextStyle: TextStyle(color: Colors.grey),
                         todayDecoration: BoxDecoration(
                           color: Colors.transparent,
-                          shape: BoxShape.rectangle,
                         ),
                         selectedDecoration: BoxDecoration(
                           color: kprimaryColor,
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(10),
+                          shape: BoxShape.circle,
                         ),
                       ),
                       onDaySelected: (selectedDay, focusedDay) {
@@ -290,6 +297,7 @@ void showDatePickerDialog(
             ),
             actions: [
               ConfirmCancelButton(
+                date: true,
                 text: 'متابعة',
                 onPressed: () {
                   Navigator.pop(context);
@@ -328,7 +336,7 @@ void showRatingDialog(BuildContext context) {
                     child: Container(
                       width: double.infinity,
                       height: MediaQuery.of(context).size.height,
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.white.withOpacity(0.2),
                     ),
                   ),
                   Align(
@@ -337,12 +345,12 @@ void showRatingDialog(BuildContext context) {
                       onTap: () {},
                       child: Container(
                         width: double.infinity,
-                        height: 3 * MediaQuery.of(context).size.height / 4,
+                        height: 2.2 * MediaQuery.of(context).size.height / 4,
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.95),
+                          color: Colors.white,
                           borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20),
+                            top: Radius.circular(20.r),
                           ),
                         ),
                         child: Column(
@@ -357,9 +365,9 @@ void showRatingDialog(BuildContext context) {
                             Text("تقييمك حول هذا الإعلان"),
                             SizedBox(height: 5.h),
                             CustomRating(rateNum: false, flexible: true),
-                            SizedBox(height: 30.h),
+                            SizedBox(height: 20.h),
                             CustomTextField(
-                                bgcolor: Colors.white,
+                                bgcolor: grey8,
                                 controller: commentController,
                                 hint: 'اكتب تعليقك'),
                             SizedBox(height: 20.h),
@@ -370,13 +378,17 @@ void showRatingDialog(BuildContext context) {
                                 width: 100.w,
                                 height: 50.h,
                                 decoration: BoxDecoration(
-                                  color: kprimaryColor.withOpacity(0.2),
+                                  color: Color(0xFFE6F1D2),
                                   borderRadius: BorderRadius.circular(10.r),
                                 ),
-                                child: Icon(Icons.add, color: kprimaryColor),
+                                child: Icon(
+                                  Icons.add,
+                                  color: kprimaryColor,
+                                  size: 12.h,
+                                ),
                               ),
                             ),
-                            SizedBox(height: 30.h),
+                            SizedBox(height: 25.h),
                             ConfirmCancelButton(
                               text: 'نشر',
                               onPressed: () => Navigator.pop(context),
@@ -399,6 +411,8 @@ void showRatingDialog(BuildContext context) {
 }
 
 void showAdCreated(BuildContext context) {
+  final bottomNavProvider = Provider.of<BottomNavProvider>(context);
+
   if (!context.mounted) return;
 
   showDialog(
@@ -408,13 +422,12 @@ void showAdCreated(BuildContext context) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
         child: AlertDialog(
-          backgroundColor: Colors.white,
+          backgroundColor: grey9,
           contentPadding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.r),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           content: SizedBox(
-            width: 350.w,
             height: 360.h,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -427,10 +440,10 @@ void showAdCreated(BuildContext context) {
                         Navigator.of(dialogContext).pop();
                       },
                       child: Padding(
-                        padding: EdgeInsets.all(10.w),
+                        padding: EdgeInsets.all(20.w),
                         child: SvgPicture.asset(
                           cancelPath,
-                          height: 25.h,
+                          height: 18.h,
                         ),
                       ),
                     ),
@@ -472,8 +485,11 @@ void showAdCreated(BuildContext context) {
                     padding: EdgeInsets.symmetric(horizontal: 10.w),
                     child: CustomElevatedButton(
                       text: 'عرض تشكيلتي',
-                      onPressed: () =>
-                          Navigator.pushNamed(context, MainScreen.id),
+                      onPressed: () {
+                        bottomNavProvider.setIndex(1);
+
+                        Navigator.pushNamed(context, MainScreen.id);
+                      },
                       //my collection
                       backgroundColor: kprimaryColor,
                       textColor: grey9,
@@ -493,7 +509,7 @@ void _showLocationPermissionDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        backgroundColor: Colors.white,
+        backgroundColor: grey9,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -542,7 +558,7 @@ void showAddToFavoriteAlert(BuildContext context) {
               child: GestureDetector(
                 onTap: () {},
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.4,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius:
@@ -557,27 +573,31 @@ void showAddToFavoriteAlert(BuildContext context) {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         CustomTitleCancel(title: "احفظ في قائمة المفضلة"),
-                        SizedBox(height: 20.h),
+                        SizedBox(height: 32.h),
                         Container(
                           height: 40.h,
                           decoration: BoxDecoration(
-                            color: grey6,
-                            borderRadius: BorderRadius.circular(3.r),
+                            color: greySplash,
+                            borderRadius: BorderRadius.circular(8.r),
                           ),
-                          child: Center(child: Text("مفضلتي")),
+                          child: Center(
+                              child: Text(
+                            "مفضلتي",
+                            style: TextStyle(color: Color(0xFF212121)),
+                          )),
                         ),
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 16.h),
                         SimpleTitle(title: 'تشكيلة جديدة'),
+                        SizedBox(height: 8.h),
                         EmptyTextField(
                           controller: TextEditingController(),
                         ),
-                        SizedBox(height: 20.h),
+                        SizedBox(height: 16.h),
                         CustomElevatedButton(
-                          text: 'حفظ',
-                          onPressed: () => Navigator.pop(context),
-                          backgroundColor: kprimaryColor,
-                          textColor: grey9,
-                        ),
+                            text: 'حفظ',
+                            onPressed: () => Navigator.pop(context),
+                            backgroundColor: kprimaryColor,
+                            textColor: grey9),
                       ],
                     ),
                   ),
@@ -602,7 +622,7 @@ void showNewCollectionAlert(BuildContext context) {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
           child: Dialog(
-            backgroundColor: Colors.white,
+            backgroundColor: grey9,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.r)),
             child: SizedBox(
@@ -731,7 +751,7 @@ void changePictureOptionAlert(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16.r),
                 ),
-                backgroundColor: Colors.white,
+                backgroundColor: grey9,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16.r),
                   child: Column(

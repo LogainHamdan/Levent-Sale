@@ -23,7 +23,10 @@ class ProductsDetails extends StatelessWidget {
     scrollProvider.scrollToEnd();
 
     return Padding(
-      padding: EdgeInsets.all(8.0.sp),
+      padding: EdgeInsets.symmetric(
+        horizontal: 16.0.w,
+        vertical: 16.0.h,
+      ),
       child: SingleChildScrollView(
         reverse: true,
         controller: scrollProvider.scrollController,

@@ -35,6 +35,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.da
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 // import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -55,7 +56,7 @@ class MyMaterialApp extends StatelessWidget {
             textDirection: TextDirection.rtl,
             child: MaterialApp(
               localizationsDelegates: const [
-                // FlutterQuillLocalizations.delegate,
+                FlutterQuillLocalizations.delegate,
               ],
               navigatorKey: GlobalKey<NavigatorState>(),
               debugShowCheckedModeBanner: false,
@@ -74,7 +75,7 @@ class MyMaterialApp extends StatelessWidget {
                       fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),
               ),
-              initialRoute: SignUpScreen.id,
+              initialRoute: SplashScreen.id,
               routes: {
                 SplashScreen.id: (context) => SplashScreen(),
                 MainScreen.id: (context) => MainScreen(),

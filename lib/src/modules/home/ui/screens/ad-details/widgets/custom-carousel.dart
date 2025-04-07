@@ -37,7 +37,7 @@ class CustomCarousel extends StatelessWidget {
                     ),
                     items: imgList.map((item) {
                       return ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(4.0.r),
                         child: Image.asset(
                           item,
                           fit: BoxFit.cover,
@@ -57,35 +57,35 @@ class CustomCarousel extends StatelessWidget {
                     bottom: 10.h,
                     right: 10.w,
                     child: Container(
-                      width: 70.w,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      width: 90.w,
+                      height: 39.h,
+                      padding: EdgeInsets.symmetric(vertical: 5.h),
                       decoration: BoxDecoration(
-                        color: grey5.withOpacity(0.8),
+                        color: greyBlur,
                         borderRadius: BorderRadius.circular(10.r),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
-                            size: 10.sp,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 6.h),
-                            child: Text(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.sp),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset(
+                              arrowBackCarousel,
+                              height: 16.h,
+                            ),
+                            Text(
                               "${carouselProvider.currentIndex + 1}/${imgList.length}",
                               style: TextStyle(
-                                  color: Colors.white, fontSize: 16.sp),
+                                  color: Colors.white,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.white,
-                            size: 10.sp,
-                          ),
-                        ],
+                            SvgPicture.asset(
+                              arrowForwardCarousel,
+                              height: 16.h,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

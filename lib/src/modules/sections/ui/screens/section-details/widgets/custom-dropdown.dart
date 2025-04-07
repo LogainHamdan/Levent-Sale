@@ -29,76 +29,86 @@ class CustomDropdownSection extends StatelessWidget {
       builder: (context, provider, child) {
         List<String> uniqueItems = items.toSet().toList();
         String? selectedValue = provider.getSelectedValue(dropdownKey);
-
-        if (selectedValue != null && !uniqueItems.contains(selectedValue)) {
-          selectedValue = null;
-        }
-
         bool isOpen = provider.isDropdownOpened(dropdownKey);
 
-        return Material(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.r),
-          child: Theme(
-            data: Theme.of(context).copyWith(
-              dividerColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-            ),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: ExpansionTile(
-                tilePadding: EdgeInsets.symmetric(horizontal: 14.w),
-                childrenPadding: EdgeInsets.symmetric(horizontal: 14.w),
-                onExpansionChanged: (isOpen) {
-                  provider.setDropdownOpened(dropdownKey, isOpen);
-                },
-                trailing: SizedBox(
-                  width: 36.w,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: isOpen
-                        ? SvgPicture.asset(
-                            arrowAbovePath,
-                            height: 8.h,
-                            width: 8.w,
-                          )
-                        : SvgPicture.asset(
-                            arrowDownPath,
-                            height: 22.h,
-                            width: 22.w,
-                          ),
-                  ),
-                ),
-                title: Text(
-                  selectedValue ?? "اختر",
-                  style: GoogleFonts.tajawal(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: selectedValue != null ? Colors.black : grey4,
-                  ),
-                ),
-                children: uniqueItems.map((item) {
-                  return InkWell(
-                    onTap: () {
-                      provider.setSelectedValue(dropdownKey, item);
-                      provider.setDropdownOpened(dropdownKey, false);
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 12.h),
-                      child: Text(
-                        item,
-                        textDirection: TextDirection.rtl,
+        double headerHeight = 50.h;
+        double itemHeight = 42.h;
+        double expandedHeight =
+            headerHeight + (isOpen ? uniqueItems.length * itemHeight : 0);
+
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          height: expandedHeight,
+          decoration: BoxDecoration(
+            color: grey8,
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: headerHeight,
+                child: InkWell(
+                  onTap: () {
+                    provider.setDropdownOpened(dropdownKey, !isOpen);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      isOpen
+                          ? Padding(
+                              padding: EdgeInsets.only(left: 6.w, top: 4.h),
+                              child: SvgPicture.asset(
+                                arrowAbovePath,
+                                height: 8.h,
+                                width: 8.w,
+                              ),
+                            )
+                          : SvgPicture.asset(
+                              arrowDownPath,
+                              height: 22.h,
+                              width: 22.w,
+                            ),
+                      Text(
+                        selectedValue ?? hint,
                         style: GoogleFonts.tajawal(
-                          fontSize: 14.sp,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          color: selectedValue != null ? Colors.black : grey4,
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              if (isOpen)
+                Column(
+                  children: uniqueItems.map((item) {
+                    return InkWell(
+                      onTap: () {
+                        provider.setSelectedValue(dropdownKey, item);
+                        provider.setDropdownOpened(dropdownKey, false);
+                      },
+                      child: Container(
+                        height: itemHeight,
+                        alignment: Alignment.centerRight,
+                        width: double.infinity,
+                        child: Text(
+                          item,
+                          textDirection: TextDirection.rtl,
+                          style: GoogleFonts.tajawal(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+            ],
           ),
         );
       },

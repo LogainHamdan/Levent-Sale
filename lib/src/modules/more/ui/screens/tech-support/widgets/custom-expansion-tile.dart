@@ -56,12 +56,12 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
               });
             },
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SvgPicture.asset(
-                      height: 15.h,
+                      height: 7.h,
                       width: 7.w,
                       _isExpanded ? aboveGreyPath : greyArrowDownPath),
                   Expanded(

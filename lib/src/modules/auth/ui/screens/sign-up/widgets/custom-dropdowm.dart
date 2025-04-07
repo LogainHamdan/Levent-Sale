@@ -20,76 +20,92 @@ class CustomDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<RegisterProvider>(
       builder: (context, provider, child) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            InkWell(
-              onTap: () {
-                provider.setDropdownOpened(!provider.isDropdownOpened);
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
-                decoration: BoxDecoration(
-                  color: grey8,
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SvgPicture.asset(
+        // Heights
+        double headerHeight = 50.h;
+        double itemHeight = 42.h;
+        double expandedHeight = headerHeight +
+            (provider.isDropdownOpened ? items.length * itemHeight : 0);
+
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          height: expandedHeight,
+          decoration: BoxDecoration(
+            color: grey8,
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header (dropdown button)
+              SizedBox(
+                height: headerHeight,
+                child: InkWell(
+                  onTap: () {
+                    provider.setDropdownOpened(!provider.isDropdownOpened);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       provider.isDropdownOpened
-                          ? arrowAbovePath
-                          : arrowDownPath,
-                      height: provider.isDropdownOpened ? 8.h : 22.h,
-                      width: provider.isDropdownOpened ? 8.w : 22.w,
-                    ),
-                    Text(
-                      provider.selectedValue.isNotEmpty
-                          ? provider.selectedValue
-                          : hint,
-                      style: GoogleFonts.tajawal(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: provider.selectedValue.isNotEmpty
-                            ? Colors.black
-                            : grey4,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Visibility(
-              visible: provider.isDropdownOpened,
-              maintainSize: false,
-              maintainAnimation: false,
-              maintainState: false,
-              child: Column(
-                children: items.map((item) {
-                  return InkWell(
-                    onTap: () {
-                      provider.setSelectedValue(item);
-                      provider.setDropdownOpened(false);
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                        vertical: 12.h,
-                        horizontal: 12.w,
-                      ),
-                      child: Text(
-                        item,
-                        textDirection: TextDirection.rtl,
+                          ? Padding(
+                              padding: EdgeInsets.only(left: 3.w, top: 2.h),
+                              child: SvgPicture.asset(
+                                arrowAbovePath,
+                                height: 8.h,
+                                width: 8.w,
+                              ),
+                            )
+                          : SvgPicture.asset(
+                              arrowDownPath,
+                              height: 22.h,
+                              width: 22.w,
+                            ),
+                      Text(
+                        provider.selectedValue.isNotEmpty
+                            ? provider.selectedValue
+                            : hint,
                         style: GoogleFonts.tajawal(
                           fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                          color: provider.selectedValue.isNotEmpty
+                              ? Colors.black
+                              : grey4,
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ],
+
+              // Dropdown list (no spacing above/below)
+              if (provider.isDropdownOpened)
+                Column(
+                  children: items.map((item) {
+                    return InkWell(
+                      onTap: () {
+                        provider.setSelectedValue(item);
+                        provider.setDropdownOpened(false);
+                      },
+                      child: Container(
+                        height: itemHeight,
+                        alignment: Alignment.centerRight,
+                        width: double.infinity,
+                        child: Text(
+                          item,
+                          textDirection: TextDirection.rtl,
+                          style: GoogleFonts.tajawal(
+                            fontSize: 15.sp,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+            ],
+          ),
         );
       },
     );

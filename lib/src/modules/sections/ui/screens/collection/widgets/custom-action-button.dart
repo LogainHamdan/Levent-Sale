@@ -22,27 +22,27 @@ class CustomActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        height: 40.h,
-        width: 108.w,
+        height: 33.h,
+        width: 110.w,
         decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.circular(3.r),
+          borderRadius: BorderRadius.circular(2.r),
         ),
         child: Center(
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              icon,
-              SizedBox(width: 4.w),
               Text(
                 text,
                 style: TextStyle(
                   color: textColor,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
+              SizedBox(width: 4.w),
+              icon,
             ],
           ),
         ),

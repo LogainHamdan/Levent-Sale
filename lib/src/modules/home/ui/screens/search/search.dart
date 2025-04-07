@@ -13,20 +13,6 @@ import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
 import '../chats/no-info-widget.dart';
 import '../home/data.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/products-details.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-section.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/search-field.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/search/provider.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/search/widgets/result-widget.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-widget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-
-import '../../../../../config/constants.dart';
-import '../home/data.dart';
 
 class SearchScreen extends StatelessWidget {
   static const id = '/search';
@@ -83,6 +69,7 @@ class SearchScreen extends StatelessWidget {
                       ),
                 SizedBox(height: 100.h),
                 ProductSection(
+                  hasDiscount: false,
                   isHalfed: true,
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
@@ -90,6 +77,7 @@ class SearchScreen extends StatelessWidget {
                   products: products,
                 ),
                 ProductSection(
+                  hasDiscount: false,
                   isHalfed: true,
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
@@ -97,10 +85,11 @@ class SearchScreen extends StatelessWidget {
                   products: products,
                 ),
                 ProductSection(
+                  hasDiscount: false,
                   isHalfed: true,
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
-                  category: "الإعلانات المفترحة",
+                  category: "الإعلانات المقترحة",
                   products: products,
                 ),
               ],

@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
             },
             customBorder: CircleBorder(),
             child: CircleAvatar(
-              radius: 18.w,
+              radius: 14.w,
               backgroundColor: Colors.white,
               child: Center(
                 child: favIcon
@@ -33,20 +33,19 @@ class CustomButton extends StatelessWidget {
                         ? SvgPicture.asset(
                             favColoredPath,
                             color: grey4,
-                            height: 20.h,
-                            width: 20.w,
+                            height: 14.h,
+                            width: 14.w,
                           )
                         : SvgPicture.asset(
                             favUncoloredPath,
                             color: grey4,
-                            height: 24.h,
-                            width: 24.w,
+                            height: 16.h,
+                            width: 16.w,
                           )
                     : SvgPicture.asset(
                         shareIcon,
-                        height: 20.h,
-                        width: 20.w,
-                        color: grey3,
+                        height: 16.h,
+                        width: 16.w,
                       ),
               ),
             ),

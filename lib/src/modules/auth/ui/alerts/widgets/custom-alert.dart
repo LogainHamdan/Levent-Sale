@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../../config/constants.dart';
+
 Future<void> showCustomAlertDialog({
   required BuildContext context,
   required String title,
@@ -49,7 +51,11 @@ Future<void> showCustomAlertDialog({
                       ],
                     ),
                   ),
-                  Divider(thickness: 1, height: 1),
+                  Divider(
+                    thickness: 1,
+                    height: 1,
+                    color: dividerColor,
+                  ),
                 ],
               ),
               IntrinsicHeight(
@@ -62,6 +68,7 @@ Future<void> showCustomAlertDialog({
                             style: GoogleFonts.tajawal(
                               fontSize: 18.sp,
                               textStyle: TextStyle(
+                                fontWeight: FontWeight.w400,
                                 color: cancelColor,
                               ),
                             )),
@@ -70,7 +77,7 @@ Future<void> showCustomAlertDialog({
                     VerticalDivider(
                       width: 1,
                       thickness: 1,
-                      color: Colors.grey,
+                      color: dividerColor,
                     ),
                     Expanded(
                       child: TextButton(
@@ -81,9 +88,9 @@ Future<void> showCustomAlertDialog({
                         child: Text(confirmText,
                             style: GoogleFonts.tajawal(
                               textStyle: TextStyle(
-                                  fontSize: 20.sp,
+                                  fontSize: 18.sp,
                                   color: confirmColor,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.w700),
                             )),
                       ),
                     ),

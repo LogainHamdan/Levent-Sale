@@ -23,66 +23,69 @@ class SectionTrack extends StatelessWidget {
   Widget build(BuildContext context) {
     final stepperProvider = Provider.of<CreateAdProvider>(context);
 
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 6,
-      itemBuilder: (context, index) {
-        final provider = Provider.of<CreateAdProvider>(context);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: 6,
+        itemBuilder: (context, index) {
+          final provider = Provider.of<CreateAdProvider>(context);
 
-        if (cardListIndex == 0) {
-          return CustomCard(
-            onTap: () => Navigator.push(
-              context,
-              createHorizontalPageRoute(CreateAdScreen(
-                  lowerWidget: SectionTrack(
-                cardListIndex: 1,
-              ))),
-            ),
-            icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
-            title: categories[index]['name'],
-          );
-        }
-        if (cardListIndex == 1) {
-          return CustomCard(
-            onTap: () => Navigator.push(
-              context,
-              createHorizontalPageRoute(CreateAdScreen(
-                  lowerWidget: SectionTrack(
-                cardListIndex: 2,
-              ))),
-            ),
-            icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
-            title: 'شقق فاخرة و مفروشة',
-          );
-        }
-        if (cardListIndex == 2) {
-          return CustomCard(
+          if (cardListIndex == 0) {
+            return CustomCard(
+              onTap: () => Navigator.push(
+                context,
+                createHorizontalPageRoute(CreateAdScreen(
+                    lowerWidget: SectionTrack(
+                  cardListIndex: 1,
+                ))),
+              ),
               icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
-              title: "شقق في أبراح عالية",
-              onTap: () {
-                provider.nextStep();
-                Navigator.push(
-                  context,
-                  createHorizontalPageRoute(CreateAdScreen(
-                      bottomNavBar: DraggableButton('متابعة', onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CreateAdScreen(
-                                    bottomNavBar: DraggableButton('متابعة',
-                                        onPressed: () {
-                                      stepperProvider.nextStep();
-                                      showAdCreated(context);
-                                    }),
-                                    lowerWidget: SectionDetails(id: 1))));
-                      }),
-                      lowerWidget: SectionDetails(
-                        id: 0,
-                      ))),
-                );
-              });
-        }
-      },
+              title: categories[index]['name'],
+            );
+          }
+          if (cardListIndex == 1) {
+            return CustomCard(
+              onTap: () => Navigator.push(
+                context,
+                createHorizontalPageRoute(CreateAdScreen(
+                    lowerWidget: SectionTrack(
+                  cardListIndex: 2,
+                ))),
+              ),
+              icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
+              title: 'شقق فاخرة و مفروشة',
+            );
+          }
+          if (cardListIndex == 2) {
+            return CustomCard(
+                icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
+                title: "شقق في أبراح عالية",
+                onTap: () {
+                  provider.nextStep();
+                  Navigator.push(
+                    context,
+                    createHorizontalPageRoute(CreateAdScreen(
+                        bottomNavBar: DraggableButton('متابعة', onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreateAdScreen(
+                                      bottomNavBar: DraggableButton('متابعة',
+                                          onPressed: () {
+                                        stepperProvider.nextStep();
+                                        showAdCreated(context);
+                                      }),
+                                      lowerWidget: SectionDetails(id: 1))));
+                        }),
+                        lowerWidget: SectionDetails(
+                          id: 0,
+                        ))),
+                  );
+                });
+          }
+        },
+      ),
     );
   }
 }

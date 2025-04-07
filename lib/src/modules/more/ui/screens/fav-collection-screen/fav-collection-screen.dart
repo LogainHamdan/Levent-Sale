@@ -20,25 +20,26 @@ class FavoriteCollectionScreen extends StatelessWidget {
     TextEditingController collectionSearchController = TextEditingController();
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+        title: TitleRow(
+          suffix: SvgPicture.asset(
+            deleteCollectionIcon,
+            height: 20.h,
+          ),
+          onSuffixTap: () => deleteCollectionAlert(context),
+          title: 'المفضلة',
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 16.h),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-                  child: TitleRow(
-                    onSuffixTap: () => deleteCollectionAlert(context),
-                    title: 'المفضلة',
-                    suffix: SvgPicture.asset(
-                      deleteCollectionIcon,
-                      height: 20.h,
-                    ),
-                  )),
-              SizedBox(height: 10.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                 child: SearchField(
+                  width: 327.w,
                   controller: collectionSearchController,
                 ),
               ),

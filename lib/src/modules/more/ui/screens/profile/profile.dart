@@ -19,18 +19,19 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-          leading: SizedBox(),
-          title: TitleRow(
-            title: 'منة الله',
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+        leading: SizedBox(),
+        title: TitleRow(
+          title: 'منة الله',
         ),
-        body: SingleChildScrollView(
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
             child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+          padding: EdgeInsets.symmetric(horizontal: 24.0.w),
           child: Column(
             children: [
               Stack(
@@ -73,15 +74,16 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 16.h),
               CustomElevatedButton(
                 text: 'تعديل الملف الشخصي',
                 onPressed: () =>
                     Navigator.pushNamed(context, EditProfileScreen.id),
                 backgroundColor: kprimaryColor,
-                textColor: Colors.white,
+                textColor: grey8,
                 icon: SvgPicture.asset(
                   editWhiteIcon,
-                  height: 30.h,
+                  height: 24.h,
                 ),
               ),
               SizedBox(height: 16.h),

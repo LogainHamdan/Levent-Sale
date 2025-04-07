@@ -20,11 +20,17 @@ class Section extends StatelessWidget {
     TextEditingController sectionController = TextEditingController();
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+        leading: SizedBox(),
+        title: TitleRow(
+          title: 'الاجهزة',
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: 16.h),
-            TitleRow(title: 'الاجهزة'),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 16.0.w,

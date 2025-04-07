@@ -23,12 +23,12 @@ class EmptyTextField extends StatelessWidget {
             color: Colors.black,
           ),
           decoration: InputDecoration(
-            fillColor: grey6,
+            fillColor: greySplash,
             filled: true,
             hintTextDirection: TextDirection.rtl,
             hintStyle: TextStyle(color: grey4, fontSize: 14.sp),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(3.r),
+              borderRadius: BorderRadius.circular(8.r),
               borderSide: BorderSide.none,
             ),
           ),

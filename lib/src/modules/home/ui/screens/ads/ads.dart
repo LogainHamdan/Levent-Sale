@@ -18,20 +18,20 @@ class AdsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController adController = TextEditingController();
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+        title: TitleRow(title: 'الاعلانات'),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 16.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-                child: TitleRow(title: 'الإعلانات'),
-              ),
               SizedBox(height: 10.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                 child: SearchField(
-                  width: 327,
+                  width: 327.w,
                   hasFilterIcon: true,
                   controller: adController,
                 ),

@@ -20,8 +20,8 @@ class UploadPhotoContainer extends StatelessWidget {
         height: 150.h,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: kprimaryColor.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(3.r),
+          color: grey8,
+          borderRadius: BorderRadius.circular(4.r),
         ),
         child: coverImage == null
             ? Column(

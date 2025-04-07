@@ -28,20 +28,19 @@ class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+        title: TitleRow(
+          title: 'المفضلة',
+          suffix: InkWell(onTap: onSuffixTap, child: suffix),
+          onSuffixTap: () => deleteCollectionAlert(context),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: 16.h,
-              ),
-              TitleRow(
-                  onSuffixTap: () => deleteCollectionAlert(context),
-                  title: 'المفضلة',
-                  suffix: InkWell(onTap: onSuffixTap, child: suffix)),
-              SizedBox(
-                height: 15.h,
-              ),
               empty
                   ? Expanded(child: EmptyFav())
                   : SizedBox(

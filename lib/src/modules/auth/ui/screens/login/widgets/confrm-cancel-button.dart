@@ -9,27 +9,32 @@ class ConfirmCancelButton extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final String text;
+  final bool? date;
   const ConfirmCancelButton(
       {super.key,
       required this.onPressed,
       required this.backgroundColor,
       required this.textColor,
-      required this.text});
+      required this.text,
+      this.date = false});
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         TextButton(
           child: Text(
             'الغاء',
             style: GoogleFonts.tajawal(
                 color: cancelColor,
-                fontSize: 16.sp,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w500),
           ),
           onPressed: () => Navigator.pop(context),
+        ),
+        SizedBox(
+          width: 40.w,
         ),
         ElevatedButton(
           onPressed: onPressed,
@@ -37,7 +42,7 @@ class ConfirmCancelButton extends StatelessWidget {
             textStyle: GoogleFonts.tajawal(
                 fontSize: 20.sp, fontWeight: FontWeight.w500),
             backgroundColor: backgroundColor,
-            minimumSize: Size(150.w, 50.h),
+            minimumSize: date! ? Size(130.w, 48.h) : Size(194.w, 48.h),
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.r),

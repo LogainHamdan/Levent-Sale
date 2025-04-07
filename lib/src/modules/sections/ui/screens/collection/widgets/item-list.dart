@@ -20,7 +20,8 @@ class ItemList extends StatelessWidget {
       itemCount: 3,
       itemBuilder: (context, index) {
         return SizedBox(
-            width: 327.w,
+            width: 307.w,
+            height: 130.h,
             child: Card(
               color: grey8,
               elevation: 0,
@@ -29,22 +30,20 @@ class ItemList extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: Padding(
-                padding: EdgeInsets.all(8.sp),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(
                       height: 120.h,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 8.h),
                           Text(
                             '\$41.1',
                             style: TextStyle(
                               fontSize: 18.sp,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           Spacer(),
@@ -52,54 +51,60 @@ class ItemList extends StatelessWidget {
                             '12-7-2025',
                             style: TextStyle(
                               fontSize: 12.sp,
+                              color: grey3,
                               fontWeight: FontWeight.w400,
                             ),
                           )
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          SizedBox(height: 12.h),
-                          Text(
-                            'ايفون 14 برو ماكس',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w700,
-                            ),
+                    SizedBox(
+                      width: 40.w,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          'ايفون 14 برو ماكس',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            'الاجهزة',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: grey3,
-                              fontWeight: FontWeight.w500,
-                            ),
+                        ),
+                        SizedBox(
+                          height: 4.h,
+                        ),
+                        Text(
+                          'الاجهزة',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: grey3,
+                            fontWeight: FontWeight.w400,
                           ),
-                          SizedBox(height: 5.h),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: CustomActionButton(
-                              text: buttonText,
-                              icon: buttonIcon,
-                              onPressed: onPressed,
-                              backgroundColor: buttonColor,
-                              textColor: buttonTextColor,
-                            ),
+                        ),
+                        SizedBox(
+                          height: 4.h,
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: CustomActionButton(
+                            text: buttonText,
+                            icon: buttonIcon,
+                            onPressed: onPressed,
+                            backgroundColor: buttonColor,
+                            textColor: buttonTextColor,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     SizedBox(width: 16.w),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(4.r),
                       child: SizedBox(
-                        height: 115.h,
+                        height: 81.h,
                         width: 69.w,
                         child: Image.asset(
                           'assets/imgs_icons/home/assets/imgs/ايفون4.png',

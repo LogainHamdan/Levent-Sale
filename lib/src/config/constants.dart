@@ -10,6 +10,7 @@ Color kprimary2Color = const Color(0xFFB4D477);
 Color kprimary3Color = const Color(0xFFCDE3A4);
 Color kprimary4Color = const Color(0xFFE6F1D2);
 Color amberColor = Colors.amber;
+Color dividerColor = Color(0xFF3C3C434A);
 
 //alert & status colors
 Color successColor = const Color(0xFF07BD74);
@@ -29,10 +30,10 @@ Color grey6 = const Color(0xFFE0E0E0);
 Color grey7 = Colors.grey[100]!;
 Color grey8 = const Color(0xFFF5F5F5);
 Color grey9 = const Color(0xFFFAFAFA);
+Color greyBlur = const Color(0xFF4242424D);
 
 //buttons
 Color greySplash = const Color(0xFFEEEEEE);
-
 Color cancelColor = const Color(0xFFF75555);
 
 //images, icons paths
@@ -104,6 +105,10 @@ String emptyNotificationsIcon =
     'assets/imgs_icons/sections/assets/imgs/empty-notification.svg';
 
 ///sections
+///
+String arrowForwardCarousel = 'assets/imgs_icons/sections/assets/icons/row.svg';
+String arrowBackCarousel =
+    'assets/imgs_icons/sections/assets/icons/arrow-right.svg';
 String addImageIcon = 'assets/imgs_icons/sections/assets/icons/img.png';
 String jobsIcon =
     'assets/imgs_icons/sections/assets/imgs/9d4d6514-8c97-4267-a241-6adc0f11fc97 1.png';

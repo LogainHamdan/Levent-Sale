@@ -24,7 +24,7 @@ class CustomTitleCancel extends StatelessWidget {
                   TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         ),
         SizedBox(
-          width: 10.w,
+          width: 24.w,
         ),
         GestureDetector(
           onTap: () => Navigator.pop(context),

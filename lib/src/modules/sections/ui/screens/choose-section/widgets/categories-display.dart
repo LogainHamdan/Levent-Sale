@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../config/constants.dart';
 import '../../../../../home/ui/screens/home/data.dart';
-import '../../one-section/one-section.dart';
 import '../choose-section-provider.dart';
 
 class CategoriesDisplay extends StatelessWidget {
+  final bool? selectable;
   final Function() onSectionClicked;
 
-  const CategoriesDisplay({super.key, required this.onSectionClicked});
+  const CategoriesDisplay(
+      {super.key, required this.onSectionClicked, this.selectable = false});
 
   @override
   Widget build(BuildContext context) {
@@ -33,26 +33,31 @@ class CategoriesDisplay extends StatelessWidget {
           final isSelected = selectedIndex == index;
 
           return InkWell(
-            borderRadius: BorderRadius.circular(80.r),
             onTap: () {
               provider.setSelectedCategory(index);
-              Future.delayed(const Duration(seconds: 1), () {
+              Future.delayed(const Duration(milliseconds: 400), () {
                 onSectionClicked();
               });
             },
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
-                  height: 80.h,
-                  width: 80.w,
+                  duration: Duration(milliseconds: 100),
+                  height: 85.h,
+                  width: 98.w,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: isSelected ? kprimaryColor : grey8,
+                    color: selectable!
+                        ? isSelected
+                            ? kprimaryColor
+                            : grey8
+                        : grey8,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(12.0.sp),
+                    padding: EdgeInsets.all(8.0.sp),
                     child: ClipOval(
                       child: Image.asset(
                         categoryImages[index],
@@ -64,7 +69,7 @@ class CategoriesDisplay extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8.h),
-                Flexible(
+                Expanded(
                   child: Text(
                     categoryNames[index],
                     textAlign: TextAlign.center,

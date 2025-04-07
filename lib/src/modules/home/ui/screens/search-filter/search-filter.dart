@@ -8,7 +8,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../home/data.dart';
 import '../home/widgets/search-field.dart';
-import 'data.dart';
 
 class FilterScreen extends StatelessWidget {
   static const id = '/filter';
@@ -30,11 +29,11 @@ class FilterScreen extends StatelessWidget {
               Row(
                 children: [
                   SearchField(
-                    width: 295,
+                    width: 270.w,
                     controller: filterController,
                   ),
                   SizedBox(
-                    width: 24.w,
+                    width: 8.w,
                   ),
                   InkWell(
                       child: Icon(
@@ -46,6 +45,9 @@ class FilterScreen extends StatelessWidget {
                         Navigator.pop(context);
                       })
                 ],
+              ),
+              SizedBox(
+                height: 24.w,
               ),
               Expanded(
                 child: ListView.builder(

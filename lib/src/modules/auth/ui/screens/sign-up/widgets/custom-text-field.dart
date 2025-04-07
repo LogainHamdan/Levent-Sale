@@ -17,6 +17,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffix;
   final Widget? prefix;
   final double? paragraphBorderRadius;
+  final bool? labelGrey;
 
   const CustomTextField({
     super.key,
@@ -32,51 +33,65 @@ class CustomTextField extends StatelessWidget {
     this.suffix,
     this.paragraphBorderRadius,
     this.prefix,
+    this.labelGrey = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return !paragraph!
-        ? TextField(
-          controller: controller,
-          keyboardType: keyboardType,
-          obscureText: isPassword,
-          textDirection: textDirection,
-          cursorColor: Colors.black,
-          style: GoogleFonts.tajawal(
-              textStyle: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18.sp)),
-          decoration: InputDecoration(
-            prefixIcon: prefix,
-            suffixIcon: suffix,
-            hintText: hint!,
-            fillColor: bgcolor,
-            filled: true,
-            hintTextDirection: TextDirection.rtl,
-            hintStyle: GoogleFonts.tajawal(
-              textStyle: TextStyle(
-                fontSize: 16.sp,
-                color: grey3,
-                fontWeight: FontWeight.normal,
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                textAlign: TextAlign.right,
+                label!,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: labelGrey! ? grey5 : Colors.black,
+                ),
               ),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide.none,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
-              borderSide: BorderSide.none,
-            ),
-          ),
-          onChanged: onChanged,
-        )
+              TextField(
+                controller: controller,
+                keyboardType: keyboardType,
+                obscureText: isPassword,
+                textDirection: textDirection,
+                cursorColor: Colors.black,
+                style: GoogleFonts.tajawal(
+                    textStyle: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18.sp)),
+                decoration: InputDecoration(
+                  prefix: prefix,
+                  suffixIcon: suffix,
+                  hintText: hint!,
+                  fillColor: bgcolor,
+                  filled: true,
+                  hintTextDirection: TextDirection.rtl,
+                  hintStyle: GoogleFonts.tajawal(
+                    textStyle: TextStyle(
+                      fontSize: 16.sp,
+                      color: grey3,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                onChanged: onChanged,
+              ),
+            ],
+          )
         : Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -85,7 +100,7 @@ class CustomTextField extends StatelessWidget {
                 label!,
                 style: TextStyle(
                   fontSize: 14.sp,
-                  color: Colors.black,
+                  color: labelGrey! ? grey5 : Colors.black,
                 ),
               ),
               Container(

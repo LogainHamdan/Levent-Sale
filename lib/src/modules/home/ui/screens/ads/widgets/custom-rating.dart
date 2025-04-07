@@ -10,9 +10,11 @@ import '../../../../../../config/constants.dart';
 class CustomRating extends StatelessWidget {
   final bool flexible;
   final bool rateNum;
+  final bool? small;
   const CustomRating({
     super.key,
     required this.rateNum,
+    this.small = false,
     required this.flexible,
   });
 
@@ -21,31 +23,34 @@ class CustomRating extends StatelessWidget {
     final ratingProvider = Provider.of<EvaluationProvider>(context);
 
     return !flexible
-        ? SizedBox(
-            height: 8.h,
-            width: 56.w,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                rateNum
-                    ? Text(
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              rateNum
+                  ? Padding(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: Text(
                         '4.4',
                         style: GoogleFonts.tajawal(
-                            textStyle: TextStyle(fontSize: 12.sp)),
-                      )
-                    : SizedBox(),
-                SizedBox(width: 2.w),
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: StarRating(
-                    rating: 4.4,
-                    size: 8.sp,
-                    starCount: 4,
-                    color: amberColor,
-                  ),
+                            textStyle: TextStyle(
+                                fontSize: small! ? 14.sp : 16.sp,
+                                fontWeight: small!
+                                    ? FontWeight.w400
+                                    : FontWeight.bold)),
+                      ),
+                    )
+                  : SizedBox(),
+              SizedBox(width: 2.w),
+              Directionality(
+                textDirection: TextDirection.rtl,
+                child: StarRating(
+                  rating: 4.4,
+                  size: small! ? 12.sp : 20.sp,
+                  starCount: 4,
+                  color: amberColor,
                 ),
-              ],
-            ),
+              ),
+            ],
           )
         : Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -54,7 +59,7 @@ class CustomRating extends StatelessWidget {
                 textDirection: TextDirection.rtl,
                 child: StarRating(
                   rating: ratingProvider.rating,
-                  size: 25.sp,
+                  size: small! ? 10.sp : 20.sp,
                   color: amberColor,
                   onRatingChanged: (newRating) {
                     ratingProvider.updateRating(newRating);
@@ -66,7 +71,7 @@ class CustomRating extends StatelessWidget {
                   ? Text(
                       ratingProvider.rating.toStringAsFixed(1),
                       style: TextStyle(
-                        fontSize: 20.sp,
+                        fontSize: small! ? 10.sp : 20.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     )

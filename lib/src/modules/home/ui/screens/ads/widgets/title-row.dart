@@ -18,38 +18,38 @@ class TitleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          suffix == null
-              ? SizedBox(
-                  width: 35.w,
-                )
-              : InkWell(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        suffix == null
+            ? SizedBox(
+                width: 35.w,
+              )
+            : Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: InkWell(
                   onTap: onSuffixTap!,
                   child: suffix!,
                 ),
-          Text(title,
-              style: GoogleFonts.tajawal(
-                textStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.sp),
-              )),
-          InkWell(
-              child: Icon(
-                Icons.arrow_forward_outlined,
-                size: 24.sp,
-                color: Colors.black,
               ),
-              onTap: () {
-                Navigator.pop(context);
-                additionalBackFunction?.call();
-              })
-        ],
-      ),
+        Text(title,
+            style: GoogleFonts.tajawal(
+              textStyle: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.sp),
+            )),
+        InkWell(
+            child: Icon(
+              Icons.arrow_forward_outlined,
+              size: 24.sp,
+              color: Colors.black,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              additionalBackFunction?.call();
+            })
+      ],
     );
   }
 }

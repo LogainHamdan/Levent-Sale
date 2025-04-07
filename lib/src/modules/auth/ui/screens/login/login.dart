@@ -58,7 +58,9 @@ class LoginScreen extends StatelessWidget {
                   Row(
                     children: [
                       GestureDetector(
-                        onTap: () => showForgotPassword(context),
+                        onTap: () => showForgotPassword(
+                          context,
+                        ),
                         child: Text("نسيت كلمة المرور ؟",
                             style: TextStyle(
                                 color: Color(0xffF75555), fontSize: 12.sp)),
@@ -93,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () =>
                         Navigator.pushNamed(context, MainScreen.id),
                     backgroundColor: kprimaryColor,
-                    textColor: greySplash,
+                    textColor: grey9,
                     date: false,
                   ),
                   SizedBox(height: 8.h),

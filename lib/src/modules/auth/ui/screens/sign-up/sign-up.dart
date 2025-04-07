@@ -5,7 +5,6 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-p
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/phone-section.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/verify.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -47,11 +46,13 @@ class SignUpScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(height: 32.h),
                   CustomTextField(
                     bgcolor: grey8,
                     controller: TextEditingController(),
                     hint: "الاسم كاملاً",
                   ),
+                  SizedBox(height: 16.h),
                   CustomTextField(
                     bgcolor: grey8,
                     controller: TextEditingController(),
@@ -70,31 +71,35 @@ class SignUpScreen extends StatelessWidget {
                     controller: TextEditingController(),
                     hint: "تأكيد كلمة المرور",
                   ),
-                  SizedBox(height: 18.h),
+                  SizedBox(height: 16.h),
                   PhoneSection(
                     controller: phoneController,
                   ),
-                  SizedBox(height: 18.h),
+                  SizedBox(height: 16.h),
                   CustomDropdown(
                     items: ["شخصي", "شركة"],
                     hint: "اختر نوع الحساب",
                   ),
+                  SizedBox(height: 16.h),
                   Consumer<RegisterProvider>(
                     builder: (context, provider, child) {
                       if (provider.selectedValue == "شخصي") {
-                        return CustomTextField(
-                          prefix: GestureDetector(
-                            onTap: () =>
-                                showDatePickerDialog(context, dateController),
-                            child: SvgPicture.asset(
-                              calendarIcon,
-                              height: 24.h,
-                              width: 24.w,
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 16.0.h),
+                          child: CustomTextField(
+                            prefix: GestureDetector(
+                              onTap: () =>
+                                  showDatePickerDialog(context, dateController),
+                              child: SvgPicture.asset(
+                                calendarIcon,
+                                height: 24.h,
+                                width: 24.w,
+                              ),
                             ),
+                            controller: dateController,
+                            bgcolor: grey8,
+                            hint: 'تاريخ الميلاد',
                           ),
-                          controller: dateController,
-                          bgcolor: grey8,
-                          hint: 'تاريخ الميلاد',
                         );
                       } else if (provider.selectedValue == "شركة") {
                         return Column(
@@ -113,16 +118,19 @@ class SignUpScreen extends StatelessWidget {
                               bgcolor: grey8,
                               hint: 'تاريخ انشاء الشركة',
                             ),
+                            SizedBox(height: 16.h),
                             CustomTextField(
                               bgcolor: grey8,
                               controller: TextEditingController(),
                               hint: "عنوان الشركة",
                             ),
+                            SizedBox(height: 16.h),
                             CustomTextField(
                               bgcolor: grey8,
                               controller: TextEditingController(),
                               hint: "الرقم الضريبي",
                             ),
+                            SizedBox(height: 16.h),
                           ],
                         );
                       }
@@ -146,10 +154,17 @@ class SignUpScreen extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 14.sp, fontWeight: FontWeight.bold),
                           ),
-                          Checkbox(
-                            value: registerProvider.agreeToTerms,
-                            onChanged: registerProvider.toggleAgreement,
-                            activeColor: kprimaryColor,
+                          SizedBox(
+                            width: 11.w,
+                          ),
+                          SizedBox(
+                            height: 18.h,
+                            width: 18.w,
+                            child: Checkbox(
+                              value: registerProvider.agreeToTerms,
+                              onChanged: registerProvider.toggleAgreement,
+                              activeColor: kprimaryColor,
+                            ),
                           ),
                         ],
                       );

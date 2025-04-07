@@ -60,7 +60,7 @@ class ProductItem extends StatelessWidget {
                       ),
                       hasDiscount!
                           ? Positioned(
-                              top: 12.h, right: 0.w, child: DiscountBadge())
+                              top: 10.h, right: 0.w, child: DiscountBadge())
                           : SizedBox(),
                     ],
                   ),
@@ -96,9 +96,13 @@ class ProductItem extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CustomRating(flexible: false, rateNum: true),
+                            CustomRating(
+                              flexible: false,
+                              rateNum: true,
+                              small: true,
+                            ),
                             Expanded(
                               child: Text(
                                 product['price']!,
