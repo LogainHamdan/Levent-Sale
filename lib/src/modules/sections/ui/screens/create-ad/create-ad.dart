@@ -27,9 +27,12 @@ class CreateAdScreen extends StatelessWidget {
             return Column(
               children: [
                 SizedBox(height: 16.h),
-                TitleRow(
-                    title: 'انشاء اعلان',
-                    additionalBackFunction: () => stepper.previousStep()),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: TitleRow(
+                      title: 'انشاء اعلان',
+                      additionalBackFunction: () => stepper.previousStep()),
+                ),
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),

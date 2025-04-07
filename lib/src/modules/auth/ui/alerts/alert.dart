@@ -411,7 +411,8 @@ void showRatingDialog(BuildContext context) {
 }
 
 void showAdCreated(BuildContext context) {
-  final bottomNavProvider = Provider.of<BottomNavProvider>(context);
+  final bottomNavProvider =
+      Provider.of<BottomNavProvider>(context, listen: false);
 
   if (!context.mounted) return;
 
