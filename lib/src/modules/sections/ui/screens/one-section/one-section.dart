@@ -36,11 +36,15 @@ class Section extends StatelessWidget {
                 horizontal: 16.0.w,
               ),
               child: SearchField(
+                width: 472.w,
                 controller: sectionController,
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.w,
+                vertical: 12.0.h,
+              ),
               child: SingleChildScrollView(
                 reverse: true,
                 scrollDirection: Axis.horizontal,
@@ -61,17 +65,17 @@ class Section extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 16.sp, fontWeight: FontWeight.w500),
                         ),
-                        SizedBox(width: 5.w),
+                        SizedBox(width: 8.w),
                         Container(
-                          width: 60.w,
-                          height: 60.h,
+                          width: 40.w,
+                          height: 40.h,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.grey.shade200,
                           ),
                           child: Center(
                             child: Image.asset(category['image']!,
-                                width: 40.w, height: 40.h),
+                                width: 25.w, height: 25.h),
                           ),
                         ),
                       ],

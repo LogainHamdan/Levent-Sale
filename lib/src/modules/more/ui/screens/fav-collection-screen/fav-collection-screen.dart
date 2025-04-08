@@ -22,13 +22,19 @@ class FavoriteCollectionScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        leadingWidth: 40.w,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 20.0.w),
+          child: InkWell(
+            onTap: () => deleteCollectionAlert(context),
+            child: SvgPicture.asset(
+              deleteCollectionIcon,
+              height: 20.h,
+            ),
+          ),
+        ),
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         title: TitleRow(
-          suffix: SvgPicture.asset(
-            deleteCollectionIcon,
-            height: 20.h,
-          ),
-          onSuffixTap: () => deleteCollectionAlert(context),
           title: 'المفضلة',
         ),
       ),
@@ -37,11 +43,16 @@ class FavoriteCollectionScreen extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.0.w,
+                ),
                 child: SearchField(
                   width: 327.w,
                   controller: collectionSearchController,
                 ),
+              ),
+              SizedBox(
+                height: 12.h,
               ),
               ProductsDetails()
             ],

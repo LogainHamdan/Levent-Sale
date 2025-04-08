@@ -60,7 +60,7 @@ class CustomTextField extends StatelessWidget {
                     textStyle: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
-                        fontSize: 18.sp)),
+                        fontSize: 16.sp)),
                 decoration: InputDecoration(
                   prefix: prefix,
                   suffixIcon: suffix,

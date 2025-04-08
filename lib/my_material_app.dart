@@ -35,6 +35,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.da
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 // import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -62,8 +63,20 @@ class MyMaterialApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               title: 'Levent Sale',
               theme: ThemeData(
+                appBarTheme: AppBarTheme(
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarColor: Colors.transparent,
+                    systemNavigationBarColor: Colors.transparent,
+                  ),
+                ),
+                // appBarTheme: AppBarTheme(
+                //   scrolledUnderElevation: 0,
+                //   centerTitle: true,
+                //   backgroundColor: Colors.white,
+                // ),
                 scaffoldBackgroundColor: Colors.white,
-                primaryColor: Color(0xff82B81C),
+                primaryColor: kprimaryColor,
+
                 textTheme: TextTheme(
                   bodySmall: GoogleFonts.tajawal(
                     fontSize: 16.sp,
@@ -75,7 +88,7 @@ class MyMaterialApp extends StatelessWidget {
                       fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),
               ),
-              initialRoute: CreateAdScreen.id,
+              initialRoute: MainScreen.id,
               routes: {
                 SplashScreen.id: (context) => SplashScreen(),
                 MainScreen.id: (context) => MainScreen(),
@@ -97,11 +110,6 @@ class MyMaterialApp extends StatelessWidget {
                       empty: false,
                     ),
                 FavoriteScreen.id: (context) => FavoriteScreen(
-                      onSuffixTap: () => showNewCollectionAlert(context),
-                      suffix: SvgPicture.asset(
-                        addCircleGreenIcon,
-                        height: 25.h,
-                      ),
                       empty: false,
                     ),
                 CreateAdScreen.id: (context) => CreateAdScreen(

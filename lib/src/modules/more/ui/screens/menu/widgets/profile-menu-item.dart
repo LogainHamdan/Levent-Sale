@@ -17,6 +17,11 @@ class MenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      focusColor: Colors.transparent,
+      overlayColor: WidgetStateProperty.all(Colors.transparent),
       onTap: onTap,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 5.h),
@@ -26,12 +31,16 @@ class MenuItem extends StatelessWidget {
         ),
         child: ListTile(
             trailing: Container(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(8.sp),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: color,
               ),
-              child: icon,
+              child: CircleAvatar(
+                backgroundColor: kprimary4Color,
+                radius: 10.r,
+                child: icon,
+              ),
             ),
             title: Text(
               textDirection: TextDirection.rtl,

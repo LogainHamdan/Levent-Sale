@@ -14,14 +14,16 @@ class ProductItem extends StatelessWidget {
   final double? height;
   final double? width;
   final bool? hasDiscount;
+  final bool? spacecUnderPic;
 
   const ProductItem({
     super.key,
     required this.product,
     required this.category,
-    this.height = 169,
+    this.height = 140,
     this.width = 144,
     this.hasDiscount = true,
+    this.spacecUnderPic = false,
   });
 
   @override
@@ -40,7 +42,7 @@ class ProductItem extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: 84.h,
+                height: 90.h,
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(5.r),
@@ -49,6 +51,8 @@ class ProductItem extends StatelessWidget {
                   child: Stack(
                     children: [
                       Image.asset(
+                        height: 125.h,
+                        width: double.infinity,
                         product['image']!,
                         fit: BoxFit.cover,
                       ),
@@ -68,11 +72,13 @@ class ProductItem extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(right: 4.0.w),
+                  padding: EdgeInsets.only(right: 8.0.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SizedBox(height: 12.h),
+                      SizedBox(
+                        height: 8.h,
+                      ),
                       Text(
                         product['name']!,
                         style: TextStyle(
@@ -90,32 +96,34 @@ class ProductItem extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                         textAlign: TextAlign.right,
                       ),
-                      SizedBox(
-                        height: 12.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomRating(
+                      spacecUnderPic!
+                          ? SizedBox(
+                              height: 8.h,
+                            )
+                          : SizedBox(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 8.0.w),
+                            child: CustomRating(
                               flexible: false,
                               rateNum: true,
                               small: true,
                             ),
-                            Expanded(
-                              child: Text(
-                                product['price']!,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.sp,
-                                ),
-                                textAlign: TextAlign.right,
+                          ),
+                          Expanded(
+                            child: Text(
+                              product['price']!,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
                               ),
+                              textAlign: TextAlign.right,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

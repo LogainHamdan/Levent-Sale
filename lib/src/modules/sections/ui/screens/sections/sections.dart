@@ -13,8 +13,16 @@ class Sections extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+
+      extendBody: true,
+
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0,
+        foregroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         leading: SizedBox(),
         title: TitleRow(
@@ -22,6 +30,7 @@ class Sections extends StatelessWidget {
         ),
       ),
       body: SafeArea(
+        bottom: false,
         child: Padding(
           padding: EdgeInsets.all(8.0.sp),
           child: SingleChildScrollView(

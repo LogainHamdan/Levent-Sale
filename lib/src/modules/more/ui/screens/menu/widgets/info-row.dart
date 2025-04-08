@@ -27,8 +27,8 @@ class InfoRow extends StatelessWidget {
                       Navigator.pushNamed(context, EditProfileScreen.id),
                   child: SvgPicture.asset(
                     editProfileIcon,
-                    height: 40.h,
-                    width: 40.w,
+                    height: 30.h,
+                    width: 30.w,
                   ),
                 ),
               ),
@@ -77,7 +77,7 @@ class InfoRow extends StatelessWidget {
               ClipOval(
                 child: SvgPicture.asset(
                   personIcon,
-                  width: 60.r, // Adjust according to your needs
+                  width: 60.r,
                   height: 60.r,
                   fit: BoxFit.cover,
                 ),

@@ -22,6 +22,7 @@ class ChatListScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
+          leading: SizedBox(),
           backgroundColor: Colors.white,
           titleTextStyle: Theme.of(context).textTheme.bodyLarge,
           title: TitleRow(title: 'المحادثات'),

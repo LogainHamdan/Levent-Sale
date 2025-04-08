@@ -17,6 +17,9 @@ class MyCollectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
@@ -26,6 +29,7 @@ class MyCollectionScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             SizedBox(height: 16.h),

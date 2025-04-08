@@ -21,22 +21,25 @@ class AdsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+        leading: SizedBox(),
         title: TitleRow(title: 'الاعلانات'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 10.h),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                padding: EdgeInsets.symmetric(
+                  vertical: 16.h,
+                  horizontal: 16.0.w,
+                ),
                 child: SearchField(
                   width: 327.w,
                   hasFilterIcon: true,
                   controller: adController,
                 ),
               ),
-              ProductsDetails()
+              ProductsDetails(),
             ],
           ),
         ),

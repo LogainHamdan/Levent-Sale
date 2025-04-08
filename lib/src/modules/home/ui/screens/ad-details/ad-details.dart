@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/cutom-druggable-scrollable-sheet.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../config/constants.dart';
@@ -9,6 +10,7 @@ import '../ads/widgets/title-row.dart';
 import '../evaluation/evaluations.dart';
 import '../home/data.dart';
 import '../home/widgets/custom-header.dart';
+import '../home/widgets/product-section.dart';
 import 'widgets/custom-carousel.dart';
 import 'widgets/details-section.dart';
 import 'widgets/rating-section.dart';
@@ -24,6 +26,7 @@ class AdDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: SizedBox(),
         backgroundColor: Colors.white,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         title: TitleRow(title: 'ايفون 14 برو ماكس'),
@@ -133,17 +136,26 @@ class AdDetailsScreen extends StatelessWidget {
                               SizedBox(
                                 height: 8.h,
                               ),
-                              CustomHeader(
-                                onPressed: () => Navigator.pushNamed(
-                                    context, ReviewsScreen.id),
-                                title: 'متوسط التقييم',
-                              ),
-                              RatingSection(),
+                              // CustomHeader(
+                              //   onPressed: () => Navigator.pushNamed(
+                              //       context, ReviewsScreen.id),
+                              //   title: 'متوسط التقييم',
+                              // ),
+                              // RatingSection(),
                             ],
                           ),
                         ),
                         SliverToBoxAdapter(
-                          child: SizedBox(height: 170.h),
+                          child: ProductSection(
+                              width: 120.w,
+                              height: 130.h,
+                              onMorePressed: () =>
+                                  Navigator.pushNamed(context, AdsScreen.id),
+                              category: 'مزيد من الإعلانات',
+                              products: products),
+                        ),
+                        SliverToBoxAdapter(
+                          child: SizedBox(height: 145.h),
                         ),
                       ],
                     ),

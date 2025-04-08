@@ -24,6 +24,7 @@ class DeleteAccountScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          leading: SizedBox(),
           backgroundColor: Colors.white,
           titleTextStyle: Theme.of(context).textTheme.bodyLarge,
           title: TitleRow(title: 'حذف الحساب'),

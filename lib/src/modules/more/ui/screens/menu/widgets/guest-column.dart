@@ -32,9 +32,9 @@ class GuestColumn extends StatelessWidget {
             "المفضلة",
             SvgPicture.asset(
               myFavIcon,
-              height: 15.h,
+              height: 16.h,
             )),
-        SizedBox(height: 15.h),
+        SizedBox(height: 8.h),
         MenuItem(
             onTap: () =>
                 Navigator.pushNamed(context, TechnicalSupportScreen.id),
@@ -42,27 +42,26 @@ class GuestColumn extends StatelessWidget {
             "الدعم الفني",
             SvgPicture.asset(
               techSupportIcon,
-              height: 15.h,
+              height: 16.h,
             )),
-        SizedBox(height: 15.h),
+        SizedBox(height: 8.h),
         MenuItem(
             onTap: () {},
             color: kprimary4Color,
             "من نحن",
             SvgPicture.asset(
               whoAreWeIcon,
-              height: 15.h,
+              height: 16.h,
             )),
-        SizedBox(height: 15.h),
+        SizedBox(height: 8.h),
         MenuItem(
             onTap: () {},
             color: kprimary4Color,
             "سياسة الخصوصية",
             SvgPicture.asset(
               privacyIcon,
-              height: 15.h,
+              height: 16.h,
             )),
-        SizedBox(height: 15.h),
       ],
     );
   }

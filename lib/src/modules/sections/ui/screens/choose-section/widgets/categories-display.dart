@@ -18,7 +18,7 @@ class CategoriesDisplay extends StatelessWidget {
     final selectedIndex = provider.selectedCategoryIndex;
 
     return SizedBox(
-      height: 800.h,
+      height: 820.h,
       child: GridView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
@@ -33,14 +33,17 @@ class CategoriesDisplay extends StatelessWidget {
           final isSelected = selectedIndex == index;
 
           return InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            overlayColor: MaterialStateProperty.all(Colors.transparent),
             onTap: () {
               provider.setSelectedCategory(index);
               Future.delayed(const Duration(milliseconds: 400), () {
                 onSectionClicked();
               });
             },
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

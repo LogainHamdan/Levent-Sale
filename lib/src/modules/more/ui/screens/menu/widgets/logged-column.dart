@@ -32,9 +32,9 @@ class LoggedInColumn extends StatelessWidget {
             "المفضلة",
             SvgPicture.asset(
               myFavIcon,
-              height: 15.h,
+              height: 16.h,
             )),
-        SizedBox(height: 15.h),
+        SizedBox(height: 8.h),
         MenuItem(
             onTap: () => Navigator.push(
                 context,
@@ -56,9 +56,10 @@ class LoggedInColumn extends StatelessWidget {
             "كلمة المرور",
             SvgPicture.asset(
               changePassIcon,
-              height: 15.h,
+              height: 16.h,
+              width: 16.w,
             )),
-        SizedBox(height: 15.h),
+        SizedBox(height: 8.h),
         MenuItem(
             onTap: () =>
                 Navigator.pushNamed(context, TechnicalSupportScreen.id),
@@ -66,27 +67,30 @@ class LoggedInColumn extends StatelessWidget {
             "الدعم الفني",
             SvgPicture.asset(
               techSupportIcon,
-              height: 15.h,
+              height: 16.h,
+              width: 16.w,
             )),
-        SizedBox(height: 15.h),
+        SizedBox(height: 8.h),
         MenuItem(
             onTap: () {},
             color: kprimary4Color,
             "من نحن",
             SvgPicture.asset(
               whoAreWeIcon,
-              height: 15.h,
+              height: 16.h,
+              width: 16.w,
             )),
-        SizedBox(height: 15.h),
+        SizedBox(height: 8.h),
         MenuItem(
             onTap: () {},
             color: kprimary4Color,
             "سياسة الخصوصية",
             SvgPicture.asset(
               privacyIcon,
-              height: 15.h,
+              height: 16.h,
+              width: 16.w,
             )),
-        SizedBox(height: 15.h),
+        SizedBox(height: 8.h),
         CustomLogoutItem(),
       ],
     );

@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/empty-fav.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/fav-grid.dart';
@@ -7,6 +8,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/e
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../auth/ui/alerts/alert.dart';
 import '../../../../home/ui/screens/ads/ads.dart';
 import '../../../../home/ui/screens/ads/widgets/products-details.dart';
@@ -15,38 +17,43 @@ import '../../../../home/ui/screens/home/widgets/product-section.dart';
 
 class FavoriteScreen extends StatelessWidget {
   final bool empty;
-  final Widget suffix;
-  final Function() onSuffixTap;
   static const id = '/fav';
 
-  const FavoriteScreen(
-      {super.key,
-      required this.empty,
-      required this.suffix,
-      required this.onSuffixTap});
+  const FavoriteScreen({
+    super.key,
+    required this.empty,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        leadingWidth: 40.w,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 16.0.w),
+          child: InkWell(
+              onTap: () => deleteCollectionAlert(context),
+              child: SvgPicture.asset(
+                addCircleGreenIcon,
+              )),
+        ),
         backgroundColor: Colors.white,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         title: TitleRow(
           title: 'المفضلة',
-          suffix: InkWell(onTap: onSuffixTap, child: suffix),
-          onSuffixTap: () => deleteCollectionAlert(context),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              empty
-                  ? Expanded(child: EmptyFav())
-                  : SizedBox(
-                      height: 270.h,
-                      child: Padding(
-                        padding: EdgeInsets.all(12.0.sp),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0.h),
+            child: Column(
+              children: [
+                empty
+                    ? Expanded(child: EmptyFav())
+                    : SizedBox(
+                        height: 270.h,
                         child: GridView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             gridDelegate:
@@ -58,27 +65,27 @@ class FavoriteScreen extends StatelessWidget {
                             ),
                             itemCount: 2,
                             itemBuilder: (BuildContext context, int index) =>
-                                CustomGridView()),
-                      )),
-              ProductSection(
-                  onMorePressed: () =>
-                      Navigator.pushNamed(context, AdsScreen.id),
-                  isHalfed: true,
-                  category: "العروض والخصومات",
-                  products: products),
-              ProductSection(
-                  onMorePressed: () =>
-                      Navigator.pushNamed(context, AdsScreen.id),
-                  isHalfed: true,
-                  category: "الإعلانات الجديدة",
-                  products: products),
-              ProductSection(
-                  onMorePressed: () =>
-                      Navigator.pushNamed(context, AdsScreen.id),
-                  isHalfed: true,
-                  category: "الإعلانات المفترحة",
-                  products: products),
-            ],
+                                CustomGridView())),
+                ProductSection(
+                    onMorePressed: () =>
+                        Navigator.pushNamed(context, AdsScreen.id),
+                    isHalfed: true,
+                    category: "العروض والخصومات",
+                    products: products),
+                ProductSection(
+                    onMorePressed: () =>
+                        Navigator.pushNamed(context, AdsScreen.id),
+                    isHalfed: true,
+                    category: "الإعلانات الجديدة",
+                    products: products),
+                ProductSection(
+                    onMorePressed: () =>
+                        Navigator.pushNamed(context, AdsScreen.id),
+                    isHalfed: true,
+                    category: "الإعلانات المفترحة",
+                    products: products),
+              ],
+            ),
           ),
         ),
       ),

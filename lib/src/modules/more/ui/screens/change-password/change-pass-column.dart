@@ -32,7 +32,7 @@ class ChangePassColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     secondController = TextEditingController(text: '');
     sentCodeController = TextEditingController(text: '');
-    secondController = TextEditingController(text: '');
+    currentPassController = TextEditingController(text: '');
     thirdController = TextEditingController(text: '');
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -51,8 +51,15 @@ class ChangePassColumn extends StatelessWidget {
                   ),
                 ],
               )
-            : TitleRow(
-                title: 'تغيير كلمة المرور',
+            : Column(
+                children: [
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  TitleRow(
+                    title: 'تغيير كلمة المرور',
+                  ),
+                ],
               ),
         alert
             ? SizedBox(
@@ -104,7 +111,7 @@ class ChangePassColumn extends StatelessWidget {
             text: 'تغيير كلمة المرور',
             onPressed: () => showPasswordUpdated(context),
             backgroundColor: kprimaryColor,
-            textColor: grey9)
+            textColor: grey9),
       ],
     );
   }

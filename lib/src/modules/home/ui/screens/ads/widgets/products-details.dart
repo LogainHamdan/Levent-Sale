@@ -25,7 +25,6 @@ class ProductsDetails extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: 16.0.w,
-        vertical: 16.0.h,
       ),
       child: SingleChildScrollView(
         reverse: true,
@@ -42,6 +41,7 @@ class ProductsDetails extends StatelessWidget {
           itemCount: products.length,
           itemBuilder: (context, index) {
             return ProductItem(
+              spacecUnderPic: true,
               hasDiscount: false,
               product: products.reversed.toList()[index],
               category: '',

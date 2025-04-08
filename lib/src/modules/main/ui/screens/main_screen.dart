@@ -49,6 +49,9 @@ class MainScreen extends StatelessWidget {
     final bottomNavProvider = Provider.of<BottomNavProvider>(context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       body: screens[bottomNavProvider.currentIndex],
       floatingActionButton: SizedBox(
         height: 56.h,
@@ -67,17 +70,23 @@ class MainScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Stack(
         children: [
-          AnimatedBottomNavigationBar.builder(
-            shadow: BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 8,
-                spreadRadius: 2),
-            height: 83.h,
-            itemCount: unselectedIcons.length,
-            tabBuilder: (int index, bool isActive) {
-              return GestureDetector(
-                onTap: () => bottomNavProvider.setIndex(index),
-                child: Column(
+          Container(
+            color: Colors.transparent,
+            child: AnimatedBottomNavigationBar.builder(
+              borderWidth: 0,
+              splashColor: Colors.transparent,
+              borderColor: Colors.transparent,
+              elevation: 0,
+              shadow: BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 8,
+                  spreadRadius: 2),
+              height: 65.h,
+              splashRadius: 0,
+              blurEffect: false,
+              itemCount: unselectedIcons.length,
+              tabBuilder: (int index, bool isActive) {
+                return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SizedBox(height: 16.h),
@@ -96,14 +105,14 @@ class MainScreen extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-              );
-            },
-            activeIndex: bottomNavProvider.currentIndex,
-            gapLocation: GapLocation.center,
-            notchSmoothness: NotchSmoothness.smoothEdge,
-            backgroundColor: Colors.white,
-            onTap: (index) => bottomNavProvider.setIndex(index),
+                );
+              },
+              activeIndex: bottomNavProvider.currentIndex,
+              gapLocation: GapLocation.center,
+              notchSmoothness: NotchSmoothness.softEdge,
+              backgroundColor: Colors.white,
+              onTap: (index) => bottomNavProvider.setIndex(index),
+            ),
           ),
           Positioned(
               top: 34.h,

@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../ads/widgets/products-details.dart';
+import '../../home/data.dart';
+import '../../home/widgets/product-item.dart';
 
 class CustomDraggableScrollableSheet extends StatelessWidget {
   const CustomDraggableScrollableSheet({super.key});
@@ -15,7 +17,7 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
     return DraggableScrollableSheet(
       initialChildSize: 0.25,
       minChildSize: 0.1,
-      maxChildSize: 0.8,
+      maxChildSize: 0.7,
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
@@ -34,9 +36,17 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
             child: SingleChildScrollView(
               controller: scrollController,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 20.h),
+                  Center(
+                    child: Container(
+                      height: 5.h,
+                      width: 40.w,
+                      decoration: BoxDecoration(
+                        color: grey7,
+                        borderRadius: BorderRadius.circular(2.r),
+                      ),
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -102,7 +112,25 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                     textColor: grey9,
                   ),
                   SizedBox(height: 20.h),
-                  const ProductsDetails(),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: products
+                        .skip(products.length > 2 ? products.length - 2 : 0)
+                        .map(
+                          (product) => Padding(
+                            padding: EdgeInsets.only(left: 16.0.w),
+                            child: ProductItem(
+                              width: 120.w,
+                              height: 130.h,
+                              hasDiscount: false,
+                              product: product,
+                              category: '',
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                  //     const ProductsDetails(),
                 ],
               ),
             ),

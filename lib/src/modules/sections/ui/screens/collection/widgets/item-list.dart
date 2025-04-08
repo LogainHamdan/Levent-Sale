@@ -21,11 +21,11 @@ class ItemList extends StatelessWidget {
       itemBuilder: (context, index) {
         return SizedBox(
             width: 307.w,
-            height: 130.h,
+            height: 110.h,
             child: Card(
               color: grey8,
               elevation: 0,
-              margin: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
+              margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 24.w),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
@@ -86,7 +86,7 @@ class ItemList extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: 4.h,
+                          height: 8.h,
                         ),
                         Align(
                           alignment: Alignment.centerRight,

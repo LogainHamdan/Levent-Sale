@@ -16,7 +16,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
+      extendBody: true,
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(top: 12.0.h, right: 10.w, left: 10.w),
@@ -28,22 +32,25 @@ class HomeScreen extends StatelessWidget {
                     categoryNames: categoryNames,
                     categoryImages: categoryImages),
                 SizedBox(
-                  height: 22.h,
+                  height: 10.h,
                 ),
                 ProductSection(
-                    width: 156.w,
+                    width: 120.w,
+                    height: 130.h,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "العروض والخصومات",
                     products: products),
                 ProductSection(
-                    width: 156.w,
+                    height: 130.h,
+                    width: 120.w,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "الإعلانات الجديدة",
                     products: products),
                 ProductSection(
-                    width: 156.w,
+                    height: 130.h,
+                    width: 120.w,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "الإعلانات المقترحة",

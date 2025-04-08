@@ -41,18 +41,94 @@ class SignUpScreen extends StatelessWidget {
                   Text(
                     "تسجيل جديد",
                     style: TextStyle(
-                      fontSize: 18.sp,
+                      fontSize: 20.sp,
                       color: kprimaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 32.h),
-                  CustomTextField(
-                    bgcolor: grey8,
-                    controller: TextEditingController(),
-                    hint: "الاسم كاملاً",
+                  SizedBox(height: 10.h),
+                  CustomDropdown(
+                    items: ["شخصي", "شركة"],
+                    hint: "اختر نوع الحساب",
                   ),
-                  SizedBox(height: 16.h),
+                  Consumer<RegisterProvider>(
+                    builder: (context, provider, child) {
+                      if (provider.selectedValue == "شخصي") {
+                        return Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CustomTextField(
+                                    bgcolor: grey8,
+                                    controller: TextEditingController(),
+                                    hint: "ادخل الاسم",
+                                  ),
+                                ),
+                                SizedBox(width: 16.w),
+                                Expanded(
+                                  child: CustomTextField(
+                                    bgcolor: grey8,
+                                    controller: TextEditingController(),
+                                    hint: "ادخل الكنية",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            CustomTextField(
+                              prefix: GestureDetector(
+                                onTap: () => showDatePickerDialog(
+                                    context, dateController),
+                                child: SvgPicture.asset(
+                                  calendarIcon,
+                                  height: 20.h,
+                                  width: 20.w,
+                                ),
+                              ),
+                              controller: dateController,
+                              bgcolor: grey8,
+                              hint: 'تاريخ الميلاد',
+                            ),
+                          ],
+                        );
+                      } else if (provider.selectedValue == "شركة") {
+                        return Column(
+                          children: [
+                            CustomTextField(
+                              bgcolor: grey8,
+                              controller: TextEditingController(),
+                              hint: "اسم الشركة",
+                            ),
+                            CustomTextField(
+                              prefix: GestureDetector(
+                                onTap: () => showDatePickerDialog(
+                                    context, dateController),
+                                child: SvgPicture.asset(
+                                  calendarIcon,
+                                  height: 20.h,
+                                  width: 20.w,
+                                ),
+                              ),
+                              controller: dateController,
+                              bgcolor: grey8,
+                              hint: 'تاريخ انشاء الشركة',
+                            ),
+                            CustomTextField(
+                              bgcolor: grey8,
+                              controller: TextEditingController(),
+                              hint: "عنوان الشركة",
+                            ),
+                            CustomTextField(
+                              bgcolor: grey8,
+                              controller: TextEditingController(),
+                              hint: "الرقم الضريبي",
+                            ),
+                          ],
+                        );
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                   CustomTextField(
                     bgcolor: grey8,
                     controller: TextEditingController(),
@@ -76,67 +152,6 @@ class SignUpScreen extends StatelessWidget {
                     controller: phoneController,
                   ),
                   SizedBox(height: 16.h),
-                  CustomDropdown(
-                    items: ["شخصي", "شركة"],
-                    hint: "اختر نوع الحساب",
-                  ),
-                  SizedBox(height: 16.h),
-                  Consumer<RegisterProvider>(
-                    builder: (context, provider, child) {
-                      if (provider.selectedValue == "شخصي") {
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 16.0.h),
-                          child: CustomTextField(
-                            prefix: GestureDetector(
-                              onTap: () =>
-                                  showDatePickerDialog(context, dateController),
-                              child: SvgPicture.asset(
-                                calendarIcon,
-                                height: 24.h,
-                                width: 24.w,
-                              ),
-                            ),
-                            controller: dateController,
-                            bgcolor: grey8,
-                            hint: 'تاريخ الميلاد',
-                          ),
-                        );
-                      } else if (provider.selectedValue == "شركة") {
-                        return Column(
-                          children: [
-                            CustomTextField(
-                              prefix: GestureDetector(
-                                onTap: () => showDatePickerDialog(
-                                    context, dateController),
-                                child: SvgPicture.asset(
-                                  calendarIcon,
-                                  height: 24.h,
-                                  width: 24.w,
-                                ),
-                              ),
-                              controller: dateController,
-                              bgcolor: grey8,
-                              hint: 'تاريخ انشاء الشركة',
-                            ),
-                            SizedBox(height: 16.h),
-                            CustomTextField(
-                              bgcolor: grey8,
-                              controller: TextEditingController(),
-                              hint: "عنوان الشركة",
-                            ),
-                            SizedBox(height: 16.h),
-                            CustomTextField(
-                              bgcolor: grey8,
-                              controller: TextEditingController(),
-                              hint: "الرقم الضريبي",
-                            ),
-                            SizedBox(height: 16.h),
-                          ],
-                        );
-                      }
-                      return SizedBox.shrink();
-                    },
-                  ),
                   Consumer<RegisterProvider>(
                     builder: (context, registerProvider, child) {
                       return Row(

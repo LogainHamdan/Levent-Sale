@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 const String baseUrl = "";
 
 // primary colors
-Color kprimaryColor = const Color(0xFF82B81C);
+Color kprimaryColor = const Color(0xff82B81C);
 Color kprimary1Color = const Color(0xFF82B81C);
 Color kprimary2Color = const Color(0xFFB4D477);
 Color kprimary3Color = const Color(0xFFCDE3A4);
@@ -157,7 +157,7 @@ String addCircleBlackIcon =
     'assets/imgs_icons/more/assets/icons/add-circle-1.svg';
 String addCircleGreenIcon =
     'assets/imgs_icons/more/assets/icons/add-circlelll.svg';
-String myFavIcon = 'assets/imgs_icons/more/assets/icons/dddddddd.svg';
+String myFavIcon = 'assets/imgs_icons/more/assets/icons/heart.svg';
 String editWhiteIcon = 'assets/imgs_icons/more/assets/icons/jjjjjjjjjj.svg';
 String editProfileIcon =
     'assets/imgs_icons/more/assets/icons/nenfduwefubfud.svg';
@@ -165,10 +165,11 @@ String logoutIcon = 'assets/imgs_icons/more/assets/icons/fffffff.svg';
 String verifiedGreenIcon =
     'assets/imgs_icons/more/assets/icons/fluent_checkmark-starburst-16-filled.svg';
 String takePhotoIcon = 'assets/imgs_icons/more/assets/icons/Frame.svg';
-String techSupportIcon = 'assets/imgs_icons/more/assets/icons/Frame 2483-1.svg';
-String changePassIcon = 'assets/imgs_icons/more/assets/icons/Frame 2483-1.svg';
-String whoAreWeIcon = 'assets/imgs_icons/more/assets/icons/gggggg.svg';
-String privacyIcon = 'assets/imgs_icons/more/assets/icons/ggggg.svg';
+String techSupportIcon =
+    'assets/imgs_icons/more/assets/icons/message-question.svg';
+String changePassIcon = 'assets/imgs_icons/more/assets/icons/lock1.svg';
+String whoAreWeIcon = 'assets/imgs_icons/more/assets/icons/info-circle.svg';
+String privacyIcon = 'assets/imgs_icons/more/assets/icons/shield-tick.svg';
 String deleteCollectionIcon =
     'assets/imgs_icons/more/assets/icons/h4elrfhnwekl.svg';
 String fromGalleryIcon = 'assets/imgs_icons/more/assets/icons/jm.svg';

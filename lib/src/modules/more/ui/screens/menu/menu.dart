@@ -16,12 +16,17 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLoggedIn = Provider.of<MenuProvider>(context).isLoggedIn;
     return Scaffold(
+      extendBody: true,
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        leading: SizedBox(),
         backgroundColor: Colors.white,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         title: TitleRow(title: 'المزيد'),
       ),
       body: SafeArea(
+        bottom: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

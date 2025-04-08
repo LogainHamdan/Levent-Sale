@@ -132,7 +132,7 @@ void showSetNewPassword(BuildContext context) {
                 borderRadius: BorderRadius.circular(16.r)),
             backgroundColor: grey9,
             content: SizedBox(
-              height: 350.h,
+              height: 355.h,
               child: ChangePassColumn(
                   sentCodeController: firstController,
                   secondController: secondController,
