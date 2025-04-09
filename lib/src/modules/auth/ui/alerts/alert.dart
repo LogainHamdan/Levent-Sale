@@ -163,16 +163,12 @@ void showForgotPassword(BuildContext context) {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Positioned(
-                          top: 24.h,
-                          left: 14.h,
-                          child: GestureDetector(
-                            onTap: () => Navigator.of(dialogContext).pop(),
-                            child: SvgPicture.asset(
-                              cancelPath,
-                              height: 18.h,
-                              width: 18.w,
-                            ),
+                        GestureDetector(
+                          onTap: () => Navigator.of(dialogContext).pop(),
+                          child: SvgPicture.asset(
+                            cancelPath,
+                            height: 18.h,
+                            width: 18.w,
                           ),
                         ),
                       ],

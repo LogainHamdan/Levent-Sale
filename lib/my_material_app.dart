@@ -64,19 +64,16 @@ class MyMaterialApp extends StatelessWidget {
               title: 'Levent Sale',
               theme: ThemeData(
                 appBarTheme: AppBarTheme(
+                  scrolledUnderElevation: 0,
+                  centerTitle: true,
+                  backgroundColor: Colors.white,
                   systemOverlayStyle: SystemUiOverlayStyle(
                     statusBarColor: Colors.transparent,
                     systemNavigationBarColor: Colors.transparent,
                   ),
                 ),
-                // appBarTheme: AppBarTheme(
-                //   scrolledUnderElevation: 0,
-                //   centerTitle: true,
-                //   backgroundColor: Colors.white,
-                // ),
                 scaffoldBackgroundColor: Colors.white,
                 primaryColor: kprimaryColor,
-
                 textTheme: TextTheme(
                   bodySmall: GoogleFonts.tajawal(
                     fontSize: 16.sp,
@@ -88,7 +85,7 @@ class MyMaterialApp extends StatelessWidget {
                       fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),
               ),
-              initialRoute: MainScreen.id,
+              initialRoute: SplashScreen.id,
               routes: {
                 SplashScreen.id: (context) => SplashScreen(),
                 MainScreen.id: (context) => MainScreen(),

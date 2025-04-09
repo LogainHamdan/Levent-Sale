@@ -64,8 +64,8 @@ class SplashScreen extends StatelessWidget {
                     SizedBox(height: 32.h),
                     CustomElevatedButton(
                       text: "تسجيل دخول",
-                      onPressed: () => Navigator.pushReplacementNamed(
-                          context, LoginScreen.id),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, LoginScreen.id),
                       backgroundColor: kprimaryColor,
                       textColor: grey9,
                       date: false,
@@ -73,8 +73,8 @@ class SplashScreen extends StatelessWidget {
                     SizedBox(height: 16.h),
                     CustomElevatedButton(
                       text: "الاستمرار كضيف",
-                      onPressed: () => Navigator.pushReplacementNamed(
-                          context, MainScreen.id),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, MainScreen.id),
                       backgroundColor: grey8,
                       textColor: kprimaryColor,
                       date: false,

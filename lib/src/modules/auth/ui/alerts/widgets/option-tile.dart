@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../config/constants.dart';
+
 class OptionTile extends StatelessWidget {
   final String title;
   final Widget icon;
@@ -26,7 +28,7 @@ class OptionTile extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 20.w),
         width: double.infinity,
         alignment: Alignment.centerRight,
-        color: Colors.white,
+        color: grey9,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

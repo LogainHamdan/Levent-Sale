@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../config/constants.dart';
+import '../../ads/ads.dart';
 
 class CustomHeader extends StatelessWidget {
   final String title;
@@ -17,7 +18,7 @@ class CustomHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextButton(
-            onPressed: onPressed,
+            onPressed: () => Navigator.pushNamed(context, AdsScreen.id),
             child: Text('مشاهدة المزيد',
                 textDirection: TextDirection.rtl,
                 style: GoogleFonts.tajawal(

@@ -18,7 +18,7 @@ class CategoriesDisplay extends StatelessWidget {
     final selectedIndex = provider.selectedCategoryIndex;
 
     return SizedBox(
-      height: 820.h,
+      height: 860.h,
       child: GridView.builder(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),

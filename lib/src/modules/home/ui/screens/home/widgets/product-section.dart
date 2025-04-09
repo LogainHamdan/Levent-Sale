@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -62,7 +63,7 @@ class ProductSection extends StatelessWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomHeader(onPressed: () {}, title: category),
+              CustomHeader(onPressed: onMorePressed, title: category),
               Transform.translate(
                 offset: Offset(0, -8.h),
                 child: SingleChildScrollView(

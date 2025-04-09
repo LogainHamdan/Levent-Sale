@@ -27,7 +27,7 @@ class WhyToDeleteScreen extends StatelessWidget {
             leading: SizedBox(),
           ),
           body: Padding(
-            padding: EdgeInsets.all(20.0.sp),
+            padding: EdgeInsets.all(24.sp),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -51,7 +51,8 @@ class WhyToDeleteScreen extends StatelessWidget {
                           onTap: () => provider.selectReason(index),
                           child: Container(
                             padding: EdgeInsets.symmetric(
-                                vertical: 15.h, horizontal: 10.w),
+                              vertical: 15.h,
+                            ),
                             margin: EdgeInsets.only(bottom: 10.h),
                             decoration: BoxDecoration(
                               color: grey8,

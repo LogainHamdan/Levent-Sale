@@ -30,7 +30,7 @@ class InsteadWidget extends StatelessWidget {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                Navigator.pushReplacementNamed(context, route);
+                Navigator.pushNamed(context, route);
               },
           )
         ],

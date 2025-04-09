@@ -33,7 +33,7 @@ class FavoriteScreen extends StatelessWidget {
         leading: Padding(
           padding: EdgeInsets.only(left: 16.0.w),
           child: InkWell(
-              onTap: () => deleteCollectionAlert(context),
+              onTap: () => showNewCollectionAlert(context),
               child: SvgPicture.asset(
                 addCircleGreenIcon,
               )),
