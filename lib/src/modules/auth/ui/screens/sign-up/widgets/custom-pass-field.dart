@@ -10,17 +10,19 @@ class CustomPasswordField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final bool isConfirmField;
+  final ValueChanged<String>? onChanged;
 
   const CustomPasswordField({
     super.key,
     required this.controller,
     required this.hint,
     this.isConfirmField = false,
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LoginProvider>(
+    return Consumer<AuthProvider>(
       builder: (context, loginProvider, child) {
         bool isVisible = isConfirmField
             ? loginProvider.confirmPasswordVisible
@@ -32,6 +34,7 @@ class CustomPasswordField extends StatelessWidget {
             controller: controller,
             obscureText: !isVisible,
             cursorColor: Colors.black,
+            onChanged: onChanged,
             style: GoogleFonts.tajawal(
               textStyle: TextStyle(
                 fontSize: 14.sp,
@@ -42,7 +45,6 @@ class CustomPasswordField extends StatelessWidget {
             textDirection: TextDirection.rtl,
             decoration: InputDecoration(
               fillColor: grey8,
-
               filled: true,
               hintTextDirection: TextDirection.rtl,
               hintStyle: GoogleFonts.tajawal(
@@ -55,7 +57,6 @@ class CustomPasswordField extends StatelessWidget {
               hintText: hint,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(6.r),
-
                 borderSide: BorderSide(color: Color(0xffe5e7eb)),
               ),
               enabledBorder: OutlineInputBorder(
@@ -71,18 +72,19 @@ class CustomPasswordField extends StatelessWidget {
                   isConfirmField: isConfirmField,
                 ),
                 child: Padding(
-                    padding: EdgeInsets.all(12.0.sp),
-                    child: !isVisible
-                        ? SvgPicture.asset(
-                            unseenPath,
-                            height: 20.h,
-                            width: 20.h,
-                          )
-                        : Image.asset(
-                            seenPath,
-                            height: 20.h,
-                            width: 20.h,
-                          )),
+                  padding: EdgeInsets.all(12.0.sp),
+                  child: !isVisible
+                      ? SvgPicture.asset(
+                          unseenPath,
+                          height: 20.h,
+                          width: 20.h,
+                        )
+                      : Image.asset(
+                          seenPath,
+                          height: 20.h,
+                          width: 20.h,
+                        ),
+                ),
               ),
             ),
           ),

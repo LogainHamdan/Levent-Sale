@@ -1,4 +1,8 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/google-login-repo.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/login-repo.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/logout-repo.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/provider.dart';
@@ -10,11 +14,14 @@ import 'package:Levant_Sale/src/modules/main/ui/screens/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/following-repo.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/unfollow-repo.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,7 +51,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       ChangeNotifierProvider(
-        create: (_) => LoginProvider(),
+        create: (_) => AuthProvider(
+          googleAuthRepository: GoogleLoginRepository(dio: Dio()),
+          loginRepository: LoginRepository(dio: Dio()),
+          logoutRepository: LogoutRepository(dio: Dio()),
+        ),
       ),
       ChangeNotifierProvider(
         create: (_) => RegisterProvider(),
@@ -77,7 +88,11 @@ class MyApp extends StatelessWidget {
         create: (context) => EditProfileProvider(),
       ),
       ChangeNotifierProvider(
-        create: (context) => FollowProvider(),
+        create: (context) => FollowProvider(
+          followingRepository: FollowingRepository(Dio()),
+          followRepository: FollowRepository(Dio()),
+          authToken: token,
+        ),
       ),
       ChangeNotifierProvider(
         create: (context) => DeleteScreenProvider(),

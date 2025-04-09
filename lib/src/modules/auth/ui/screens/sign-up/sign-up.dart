@@ -5,6 +5,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-p
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/phone-section.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/verify.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,6 +13,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
 import '../../alerts/alert.dart';
+import '../login/provider.dart';
+import '../login/repos/google-login-repo.dart';
+import '../login/repos/login-repo.dart';
+import '../login/repos/logout-repo.dart';
 import '../login/widgets/instead-widget.dart';
 import '../login/widgets/or-row.dart';
 import '../login/widgets/social-button.dart';
@@ -27,8 +32,18 @@ class SignUpScreen extends StatelessWidget {
     final TextEditingController dateController = TextEditingController(
         text: DateFormat('MMMM dd, yyyy').format(DateTime.now()));
     final TextEditingController phoneController = TextEditingController();
-    return ChangeNotifierProvider(
-      create: (context) => RegisterProvider(),
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => RegisterProvider()),
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(
+            googleAuthRepository: GoogleLoginRepository(dio: Dio()),
+            loginRepository: LoginRepository(dio: Dio()),
+            logoutRepository: LogoutRepository(dio: Dio()),
+          ),
+        ),
+      ],
       child: Scaffold(
         body: SafeArea(
           child: Padding(
@@ -197,17 +212,22 @@ class SignUpScreen extends StatelessWidget {
                   SizedBox(height: 16.h),
                   OrRow(),
                   SizedBox(height: 16.h),
-                  SocialButton(
-                    facebook: false,
-                    text: "الاستمرار بجوجل Google",
-                    image: googlePath,
+                  Consumer<AuthProvider>(
+                    builder: (context, authProvider, child) {
+                      return SocialButton(
+                        facebook: false,
+                        onPressed: () => authProvider.googleLogin(context),
+                        text: "الاستمرار بجوجل Google",
+                        image: googlePath,
+                      );
+                    },
                   ),
                   SizedBox(height: 8.h),
                   SocialButton(
                     facebook: true,
+                    onPressed: () {},
                     text: "الاستمرار بالفيسبوك Facebook",
                     image: facebookPath,
-                    color: Colors.blue,
                   ),
                   SizedBox(height: 16.h),
                   InsteadWidget(

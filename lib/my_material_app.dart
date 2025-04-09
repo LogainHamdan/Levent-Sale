@@ -85,7 +85,7 @@ class MyMaterialApp extends StatelessWidget {
                       fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),
               ),
-              initialRoute: SplashScreen.id,
+              initialRoute: LoginScreen.id,
               routes: {
                 SplashScreen.id: (context) => SplashScreen(),
                 MainScreen.id: (context) => MainScreen(),

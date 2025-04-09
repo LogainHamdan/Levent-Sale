@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
 //api endpoints
-const String baseUrl = "";
+
+///auth
+const String baseUrl = "http://37.148.208.169:8081";
+const String token =
+    "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";
+const String logoutUrl = "$baseUrl/users/logout";
+const String loginUrl = "$baseUrl/users/login";
+const String googleLoginUrl = "$baseUrl/users/google-login";
+
+///follow
+const String unfollowUrl = "$baseUrl/users/unfollow/5";
+const String followUrl = "$baseUrl/users/follow/5";
+const String followingUrl = "$baseUrl//users/following/5";
 
 // primary colors
 Color kprimaryColor = const Color(0xff82B81C);

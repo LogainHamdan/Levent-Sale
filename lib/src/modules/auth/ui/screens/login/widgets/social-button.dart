@@ -8,13 +8,13 @@ import '../../../../../../config/constants.dart';
 class SocialButton extends StatelessWidget {
   final String text;
   final String image;
-  final Color color;
   final bool facebook;
+  final Function() onPressed;
 
   const SocialButton(
       {required this.text,
+      required this.onPressed,
       required this.image,
-      this.color = Colors.grey,
       required this.facebook});
 
   @override
@@ -23,7 +23,7 @@ class SocialButton extends StatelessWidget {
       height: 45.h,
       width: 327.w,
       child: OutlinedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: OutlinedButton.styleFrom(
           textStyle:
               GoogleFonts.tajawal(fontSize: 14.sp, fontWeight: FontWeight.w500),
