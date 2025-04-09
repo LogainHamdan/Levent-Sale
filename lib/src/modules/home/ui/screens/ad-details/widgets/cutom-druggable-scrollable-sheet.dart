@@ -114,6 +114,8 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                   SizedBox(height: 20.h),
                   Row(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+
                     children: products
                         .skip(products.length > 2 ? products.length - 2 : 0)
                         .map(
