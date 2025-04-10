@@ -7,31 +7,29 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
+import '../../../../../auth/ui/alerts/widgets/custom-alert.dart';
 import '../../../../../auth/ui/screens/login/provider.dart';
 
 class CustomLogoutItem extends StatelessWidget {
   const CustomLogoutItem({super.key});
+
   Future<void> _handleLogout(
       BuildContext context, AuthProvider authProvider) async {
-    final confirm = await showDialog<bool>(
+    bool confirm = false;
+
+    await showCustomAlertDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('تأكيد تسجيل الخروج'),
-        content: const Text('هل أنت متأكد أنك تريد تسجيل الخروج؟'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('إلغاء'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('نعم'),
-          ),
-        ],
-      ),
+      title: 'تأكيد تسجيل الخروج',
+      message: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+      confirmText: 'نعم',
+      confirmColor: errorColor,
+      cancelColor: Colors.black,
+      onConfirm: () {
+        confirm = true;
+      },
     );
 
-    if (confirm != true) return;
+    if (!confirm) return;
 
     showDialog(
       context: context,
