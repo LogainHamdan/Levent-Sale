@@ -73,15 +73,15 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> loginUser({
     required BuildContext context,
-    required String idmitFile,
+    required String identifier,
     required String password,
-    required String trustChainBase,
+    required String recaptchaToken,
   }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
-    if (idmitFile.isEmpty || password.isEmpty) {
+    if (identifier.isEmpty || password.isEmpty) {
       _isLoading = false;
       _errorMessage = 'الرجاء ملء جميع الحقول.';
       notifyListeners();
@@ -90,9 +90,9 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       final result = await _loginRepository.loginUser(
-        idmitfile: idmitFile,
+        identifier: identifier,
         password: password,
-        trustchainbase: trustChainBase,
+        recaptchaToken: recaptchaToken,
       );
 
       _isLoading = false;

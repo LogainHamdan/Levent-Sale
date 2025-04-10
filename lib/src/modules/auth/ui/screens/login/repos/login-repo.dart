@@ -10,17 +10,17 @@ class LoginRepository {
   LoginRepository({required this.dio});
 
   Future<Map<String, dynamic>> loginUser({
-    required String idmitfile,
+    required String identifier,
     required String password,
-    required String trustchainbase,
+    required String recaptchaToken,
   }) async {
     try {
       final response = await dio.post(
         loginUrl,
         data: {
-          'idmitfile': idmitfile,
+          'identifier': identifier,
           'password': password,
-          'trustchainbase': trustchainbase,
+          'recaptchaToken': recaptchaToken,
         },
         options: Options(
           headers: {

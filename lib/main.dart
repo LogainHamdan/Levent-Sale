@@ -15,7 +15,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/provider.
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/following-repo.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/unfollow-repo.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/follow-repo.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';

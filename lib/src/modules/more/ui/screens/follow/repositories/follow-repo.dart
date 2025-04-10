@@ -9,7 +9,7 @@ class FollowRepository {
   Future<void> unfollowUser(int followingId, String token) async {
     try {
       final response = await _dio.post(
-        unfollowUrl,
+        "$unfollowUrl/$followingId",
         options: Options(headers: {
           'Authorization': 'Bearer $token',
         }),
@@ -24,7 +24,7 @@ class FollowRepository {
   Future<void> followUser(int followingId, String token) async {
     try {
       final response = await _dio.post(
-        followUrl,
+        "$followUrl/$followingId",
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',

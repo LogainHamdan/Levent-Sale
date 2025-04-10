@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:dio/dio.dart';
 import '../models/followed-model.dart';
 
@@ -10,7 +11,7 @@ class FollowingRepository {
       int userId, String authToken) async {
     try {
       final response = await dio.get(
-        '/users/following/$userId',
+        "$followUrl/$userId",
         options: Options(headers: {'Authorization': 'Bearer $authToken'}),
       );
 

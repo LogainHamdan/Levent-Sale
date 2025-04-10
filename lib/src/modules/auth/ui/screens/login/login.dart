@@ -186,9 +186,9 @@ class LoginScreen extends StatelessWidget {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     await authProvider.loginUser(
       context: context,
-      idmitFile: emailController.text.trim(),
+      identifier: emailController.text.trim(),
       password: passwordController.text.trim(),
-      trustChainBase: 'default_trust_chain',
+      recaptchaToken: 'default_trust_chain',
     );
   }
 }

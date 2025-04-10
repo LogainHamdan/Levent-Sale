@@ -90,7 +90,7 @@ class CustomLogoutItem extends StatelessWidget {
                 height: 22.h,
               ),
               title: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0.sp),
                 child: Text(
                   'تسجيل الخروج',
                   textDirection: TextDirection.rtl,
@@ -102,8 +102,8 @@ class CustomLogoutItem extends StatelessWidget {
                   ),
                 ),
               ),
-              leading: Icon(Icons.arrow_back_ios_new,
-                  size: 18.sp, color: Colors.black45),
+              leading:
+                  Icon(Icons.arrow_back_ios_new, size: 18.sp, color: grey3),
             ),
           ),
         );

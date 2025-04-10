@@ -1,5 +1,5 @@
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/following-repo.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/unfollow-repo.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/follow-repo.dart';
 import 'package:flutter/material.dart';
 
 import 'models/followed-model.dart';
