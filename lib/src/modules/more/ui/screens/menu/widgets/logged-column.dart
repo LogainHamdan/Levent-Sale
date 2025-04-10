@@ -1,4 +1,4 @@
-import 'package:Levant_Sale/src/modules/more/ui/screens/change-password/change-pass-column.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/profile-menu-item.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';

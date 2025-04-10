@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/repositories/address-repo.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/repositories/edit-profile-repo.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class EditProfileProvider extends ChangeNotifier {
-  final ProfileRepository repository;
+  final EditProfileRepository repository = EditProfileRepository();
   final ImagePicker _picker = ImagePicker();
   final TextEditingController nameController =
       TextEditingController(text: 'منة الله');
@@ -26,7 +27,7 @@ class EditProfileProvider extends ChangeNotifier {
   File? _profileImage;
   File? _coverImage;
 
-  EditProfileProvider(this.repository, {this.isCompanyAccount = true});
+  EditProfileProvider({this.isCompanyAccount = true});
 
   File? get profileImage => _profileImage;
 
@@ -124,13 +125,53 @@ class EditProfileProvider extends ChangeNotifier {
         formData: formData,
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        print("Profile updated successfully.");
-      } else {
-        errorMessage = "Failed to update profile: ${response.statusCode}";
+      switch (response.statusCode) {
+        case 200:
+        case 201:
+          print("Profile updated successfully.");
+          break;
+        default:
+          errorMessage = "error: ${response.statusCode}";
       }
     } catch (e) {
-      errorMessage = "Error during profile update: $e";
+      errorMessage = "$e";
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateAddress({
+    required int addressId,
+    required int id,
+    required String governorate,
+    required String city,
+    required String fullAddress,
+    required String token,
+  }) async {
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+
+    try {
+      final response = await AddressRepository.instance.updateAddress(
+        addressId: addressId,
+        id: id,
+        governorate: governorate,
+        city: city,
+        fullAddress: fullAddress,
+        token: token,
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Address updated successfully');
+      } else {
+        errorMessage = '${response.statusCode}';
+        debugPrint(errorMessage!);
+      }
+    } catch (e) {
+      errorMessage = '$e';
+      debugPrint(errorMessage!);
     } finally {
       isLoading = false;
       notifyListeners();

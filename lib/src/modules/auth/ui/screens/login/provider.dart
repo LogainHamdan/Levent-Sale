@@ -2,6 +2,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/google-login-repo.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/login-repo.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/logout-repo.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/request-change-pass.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -15,11 +16,14 @@ class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailRequestController = TextEditingController();
 
   final GoogleLoginRepository _googleAuthRepository = GoogleLoginRepository();
   final LoginRepository _loginRepository = LoginRepository();
   final LogoutRepository _logoutRepository = LogoutRepository();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final PasswordResetRepository _passwordResetRepository =
+      PasswordResetRepository();
 
   bool get passwordVisible => _passwordVisible;
   bool get confirmPasswordVisible => _confirmPasswordVisible;
@@ -157,6 +161,26 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       _setLoading(false);
       _setErrorMessage('Google login failed: ${e.toString()}');
+    }
+  }
+
+  Future<void> requestPasswordReset(String email) async {
+    _setLoading(true);
+    _setErrorMessage(null);
+
+    try {
+      final response =
+          await _passwordResetRepository.requestPasswordReset(email);
+
+      if (response.statusCode == 200) {
+        debugPrint("Password reset email sent.");
+      } else {
+        _setErrorMessage("Failed to send reset email: ${response.statusCode}");
+      }
+    } catch (e) {
+      _setErrorMessage("$e");
+    } finally {
+      _setLoading(false);
     }
   }
 }

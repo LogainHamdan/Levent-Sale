@@ -14,7 +14,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notificati
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/search-filter.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search/search.dart';
 import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/change-password/change-pass-column.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/why-to-delete.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/edit-profile.dart';

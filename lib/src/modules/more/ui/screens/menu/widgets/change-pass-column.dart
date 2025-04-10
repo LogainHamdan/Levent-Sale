@@ -5,16 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../../config/constants.dart';
-import '../../../../auth/ui/alerts/alert.dart';
-import '../../../../auth/ui/screens/login/widgets/confrm-cancel-button.dart';
-import '../../../../auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
-import '../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
+import '../../../../../../config/constants.dart';
+import '../../../../../auth/ui/alerts/alert.dart';
+import '../../../../../auth/ui/screens/login/widgets/confrm-cancel-button.dart';
+import '../../../../../auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
+import '../../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
+import '../provider.dart';
 
 class ChangePassColumn extends StatelessWidget {
   TextEditingController? currentPassController;
   TextEditingController? sentCodeController;
+  int? userId;
 
   TextEditingController? secondController;
   TextEditingController? thirdController;
@@ -26,6 +29,7 @@ class ChangePassColumn extends StatelessWidget {
       this.sentCodeController,
       this.currentPassController,
       this.thirdController,
+      this.userId = 0,
       required this.alert});
 
   @override
@@ -108,10 +112,24 @@ class ChangePassColumn extends StatelessWidget {
           height: 24.h,
         ),
         CustomElevatedButton(
-            text: 'تغيير كلمة المرور',
-            onPressed: () => showPasswordUpdated(context),
-            backgroundColor: kprimaryColor,
-            textColor: grey9),
+          text: 'تغيير كلمة المرور',
+          onPressed: () {
+            final menuProvider =
+                Provider.of<MenuProvider>(context, listen: false);
+            menuProvider.submitChangePassword(
+              context: context,
+              userId: userId!,
+              oldPass: currentPassController!.text.trim(),
+              newPass: secondController!.text.trim(),
+              confirmPass: thirdController!.text.trim(),
+              token: token,
+            );
+            Navigator.pop(context);
+            showPasswordUpdated(context);
+          },
+          backgroundColor: kprimaryColor,
+          textColor: grey9,
+        ),
       ],
     );
   }

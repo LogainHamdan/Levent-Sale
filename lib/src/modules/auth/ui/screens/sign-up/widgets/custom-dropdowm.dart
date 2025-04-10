@@ -20,7 +20,6 @@ class CustomDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<RegisterProvider>(
       builder: (context, provider, child) {
-        // Heights
         double headerHeight = 50.h;
         double itemHeight = 42.h;
         double expandedHeight = headerHeight +
@@ -38,7 +37,6 @@ class CustomDropdown extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header (dropdown button)
               SizedBox(
                 height: headerHeight,
                 child: InkWell(
@@ -63,13 +61,13 @@ class CustomDropdown extends StatelessWidget {
                               width: 22.w,
                             ),
                       Text(
-                        provider.selectedValue.isNotEmpty
-                            ? provider.selectedValue
+                        provider.selectedValue!.isNotEmpty
+                            ? provider.selectedValue!
                             : hint,
                         style: GoogleFonts.tajawal(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
-                          color: provider.selectedValue.isNotEmpty
+                          color: provider.selectedValue!.isNotEmpty
                               ? Colors.black
                               : grey4,
                         ),
@@ -78,14 +76,11 @@ class CustomDropdown extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // Dropdown list (no spacing above/below)
               if (provider.isDropdownOpened)
                 Column(
                   children: items.map((item) {
                     return InkWell(
                       onTap: () {
-                        provider.setSelectedValue(item);
                         provider.setDropdownOpened(false);
                       },
                       child: Container(

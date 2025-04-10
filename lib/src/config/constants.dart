@@ -10,6 +10,8 @@ const String token =
 const String logoutUrl = "$baseUrl/users/logout";
 const String loginUrl = "$baseUrl/users/login";
 const String googleLoginUrl = "$baseUrl/users/google-login";
+const String requestUpdatePassUrl = "$baseUrl/users/request-password-reset";
+const String registerUrl = "$baseUrl/users/register";
 
 ///follow
 const String unfollowUrl = "$baseUrl/users/unfollow";
@@ -18,6 +20,9 @@ const String followingUrl = "$baseUrl/users/following";
 
 ///profile
 const String editProfileUrl = "$baseUrl/users/update-profile";
+const String updatePassUrl = "$baseUrl/users/update-password";
+const String updatePassTokenUrl = "$baseUrl/users/update-password-with-token";
+const String updateAddressUrl = "$baseUrl/users/update-address";
 
 // primary colors
 Color kprimaryColor = const Color(0xff82B81C);

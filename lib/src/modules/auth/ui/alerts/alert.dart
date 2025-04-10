@@ -7,11 +7,12 @@ import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/custom-option.dar
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/empty-text-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/option-tile.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/splash.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/simple-title.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/custom-rating.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/change-password/change-pass-column.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
@@ -146,6 +147,7 @@ void showSetNewPassword(BuildContext context) {
 }
 
 void showForgotPassword(BuildContext context) {
+  final authProvider = Provider.of<AuthProvider>(context, listen: false);
   showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.2),
@@ -195,12 +197,14 @@ void showForgotPassword(BuildContext context) {
                     SizedBox(height: 16.h),
                     CustomTextField(
                         bgcolor: grey8,
-                        controller: TextEditingController(),
+                        controller: authProvider.emailRequestController,
                         hint: 'البريد الإلكتروني'),
                     SizedBox(height: 24.h),
                     CustomElevatedButton(
                         text: 'ارسال',
                         onPressed: () {
+                          authProvider.requestPasswordReset(
+                              authProvider.emailRequestController.text);
                           Navigator.pop(context);
                           showSetNewPassword(context);
                         },

@@ -78,9 +78,7 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(
         create: (context) => MenuProvider(),
       ),
-      ChangeNotifierProvider(
-        create: (context) => EditProfileProvider(ProfileRepository(Dio())),
-      ),
+      ChangeNotifierProvider(create: (context) => EditProfileProvider()),
       ChangeNotifierProvider(
         create: (context) => FollowProvider(
           getFollowRepository: GetFollowRepository(Dio()),
