@@ -1,17 +1,12 @@
-import 'dart:io';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/add-photo-container.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/photo-section.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../../config/constants.dart';
 import '../../../../auth/ui/alerts/alert.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
@@ -25,17 +20,6 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<EditProfileProvider>(context);
-    final TextEditingController nameController =
-        TextEditingController(text: 'منة الله');
-    final TextEditingController emailController =
-        TextEditingController(text: 'menna@gmail.com');
-    final TextEditingController phoneController = TextEditingController();
-    final TextEditingController dateController = TextEditingController(
-        text: DateFormat('MMMM dd, yyyy').format(DateTime.now()));
-    final TextEditingController addressController =
-        TextEditingController(text: 'حلب');
-    final TextEditingController taxController =
-        TextEditingController(text: '23456789');
 
     return Scaffold(
       appBar: AppBar(
@@ -61,34 +45,35 @@ class EditProfileScreen extends StatelessWidget {
                 SizedBox(height: 20.h),
                 CustomTextField(
                   labelGrey: true,
-                  controller: nameController,
+                  controller: profileProvider.nameController,
                   label: 'الاسم',
                   bgcolor: grey8,
                 ),
                 SizedBox(height: 16.h),
                 CustomTextField(
                   labelGrey: true,
-                  controller: emailController,
+                  controller: profileProvider.emailController,
                   label: 'البريد الإلكتروني',
                   keyboardType: TextInputType.emailAddress,
                   bgcolor: grey8,
                 ),
                 SizedBox(height: 16.h),
                 PhoneSection(
-                  controller: phoneController,
+                  controller: profileProvider.phoneController,
                 ),
                 SizedBox(height: 16.h),
                 CustomTextField(
                   labelGrey: true,
                   prefix: GestureDetector(
-                    onTap: () => showDatePickerDialog(context, dateController),
+                    onTap: () => showDatePickerDialog(
+                        context, profileProvider.dateController),
                     child: SvgPicture.asset(
                       calendarIcon,
                       height: 24.h,
                       width: 24.w,
                     ),
                   ),
-                  controller: dateController,
+                  controller: profileProvider.dateController,
                   label: profileProvider.isCompanyAccount
                       ? 'تاريخ إنشاء الشركة'
                       : 'تاريخ الميلاد',
@@ -98,14 +83,14 @@ class EditProfileScreen extends StatelessWidget {
                   SizedBox(height: 16.h),
                   CustomTextField(
                     labelGrey: true,
-                    controller: addressController,
+                    controller: profileProvider.addressController,
                     label: 'عنوان الشركة',
                     bgcolor: grey8,
                   ),
                   SizedBox(height: 16.h),
                   CustomTextField(
                     labelGrey: true,
-                    controller: taxController,
+                    controller: profileProvider.taxController,
                     label: 'الرقم الضريبي',
                     bgcolor: grey8,
                   ),
@@ -137,7 +122,28 @@ class EditProfileScreen extends StatelessWidget {
       ),
       bottomNavigationBar: DraggableButton(
         'حفظ التعديلات',
-        onPressed: () => editDoneAlert(context),
+        onPressed: () async {
+          await profileProvider.updateProfile(
+              token: token,
+              firstName: !profileProvider.isCompanyAccount
+                  ? profileProvider.nameController.text.split(" ").first
+                  : '',
+              lastName: !profileProvider.isCompanyAccount
+                  ? profileProvider.nameController.text.split(" ").last
+                  : '',
+              birthday: DateTime.now(),
+              businessName:
+                  profileProvider.isCompanyAccount ? "اسم الشركة" : null,
+              businessLicense: profileProvider.isCompanyAccount
+                  ? profileProvider.taxController.text
+                  : null,
+              address: profileProvider.isCompanyAccount
+                  ? profileProvider.addressController.text
+                  : null,
+              profilePicture: profileProvider.profileImage);
+
+          editDoneAlert(context);
+        },
         icon: SvgPicture.asset(
           editWhiteIcon,
           height: 20.h,

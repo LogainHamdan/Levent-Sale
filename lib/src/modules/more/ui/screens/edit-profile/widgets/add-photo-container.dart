@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../config/constants.dart';
 import '../provider.dart';
@@ -14,7 +15,8 @@ class UploadPhotoContainer extends StatelessWidget {
     final File? coverImage = editProfileProvider.coverImage;
 
     return GestureDetector(
-      onTap: () => editProfileProvider.pickCoverImage(),
+      onTap: () => editProfileProvider.pickCoverImage(ImageSource.gallery,
+          isProfile: true),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
         height: 150.h,

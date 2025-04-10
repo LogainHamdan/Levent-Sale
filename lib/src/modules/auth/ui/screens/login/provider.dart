@@ -13,24 +13,28 @@ class AuthProvider extends ChangeNotifier {
   bool _rememberMe = false;
   String? _errorMessage;
   bool _isLoading = false;
-  final GoogleLoginRepository _googleAuthRepository;
-  final LoginRepository _loginRepository;
-  final LogoutRepository _logoutRepository;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  AuthProvider({
-    required GoogleLoginRepository googleAuthRepository,
-    required LoginRepository loginRepository,
-    required LogoutRepository logoutRepository,
-  })  : _googleAuthRepository = googleAuthRepository,
-        _loginRepository = loginRepository,
-        _logoutRepository = logoutRepository;
+  final GoogleLoginRepository _googleAuthRepository = GoogleLoginRepository();
+  final LoginRepository _loginRepository = LoginRepository();
+  final LogoutRepository _logoutRepository = LogoutRepository();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   bool get passwordVisible => _passwordVisible;
   bool get confirmPasswordVisible => _confirmPasswordVisible;
   bool get rememberMe => _rememberMe;
   String? get errorMessage => _errorMessage;
   bool get isLoading => _isLoading;
+
+  bool _isFormValid = false;
+
+  bool get isFormValid => _isFormValid;
+
+  void setFormValid(bool isValid) {
+    _isFormValid = isValid;
+    notifyListeners();
+  }
 
   void togglePasswordVisibility({required bool isConfirmField}) {
     if (isConfirmField) {
@@ -54,20 +58,19 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> logoutUser(BuildContext context) async {
-    _isLoading = true;
-    notifyListeners();
+    _setLoading(true);
 
     try {
       await _logoutRepository.logoutUser();
-      _isLoading = false;
-      notifyListeners();
+      _setLoading(false);
       Navigator.pushNamedAndRemoveUntil(
-          context, LoginScreen.id, (route) => false);
+        context,
+        LoginScreen.id,
+        (route) => false,
+      );
     } catch (e) {
-      _isLoading = false;
-      _errorMessage = e.toString();
-      notifyListeners();
-      rethrow;
+      _setLoading(false);
+      _setErrorMessage(e.toString());
     }
   }
 
@@ -77,14 +80,11 @@ class AuthProvider extends ChangeNotifier {
     required String password,
     required String recaptchaToken,
   }) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
+    _setLoading(true);
 
     if (identifier.isEmpty || password.isEmpty) {
-      _isLoading = false;
-      _errorMessage = 'الرجاء ملء جميع الحقول.';
-      notifyListeners();
+      _setLoading(false);
+      _setErrorMessage('الرجاء ملء جميع الحقول.');
       return;
     }
 
@@ -95,37 +95,41 @@ class AuthProvider extends ChangeNotifier {
         recaptchaToken: recaptchaToken,
       );
 
-      _isLoading = false;
-
-      if (result['success'] == true) {
+      if (result['statusCode'] == 200) {
         Navigator.pushNamedAndRemoveUntil(
           context,
           MainScreen.id,
           (route) => false,
         );
       } else {
-        _errorMessage = result['error'] ?? 'فشل تسجيل الدخول';
-        notifyListeners();
+        _setErrorMessage(result['error'] ?? 'فشل تسجيل الدخول');
       }
     } catch (e) {
-      _isLoading = false;
-      _errorMessage = 'فشل تسجيل الدخول: ${e.toString()}';
-      notifyListeners();
-      rethrow;
+      _setErrorMessage('فشل تسجيل الدخول: ${e.toString()}');
+    } finally {
+      _setLoading(false);
     }
   }
 
-  Future<void> googleLogin(BuildContext context) async {
-    _isLoading = true;
-    _errorMessage = null;
+  void _setLoading(bool value) {
+    _isLoading = value;
     notifyListeners();
+  }
+
+  void _setErrorMessage(String? message) {
+    _errorMessage = message;
+    notifyListeners();
+  }
+
+  Future<void> googleLogin(BuildContext context) async {
+    _setLoading(true);
+    _setErrorMessage(null);
 
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
-        _isLoading = false;
-        notifyListeners();
+        _setLoading(false);
         return;
       }
 
@@ -134,27 +138,25 @@ class AuthProvider extends ChangeNotifier {
       final String? token = googleAuth.idToken;
 
       if (token == null) {
-        throw Exception('Failed to get Google ID token');
+        throw Exception('Failed to get token');
       }
 
       final result = await _googleAuthRepository.googleLogin(token);
-      _isLoading = false;
 
-      if (result['success'] == true) {
+      if (result['statusCode'] == 200) {
         Navigator.pushNamedAndRemoveUntil(
           context,
           MainScreen.id,
           (route) => false,
         );
       } else {
-        _errorMessage = result['error'] ?? 'Google login failed';
-        notifyListeners();
+        _setErrorMessage(result['error'] ?? 'Google login failed');
       }
+
+      _setLoading(false);
     } catch (e) {
-      _isLoading = false;
-      _errorMessage = 'Google login failed: ${e.toString()}';
-      notifyListeners();
-      rethrow;
+      _setLoading(false);
+      _setErrorMessage('Google login failed: ${e.toString()}');
     }
   }
 }

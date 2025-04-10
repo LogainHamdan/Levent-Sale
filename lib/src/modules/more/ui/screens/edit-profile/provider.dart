@@ -1,18 +1,35 @@
 import 'dart:io';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/repositories/edit-profile-repo.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class EditProfileProvider extends ChangeNotifier {
-  bool isCompanyAccount;
+  final ProfileRepository repository;
+  final ImagePicker _picker = ImagePicker();
+  final TextEditingController nameController =
+      TextEditingController(text: 'منة الله');
+  final TextEditingController emailController =
+      TextEditingController(text: 'menna@gmail.com');
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController dateController = TextEditingController(
+      text: DateFormat('MMMM dd, yyyy').format(DateTime.now()));
+  final TextEditingController addressController =
+      TextEditingController(text: 'حلب');
+  final TextEditingController taxController =
+      TextEditingController(text: '23456789');
 
+  bool isCompanyAccount;
+  bool isLoading = false;
+  String? errorMessage;
   File? _profileImage;
   File? _coverImage;
 
-  EditProfileProvider({this.isCompanyAccount = true});
-
-  final ImagePicker _picker = ImagePicker();
+  EditProfileProvider(this.repository, {this.isCompanyAccount = true});
 
   File? get profileImage => _profileImage;
+
   File? get coverImage => _coverImage;
 
   void setProfileImage(File? selectedImage) {
@@ -25,19 +42,98 @@ class EditProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> pickProfileImage() async {
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
+  Future<void> pickImage(ImageSource source, {bool isProfile = true}) async {
+    final XFile? pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
-      setProfileImage(File(pickedFile.path));
+      if (isProfile) {
+        setProfileImage(File(pickedFile.path));
+      } else {
+        setCoverImage(File(pickedFile.path));
+      }
     }
   }
 
-  Future<void> pickCoverImage() async {
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
+  Future<void> pickCoverImage(ImageSource source,
+      {bool isProfile = true}) async {
+    final XFile? pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
-      setCoverImage(File(pickedFile.path));
+      if (isProfile) {
+        setProfileImage(File(pickedFile.path));
+      } else {
+        setCoverImage(File(pickedFile.path));
+      }
+    }
+  }
+
+  Future<FormData> _buildFormData({
+    String? firstName,
+    String? lastName,
+    String? birthday,
+    bool? isCompanyAccount,
+    File? profilePicture,
+    String? businessName,
+    String? businessLicense,
+    String? address,
+  }) async {
+    final Map<String, dynamic> formMap = {
+      "firstName": firstName,
+      "lastName": lastName,
+      "birthday": birthday,
+      if (profilePicture != null)
+        "profilePicture": await MultipartFile.fromFile(profilePicture.path),
+    };
+
+    if (isCompanyAccount!) {
+      if (businessName != null) formMap["businessName"] = businessName;
+      if (businessLicense != null) formMap["businessLicense"] = businessLicense;
+      if (address != null) formMap["address"] = {"location": address};
+    }
+
+    return FormData.fromMap(formMap);
+  }
+
+  Future<void> updateProfile({
+    required String token,
+    String? firstName,
+    String? lastName,
+    DateTime? birthday,
+    File? profilePicture,
+    String? businessName,
+    String? businessLicense,
+    String? address,
+  }) async {
+    try {
+      isLoading = true;
+      errorMessage = null;
+      notifyListeners();
+
+      final formattedBirthday = DateFormat('yyyy-MM-dd').format(birthday!);
+      final formData = await _buildFormData(
+        firstName: firstName,
+        lastName: lastName,
+        birthday: formattedBirthday,
+        isCompanyAccount: isCompanyAccount,
+        profilePicture: profilePicture ?? _profileImage,
+        businessName: businessName,
+        businessLicense: businessLicense,
+        address: address,
+      );
+
+      final response = await repository.updateProfile(
+        token: token,
+        formData: formData,
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print("Profile updated successfully.");
+      } else {
+        errorMessage = "Failed to update profile: ${response.statusCode}";
+      }
+    } catch (e) {
+      errorMessage = "Error during profile update: $e";
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
   }
 }

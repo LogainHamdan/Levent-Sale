@@ -27,6 +27,7 @@ import '../../../../config/constants.dart';
 import '../../../home/ui/screens/evaluation/widgets/img-picker.dart';
 import '../../../main/ui/screens/main_screen.dart';
 import '../../../main/ui/screens/provider.dart';
+import '../../../more/ui/screens/edit-profile/provider.dart';
 import '../../../more/ui/screens/edit-profile/widgets/title-cancel.dart';
 import '../screens/login/widgets/confrm-cancel-button.dart';
 import '../screens/sign-up/widgets/custom-pass-field.dart';
@@ -712,15 +713,7 @@ void logoutAlert(BuildContext context) {
 
 void changePictureOptionAlert(
     BuildContext context, Function(File?) onImageSelected) {
-  final ImagePicker picker = ImagePicker();
-
-  Future<void> pickImage(ImageSource source) async {
-    final XFile? pickedFile = await picker.pickImage(source: source);
-    if (pickedFile != null) {
-      onImageSelected(File(pickedFile.path));
-    }
-    Navigator.of(context).pop();
-  }
+  final editProfileProvider = Provider.of<EditProfileProvider>(context);
 
   void deleteImage() {
     onImageSelected(null);
@@ -766,7 +759,8 @@ void changePictureOptionAlert(
                           takePhotoIcon,
                           height: 20.h,
                         ),
-                        onTap: () => pickImage(ImageSource.camera),
+                        onTap: () => editProfileProvider
+                            .pickImage(ImageSource.camera, isProfile: true),
                       ),
                       CustomDivider(),
                       OptionTile(
@@ -776,7 +770,8 @@ void changePictureOptionAlert(
                           fromGalleryIcon,
                           height: 20.h,
                         ),
-                        onTap: () => pickImage(ImageSource.gallery),
+                        onTap: () => editProfileProvider
+                            .pickImage(ImageSource.gallery, isProfile: true),
                       ),
                       CustomDivider(),
                       OptionTile(

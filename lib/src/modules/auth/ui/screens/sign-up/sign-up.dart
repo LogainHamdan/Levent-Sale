@@ -37,11 +37,7 @@ class SignUpScreen extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => RegisterProvider()),
         ChangeNotifierProvider(
-          create: (_) => AuthProvider(
-            googleAuthRepository: GoogleLoginRepository(dio: Dio()),
-            loginRepository: LoginRepository(dio: Dio()),
-            logoutRepository: LogoutRepository(dio: Dio()),
-          ),
+          create: (_) => AuthProvider(),
         ),
       ],
       child: Scaffold(

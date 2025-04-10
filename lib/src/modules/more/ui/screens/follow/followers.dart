@@ -14,16 +14,24 @@ class FollowersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<FollowProvider>(context);
+
     return Scaffold(
       body: SafeArea(
-        child: Expanded(
-          child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return FollowTile(index: index);
-            },
-          ),
-        ),
+        child: provider.isFollowersLoading
+            ? Center(child: CircularProgressIndicator())
+            : ListView.builder(
+                itemCount: provider.followersCount,
+                itemBuilder: (context, index) {
+                  final follower = provider.followers[index];
+                  final followedUser = provider.followingUsers[index];
+                  return FollowTile(
+                    follower: follower,
+                    index: index,
+                    followedUser: followedUser,
+                  );
+                },
+              ),
       ),
     );
   }

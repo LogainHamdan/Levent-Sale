@@ -46,7 +46,7 @@ class FollowedUserModel {
       address: Address.fromJson(json['address']),
       followersCount: json['followersCount'],
       followingCount: json['followingCount'],
-      isFollowing: json['isFollowing'] ?? true, // default true if not provided
+      isFollowing: json['isFollowing'] ?? true,
     );
   }
 }

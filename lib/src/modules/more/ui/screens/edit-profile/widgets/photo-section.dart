@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
 import '../provider.dart';
-import 'add-photo-container.dart';
 
 class ImageSection extends StatelessWidget {
   const ImageSection({super.key});

@@ -14,7 +14,10 @@ const String googleLoginUrl = "$baseUrl/users/google-login";
 ///follow
 const String unfollowUrl = "$baseUrl/users/unfollow";
 const String followUrl = "$baseUrl/users/follow";
-const String followingUrl = "$baseUrl//users/following";
+const String followingUrl = "$baseUrl/users/following";
+
+///profile
+const String editProfileUrl = "$baseUrl/users/update-profile";
 
 // primary colors
 Color kprimaryColor = const Color(0xff82B81C);

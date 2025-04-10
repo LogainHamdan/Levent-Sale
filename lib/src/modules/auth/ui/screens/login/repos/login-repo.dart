@@ -2,12 +2,20 @@ import 'dart:convert';
 
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:dio/dio.dart';
+import 'package:Levant_Sale/src/config/constants.dart';
 
 class LoginRepository {
-  final Dio dio;
+  static final LoginRepository _instance = LoginRepository._internal();
 
-  LoginRepository({required this.dio});
+  LoginRepository._internal();
+
+  factory LoginRepository() {
+    return _instance;
+  }
+
+  final Dio dio = Dio();
 
   Future<Map<String, dynamic>> loginUser({
     required String identifier,
@@ -23,27 +31,15 @@ class LoginRepository {
           'recaptchaToken': recaptchaToken,
         },
         options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/hab/json',
-          },
+          headers: {'Content-Type': 'application/json'},
         ),
       );
 
-      if (response.statusCode == 200) {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', response.data['token']);
-        await prefs.setString('userData', jsonEncode(response.data['user']));
-        return {'success': true, 'data': response.data};
-      }
-      return {
-        'success': false,
-        'error': response.data['message'] ?? 'Invalid credentials'
-      };
+      return {'statusCode': response.statusCode, 'data': response.data};
     } on DioException catch (e) {
-      throw Exception(
-        e.response?.data['message'] ?? 'فشل تسجيل الدخول: ${e.message}',
-      );
+      return {
+        'error': e.response?.data['message'] ?? 'Login failed: ${e.message}'
+      };
     }
   }
 }

@@ -11,6 +11,9 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/product-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+
+import '../follow/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const id = '/profile';
@@ -61,16 +64,20 @@ class ProfileScreen extends StatelessWidget {
               FollowContainer(
                 leftChild: Column(
                   children: [
-                    Text('2,856',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('يتابع')
+                    Text(
+                      '${Provider.of<FollowProvider>(context).followingCount}',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text('يتابع'),
                   ],
                 ),
                 rightChild: Column(
                   children: [
-                    Text('1,947',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('متابع')
+                    Text(
+                      '${Provider.of<FollowProvider>(context).followersCount}', // نفس الرقم لحين وجود بيانات مختلفة
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text('متابع'),
                   ],
                 ),
               ),

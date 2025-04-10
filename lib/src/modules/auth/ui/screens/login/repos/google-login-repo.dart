@@ -4,10 +4,19 @@ import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:Levant_Sale/src/config/constants.dart';
+
 class GoogleLoginRepository {
   final Dio dio;
 
-  GoogleLoginRepository({required this.dio});
+  GoogleLoginRepository({Dio? dio}) : dio = dio ?? Dio();
 
   Future<Map<String, dynamic>> googleLogin(String token) async {
     try {
@@ -15,30 +24,16 @@ class GoogleLoginRepository {
         googleLoginUrl,
         data: {'token': token},
         options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: {'Content-Type': 'application/json'},
         ),
       );
 
-      if (response.statusCode == 200) {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', response.data['token']);
-        await prefs.setString('userData', jsonEncode(response.data['user']));
-        return {'success': true, 'data': response.data};
-      }
-      return {
-        'success': false,
-        'error': response.data['message'] ?? 'Google login failed'
-      };
+      return response.data;
     } on DioException catch (e) {
-      if (e.response != null) {
-        throw Exception(
-          e.response?.data['message'] ?? 'Failed to login with Google',
-        );
-      } else {
-        throw Exception('Failed to login with Google: ${e.message}');
-      }
+      return {
+        'error': e.response?.data['message'] ??
+            'Failed to login with Google: ${e.message}'
+      };
     }
   }
 }

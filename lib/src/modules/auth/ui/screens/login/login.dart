@@ -10,7 +10,6 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/social-but
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/sign-up.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,19 +19,13 @@ import '../splash/widgets/custom-elevated-button.dart';
 
 class LoginScreen extends StatelessWidget {
   static const id = '/loginId';
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
 
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AuthProvider(
-        googleAuthRepository: GoogleLoginRepository(dio: Dio()),
-        loginRepository: LoginRepository(dio: Dio()),
-        logoutRepository: LogoutRepository(dio: Dio()),
-      ),
+      create: (context) => AuthProvider(),
       child: Scaffold(
         body: SafeArea(
           child: Padding(
@@ -51,23 +44,25 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 28.h),
-                  CustomTextField(
-                    bgcolor: grey8,
-                    controller: emailController,
-                    hint: 'البريد الالكتروني / رقم الجوال',
-                    onChanged: (_) => _updateButtonState(context),
-                  ),
+                  Consumer<AuthProvider>(
+                      builder: (context, authProvider, child) {
+                    return CustomTextField(
+                      bgcolor: grey8,
+                      controller: authProvider.emailController,
+                      hint: 'البريد الالكتروني / رقم الجوال',
+                      onChanged: (_) => _updateButtonState(context),
+                    );
+                  }),
                   SizedBox(height: 16.h),
                   Consumer<AuthProvider>(
-                    builder: (context, authProvider, child) {
-                      return CustomPasswordField(
-                        isConfirmField: false,
-                        controller: passwordController,
-                        hint: 'كلمة المرور',
-                        onChanged: (_) => _updateButtonState(context),
-                      );
-                    },
-                  ),
+                      builder: (context, authProvider, child) {
+                    return CustomPasswordField(
+                      isConfirmField: false,
+                      controller: authProvider.passwordController,
+                      hint: 'كلمة المرور',
+                      onChanged: (_) => _updateButtonState(context),
+                    );
+                  }),
                   SizedBox(height: 8.h),
                   Row(
                     children: [
@@ -83,74 +78,53 @@ class LoginScreen extends StatelessWidget {
                       ),
                       Spacer(),
                       Consumer<AuthProvider>(
-                        builder: (context, loginProvider, child) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'تذكرني',
-                                style: GoogleFonts.tajawal(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                          builder: (context, loginProvider, child) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'تذكرني',
+                              style: GoogleFonts.tajawal(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
                               ),
-                              CustomCheckBox(
-                                title: "",
-                                value: loginProvider.rememberMe,
-                                onChanged: (value) =>
-                                    loginProvider.toggleRememberMe(value),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                            ),
+                            CustomCheckBox(
+                              title: "",
+                              value: loginProvider.rememberMe,
+                              onChanged: (value) =>
+                                  loginProvider.toggleRememberMe(value),
+                            ),
+                          ],
+                        );
+                      }),
                     ],
                   ),
                   SizedBox(height: 16.h),
                   Consumer<AuthProvider>(
-                    builder: (context, authProvider, child) {
-                      if (authProvider.errorMessage != null) {
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 8.h),
-                          child: Text(
-                            authProvider.errorMessage!,
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 14.sp,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }
-                      return SizedBox.shrink();
-                    },
-                  ),
-                  Consumer<AuthProvider>(
-                    builder: (context, authProvider, child) {
-                      return CustomElevatedButton(
-                        text: 'متابعة',
-                        onPressed: () => _areFieldsFilled()
-                            ? () => _handleLogin(context)
-                            : null,
-                        backgroundColor: kprimaryColor,
-                        textColor: grey9,
-                        date: false,
-                      );
-                    },
-                  ),
+                      builder: (context, authProvider, child) {
+                    return CustomElevatedButton(
+                      text: 'متابعة',
+                      onPressed: () => authProvider.isFormValid
+                          ? () => _handleLogin(context)
+                          : null,
+                      backgroundColor: kprimaryColor,
+                      textColor: grey9,
+                      date: false,
+                    );
+                  }),
                   SizedBox(height: 8.h),
                   OrRow(),
                   SizedBox(height: 8.h),
                   Consumer<AuthProvider>(
-                    builder: (context, authProvider, child) {
-                      return SocialButton(
-                        facebook: false,
-                        onPressed: () => authProvider.googleLogin(context),
-                        text: "الاستمرار بجوجل Google",
-                        image: googlePath,
-                      );
-                    },
-                  ),
+                      builder: (context, authProvider, child) {
+                    return SocialButton(
+                      facebook: false,
+                      onPressed: () => authProvider.googleLogin(context),
+                      text: "الاستمرار بجوجل Google",
+                      image: googlePath,
+                    );
+                  }),
                   SizedBox(height: 8.h),
                   SocialButton(
                     facebook: true,
@@ -173,21 +147,19 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  bool _areFieldsFilled() {
-    return emailController.text.isNotEmpty &&
-        passwordController.text.isNotEmpty;
-  }
-
   void _updateButtonState(BuildContext context) {
-    Provider.of<AuthProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    bool isFormValid = authProvider.emailController.text.isNotEmpty &&
+        authProvider.passwordController.text.isNotEmpty;
+    authProvider.setFormValid(isFormValid);
   }
 
   Future<void> _handleLogin(BuildContext context) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     await authProvider.loginUser(
       context: context,
-      identifier: emailController.text.trim(),
-      password: passwordController.text.trim(),
+      identifier: authProvider.emailController.text.trim(),
+      password: authProvider.passwordController.text.trim(),
       recaptchaToken: 'default_trust_chain',
     );
   }
