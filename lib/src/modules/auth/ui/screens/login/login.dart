@@ -1,8 +1,6 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/google-login-repo.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/login-repo.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/logout-repo.dart';
+
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/checkbox.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/instead-widget.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/or-row.dart';

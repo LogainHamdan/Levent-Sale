@@ -9,14 +9,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
 import '../../alerts/alert.dart';
 import '../login/provider.dart';
-import '../login/repos/google-login-repo.dart';
-import '../login/repos/login-repo.dart';
-import '../login/repos/logout-repo.dart';
+
 import '../login/widgets/instead-widget.dart';
 import '../login/widgets/or-row.dart';
 import '../login/widgets/social-button.dart';

@@ -1,12 +1,10 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/google-login-repo.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/login-repo.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/logout-repo.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/login/repos/request-change-pass.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../main/ui/screens/main_screen.dart';
+import '../../../repos/auth-repo.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _passwordVisible = false;
@@ -18,12 +16,8 @@ class AuthProvider extends ChangeNotifier {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailRequestController = TextEditingController();
 
-  final GoogleLoginRepository _googleAuthRepository = GoogleLoginRepository();
-  final LoginRepository _loginRepository = LoginRepository();
-  final LogoutRepository _logoutRepository = LogoutRepository();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final PasswordResetRepository _passwordResetRepository =
-      PasswordResetRepository();
+  final AuthRepository _authRepository = AuthRepository();
 
   bool get passwordVisible => _passwordVisible;
   bool get confirmPasswordVisible => _confirmPasswordVisible;
@@ -65,7 +59,7 @@ class AuthProvider extends ChangeNotifier {
     _setLoading(true);
 
     try {
-      await _logoutRepository.logoutUser();
+      await _authRepository.logoutUser();
       _setLoading(false);
       Navigator.pushNamedAndRemoveUntil(
         context,
@@ -93,7 +87,7 @@ class AuthProvider extends ChangeNotifier {
     }
 
     try {
-      final result = await _loginRepository.loginUser(
+      final result = await _authRepository.loginUser(
         identifier: identifier,
         password: password,
         recaptchaToken: recaptchaToken,
@@ -145,7 +139,7 @@ class AuthProvider extends ChangeNotifier {
         throw Exception('Failed to get token');
       }
 
-      final result = await _googleAuthRepository.googleLogin(token);
+      final result = await _authRepository.googleLogin(token);
 
       if (result['statusCode'] == 200) {
         Navigator.pushNamedAndRemoveUntil(
@@ -169,8 +163,7 @@ class AuthProvider extends ChangeNotifier {
     _setErrorMessage(null);
 
     try {
-      final response =
-          await _passwordResetRepository.requestPasswordReset(email);
+      final response = await _authRepository.requestPasswordReset(email);
 
       if (response.statusCode == 200) {
         debugPrint("Password reset email sent.");

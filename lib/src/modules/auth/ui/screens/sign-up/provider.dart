@@ -1,4 +1,4 @@
-import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/repositories/sign-up-repo.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/auth-repo.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
