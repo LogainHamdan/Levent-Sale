@@ -119,9 +119,9 @@ void showPasswordUpdated(BuildContext context) {
 }
 
 void showSetNewPassword(BuildContext context) {
-  TextEditingController firstController = TextEditingController();
-  TextEditingController secondController = TextEditingController();
-  TextEditingController thirdController = TextEditingController();
+  TextEditingController sentCodeController = TextEditingController();
+  TextEditingController newPassAlertController = TextEditingController();
+  TextEditingController confirmNewPassAlertController = TextEditingController();
 
   showDialog(
     context: context,
@@ -136,9 +136,9 @@ void showSetNewPassword(BuildContext context) {
             content: SizedBox(
               height: 355.h,
               child: ChangePassColumn(
-                  sentCodeController: firstController,
-                  secondController: secondController,
-                  thirdController: thirdController,
+                  sentCodeController: sentCodeController,
+                  newPassAlertController: newPassAlertController,
+                  confirmNewPassAlertController: confirmNewPassAlertController,
                   alert: true),
             )),
       );

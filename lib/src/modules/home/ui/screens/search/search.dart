@@ -40,7 +40,7 @@ class SearchScreen extends StatelessWidget {
                       width: 295,
                       controller: provider.searchController,
                       onChanged: (value) {
-                        provider.searchQueryUpdated();
+                        provider.searchUsers();
                       },
                     ),
                     SizedBox(
@@ -59,7 +59,7 @@ class SearchScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 24.h),
                 provider.searchController.text.isEmpty ||
-                        provider.searchResults.isEmpty
+                        (provider.results.isEmpty && !provider.isLoading)
                     ? NoInfoWidget(
                         msg: 'لا يوجد نتائج بحث مطابقة',
                         img: searchNoResultIcon,

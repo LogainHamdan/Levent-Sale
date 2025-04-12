@@ -24,11 +24,9 @@ class FollowersScreen extends StatelessWidget {
                 itemCount: provider.followersCount,
                 itemBuilder: (context, index) {
                   final follower = provider.followers[index];
-                  final followedUser = provider.followingUsers[index];
                   return FollowTile(
-                    follower: follower,
+                    user: follower,
                     index: index,
-                    followedUser: followedUser,
                   );
                 },
               ),

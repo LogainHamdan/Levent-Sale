@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FollowingScreen extends StatelessWidget {
-  static const id = '/followers';
+  static const id = '/followings';
 
   const FollowingScreen({super.key});
 
@@ -19,12 +19,10 @@ class FollowingScreen extends StatelessWidget {
             : ListView.builder(
                 itemCount: provider.followingCount,
                 itemBuilder: (context, index) {
-                  final follower = provider.followers[index];
                   final followedUser = provider.followingUsers[index];
                   return FollowTile(
-                    follower: follower,
+                    user: followedUser,
                     index: index,
-                    followedUser: followedUser,
                   );
                 },
               ),

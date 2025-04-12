@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 class SectionDetailsProvider extends ChangeNotifier {
   Map<String, String?> selectedValues = {};
   final List<File> _selectedImages = [];
-  Map<String, bool> _dropdownOpenedMap = {};
+  final Map<String, bool> _dropdownOpenedMap = {};
 
   List<File> get selectedImages => _selectedImages;
   bool hasElevator = false;

@@ -18,7 +18,7 @@ class CustomDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<RegisterProvider>(
+    return Consumer<SignUpProvider>(
       builder: (context, provider, child) {
         double headerHeight = 50.h;
         double itemHeight = 42.h;

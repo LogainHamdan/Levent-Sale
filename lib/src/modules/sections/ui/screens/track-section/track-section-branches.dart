@@ -21,7 +21,7 @@ class SectionTrack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stepperProvider = Provider.of<CreateAdProvider>(context);
+    final createAdProvider = Provider.of<CreateAdProvider>(context);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.0.w),
@@ -29,8 +29,6 @@ class SectionTrack extends StatelessWidget {
         shrinkWrap: true,
         itemCount: 6,
         itemBuilder: (context, index) {
-          final provider = Provider.of<CreateAdProvider>(context);
-
           if (cardListIndex == 0) {
             return CustomCard(
               onTap: () => Navigator.push(
@@ -62,7 +60,7 @@ class SectionTrack extends StatelessWidget {
                 icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
                 title: "شقق في أبراح عالية",
                 onTap: () {
-                  provider.nextStep();
+                  createAdProvider.nextStep();
                   Navigator.push(
                     context,
                     createHorizontalPageRoute(CreateAdScreen(
@@ -73,7 +71,9 @@ class SectionTrack extends StatelessWidget {
                                   builder: (context) => CreateAdScreen(
                                       bottomNavBar: DraggableButton('متابعة',
                                           onPressed: () {
-                                        stepperProvider.nextStep();
+                                        createAdProvider.nextStep();
+                                        createAdProvider.createAd(
+                                            token, context);
                                         showAdCreated(context);
                                       }),
                                       lowerWidget: SectionDetails(id: 1))));

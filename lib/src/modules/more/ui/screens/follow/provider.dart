@@ -1,20 +1,14 @@
-import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/get-follow-repo.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/follow-repo.dart';
+import 'package:Levant_Sale/src/modules/more/repositories/get-follow-repo.dart';
+import 'package:Levant_Sale/src/modules/more/repositories/follow-repo.dart';
 import 'package:flutter/material.dart';
 
-import 'models/followers.dart';
-import 'models/following.dart';
+import '../../../models/followers.dart';
+import '../../../models/following.dart';
 
 class FollowProvider extends ChangeNotifier {
-  final GetFollowRepository getFollowRepository;
-  final FollowRepository followRepository;
-  final String authToken;
-
-  FollowProvider({
-    required this.getFollowRepository,
-    required this.followRepository,
-    required this.authToken,
-  });
+  final GetFollowRepository getFollowRepository = GetFollowRepository();
+  final FollowRepository followRepository = FollowRepository();
+  final String authToken = '';
 
   List<FollowerModel> _followers = [];
   List<FollowerModel> get followers => _followers;
@@ -26,7 +20,6 @@ class FollowProvider extends ChangeNotifier {
   bool _isFollowingLoading = false;
   bool get isFollowingLoading => _isFollowingLoading;
 
-  // Fetch followers data
   Future<void> fetchFollowers(int userId) async {
     _isFollowersLoading = true;
     notifyListeners();
@@ -65,11 +58,9 @@ class FollowProvider extends ChangeNotifier {
       } else {
         await followRepository.followUser(user.id, authToken);
       }
-
-      user.isFollowing = !user.isFollowing;
       notifyListeners();
     } catch (e) {
-      print('Follow toggle error: $e');
+      print(' $e');
     }
   }
 

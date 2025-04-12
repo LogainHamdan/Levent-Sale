@@ -15,29 +15,31 @@ import '../../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import '../provider.dart';
 
 class ChangePassColumn extends StatelessWidget {
-  TextEditingController? currentPassController;
+  TextEditingController? oldPassController;
   TextEditingController? sentCodeController;
+  TextEditingController? newPassAlertController;
+  TextEditingController? confirmNewPassAlertController;
+  TextEditingController? newPassController;
+  TextEditingController? confirmNewPassController;
   int? userId;
 
-  TextEditingController? secondController;
-  TextEditingController? thirdController;
   final bool alert;
 
   ChangePassColumn(
       {super.key,
-      this.secondController,
       this.sentCodeController,
-      this.currentPassController,
-      this.thirdController,
+      this.oldPassController,
+      this.newPassAlertController,
+      this.confirmNewPassAlertController,
+      this.newPassController,
+      this.confirmNewPassController,
       this.userId = 0,
       required this.alert});
 
   @override
   Widget build(BuildContext context) {
-    secondController = TextEditingController(text: '');
     sentCodeController = TextEditingController(text: '');
-    currentPassController = TextEditingController(text: '');
-    thirdController = TextEditingController(text: '');
+    oldPassController = TextEditingController(text: '');
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -96,18 +98,21 @@ class ChangePassColumn extends StatelessWidget {
                 controller: sentCodeController!,
                 hint: 'أدخل الرمز المرسل')
             : CustomPasswordField(
-                controller: currentPassController!,
-                hint: 'كلمة المرور الحالية'),
+                controller: oldPassController!, hint: 'كلمة المرور الحالية'),
         SizedBox(
           height: 12.h,
         ),
         CustomPasswordField(
-            controller: secondController!, hint: 'كلمة المرور الجديدة'),
+            controller: alert ? newPassAlertController! : newPassController!,
+            hint: 'كلمة المرور الجديدة'),
         SizedBox(
           height: 12.h,
         ),
         CustomPasswordField(
-            controller: thirdController!, hint: 'تأكيد كلمة المرور الجديدة'),
+            controller: alert
+                ? confirmNewPassAlertController!
+                : confirmNewPassController!,
+            hint: 'تأكيد كلمة المرور الجديدة'),
         SizedBox(
           height: 24.h,
         ),
@@ -116,14 +121,20 @@ class ChangePassColumn extends StatelessWidget {
           onPressed: () {
             final menuProvider =
                 Provider.of<MenuProvider>(context, listen: false);
-            menuProvider.submitChangePassword(
-              context: context,
-              userId: userId!,
-              oldPass: currentPassController!.text.trim(),
-              newPass: secondController!.text.trim(),
-              confirmPass: thirdController!.text.trim(),
-              token: token,
-            );
+            alert
+                ? menuProvider.changePasswordWithToken(
+                    newPass: newPassAlertController!.text.trim(),
+                    confirmPass: confirmNewPassAlertController!.text.trim(),
+                    token: token,
+                  )
+                : menuProvider.submitChangePassword(
+                    context: context,
+                    userId: userId!,
+                    oldPass: oldPassController!.text.trim(),
+                    newPass: newPassController!.text.trim(),
+                    confirmPass: confirmNewPassController!.text.trim(),
+                    token: token,
+                  );
             Navigator.pop(context);
             showPasswordUpdated(context);
           },

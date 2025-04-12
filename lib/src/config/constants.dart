@@ -11,7 +11,10 @@ const String logoutUrl = "$baseUrl/users/logout";
 const String loginUrl = "$baseUrl/users/login";
 const String googleLoginUrl = "$baseUrl/users/google-login";
 const String requestUpdatePassUrl = "$baseUrl/users/request-password-reset";
-const String registerUrl = "$baseUrl/users/register";
+const String signUpUrl = "$baseUrl/users/register";
+const String signUpBusinessOwnerUrl = "$baseUrl/users/register-business-owner";
+const String verifyUrl = "$baseUrl/users/verify";
+const String resendVerifyUrl = "$baseUrl/users/resend-verification-code";
 
 ///follow
 const String unfollowUrl = "$baseUrl/users/unfollow";
@@ -23,6 +26,14 @@ const String editProfileUrl = "$baseUrl/users/update-profile";
 const String updatePassUrl = "$baseUrl/users/update-password";
 const String updatePassTokenUrl = "$baseUrl/users/update-password-with-token";
 const String updateAddressUrl = "$baseUrl/users/update-address";
+const String profileUrl = "$baseUrl/users/profile";
+
+///home
+const String searchUrl = "$baseUrl/users/search";
+
+///sections
+const String createAdUrl = '$baseUrl/ads/add';
+
 
 // primary colors
 Color kprimaryColor = const Color(0xff82B81C);

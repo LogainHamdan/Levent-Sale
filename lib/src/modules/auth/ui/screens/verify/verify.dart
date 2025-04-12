@@ -1,12 +1,15 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/widgets/code-row.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
 import '../../../../main/ui/screens/main_screen.dart';
+import '../login/provider.dart';
 import '../login/widgets/or-row.dart';
 import '../login/widgets/instead-widget.dart';
 import '../splash/widgets/custom-elevated-button.dart';
@@ -18,6 +21,9 @@ class VerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<VerificationProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -52,7 +58,7 @@ class VerificationScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(right: 8.0.sp),
                 child: Text(
-                  "المرسل على الإيميل minnabasim12@gmail.com",
+                  "المرسل على الإيميل ${authProvider.emailRequestController.text}",
                   style: TextStyle(fontSize: 14.sp, color: grey4),
                   textDirection: TextDirection.rtl,
                 ),
@@ -65,19 +71,36 @@ class VerificationScreen extends StatelessWidget {
               SizedBox(height: 12.h),
               Padding(
                 padding: EdgeInsets.only(right: 8.0.w),
-                child: Text(
-                  "إعادة ارسال",
-                  style: TextStyle(
-                    color: kprimaryColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
+                child: TextButton(
+                  onPressed: () => provider
+                      .resendVerify(authProvider.emailRequestController.text),
+                  child: Text(
+                    "إعادة ارسال",
+                    style: GoogleFonts.tajawal(
+                      textStyle: TextStyle(
+                        color: kprimaryColor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: 20.h),
               CustomElevatedButton(
                   text: 'تحقق',
-                  onPressed: () => Navigator.pushNamed(context, MainScreen.id),
+                  onPressed: () async {
+                    final success = await provider.verifyToken(token);
+
+                    if (success) {
+                      Navigator.pushNamed(context, MainScreen.id);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text(provider.message ?? 'فشل التحقق')),
+                      );
+                    }
+                  },
                   backgroundColor: kprimaryColor,
                   textColor: grey9,
                   date: false),

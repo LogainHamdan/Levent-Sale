@@ -1,7 +1,8 @@
 import 'package:Levant_Sale/src/config/constants.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/menu/repositories/change-pass-repo.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
+import '../../../repositories/change-pass-repo.dart';
 
 class MenuProvider with ChangeNotifier {
   bool isLoading = false;
@@ -47,21 +48,9 @@ class MenuProvider with ChangeNotifier {
     }
   }
 
-  void _showError(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.red),
-    );
-  }
-
-  void _showSuccess(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: kprimaryColor),
-    );
-  }
-
   Future<void> changePasswordWithToken({
-    required String newPassword,
-    required String newPasswordVerify,
+    required String newPass,
+    required String confirmPass,
     required String token,
   }) async {
     isLoading = true;
@@ -69,8 +58,8 @@ class MenuProvider with ChangeNotifier {
 
     try {
       final response = await ChangePasswordRepository().changePasswordWithToken(
-        newPassword: newPassword,
-        newPasswordVerify: newPasswordVerify,
+        newPassword: newPass,
+        newPasswordVerify: confirmPass,
         token: token,
       );
 
@@ -85,5 +74,17 @@ class MenuProvider with ChangeNotifier {
       isLoading = false;
       notifyListeners();
     }
+  }
+
+  void _showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+    );
+  }
+
+  void _showSuccess(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: kprimaryColor),
+    );
   }
 }

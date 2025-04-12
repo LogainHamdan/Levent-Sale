@@ -10,16 +10,13 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/search/provider.dart';
 import 'package:Levant_Sale/src/modules/main/ui/screens/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/repositories/edit-profile-repo.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/provider.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/get-follow-repo.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/follow/repositories/follow-repo.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/profile/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,7 +49,7 @@ class MyApp extends StatelessWidget {
         create: (_) => AuthProvider(),
       ),
       ChangeNotifierProvider(
-        create: (_) => RegisterProvider(),
+        create: (_) => SignUpProvider(),
       ),
       ChangeNotifierProvider(
         create: (_) => VerificationProvider(),
@@ -73,6 +70,9 @@ class MyApp extends StatelessWidget {
         create: (_) => SectionDetailsProvider(),
       ),
       ChangeNotifierProvider(
+        create: (_) => ProfileProvider(),
+      ),
+      ChangeNotifierProvider(
         create: (context) => MyCollectionScreenProvider(),
       ),
       ChangeNotifierProvider(
@@ -80,11 +80,7 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(create: (context) => EditProfileProvider()),
       ChangeNotifierProvider(
-        create: (context) => FollowProvider(
-          getFollowRepository: GetFollowRepository(Dio()),
-          followRepository: FollowRepository(Dio()),
-          authToken: token,
-        ),
+        create: (context) => FollowProvider(),
       ),
       ChangeNotifierProvider(
         create: (context) => DeleteScreenProvider(),

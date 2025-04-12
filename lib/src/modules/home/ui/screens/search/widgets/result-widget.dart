@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../sections/ui/screens/collection/widgets/empty-widget.dart';
+import '../../../../models/user-model.dart';
 import '../provider.dart';
 
 import 'package:flutter/material.dart';
@@ -17,108 +18,108 @@ import '../provider.dart';
 
 class SearchResultsWidget extends StatelessWidget {
   final SearchProvider provider;
+
   const SearchResultsWidget({super.key, required this.provider});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SearchProvider>(
-      builder: (context, provider, child) {
-        return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: provider.searchResults.length,
-          itemBuilder: (context, index) {
-            String query = provider.searchController.text.trim();
-            String result = provider.searchResults[index];
+    return Consumer<SearchProvider>(builder: (context, provider, child) {
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: provider.results.length,
+        itemBuilder: (context, index) {
+          String query = provider.searchController.text.trim();
+          UserModel result = provider.results[index];
 
-            if (query.isNotEmpty &&
-                result.toLowerCase().contains(query.toLowerCase())) {
-              int startIndex =
-                  result.toLowerCase().indexOf(query.toLowerCase());
-              int endIndex = startIndex + query.length;
+          String userName = result.username ?? '';
 
-              return ListTile(
-                // Removed content padding to reduce space between items
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: result.substring(0, startIndex),
-                            style: GoogleFonts.tajawal(
-                              textStyle: TextStyle(
-                                fontSize: 16.sp,
-                                color: Colors.grey,
-                              ),
+          if (query.isNotEmpty &&
+              userName.toLowerCase().contains(query.toLowerCase())) {
+            int startIndex =
+                userName.toLowerCase().indexOf(query.toLowerCase());
+            int endIndex = startIndex + query.length;
+
+            return ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: userName.substring(0, startIndex),
+                          style: GoogleFonts.tajawal(
+                            textStyle: TextStyle(
+                              fontSize: 16.sp,
+                              color: Colors.grey,
                             ),
                           ),
-                          TextSpan(
-                            text: result.substring(startIndex, endIndex),
-                            style: GoogleFonts.tajawal(
-                              textStyle: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          TextSpan(
-                            text: result.substring(endIndex),
-                            style: GoogleFonts.tajawal(
-                              textStyle: TextStyle(
-                                fontSize: 16.sp,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      textAlign: TextAlign.right,
-                    ),
-                    SizedBox(width: 11.w),
-                    Image.asset(
-                      searchIcon,
-                      height: 24.h,
-                      width: 24.w,
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return ListTile(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      result,
-                      style: GoogleFonts.tajawal(
-                        textStyle: TextStyle(
-                          fontSize: 16.sp,
-                          color: grey5,
-                          fontWeight: FontWeight.w500,
                         ),
+                        TextSpan(
+                          text: userName.substring(startIndex, endIndex),
+                          style: GoogleFonts.tajawal(
+                            textStyle: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        TextSpan(
+                          text: userName.substring(endIndex),
+                          style: GoogleFonts.tajawal(
+                            textStyle: TextStyle(
+                              fontSize: 16.sp,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
+                  SizedBox(width: 11.w),
+                  Image.asset(
+                    searchIcon,
+                    height: 24.h,
+                    width: 24.w,
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    userName, // Display username
+                    style: GoogleFonts.tajawal(
+                      textStyle: TextStyle(
+                        fontSize: 16.sp,
+                        color: grey5,
+                        fontWeight: FontWeight.w500,
                       ),
-                      textAlign: TextAlign.right,
                     ),
-                    SizedBox(width: 11.w),
-                    Image.asset(
-                      searchIcon,
-                      height: 24.h,
-                      width: 24.w,
-                    ),
-                  ],
-                ),
-              );
-            }
-          },
-          separatorBuilder: (context, index) => Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 2.h),
-            child: Divider(color: greySplash),
-          ),
-        );
-      },
-    );
+                    textAlign: TextAlign.right,
+                  ),
+                  SizedBox(width: 11.w),
+                  Image.asset(
+                    searchIcon,
+                    height: 24.h,
+                    width: 24.w,
+                  ),
+                ],
+              ),
+            );
+          }
+        },
+        separatorBuilder: (context, index) => Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 2.h),
+          child: Divider(color: greySplash),
+        ),
+      );
+    });
   }
 }

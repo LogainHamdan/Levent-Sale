@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../config/constants.dart';
+import '../models/business-owner-model.dart';
+import '../models/personal-model.dart';
 
 class AuthRepository {
   static final AuthRepository _instance = AuthRepository._internal();
@@ -25,13 +27,18 @@ class AuthRepository {
     );
   }
 
-  Future<Response> registerUser(Map<String, dynamic> userData) async {
-    try {
-      final response = await dio.post(registerUrl, data: userData);
-      return response;
-    } catch (e) {
-      rethrow;
-    }
+  Future<Response> signUpBusinessOwner(BusinessOwner owner) async {
+    return await dio.post(
+      signUpBusinessOwnerUrl,
+      data: owner.toJson(),
+    );
+  }
+
+  Future<Response> signUpPersonalAccount(PersonalModel account) async {
+    return await dio.post(
+      signUpUrl,
+      data: account.toJson(),
+    );
   }
 
   Future<Response> requestPasswordReset(String email) async {
@@ -121,5 +128,21 @@ class AuthRepository {
       throw Exception(
           e.response?.data['message'] ?? 'Logout failed: ${e.message}');
     }
+  }
+
+  Future<Response> verifyToken(String token) async {
+    try {
+      final response = await dio.get(
+        verifyUrl,
+        queryParameters: {'token': token},
+      );
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> resendVerificationCode(String email) async {
+    return await dio.get('$resendVerifyUrl/$email');
   }
 }

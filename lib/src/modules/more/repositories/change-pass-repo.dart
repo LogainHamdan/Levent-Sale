@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 
-import '../../../../../../config/constants.dart';
+import '../../../config/constants.dart';
 
 class ChangePasswordRepository {
-  static final ChangePasswordRepository _instance = ChangePasswordRepository._internal();
+  static final ChangePasswordRepository _instance =
+      ChangePasswordRepository._internal();
   factory ChangePasswordRepository() => _instance;
 
   ChangePasswordRepository._internal();
@@ -68,7 +69,7 @@ class ChangePasswordRepository {
       );
 
       return response;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e.response != null) {
         return e.response!;
       } else {

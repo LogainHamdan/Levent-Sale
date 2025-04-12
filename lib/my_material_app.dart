@@ -37,6 +37,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+
 // import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -53,6 +54,9 @@ class MyMaterialApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (_, child) {
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+
           return Directionality(
             textDirection: TextDirection.rtl,
             child: MaterialApp(
@@ -121,7 +125,12 @@ class MyMaterialApp extends StatelessWidget {
                 TechnicalSupportScreen.id: (context) =>
                     TechnicalSupportScreen(),
                 ProfileScreen.id: (context) => ProfileScreen(),
-                FriendProfile.id: (context) => FriendProfile(),
+                FriendProfile.id: (context) {
+                  return FriendProfile(
+                    userId: args['userId'],
+                    token: args['token'],
+                  );
+                },
                 FollowingScreen.id: (context) => FollowingScreen(),
                 FollowersScreen.id: (context) => FollowersScreen(),
                 JoinFollow.id: (context) => JoinFollow(),

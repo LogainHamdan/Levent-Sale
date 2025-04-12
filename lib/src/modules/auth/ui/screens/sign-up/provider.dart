@@ -1,14 +1,18 @@
 import 'package:Levant_Sale/src/modules/auth/repos/auth-repo.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../models/business-owner-model.dart';
+import '../../../models/personal-model.dart';
 import '../verify/verify.dart';
 
-class RegisterProvider extends ChangeNotifier {
+class SignUpProvider extends ChangeNotifier {
   final TextEditingController dateController = TextEditingController(
       text: DateFormat('MMMM dd, yyyy').format(DateTime.now()));
   String? selectedValue;
-
+  bool isLoading = false;
+  String? errorMessage;
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final birthDateController = TextEditingController();
@@ -61,33 +65,61 @@ class RegisterProvider extends ChangeNotifier {
     }
   }
 
+  void signUpUser(BuildContext context, Map<String, dynamic> userData) {
+    if (_selectedValue == 'شركة') {
+      final owner = BusinessOwner(
+        username: userData['email'],
+        email: userData['email'],
+        password: userData['password'],
+        phoneNumber: userData['phone'],
+        firstName: userData['first_name'],
+        lastName: userData['last_name'],
+        profilePicture: '',
+        isVerified: false,
+        businessName: userData['company_name'],
+        businessLicense: userData['tax_number'],
+        birthday: userData['birth_date'],
+        verificationToken: '',
+        active: true,
+        oauth2Provider: '',
+        status: 'PENDING',
+        roles: ['business_owner'],
+      );
+
+      _authRepository.signUpBusinessOwner(owner);
+    } else if (_selectedValue == 'شخصي') {
+      final account = PersonalModel(
+        username: userData['email'], // أو اسم مخصص
+        email: userData['email'],
+        password: userData['password'],
+        phoneNumber: userData['phone'],
+        firstName: userData['first_name'],
+        lastName: userData['last_name'],
+        profilePicture: '',
+        isVerified: false,
+        birthday: userData['birth_date'],
+        active: true,
+        status: 'PENDING',
+        roles: ['personal_user'],
+      );
+
+      _authRepository.signUpPersonalAccount(account);
+    } else {
+      customShowSnackBar(context, 'يرجى اختيار نوع الحساب', Colors.redAccent);
+    }
+  }
+
   void setDropdownOpened(bool value) {
     _isDropdownOpened = value;
     notifyListeners();
   }
 
-  Future<void> registerUser(
-      BuildContext context, Map<String, dynamic> userData) async {
-    try {
-      final response = await _authRepository.registerUser(userData);
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        _showSnackBar(context, "تم التسجيل بنجاح");
-        Navigator.pushNamed(context, VerificationScreen.id);
-      } else {
-        _showSnackBar(context, "حدث خطأ غير متوقع. حاول مرة أخرى.");
-      }
-    } catch (e) {
-      _showSnackBar(context, "فشل في التسجيل: ${e.toString()}");
-    }
-  }
-
-  void _showSnackBar(BuildContext context, String message) {
+  void customShowSnackBar(BuildContext context, String message, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
         duration: const Duration(seconds: 3),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: color,
         behavior: SnackBarBehavior.floating,
       ),
     );

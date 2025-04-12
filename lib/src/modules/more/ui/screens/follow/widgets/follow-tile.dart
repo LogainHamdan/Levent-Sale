@@ -4,20 +4,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
-import '../models/followers.dart';
-import '../models/following.dart';
+
+import '../../../../models/followers.dart';
+import '../../../../models/following.dart';
 import '../provider.dart';
 
 class FollowTile extends StatelessWidget {
-  final FollowerModel follower;
-  final FollowedUserModel followedUser;
+  final dynamic user;
   final int index;
 
-  const FollowTile(
-      {super.key,
-      required this.follower,
-      required this.index,
-      required this.followedUser});
+  const FollowTile({super.key, required this.user, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +21,7 @@ class FollowTile extends StatelessWidget {
 
     return ListTile(
       trailing: CircleAvatar(
-        child: SvgPicture.asset(follower.profilePicture),
+        child: SvgPicture.asset(user.profilePicture),
       ),
       horizontalTitleGap: 3,
       title: Row(
@@ -34,13 +30,13 @@ class FollowTile extends StatelessWidget {
           SvgPicture.asset(verifiedGreenIcon),
           SizedBox(width: 5.w),
           Text(
-            '${follower.firstName} ${follower.lastName}',
+            '${user.firstName} ${user.lastName}',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
           ),
         ],
       ),
       subtitle: Text(
-        'عضو منذ ${follower.birthday}',
+        'عضو منذ ${user.birthday}',
         textAlign: TextAlign.right,
         textDirection: TextDirection.rtl,
       ),
@@ -48,10 +44,10 @@ class FollowTile extends StatelessWidget {
         width: 130.w,
         child: CustomElevatedButton(
           fontSize: 16.sp,
-          text: followedUser.isFollowing ? 'إلغاء المتابعة' : 'متابعة',
+          text: user.isFollowing ? 'إلغاء المتابعة' : 'متابعة',
           onPressed: () => provider.toggleFollow(index),
-          backgroundColor: followedUser.isFollowing ? grey7 : kprimaryColor,
-          textColor: followedUser.isFollowing ? Colors.black : grey9,
+          backgroundColor: user.isFollowing ? grey7 : kprimaryColor,
+          textColor: user.isFollowing ? Colors.black : grey9,
         ),
       ),
     );

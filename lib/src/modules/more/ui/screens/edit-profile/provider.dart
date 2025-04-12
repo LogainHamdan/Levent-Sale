@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/repositories/address-repo.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/repositories/edit-profile-repo.dart';
+import 'package:Levant_Sale/src/modules/more/repositories/address-repo.dart';
+import 'package:Levant_Sale/src/modules/more/repositories/edit-profile-repo.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

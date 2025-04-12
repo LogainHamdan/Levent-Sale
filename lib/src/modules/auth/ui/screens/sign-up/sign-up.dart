@@ -28,7 +28,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => RegisterProvider()),
+        ChangeNotifierProvider(create: (_) => SignUpProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
       child: Scaffold(
@@ -36,7 +36,7 @@ class SignUpScreen extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.0.w),
             child: SingleChildScrollView(
-              child: Consumer<RegisterProvider>(
+              child: Consumer<SignUpProvider>(
                 builder: (context, provider, child) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -174,26 +174,57 @@ class SignUpScreen extends StatelessWidget {
                       CustomElevatedButton(
                         text: 'متابعة',
                         onPressed: () {
-                          final provider = Provider.of<RegisterProvider>(
-                              context,
+                          final provider = Provider.of<SignUpProvider>(context,
                               listen: false);
 
+                          if (provider.selectedValue == null ||
+                              provider.selectedValue!.isEmpty) {
+                            provider.customShowSnackBar(context,
+                                'يرجى اختيار نوع الحساب', Colors.redAccent);
+                            return;
+                          }
+
+                          final isCompany = provider.selectedValue == 'شركة';
+
                           final userData = {
-                            "first_name": provider.firstNameController.text,
-                            "last_name": provider.lastNameController.text,
-                            "birth_date": provider.birthDateController.text,
-                            "company_name": provider.companyNameController.text,
-                            "company_date": provider.companyDateController.text,
-                            "company_address":
-                                provider.companyAddressController.text,
-                            "tax_number": provider.taxNumberController.text,
-                            "email": provider.emailController.text,
-                            "password": provider.passwordController.text,
-                            "phone": provider.phoneController.text,
-                            "role": provider.selectedValue ?? "",
+                            "first_name":
+                                provider.firstNameController.text.trim(),
+                            "last_name":
+                                provider.lastNameController.text.trim(),
+                            "birth_date":
+                                provider.birthDateController.text.trim(),
+                            "email": provider.emailController.text.trim(),
+                            "password": provider.passwordController.text.trim(),
+                            "phone": provider.phoneController.text.trim(),
+                            "role": provider.selectedValue,
+                            if (isCompany) ...{
+                              "company_name":
+                                  provider.companyNameController.text.trim(),
+                              "company_date":
+                                  provider.companyDateController.text.trim(),
+                              "company_address":
+                                  provider.companyAddressController.text.trim(),
+                              "tax_number":
+                                  provider.taxNumberController.text.trim(),
+                            },
                           };
 
-                          provider.registerUser(context, userData);
+                          final missingField = userData.entries.firstWhere(
+                            (entry) =>
+                                entry.value == null ||
+                                entry.value.toString().isEmpty,
+                            orElse: () => const MapEntry('none', ''),
+                          );
+
+                          if (missingField.key != 'none') {
+                            provider.customShowSnackBar(
+                                context,
+                                'يرجى تعبئة الحقل:${missingField.key}',
+                                Colors.redAccent);
+                            return;
+                          }
+
+                          provider.signUpUser(context, userData);
                         },
                         backgroundColor: kprimaryColor,
                         textColor: grey9,

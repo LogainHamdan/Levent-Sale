@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import '../section-details/section-details.dart';
 
 class CreateAdScreen extends StatelessWidget {
@@ -23,7 +22,7 @@ class CreateAdScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Consumer<CreateAdProvider>(
-          builder: (context, stepper, child) {
+          builder: (context, provider, child) {
             return Column(
               children: [
                 SizedBox(height: 16.h),
@@ -31,14 +30,14 @@ class CreateAdScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: TitleRow(
                       title: 'انشاء اعلان',
-                      additionalBackFunction: () => stepper.previousStep()),
+                      additionalBackFunction: () => provider.previousStep()),
                 ),
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
                   child: StepperProgress(
-                      currentStep: stepper.currentStep,
-                      totalSteps: stepper.totalSteps),
+                      currentStep: provider.currentStep,
+                      totalSteps: provider.totalSteps),
                 ),
                 SizedBox(
                   height: 20.h,

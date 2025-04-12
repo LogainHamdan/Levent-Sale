@@ -1,10 +1,19 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 
 class FollowRepository {
-  final Dio _dio;
+  static final FollowRepository _instance = FollowRepository._internal();
 
-  FollowRepository(this._dio);
+  factory FollowRepository() {
+    return _instance;
+  }
+
+  late final Dio _dio;
+
+  FollowRepository._internal() {
+    _dio = Dio();
+  }
 
   Future<void> unfollowUser(int followingId, String token) async {
     try {
