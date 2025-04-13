@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../repos/create-ad.dart';
-import '../choose-section/choose-section-provider.dart';
-import '../section-details/provider.dart';
+import '../choose-section/create-ad-choose-section-provider.dart';
+import '../section-details/create-ad-section-details.dart';
 
 class CreateAdProvider extends ChangeNotifier {
   final AdRepository _adRepository = AdRepository();
@@ -34,35 +34,40 @@ class CreateAdProvider extends ChangeNotifier {
   bool isLastStep() => _currentStep == _totalSteps - 1;
 
   Future<void> createAd(String token, BuildContext context) async {
-    final sectionProvider =
-        Provider.of<SectionDetailsProvider>(context, listen: false);
-    final categoryProvider =
-        Provider.of<ChoosesSectionProvider>(context, listen: false);
+    final sectionDetailsProvider =
+        Provider.of<CreateAdSectionDetailsProvider>(context, listen: false);
+    final chooseSectionProvider =
+        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
 
     final adDTO = {
-      "title": sectionProvider.getSelectedValue("العنوان") ?? "عنوان بدون اسم",
-      "categoryPath": "main/${categoryProvider.selectedCategoryIndex}",
+      "title": sectionDetailsProvider.getSelectedValue("العنوان") ??
+          "عنوان بدون اسم",
+      "categoryPath": '',
       "categoryNamePath": "",
-      "description": sectionProvider.getSelectedValue("الوصف") ?? "",
+      "description": sectionDetailsProvider.getSelectedValue("الوصف") ?? "",
       "longDescription":
-          sectionProvider.controller.document.toPlainText().trim(),
+          sectionDetailsProvider.controller.document.toPlainText().trim(),
       "tradePossible": false,
       "negotiable": true,
-      "contactPhone": sectionProvider.getSelectedValue("رقم الهاتف") ?? "",
-      "contactEmail": sectionProvider.getSelectedValue("الايميل") ?? "",
+      "contactPhone":
+          sectionDetailsProvider.getSelectedValue("رقم الهاتف") ?? "",
+      "contactEmail": sectionDetailsProvider.getSelectedValue("الايميل") ?? "",
       "userId": 1,
-      "price": int.parse(sectionProvider.getSelectedValue("السعر") ?? "0") ?? 0,
-      "governorate": sectionProvider.getSelectedValue("المحافظة") ?? "",
-      "city": sectionProvider.getSelectedValue("المدينة") ?? "",
-      "fullAddress": sectionProvider.getSelectedValue("العنوان الكامل") ?? "",
+      "price":
+          int.parse(sectionDetailsProvider.getSelectedValue("السعر") ?? "0") ??
+              0,
+      "governorate": sectionDetailsProvider.getSelectedValue("المحافظة") ?? "",
+      "city": sectionDetailsProvider.getSelectedValue("المدينة") ?? "",
+      "fullAddress":
+          sectionDetailsProvider.getSelectedValue("العنوان الكامل") ?? "",
       "adType": "NEW",
       "preferredContactMethod": "CALL",
       "condition": "PUBLISHED",
       "currency": "SYP",
       "attributes": {
-        "services": sectionProvider.services,
-        "elevator": sectionProvider.hasElevator,
-        "parking": sectionProvider.hasParking,
+        "services": sectionDetailsProvider.services,
+        "elevator": sectionDetailsProvider.hasElevator,
+        "parking": sectionDetailsProvider.hasParking,
       },
     };
 
@@ -70,7 +75,7 @@ class CreateAdProvider extends ChangeNotifier {
       final response = await _adRepository.createAd(
         token: token,
         adDTO: adDTO,
-        files: sectionProvider.selectedImages,
+        files: sectionDetailsProvider.selectedImages,
       );
 
       if (response.statusCode == 200) {

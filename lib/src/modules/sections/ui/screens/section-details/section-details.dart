@@ -1,6 +1,7 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/create-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/update-ad-section-details.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/checking-container.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/column-img-pick.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-dropdown.dart';
@@ -14,6 +15,7 @@ import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
 
 class SectionDetails extends StatelessWidget {
+  final bool create;
   final int id;
   final TextEditingController titleController = TextEditingController();
   final TextEditingController shortDescController = TextEditingController();
@@ -22,11 +24,12 @@ class SectionDetails extends StatelessWidget {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController discountController = TextEditingController();
 
-  SectionDetails({super.key, required this.id});
+  SectionDetails({super.key, required this.id, required this.create});
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<SectionDetailsProvider>(context);
+    final createProvider = Provider.of<CreateAdSectionDetailsProvider>(context);
+    final updateProvider = Provider.of<UpdateAdSectionDetailsProvider>(context);
 
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 14.w),
@@ -40,6 +43,7 @@ class SectionDetails extends StatelessWidget {
                         height: 16.h,
                       ),
                       CustomDropdownSection(
+                        create: create,
                         dropdownKey: "عدد الغرف",
                         hint: "اختر",
                         items: ["1", "2", "3", "4", "5+"],
@@ -50,6 +54,7 @@ class SectionDetails extends StatelessWidget {
                         height: 16.h,
                       ),
                       CustomDropdownSection(
+                        create: create,
                         dropdownKey: "عدد الحمامات",
                         hint: "اختر",
                         items: ["1", "2", "3", "4+"],
@@ -60,6 +65,7 @@ class SectionDetails extends StatelessWidget {
                         height: 16.h,
                       ),
                       CustomDropdownSection(
+                          create: create,
                           dropdownKey: "حالة العقار",
                           hint: "اختر",
                           items: [
@@ -98,6 +104,7 @@ class SectionDetails extends StatelessWidget {
                         height: 16.h,
                       ),
                       CustomDropdownSection(
+                          create: create,
                           dropdownKey: "عمر العقار",
                           hint: "اختر",
                           items: [
@@ -113,6 +120,7 @@ class SectionDetails extends StatelessWidget {
                         height: 16.h,
                       ),
                       CustomDropdownSection(
+                          create: create,
                           dropdownKey: "الطابق",
                           hint: "اختر",
                           items: ["أرضي", "1", "2", "3", "4+"]),
@@ -122,6 +130,7 @@ class SectionDetails extends StatelessWidget {
                         height: 16.h,
                       ),
                       CustomDropdownSection(
+                          create: create,
                           dropdownKey: "مفروش",
                           hint: "اختر",
                           items: ["نعم", "لا"]),
@@ -133,6 +142,7 @@ class SectionDetails extends StatelessWidget {
                         height: 16.h,
                       ),
                       CustomDropdownSection(
+                          create: create,
                           dropdownKey: "نوع الملكية",
                           hint: "اختر",
                           items: ["تمليك", "إيجار"]),
@@ -144,23 +154,37 @@ class SectionDetails extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 16.sp, fontWeight: FontWeight.w400)),
                       CustomSwitchTile(
-                        value: provider.hasElevator,
+                        value: create
+                            ? createProvider.hasElevator
+                            : updateProvider.hasElevator,
                         activeColor: kprimaryColor,
-                        onChanged: provider.toggleElevator,
+                        onChanged: create
+                            ? createProvider.toggleElevator
+                            : updateProvider.toggleElevator,
                       ),
                       Text("هل يحتوي على موقف سيارات؟",
                           textDirection: TextDirection.rtl,
                           style: TextStyle(
                               fontSize: 16.sp, fontWeight: FontWeight.w400)),
                       CustomSwitchTile(
-                        value: provider.hasParking,
-                        onChanged: provider.toggleParking,
+                        value: create
+                            ? createProvider.hasParking
+                            : updateProvider.hasParking,
+                        onChanged: create
+                            ? createProvider.toggleParking
+                            : updateProvider.toggleParking,
                         activeColor: kprimaryColor,
                       ),
                       SizedBox(
                         height: 16.h,
                       ),
-                      CheckingContainer(provider: provider),
+                      create
+                          ? CheckingContainer(
+                              create: true,
+                            )
+                          : CheckingContainer(
+                              create: false,
+                            ),
                       SizedBox(height: 41.h),
                     ],
                   )
@@ -190,12 +214,20 @@ class SectionDetails extends StatelessWidget {
                       Align(
                           alignment: Alignment.centerRight,
                           child: Text('محتوى')),
-                      SizedBox(height: 300.h, child: RichTextEditor()),
+                      SizedBox(
+                          height: 300.h,
+                          child: RichTextEditor(
+                            create: create,
+                          )),
                       SizedBox(height: 24.h),
                       Align(
                           alignment: Alignment.centerRight, child: Text('صور')),
-                      ImagePickerColumn(),
-                      SelectedImagesSection(),
+                      ImagePickerColumn(
+                        create: create,
+                      ),
+                      SelectedImagesSection(
+                        create: create,
+                      ),
                       SizedBox(
                         height: 16.h,
                       ),

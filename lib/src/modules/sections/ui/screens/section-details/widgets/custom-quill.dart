@@ -5,14 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
-import '../provider.dart';
+import '../create-ad-section-details.dart';
 
 class RichTextEditor extends StatelessWidget {
-  const RichTextEditor({super.key});
+  final bool create;
+  const RichTextEditor({super.key, required this.create});
 
   @override
   Widget build(BuildContext context) {
-    final editorProvider = Provider.of<SectionDetailsProvider>(context);
+    final createProvider = Provider.of<CreateAdSectionDetailsProvider>(context);
+    final updateProvider = Provider.of<CreateAdSectionDetailsProvider>(context);
 
     return Scaffold(
       body: Column(
@@ -21,7 +23,9 @@ class RichTextEditor extends StatelessWidget {
             color: grey8,
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: quill.QuillSimpleToolbar(
-              controller: editorProvider.controller,
+              controller: create
+                  ? createProvider.controller
+                  : updateProvider.controller,
               config: quill.QuillSimpleToolbarConfig(
                   showFontSize: false,
                   showColorButton: false,
@@ -34,7 +38,9 @@ class RichTextEditor extends StatelessWidget {
               padding: EdgeInsets.all(8.0.sp),
               color: grey9,
               child: quill.QuillEditor.basic(
-                controller: editorProvider.controller,
+                controller: create
+                    ? createProvider.controller
+                    : updateProvider.controller,
               ),
             ),
           ),

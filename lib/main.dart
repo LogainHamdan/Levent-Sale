@@ -13,10 +13,12 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.da
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/provider.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section-provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/update-ad-choose-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/create-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/update-ad-section-details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -67,7 +69,10 @@ class MyApp extends StatelessWidget {
         create: (_) => CreateAdProvider(),
       ),
       ChangeNotifierProvider(
-        create: (_) => SectionDetailsProvider(),
+        create: (_) => CreateAdSectionDetailsProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => UpdateAdSectionDetailsProvider(),
       ),
       ChangeNotifierProvider(
         create: (_) => ProfileProvider(),
@@ -95,7 +100,10 @@ class MyApp extends StatelessWidget {
         create: (context) => SearchProvider(),
       ),
       ChangeNotifierProvider(
-        create: (context) => ChoosesSectionProvider(),
+        create: (context) => CreateAdChooseSectionProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => UpdateAdChooseSectionProvider(),
       ),
     ], child: MyMaterialApp());
   }

@@ -114,7 +114,9 @@ class MyMaterialApp extends StatelessWidget {
                       empty: false,
                     ),
                 CreateAdScreen.id: (context) => CreateAdScreen(
-                      lowerWidget: SectionChoose(),
+                      lowerWidget: SectionChoose(
+                        create: true,
+                      ),
                     ),
                 FilterScreen.id: (context) => FilterScreen(
                       cardListIndex: 0,

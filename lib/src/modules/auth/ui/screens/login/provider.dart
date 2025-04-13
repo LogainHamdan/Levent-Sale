@@ -12,6 +12,9 @@ class AuthProvider extends ChangeNotifier {
   bool _rememberMe = false;
   String? _errorMessage;
   bool _isLoading = false;
+  Map<String, dynamic>? _currentUser;
+  Map<String, dynamic>? get currentUser => _currentUser;
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailRequestController = TextEditingController();
@@ -94,6 +97,8 @@ class AuthProvider extends ChangeNotifier {
       );
 
       if (result['statusCode'] == 200) {
+        _currentUser = result['data']['user'];
+        notifyListeners();
         Navigator.pushNamedAndRemoveUntil(
           context,
           MainScreen.id,

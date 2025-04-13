@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/screens/login/widgets/checkbox.dart';
-import '../provider.dart';
+import '../../create-ad/provider.dart';
+import '../../update-ad/provider.dart';
+import '../create-ad-section-details.dart';
+import '../update-ad-section-details.dart';
 import 'custom-label.dart';
 
 class CheckingContainer extends StatelessWidget {
+  final bool create;
   const CheckingContainer({
     super.key,
-    required this.provider,
+    required this.create,
   });
-
-  final SectionDetailsProvider provider;
 
   @override
   Widget build(BuildContext context) {
+    final createProvider = Provider.of<CreateAdSectionDetailsProvider>(context);
+    final updateProvider = Provider.of<UpdateAdSectionDetailsProvider>(context);
     return Container(
       decoration: BoxDecoration(
         color: grey8,
@@ -31,16 +36,29 @@ class CheckingContainer extends StatelessWidget {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: provider.services.keys.map((key) {
-                return Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: CustomCheckBox(
-                    title: key,
-                    value: provider.services[key]!,
-                    onChanged: (value) => provider.toggleService(key, value),
-                  ),
-                );
-              }).toList(),
+              children: create
+                  ? createProvider.services.keys.map((key) {
+                      return Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: CustomCheckBox(
+                          title: key,
+                          value: createProvider.services[key]!,
+                          onChanged: (value) =>
+                              createProvider.toggleService(key, value),
+                        ),
+                      );
+                    }).toList()
+                  : updateProvider.services.keys.map((key) {
+                      return Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: CustomCheckBox(
+                          title: key,
+                          value: updateProvider.services[key]!,
+                          onChanged: (value) =>
+                              updateProvider.toggleService(key, value),
+                        ),
+                      );
+                    }).toList(),
             ),
           ],
         ),
