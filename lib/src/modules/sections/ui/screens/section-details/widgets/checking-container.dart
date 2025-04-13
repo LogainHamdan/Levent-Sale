@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/screens/login/widgets/checkbox.dart';
+import '../../../../models/attriburtes.dart';
 import '../../create-ad/provider.dart';
 import '../../update-ad/provider.dart';
 import '../create-ad-section-details.dart';
@@ -21,6 +22,16 @@ class CheckingContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final createProvider = Provider.of<CreateAdSectionDetailsProvider>(context);
     final updateProvider = Provider.of<UpdateAdSectionDetailsProvider>(context);
+
+    final attributesData =
+        create ? createProvider.attributesData : updateProvider.attributesData;
+
+    if (attributesData == null) {
+      return const SizedBox.shrink(); // أو Spinner
+    }
+
+    final services = create ? createProvider.services : updateProvider.services;
+
     return Container(
       decoration: BoxDecoration(
         color: grey8,
@@ -36,29 +47,27 @@ class CheckingContainer extends StatelessWidget {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: create
-                  ? createProvider.services.keys.map((key) {
-                      return Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: CustomCheckBox(
-                          title: key,
-                          value: createProvider.services[key]!,
-                          onChanged: (value) =>
-                              createProvider.toggleService(key, value),
-                        ),
-                      );
-                    }).toList()
-                  : updateProvider.services.keys.map((key) {
-                      return Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: CustomCheckBox(
-                          title: key,
-                          value: updateProvider.services[key]!,
-                          onChanged: (value) =>
-                              updateProvider.toggleService(key, value),
-                        ),
-                      );
-                    }).toList(),
+              children: services.entries.map((entry) {
+                final detail = attributesData.details.firstWhere(
+                  (d) => d.id == entry.key,
+                  orElse: () => Detail(id: entry.key, name: 'خدمة غير معروفة'),
+                );
+
+                return Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: CustomCheckBox(
+                    title: detail.name,
+                    value: entry.value,
+                    onChanged: (value) {
+                      if (create) {
+                        createProvider.toggleService(entry.key, value);
+                      } else {
+                        updateProvider.toggleService(entry.key, value);
+                      }
+                    },
+                  ),
+                );
+              }).toList(),
             ),
           ],
         ),

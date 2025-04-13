@@ -7,7 +7,7 @@ import '../../../repos/create-ad.dart';
 class UpdateAdProvider extends ChangeNotifier {
   final AdRepository _adRepository = AdRepository();
 
-  int _currentStep = 0;
+  int _currentStep = 3;
   final int _totalSteps = 4;
 
   int get currentStep => _currentStep;

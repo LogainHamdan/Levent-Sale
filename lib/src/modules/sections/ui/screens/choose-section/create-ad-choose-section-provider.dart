@@ -6,6 +6,8 @@ import '../../../repos/category-repo.dart';
 
 class CreateAdChooseSectionProvider extends ChangeNotifier {
   int? _selectedCategoryIndex;
+  int? _selectedSubcategoryIndex;
+
   final CategoriesRepository _repo = CategoriesRepository();
   List<RootCategoryModel> rootCategories = [];
   List<SubcategoryModel> subcategories = [];
@@ -17,8 +19,22 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
 
   int? get selectedCategoryIndex => _selectedCategoryIndex;
 
+  int? get selectedSubcategoryIndex => _selectedSubcategoryIndex;
+
+  SubcategoryModel? get selectedSubcategory =>
+      (_selectedSubcategoryIndex != null &&
+              _selectedSubcategoryIndex! >= 0 &&
+              _selectedSubcategoryIndex! < subcategories.length)
+          ? subcategories[_selectedSubcategoryIndex!]
+          : null;
+
   void setSelectedCategory(int index) {
     _selectedCategoryIndex = index;
+    notifyListeners();
+  }
+
+  void setSelectedSubcategory(int index) {
+    _selectedSubcategoryIndex = index;
     notifyListeners();
   }
 
@@ -26,6 +42,7 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
           selectedCategoryIndex! < rootCategories.length)
       ? rootCategories[selectedCategoryIndex!]
       : null;
+
   Future<void> fetchCategories() async {
     isLoading = true;
     notifyListeners();

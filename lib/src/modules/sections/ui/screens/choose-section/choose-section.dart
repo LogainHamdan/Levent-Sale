@@ -1,3 +1,5 @@
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/update-ad-choose-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/widgets/categories-display.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
@@ -15,6 +17,11 @@ class SectionChoose extends StatelessWidget {
   Widget build(BuildContext context) {
     final createAdProvider = Provider.of<CreateAdProvider>(context);
     final updateAdProvider = Provider.of<UpdateAdProvider>(context);
+    final createSectionChooseProvider =
+        Provider.of<CreateAdChooseSectionProvider>(context);
+    final updateSectionChooseProvider =
+        Provider.of<UpdateAdChooseSectionProvider>(context);
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -23,23 +30,31 @@ class SectionChoose extends StatelessWidget {
             onSectionClicked: create
                 ? () {
                     createAdProvider.nextStep();
-
+                    createSectionChooseProvider.fetchSubcategories(
+                        createSectionChooseProvider.selectedCategory!.id);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => CreateAdScreen(
-                                lowerWidget: SectionTrack(
-                                    create: true, cardListIndex: 0))));
+                                    lowerWidget: SectionTrack(
+                                  subcategories:
+                                      createSectionChooseProvider.subcategories,
+                                  create: true,
+                                ))));
                   }
                 : () {
                     updateAdProvider.nextStep();
-
+                    updateSectionChooseProvider.fetchSubcategories(
+                        updateSectionChooseProvider.selectedCategory!.id);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => CreateAdScreen(
-                                lowerWidget: SectionTrack(
-                                    create: false, cardListIndex: 0))));
+                                    lowerWidget: SectionTrack(
+                                  subcategories:
+                                      updateSectionChooseProvider.subcategories,
+                                  create: false,
+                                ))));
                   },
             create: create,
           )
