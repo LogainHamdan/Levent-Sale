@@ -5,8 +5,6 @@ import 'package:provider/provider.dart';
 import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/screens/login/widgets/checkbox.dart';
 import '../../../../models/attriburtes.dart';
-import '../../create-ad/provider.dart';
-import '../../update-ad/provider.dart';
 import '../create-ad-section-details.dart';
 import '../update-ad-section-details.dart';
 import 'custom-label.dart';
@@ -27,7 +25,7 @@ class CheckingContainer extends StatelessWidget {
         create ? createProvider.attributesData : updateProvider.attributesData;
 
     if (attributesData == null) {
-      return const SizedBox.shrink(); // أو Spinner
+      return const SizedBox.shrink();
     }
 
     final services = create ? createProvider.services : updateProvider.services;

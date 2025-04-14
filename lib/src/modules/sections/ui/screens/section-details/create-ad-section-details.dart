@@ -15,6 +15,12 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   final AdAttributesRepository _repo = AdAttributesRepository();
   AdAttributesModel? attributesData;
   bool hasError = false;
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController shortDescController = TextEditingController();
+  final TextEditingController contentController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController discountController = TextEditingController();
 
   List<File> get selectedImages => _selectedImages;
   final quill.QuillController _controller = quill.QuillController.basic();

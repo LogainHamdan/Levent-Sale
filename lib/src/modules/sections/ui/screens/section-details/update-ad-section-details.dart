@@ -1,31 +1,42 @@
 import 'dart:io';
 
+import 'package:Levant_Sale/src/modules/sections/repos/attributes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:image_picker/image_picker.dart';
+
+import '../../../models/attriburtes.dart';
 
 class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   Map<String, String?> selectedValues = {};
   final List<File> _selectedImages = [];
   final Map<String, bool> _dropdownOpenedMap = {};
+  final Map<int, bool> _services = {};
+  final AdAttributesRepository _repo = AdAttributesRepository();
+  AdAttributesModel? attributesData;
+  bool hasError = false;
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController shortDescController = TextEditingController();
+  final TextEditingController contentController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController discountController = TextEditingController();
 
   List<File> get selectedImages => _selectedImages;
-  bool hasElevator = false;
-  bool hasParking = true;
-  bool isDropdownOpened(String key) => _dropdownOpenedMap[key] ?? false;
-
-  Map<String, bool> services = {
-    "مسبح": false,
-    "تكييف مركزي": true,
-    "نظام تدفئة": true,
-    "شرفة": false,
-    "غرفة خادمة": false,
-    "نظام أمان": false,
-  };
-
   final quill.QuillController _controller = quill.QuillController.basic();
 
   quill.QuillController get controller => _controller;
+
+  Map<int, bool> get services => _services;
+
+  void toggleService(int id, bool value) {
+    _services[id] = value;
+    notifyListeners();
+  }
+
+  bool getServiceValue(int id) {
+    return _services[id] ?? false;
+  }
 
   void setSelectedValue(String key, String? value) {
     selectedValues[key] = value;
@@ -41,20 +52,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleElevator(bool value) {
-    hasElevator = value;
-    notifyListeners();
-  }
-
-  void toggleParking(bool value) {
-    hasParking = value;
-    notifyListeners();
-  }
-
-  void toggleService(String key, bool value) {
-    services[key] = value;
-    notifyListeners();
-  }
+  bool isDropdownOpened(String key) => _dropdownOpenedMap[key] ?? false;
 
   Future<void> pickImage() async {
     final pickedFile =
@@ -72,6 +70,27 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
 
   void clearImages() {
     _selectedImages.clear();
+    notifyListeners();
+  }
+
+  Future<void> fetchAttributes(int categoryId) async {
+    try {
+      final result = await _repo.getAttributesByCategory(categoryId);
+      if (result != null) {
+        attributesData = result;
+        hasError = false;
+
+        _services.clear();
+        for (var detail in result.details) {
+          _services[detail.id] = false;
+        }
+      } else {
+        hasError = true;
+      }
+    } catch (e) {
+      hasError = true;
+      debugPrint('Error fetching attributes: $e');
+    }
     notifyListeners();
   }
 }

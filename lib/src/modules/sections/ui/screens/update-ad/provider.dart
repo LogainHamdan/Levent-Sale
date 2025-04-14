@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../../repos/create-ad.dart';
+import '../../../repos/ad.dart';
 
 class UpdateAdProvider extends ChangeNotifier {
   final AdRepository _adRepository = AdRepository();
