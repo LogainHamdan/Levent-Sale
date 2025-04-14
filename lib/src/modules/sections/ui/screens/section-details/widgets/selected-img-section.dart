@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/create-ad-section-details.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../section-details/section-details.dart';
+import '../section-details/section-details1.dart';
 
 class UpdateAdScreen extends StatelessWidget {
   static const id = '/create_ad';

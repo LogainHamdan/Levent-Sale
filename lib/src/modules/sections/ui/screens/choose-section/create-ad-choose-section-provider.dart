@@ -30,28 +30,29 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
 
   void setSelectedCategory(int index) {
     _selectedCategoryIndex = index;
-    notifyListeners();
   }
 
   void setSelectedSubcategory(int index) {
     _selectedSubcategoryIndex = index;
-    notifyListeners();
   }
 
   RootCategoryModel? get selectedCategory => (selectedCategoryIndex! >= 0 &&
           selectedCategoryIndex! < rootCategories.length)
       ? rootCategories[selectedCategoryIndex!]
       : null;
-
   Future<void> fetchCategories() async {
     isLoading = true;
-    notifyListeners();
-
     try {
-      rootCategories = await _repo.fetchCategories();
+      print('Fetching categories...');
+      final response = await _repo.fetchCategories();
+      print('Raw response: $response'); // Add this
+      rootCategories = response;
+    } catch (e) {
+      print('Failed to load categories: ${e.toString()}');
+      print('Stack trace: ${e}'); // Add this for more details
+      rootCategories = [];
     } finally {
       isLoading = false;
-      notifyListeners();
     }
   }
 
@@ -63,22 +64,30 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
     } else {
       category = null;
     }
-
-    notifyListeners();
   }
 
   Future<void> fetchSubcategories(int id) async {
-    final response = await _repo.getSubcategories(id);
+    isLoading = true;
+    notifyListeners(); // Notify for loading state
 
-    if (response.statusCode == 200) {
-      subcategories = (response.data as List)
-          .map((json) => SubcategoryModel.fromJson(json))
-          .toList();
-    } else {
+    try {
+      final response = await _repo.getSubcategories(id);
+      print('Subcategories response: ${response.data}'); // Debug print
+
+      if (response.statusCode == 200) {
+        subcategories = (response.data as List)
+            .map((json) => SubcategoryModel.fromJson(json))
+            .toList();
+      } else {
+        subcategories = [];
+      }
+    } catch (e) {
       subcategories = [];
+      print('Error fetching subcategories: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners(); // Notify after completion
     }
-
-    notifyListeners();
   }
 
   Future<void> fetchCategoryChildren(int id) async {
@@ -89,7 +98,7 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
     } else {
       categoryChild = null;
     }
-
-    notifyListeners();
   }
+
+  notifyListeners();
 }

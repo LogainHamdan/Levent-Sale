@@ -30,7 +30,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-s
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details1.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
 
@@ -50,107 +50,106 @@ class MyMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(360, 690),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (_, child) {
-          final args = ModalRoute.of(context)!.settings.arguments
-              as Map<String, dynamic>;
-
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: MaterialApp(
-              localizationsDelegates: const [
-                FlutterQuillLocalizations.delegate,
-              ],
-              navigatorKey: GlobalKey<NavigatorState>(),
-              debugShowCheckedModeBanner: false,
-              title: 'Levent Sale',
-              theme: ThemeData(
-                appBarTheme: AppBarTheme(
-                  scrolledUnderElevation: 0,
-                  centerTitle: true,
-                  backgroundColor: Colors.white,
-                  systemOverlayStyle: SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    systemNavigationBarColor: Colors.transparent,
-                  ),
-                ),
-                scaffoldBackgroundColor: Colors.white,
-                primaryColor: kprimaryColor,
-                textTheme: TextTheme(
-                  bodySmall: GoogleFonts.tajawal(
-                    fontSize: 16.sp,
-                  ),
-                  bodyMedium: GoogleFonts.tajawal(
-                    fontSize: 16.sp,
-                  ),
-                  bodyLarge: GoogleFonts.tajawal(
-                      fontSize: 20.sp, fontWeight: FontWeight.bold),
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (_, child) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: MaterialApp(
+            localizationsDelegates: const [
+              FlutterQuillLocalizations.delegate,
+            ],
+            navigatorKey: GlobalKey<NavigatorState>(),
+            debugShowCheckedModeBanner: false,
+            title: 'Levent Sale',
+            theme: ThemeData(
+              appBarTheme: AppBarTheme(
+                scrolledUnderElevation: 0,
+                centerTitle: true,
+                backgroundColor: Colors.white,
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: Colors.transparent,
+                  systemNavigationBarColor: Colors.transparent,
                 ),
               ),
-              initialRoute: LoginScreen.id,
-              routes: {
-                SplashScreen.id: (context) => SplashScreen(),
-                MainScreen.id: (context) => MainScreen(),
-                LoginScreen.id: (context) => LoginScreen(),
-                SignUpScreen.id: (context) => SignUpScreen(),
-                VerificationScreen.id: (context) => VerificationScreen(),
-                HomeScreen.id: (context) => HomeScreen(),
-                AdsScreen.id: (context) => AdsScreen(),
-                ReviewsScreen.id: (context) => ReviewsScreen(),
-                AdDetailsScreen.id: (context) => AdDetailsScreen(),
-                ChatListScreen.id: (context) => ChatListScreen(),
-                ConversationScreen.id: (context) =>
-                    ConversationScreen(msgsAvailable: true),
-                Section.id: (context) => Section(),
-                NotificationsScreen.id: (context) => NotificationsScreen(
-                      noData: false,
+              scaffoldBackgroundColor: Colors.white,
+              primaryColor: kprimaryColor,
+              textTheme: TextTheme(
+                bodySmall: GoogleFonts.tajawal(
+                  fontSize: 16.sp,
+                ),
+                bodyMedium: GoogleFonts.tajawal(
+                  fontSize: 16.sp,
+                ),
+                bodyLarge: GoogleFonts.tajawal(
+                    fontSize: 20.sp, fontWeight: FontWeight.bold),
+              ),
+            ),
+            initialRoute: CreateAdScreen.id,
+            routes: {
+              SplashScreen.id: (context) => SplashScreen(),
+              MainScreen.id: (context) => MainScreen(),
+              LoginScreen.id: (context) => LoginScreen(),
+              SignUpScreen.id: (context) => SignUpScreen(),
+              VerificationScreen.id: (context) => VerificationScreen(),
+              HomeScreen.id: (context) => HomeScreen(),
+              AdsScreen.id: (context) => AdsScreen(),
+              ReviewsScreen.id: (context) => ReviewsScreen(),
+              AdDetailsScreen.id: (context) => AdDetailsScreen(),
+              ChatListScreen.id: (context) => ChatListScreen(),
+              ConversationScreen.id: (context) =>
+                  ConversationScreen(msgsAvailable: true),
+              Section.id: (context) => Section(),
+              NotificationsScreen.id: (context) => NotificationsScreen(
+                    noData: false,
+                  ),
+              MyCollectionScreen.id: (context) => MyCollectionScreen(
+                    empty: false,
+                  ),
+              FavoriteScreen.id: (context) => FavoriteScreen(
+                    empty: false,
+                  ),
+              CreateAdScreen.id: (context) => CreateAdScreen(
+                    lowerWidget: SectionChoose(
+                      create: true,
                     ),
-                MyCollectionScreen.id: (context) => MyCollectionScreen(
-                      empty: false,
-                    ),
-                FavoriteScreen.id: (context) => FavoriteScreen(
-                      empty: false,
-                    ),
-                CreateAdScreen.id: (context) => CreateAdScreen(
-                      lowerWidget: SectionChoose(
-                        create: true,
-                      ),
-                    ),
-                FilterScreen.id: (context) => FilterScreen(
-                      cardListIndex: 0,
-                    ),
-                Sections.id: (context) => Sections(),
-                MenuScreen.id: (context) => MenuScreen(),
-                EditProfileScreen.id: (context) => EditProfileScreen(),
-                TechnicalSupportScreen.id: (context) =>
-                    TechnicalSupportScreen(),
-                ProfileScreen.id: (context) => ProfileScreen(),
-                FriendProfile.id: (context) {
-                  return FriendProfile(
-                    userId: args['userId'],
-                    token: args['token'],
-                  );
-                },
-                FollowingScreen.id: (context) => FollowingScreen(),
-                FollowersScreen.id: (context) => FollowersScreen(),
-                JoinFollow.id: (context) => JoinFollow(),
-                WhyToDeleteScreen.id: (context) => WhyToDeleteScreen(),
-                SearchScreen.id: (context) => SearchScreen(),
-                FavoriteCollectionScreen.id: (context) =>
-                    FavoriteCollectionScreen(),
-                DeleteAccountScreen.id: (context) => DeleteAccountScreen(
-                      phase1email: true,
-                    ),
-              },
-              onUnknownRoute: (settings) {
-                return MaterialPageRoute(
-                  builder: (context) => MainScreen(),
+                  ),
+              FilterScreen.id: (context) => FilterScreen(
+                    cardListIndex: 0,
+                  ),
+              Sections.id: (context) => Sections(),
+              MenuScreen.id: (context) => MenuScreen(),
+              EditProfileScreen.id: (context) => EditProfileScreen(),
+              TechnicalSupportScreen.id: (context) => TechnicalSupportScreen(),
+              ProfileScreen.id: (context) => ProfileScreen(),
+              FriendProfile.id: (context) {
+                final args = ModalRoute.of(context)!.settings.arguments
+                    as Map<String, dynamic>;
+                return FriendProfile(
+                  userId: args['userId'],
+                  token: args['token'],
                 );
               },
-            ),
-          );
-        });
+              FollowingScreen.id: (context) => FollowingScreen(),
+              FollowersScreen.id: (context) => FollowersScreen(),
+              JoinFollow.id: (context) => JoinFollow(),
+              WhyToDeleteScreen.id: (context) => WhyToDeleteScreen(),
+              SearchScreen.id: (context) => SearchScreen(),
+              FavoriteCollectionScreen.id: (context) =>
+                  FavoriteCollectionScreen(),
+              DeleteAccountScreen.id: (context) => DeleteAccountScreen(
+                    phase1email: true,
+                  ),
+            },
+            onUnknownRoute: (settings) {
+              return MaterialPageRoute(
+                builder: (context) => MainScreen(),
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }

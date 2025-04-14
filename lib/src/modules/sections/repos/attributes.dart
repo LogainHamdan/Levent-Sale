@@ -19,12 +19,15 @@ class AdAttributesRepository {
   Future<AdAttributesModel?> getAttributesByCategory(int categoryId) async {
     try {
       final response = await _dio.get('$getAttributesById/$categoryId');
+      debugPrint('Response code: ${response.statusCode}');
+      debugPrint('Response data: ${response.data}');
+
       if (response.statusCode == 200 &&
           response.data is List &&
           response.data.isNotEmpty) {
         return AdAttributesModel.fromJson(response.data[0]);
       } else {
-        debugPrint('${response.data}');
+        debugPrint('Empty attributes list for categoryId $categoryId');
       }
     } catch (e) {
       debugPrint('Repo Error in getAttributesByCategory: $e');

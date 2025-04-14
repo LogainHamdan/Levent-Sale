@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../main/ui/screens/main_screen.dart';
-import '../../../../../sections/ui/screens/section-details/section-details.dart';
+import '../../../../../sections/ui/screens/section-details/section-details1.dart';
 import '../../../../../sections/ui/screens/sections/sections.dart';
 
 class CategoriesList extends StatelessWidget {

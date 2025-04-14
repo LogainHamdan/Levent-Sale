@@ -18,21 +18,30 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 4.h),
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        decoration: BoxDecoration(
-          color: grey8,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: ListTile(
-            trailing: Text(
-              title,
-              style: Theme.of(context).textTheme.bodyMedium,
+        onTap: onTap,
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 4.h),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          decoration: BoxDecoration(
+            color: grey8,
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.h),
+            child: Row(
+              children: [
+                icon,
+                Expanded(
+                  // Takes remaining space
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.end,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+              ],
             ),
-            leading: icon),
-      ),
-    );
+          ),
+        ));
   }
 }

@@ -16,7 +16,9 @@ class CategoriesRepository {
   Future<List<RootCategoryModel>> fetchCategories() async {
     try {
       final response = await _dio.get(getCategoriesUrl);
+
       List data = response.data;
+
       return data.map((json) => RootCategoryModel.fromJson(json)).toList();
     } catch (e) {
       throw Exception('Failed to fetch categories: $e');
@@ -39,7 +41,12 @@ class CategoriesRepository {
       return await _dio.get('$getSubcategoryUrl/$id');
     } catch (e) {
       if (e is DioException) {
-        return e.response!;
+        return e.response ??
+            Response(
+              requestOptions: RequestOptions(path: getSubcategoryUrl),
+              statusCode: 500,
+              statusMessage: 'No response from server',
+            );
       }
       rethrow;
     }

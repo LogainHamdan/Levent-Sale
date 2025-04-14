@@ -15,7 +15,8 @@ import '../choose-section/create-ad-choose-section-provider.dart';
 import '../choose-section/update-ad-choose-section.dart';
 import '../create-ad/create-ad.dart';
 import '../create-ad/provider.dart';
-import '../section-details/section-details.dart';
+import '../section-details/create-ad-section-details.dart';
+import '../section-details/section-details1.dart';
 
 class SectionTrack extends StatelessWidget {
   final bool create;
@@ -32,6 +33,11 @@ class SectionTrack extends StatelessWidget {
         Provider.of<CreateAdChooseSectionProvider>(context);
     final updateSectionChooseProvider =
         Provider.of<UpdateAdChooseSectionProvider>(context);
+    final createDetailsProvider =
+        Provider.of<CreateAdSectionDetailsProvider>(context);
+    final updateDetailsProvider =
+        Provider.of<UpdateAdChooseSectionProvider>(context);
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.0.w),
       child: ListView.builder(
@@ -41,34 +47,52 @@ class SectionTrack extends StatelessWidget {
           return CustomCard(
             onTap: create
                 ? () async {
+                    createSectionChooseProvider.setSelectedSubcategory(index);
+                    debugPrint(
+                        "Selected: ${createSectionChooseProvider.selectedSubcategory?.name}");
+
                     await createSectionChooseProvider.fetchSubcategories(
-                        createSectionChooseProvider.selectedSubcategory!.id);
+                      createSectionChooseProvider.selectedSubcategory!.id,
+                    );
 
                     if (createSectionChooseProvider.subcategories.isEmpty) {
-                      createAdProvider.nextStep();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateAdScreen(
-                                  lowerWidget:
-                                      SectionDetails(id: 0, create: create))));
-                    }
+                      debugPrint("This is a LEAF node, fetching attributes...");
 
-                    Navigator.push(
-                      context,
-                      createHorizontalPageRoute(CreateAdScreen(
-                        lowerWidget: SectionTrack(
-                          subcategories:
-                              createSectionChooseProvider.subcategories,
-                          create: true,
+                      await createDetailsProvider.fetchAttributes(
+                        createSectionChooseProvider.selectedSubcategory!.id,
+                      );
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateAdScreen(
+                            lowerWidget: SectionDetails1(create: create),
+                          ),
                         ),
-                      )),
-                    );
+                      );
+                    } else {
+                      debugPrint(
+                          "This is a PARENT node, showing subcategories...");
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateAdScreen(
+                            lowerWidget: SectionTrack(
+                              subcategories:
+                                  createSectionChooseProvider.subcategories,
+                              create: create,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                   }
                 : () async {
+                    updateSectionChooseProvider.setSelectedSubcategory(index);
                     await updateSectionChooseProvider.fetchSubcategories(
-                        updateSectionChooseProvider.selectedSubcategory!.id);
-
+                      updateSectionChooseProvider.selectedSubcategory!.id,
+                    );
                     if (updateSectionChooseProvider.subcategories.isEmpty) {
                       updateAdProvider.nextStep();
                       Navigator.push(
@@ -76,18 +100,22 @@ class SectionTrack extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => CreateAdScreen(
                                   lowerWidget:
-                                      SectionDetails(id: 0, create: create))));
+                                      SectionDetails1(create: create))));
                     }
-                    Navigator.push(
-                      context,
-                      createHorizontalPageRoute(CreateAdScreen(
-                        lowerWidget: SectionTrack(
-                          subcategories:
-                              updateSectionChooseProvider.subcategories,
-                          create: false,
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateAdScreen(
+                            lowerWidget: SectionTrack(
+                              subcategories:
+                                  updateSectionChooseProvider.subcategories,
+                              create: create,
+                            ),
+                          ),
                         ),
-                      )),
-                    );
+                      );
+                    });
                   },
             icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
             title: subcategories[index].name,

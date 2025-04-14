@@ -19,6 +19,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/create-ad-section-details.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/update-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -67,6 +68,9 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (_) => CreateAdProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => UpdateAdProvider(),
       ),
       ChangeNotifierProvider(
         create: (_) => CreateAdSectionDetailsProvider(),

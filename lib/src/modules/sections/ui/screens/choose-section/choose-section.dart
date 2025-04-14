@@ -6,6 +6,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../models/root-category.dart';
 import '../create-ad/provider.dart';
 
 class SectionChoose extends StatelessWidget {
@@ -15,52 +16,86 @@ class SectionChoose extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createAdProvider = Provider.of<CreateAdProvider>(context);
-    final updateAdProvider = Provider.of<UpdateAdProvider>(context);
-    final createSectionChooseProvider =
-        Provider.of<CreateAdChooseSectionProvider>(context);
-    final updateSectionChooseProvider =
-        Provider.of<UpdateAdChooseSectionProvider>(context);
+    final createProvider =
+        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
+    final updateProvider =
+        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          CategoriesDisplay(
-            selectable: true,
-            onSectionClicked: create
-                ? () {
-                    createAdProvider.nextStep();
-                    createSectionChooseProvider.fetchSubcategories(
-                        createSectionChooseProvider.selectedCategory!.id);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateAdScreen(
+    return FutureBuilder(
+      future: create
+          ? createProvider.fetchCategories()
+          : updateProvider.fetchCategories(),
+      builder: (context, snapshot) {
+        return Consumer<CreateAdProvider>(
+          builder: (context, createAdProvider, _) {
+            if (create
+                ? createProvider.rootCategories.isEmpty
+                : updateProvider.rootCategories.isEmpty) {
+              return const Center(child: Text("No categories available"));
+            }
+
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Consumer<UpdateAdProvider>(
+                    builder: (context, updateAdProvider, _) {
+                      return CategoriesDisplay(
+                        selectable: true,
+                        onSectionClicked: () async {
+                          create
+                              ? createAdProvider.nextStep()
+                              : updateAdProvider.nextStep();
+
+                          if (create) {
+                            await createProvider.fetchSubcategories(
+                              createProvider.selectedCategory!.id,
+                            );
+
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CreateAdScreen(
                                     lowerWidget: SectionTrack(
-                                  subcategories:
-                                      createSectionChooseProvider.subcategories,
-                                  create: true,
-                                ))));
-                  }
-                : () {
-                    updateAdProvider.nextStep();
-                    updateSectionChooseProvider.fetchSubcategories(
-                        updateSectionChooseProvider.selectedCategory!.id);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateAdScreen(
+                                      subcategories:
+                                          createProvider.subcategories,
+                                      create: create,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                          } else {
+                            updateAdProvider.nextStep();
+                            await updateProvider.fetchSubcategories(
+                              updateProvider.selectedCategory!.id,
+                            );
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CreateAdScreen(
                                     lowerWidget: SectionTrack(
-                                  subcategories:
-                                      updateSectionChooseProvider.subcategories,
-                                  create: false,
-                                ))));
-                  },
-            create: create,
-          )
-        ],
-      ),
+                                      subcategories:
+                                          updateProvider.subcategories,
+                                      create: create,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                          }
+                        },
+                        create: create,
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
-    // bottomNavigationBar: CustomBottomNavigationBar
   }
 }

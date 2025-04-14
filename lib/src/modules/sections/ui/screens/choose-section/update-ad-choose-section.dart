@@ -68,14 +68,19 @@ class UpdateAdChooseSectionProvider extends ChangeNotifier {
   }
 
   Future<void> fetchSubcategories(int id) async {
-    final response = await _repo.getSubcategories(id);
+    try {
+      final response = await _repo.getSubcategories(id);
 
-    if (response.statusCode == 200) {
-      subcategories = (response.data as List)
-          .map((json) => SubcategoryModel.fromJson(json))
-          .toList();
-    } else {
+      if (response.statusCode == 200 && response.data != null) {
+        subcategories = (response.data as List)
+            .map((json) => SubcategoryModel.fromJson(json))
+            .toList();
+      } else {
+        subcategories = [];
+      }
+    } catch (e) {
       subcategories = [];
+      debugPrint('Error fetching subcategories: $e');
     }
 
     notifyListeners();

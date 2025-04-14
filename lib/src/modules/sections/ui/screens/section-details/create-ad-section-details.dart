@@ -74,23 +74,28 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   }
 
   Future<void> fetchAttributes(int categoryId) async {
+    debugPrint('Fetching attributes for categoryId: $categoryId');
+
     try {
       final result = await _repo.getAttributesByCategory(categoryId);
+      debugPrint('Result from API: $result');
+
       if (result != null) {
         attributesData = result;
         hasError = false;
-
         _services.clear();
         for (var detail in result.details) {
           _services[detail.id] = false;
         }
       } else {
         hasError = true;
+        debugPrint('No result for categoryId: $categoryId');
       }
+
+      notifyListeners();
     } catch (e) {
       hasError = true;
-      debugPrint('Error fetching attributes: $e');
+      debugPrint('Error in fetchAttributes: $e');
     }
-    notifyListeners();
   }
 }
