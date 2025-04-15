@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 ///API
 const String baseUrl = "http://37.148.208.169";
-const String token =
-    "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";
+
 
 ///endpoints
 ///auth

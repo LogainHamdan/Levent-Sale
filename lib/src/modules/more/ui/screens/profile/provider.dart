@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../auth/repos/token-helper.dart';
 import '../../../../home/models/user-model.dart';
 import '../../../repositories/user-profile-repo.dart';
 import '../follow/provider.dart';
@@ -72,7 +73,15 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFollowProfile() async {
+  Future<void> toggleFollowProfile(BuildContext context) async {
+    final token = await TokenHelper.getToken();
+
+    if (token == null || token.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('حدث خطأ: لم يتم العثور على التوكن')),
+      );
+      return;
+    }
     try {
       if (user!.isFollowing) {
         await followRepository.unfollowUser(user!.id, token);
@@ -80,7 +89,7 @@ class ProfileProvider extends ChangeNotifier {
         await followRepository.followUser(user!.id, token);
       }
     } catch (e) {
-      print('$e');
+      debugPrint('$e');
     }
     notifyListeners();
   }

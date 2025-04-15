@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
 import '../../../../main/ui/screens/main_screen.dart';
+import '../../../repos/token-helper.dart';
 import '../login/provider.dart';
 import '../login/widgets/or-row.dart';
 import '../login/widgets/instead-widget.dart';
@@ -90,8 +91,14 @@ class VerificationScreen extends StatelessWidget {
               CustomElevatedButton(
                   text: 'تحقق',
                   onPressed: () async {
-                    final success = await provider.verifyToken(token);
-
+                    final token = await TokenHelper.getToken();
+                    final success = await provider.verifyToken();
+                    if (token == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('لم يتم العثور على رمز التحقق')),
+                      );
+                      return;
+                    }
                     if (success) {
                       Navigator.pushNamed(context, MainScreen.id);
                     } else {

@@ -6,11 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../auth/ui/alerts/alert.dart';
-import '../../../../home/ui/screens/home/data.dart';
 import '../../../../home/ui/screens/search-filter/widgets/card.dart';
-import '../../../../home/ui/screens/search-filter/widgets/horizontal-navigate.dart';
-import '../../../../more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import '../choose-section/create-ad-choose-section-provider.dart';
 import '../choose-section/update-ad-choose-section.dart';
 import '../create-ad/create-ad.dart';

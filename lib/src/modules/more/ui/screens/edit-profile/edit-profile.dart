@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../config/constants.dart';
+import '../../../../auth/repos/token-helper.dart';
 import '../../../../auth/ui/alerts/alert.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/phone-section.dart';
@@ -123,24 +124,34 @@ class EditProfileScreen extends StatelessWidget {
       bottomNavigationBar: DraggableButton(
         'حفظ التعديلات',
         onPressed: () async {
+          final token = await TokenHelper.getToken();
+
+          if (token == null || token.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('حدث خطأ: لم يتم العثور على التوكن')),
+            );
+            return;
+          }
+
           await profileProvider.updateProfile(
-              token: token,
-              firstName: !profileProvider.isCompanyAccount
-                  ? profileProvider.nameController.text.split(" ").first
-                  : '',
-              lastName: !profileProvider.isCompanyAccount
-                  ? profileProvider.nameController.text.split(" ").last
-                  : '',
-              birthday: DateTime.now(),
-              businessName:
-                  profileProvider.isCompanyAccount ? "اسم الشركة" : null,
-              businessLicense: profileProvider.isCompanyAccount
-                  ? profileProvider.taxController.text
-                  : null,
-              address: profileProvider.isCompanyAccount
-                  ? profileProvider.addressController.text
-                  : null,
-              profilePicture: profileProvider.profileImage);
+            token: token,
+            firstName: !profileProvider.isCompanyAccount
+                ? profileProvider.nameController.text.split(" ").first
+                : '',
+            lastName: !profileProvider.isCompanyAccount
+                ? profileProvider.nameController.text.split(" ").last
+                : '',
+            birthday: DateTime.now(),
+            businessName:
+                profileProvider.isCompanyAccount ? "اسم الشركة" : null,
+            businessLicense: profileProvider.isCompanyAccount
+                ? profileProvider.taxController.text
+                : null,
+            address: profileProvider.isCompanyAccount
+                ? profileProvider.addressController.text
+                : null,
+            profilePicture: profileProvider.profileImage,
+          );
 
           editDoneAlert(context);
         },

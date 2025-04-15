@@ -4,9 +4,11 @@ import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
 import '../login/login.dart';
+import '../login/provider.dart';
 import '../sign-up/sign-up.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -15,6 +17,10 @@ class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    // Future.delayed(Duration(seconds: 2), () {
+    //   Provider.of<AuthProvider>(context, listen: false)
+    //       .checkIfLoggedIn(context);
+    // });
     return Scaffold(
       body: SafeArea(
         child: Column(

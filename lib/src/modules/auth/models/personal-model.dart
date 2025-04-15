@@ -1,16 +1,16 @@
 class PersonalModel {
-  final String username;
-  final String email;
-  final String password;
-  final String phoneNumber;
-  final String firstName;
-  final String lastName;
-  final String profilePicture;
+  final dynamic username;
+  final dynamic email;
+  final dynamic password;
+  final dynamic phoneNumber;
+  final dynamic firstName;
+  final dynamic lastName;
+  final dynamic profilePicture;
   final bool isVerified;
-  final String birthday;
+  final dynamic birthday;
   final bool active;
-  final String status;
-  final List<String> roles;
+  final dynamic status;
+  final List<dynamic> roles;
 
   PersonalModel({
     required this.username,
@@ -27,7 +27,7 @@ class PersonalModel {
     required this.roles,
   });
 
-  Map<String, dynamic> toJson() => {
+  Map<dynamic, dynamic> toJson() => {
         "username": username,
         "email": email,
         "password": password,
@@ -41,4 +41,20 @@ class PersonalModel {
         "status": status,
         "roles": roles,
       };
+  factory PersonalModel.fromJson(Map<dynamic, dynamic> json) {
+    return PersonalModel(
+      username: json['username'],
+      email: json['email'],
+      password: json['password'],
+      phoneNumber: json['phoneNumber'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      profilePicture: json['profilePicture'],
+      isVerified: json['isVerified'],
+      birthday: json['birthday'],
+      active: json['active'],
+      status: json['status'],
+      roles: List<dynamic>.from(json['roles']),
+    );
+  }
 }

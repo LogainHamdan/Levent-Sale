@@ -9,11 +9,13 @@ import '../provider.dart';
 class CustomDropdown extends StatelessWidget {
   final String hint;
   final List<String> items;
+  final ValueChanged<String>? onChanged;
 
   const CustomDropdown({
     super.key,
     required this.hint,
     required this.items,
+    this.onChanged,
   });
 
   @override
@@ -61,13 +63,15 @@ class CustomDropdown extends StatelessWidget {
                               width: 22.w,
                             ),
                       Text(
-                        provider.selectedValue!.isNotEmpty
+                        (provider.selectedValue != null &&
+                                provider.selectedValue!.isNotEmpty)
                             ? provider.selectedValue!
                             : hint,
                         style: GoogleFonts.tajawal(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
-                          color: provider.selectedValue!.isNotEmpty
+                          color: (provider.selectedValue != null &&
+                                  provider.selectedValue!.isNotEmpty)
                               ? Colors.black
                               : grey4,
                         ),
@@ -82,6 +86,9 @@ class CustomDropdown extends StatelessWidget {
                     return InkWell(
                       onTap: () {
                         provider.setDropdownOpened(false);
+                        if (onChanged != null) {
+                          onChanged!(item);
+                        }
                       },
                       child: Container(
                         height: itemHeight,

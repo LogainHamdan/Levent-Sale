@@ -5,14 +5,14 @@ class BusinessOwner {
   final String phoneNumber;
   final String firstName;
   final String lastName;
-  final String profilePicture;
+  final String? profilePicture;
   final bool isVerified;
   final String businessName;
   final String businessLicense;
   final String birthday;
-  final String verificationToken;
+  final String? verificationToken;
   final bool active;
-  final String oauth2Provider;
+  final String? oauth2Provider;
   final String status;
   final List<String> roles;
 
@@ -23,14 +23,14 @@ class BusinessOwner {
     required this.phoneNumber,
     required this.firstName,
     required this.lastName,
-    required this.profilePicture,
+    this.profilePicture,
     required this.isVerified,
     required this.businessName,
     required this.businessLicense,
     required this.birthday,
-    required this.verificationToken,
+    this.verificationToken,
     required this.active,
-    required this.oauth2Provider,
+    this.oauth2Provider,
     required this.status,
     required this.roles,
   });

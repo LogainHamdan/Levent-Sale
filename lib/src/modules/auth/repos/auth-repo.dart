@@ -1,3 +1,10 @@
+import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../config/constants.dart';
+import '../models/business-owner-model.dart';
+import '../models/personal-model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,32 +25,38 @@ class AuthRepository {
     dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
-        connectTimeout: Duration(seconds: 10),
-        receiveTimeout: Duration(seconds: 10),
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
         headers: {
           'Content-Type': 'application/json',
+        },
+      ),
+    );
+
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final prefs = await SharedPreferences.getInstance();
+          final token = prefs.getString('token');
+          if (token != null) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
+          return handler.next(options);
         },
       ),
     );
   }
 
   Future<Response> signUpBusinessOwner(BusinessOwner owner) async {
-    return await dio.post(
-      signUpBusinessOwnerUrl,
-      data: owner.toJson(),
-    );
+    return await dio.post(signUpBusinessOwnerUrl, data: owner.toJson());
   }
 
   Future<Response> signUpPersonalAccount(PersonalModel account) async {
-    return await dio.post(
-      signUpUrl,
-      data: account.toJson(),
-    );
+    return await dio.post(signUpUrl, data: account.toJson());
   }
 
   Future<Response> requestPasswordReset(String email) async {
     final String url = '$requestUpdatePassUrl/$email';
-
     try {
       final response = await dio.post(
         url,
@@ -66,11 +79,7 @@ class AuthRepository {
       final response = await dio.post(
         googleLoginUrl,
         data: {'token': token},
-        options: Options(
-          headers: {'Content-Type': 'application/json'},
-        ),
       );
-
       return response.data;
     } on DioException catch (e) {
       return {
@@ -93,11 +102,7 @@ class AuthRepository {
           'password': password,
           'recaptchaToken': recaptchaToken,
         },
-        options: Options(
-          headers: {'Content-Type': 'application/json'},
-        ),
       );
-
       return {'statusCode': response.statusCode, 'data': response.data};
     } on DioException catch (e) {
       return {
@@ -122,7 +127,6 @@ class AuthRepository {
           },
         ),
       );
-
       await prefs.clear();
     } on DioException catch (e) {
       throw Exception(
@@ -131,18 +135,25 @@ class AuthRepository {
   }
 
   Future<Response> verifyToken(String token) async {
-    try {
-      final response = await dio.get(
-        verifyUrl,
-        queryParameters: {'token': token},
-      );
-      return response;
-    } catch (e) {
-      rethrow;
-    }
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    return await dio.post(
+      verifyUrl,
+      data: {'token': token},
+    );
   }
 
   Future<Response> resendVerificationCode(String email) async {
-    return await dio.get('$resendVerifyUrl/$email');
+    return await dio.post(
+      '$resendVerifyUrl/$email',
+      data: {'email': email},
+    );
+  }
+
+  Future<void> setupAuthHeaderFromStorage() async {
+    final token = await TokenHelper.getToken();
+    if (token != null) {
+      dio.options.headers['Authorization'] = 'Bearer $token';
+    }
   }
 }

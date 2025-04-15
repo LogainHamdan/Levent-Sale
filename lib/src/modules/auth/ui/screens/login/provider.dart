@@ -2,6 +2,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../main/ui/screens/main_screen.dart';
 import '../../../repos/auth-repo.dart';
@@ -63,6 +64,7 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       await _authRepository.logoutUser();
+      _currentUser = null;
       _setLoading(false);
       Navigator.pushNamedAndRemoveUntil(
         context,
@@ -73,6 +75,40 @@ class AuthProvider extends ChangeNotifier {
       _setLoading(false);
       _setErrorMessage(e.toString());
     }
+  }
+
+  Future<void> checkIfLoggedIn(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+
+    if (token != null) {
+      try {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          MainScreen.id,
+          (route) => false,
+        );
+      } catch (e) {
+        await prefs.clear();
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          LoginScreen.id,
+          (route) => false,
+        );
+      }
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        LoginScreen.id,
+        (route) => false,
+      );
+    }
+  }
+
+  Future<bool> isLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    return token != null;
   }
 
   Future<void> loginUser({
@@ -98,6 +134,11 @@ class AuthProvider extends ChangeNotifier {
 
       if (result['statusCode'] == 200) {
         _currentUser = result['data']['user'];
+        final token = result['data']['jwt'];
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+
         notifyListeners();
         Navigator.pushNamedAndRemoveUntil(
           context,

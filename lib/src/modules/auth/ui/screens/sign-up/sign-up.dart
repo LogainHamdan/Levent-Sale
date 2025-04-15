@@ -54,6 +54,9 @@ class SignUpScreen extends StatelessWidget {
                       CustomDropdown(
                         items: ["شخصي", "شركة"],
                         hint: "اختر نوع الحساب",
+                        onChanged: (value) {
+                          provider.setSelectedValue(value);
+                        },
                       ),
                       if (provider.selectedValue == "شخصي") ...[
                         Row(
@@ -78,14 +81,14 @@ class SignUpScreen extends StatelessWidget {
                         CustomTextField(
                           prefix: GestureDetector(
                             onTap: () => showDatePickerDialog(
-                                context, provider.dateController),
+                                context, provider.birthDateController),
                             child: SvgPicture.asset(
                               calendarIcon,
                               height: 20.h,
                               width: 20.w,
                             ),
                           ),
-                          controller: provider.dateController,
+                          controller: provider.birthDateController,
                           bgcolor: grey8,
                           hint: 'تاريخ الميلاد',
                         ),
@@ -98,14 +101,14 @@ class SignUpScreen extends StatelessWidget {
                         CustomTextField(
                           prefix: GestureDetector(
                             onTap: () => showDatePickerDialog(
-                                context, provider.dateController),
+                                context, provider.companyDateController),
                             child: SvgPicture.asset(
                               calendarIcon,
                               height: 20.h,
                               width: 20.w,
                             ),
                           ),
-                          controller: provider.dateController,
+                          controller: provider.companyDateController,
                           bgcolor: grey8,
                           hint: 'تاريخ انشاء الشركة',
                         ),
@@ -119,6 +122,8 @@ class SignUpScreen extends StatelessWidget {
                           controller: provider.taxNumberController,
                           hint: "الرقم الضريبي",
                         ),
+                      ] else ...[
+                        SizedBox.shrink()
                       ],
                       CustomTextField(
                         bgcolor: grey8,
@@ -176,13 +181,12 @@ class SignUpScreen extends StatelessWidget {
                         onPressed: () {
                           final provider = Provider.of<SignUpProvider>(context,
                               listen: false);
-
-                          if (provider.selectedValue == null ||
-                              provider.selectedValue!.isEmpty) {
-                            provider.customShowSnackBar(context,
-                                'يرجى اختيار نوع الحساب', Colors.redAccent);
-                            return;
-                          }
+                          //
+                          // if (provider.selectedValue == '') {
+                          //   provider.customShowSnackBar(context,
+                          //       'يرجى اختيار نوع الحساب', Colors.redAccent);
+                          //   return;
+                          // }
 
                           final isCompany = provider.selectedValue == 'شركة';
 
@@ -216,13 +220,13 @@ class SignUpScreen extends StatelessWidget {
                             orElse: () => const MapEntry('none', ''),
                           );
 
-                          if (missingField.key != 'none') {
-                            provider.customShowSnackBar(
-                                context,
-                                'يرجى تعبئة الحقل:${missingField.key}',
-                                Colors.redAccent);
-                            return;
-                          }
+                          // if (missingField.key != 'none') {
+                          //   provider.customShowSnackBar(
+                          //       context,
+                          //       'يرجى تعبئة الحقل:${missingField.key}',
+                          //       Colors.redAccent);
+                          //   return;
+                          // }
 
                           provider.signUpUser(context, userData);
                         },

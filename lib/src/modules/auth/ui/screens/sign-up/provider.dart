@@ -2,23 +2,24 @@ import 'package:Levant_Sale/src/modules/auth/repos/auth-repo.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/business-owner-model.dart';
 import '../../../models/personal-model.dart';
 import '../verify/verify.dart';
 
 class SignUpProvider extends ChangeNotifier {
-  final TextEditingController dateController = TextEditingController(
-      text: DateFormat('MMMM dd, yyyy').format(DateTime.now()));
-  String? selectedValue;
   bool isLoading = false;
   String? errorMessage;
+  final TextEditingController birthDateController = TextEditingController(
+      text: DateFormat('MMMM dd, yyyy').format(DateTime.now()).toString());
+  final TextEditingController companyDateController = TextEditingController(
+      text: DateFormat('MMMM dd, yyyy').format(DateTime.now()).toString());
+
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
-  final birthDateController = TextEditingController();
 
   final companyNameController = TextEditingController();
-  final companyDateController = TextEditingController();
   final companyAddressController = TextEditingController();
   final taxNumberController = TextEditingController();
 
@@ -40,6 +41,7 @@ class SignUpProvider extends ChangeNotifier {
     passwordController.dispose();
     confirmPasswordController.dispose();
     phoneController.dispose();
+
     super.dispose();
   }
 
@@ -49,7 +51,10 @@ class SignUpProvider extends ChangeNotifier {
   final AuthRepository _authRepository = AuthRepository();
 
   bool get agreeToTerms => _agreeToTerms;
+
   bool get isDropdownOpened => _isDropdownOpened;
+
+  String get selectedValue => _selectedValue;
 
   void toggleAgreement(bool? value) {
     if (value != null) {
@@ -59,53 +64,80 @@ class SignUpProvider extends ChangeNotifier {
   }
 
   void setSelectedValue(String? value) {
-    if (value != null && _selectedValue != value) {
+    if (value != null) {
       _selectedValue = value;
       notifyListeners();
     }
   }
 
-  void signUpUser(BuildContext context, Map<String, dynamic> userData) {
-    if (_selectedValue == 'شركة') {
-      final owner = BusinessOwner(
-        username: userData['email'],
-        email: userData['email'],
-        password: userData['password'],
-        phoneNumber: userData['phone'],
-        firstName: userData['first_name'],
-        lastName: userData['last_name'],
-        profilePicture: '',
-        isVerified: false,
-        businessName: userData['company_name'],
-        businessLicense: userData['tax_number'],
-        birthday: userData['birth_date'],
-        verificationToken: '',
-        active: true,
-        oauth2Provider: '',
-        status: 'PENDING',
-        roles: ['business_owner'],
-      );
+  Future<void> signUpUser(
+      BuildContext context, Map<String, dynamic> userData) async {
+    isLoading = true;
+    notifyListeners();
+    print("User Data: $userData");
+    try {
+      Response response;
 
-      _authRepository.signUpBusinessOwner(owner);
-    } else if (_selectedValue == 'شخصي') {
-      final account = PersonalModel(
-        username: userData['email'], // أو اسم مخصص
-        email: userData['email'],
-        password: userData['password'],
-        phoneNumber: userData['phone'],
-        firstName: userData['first_name'],
-        lastName: userData['last_name'],
-        profilePicture: '',
-        isVerified: false,
-        birthday: userData['birth_date'],
-        active: true,
-        status: 'PENDING',
-        roles: ['personal_user'],
-      );
+      if (_selectedValue == 'شركة') {
+        final owner = BusinessOwner(
+          username: userData['email'],
+          email: userData['email'],
+          password: userData['password'],
+          phoneNumber: userData['phone'],
+          firstName: userData['first_name'],
+          lastName: userData['last_name'],
+          profilePicture: null,
+          isVerified: false,
+          businessName: userData['company_name'],
+          businessLicense: userData['tax_number'],
+          birthday: userData['birthday'],
+          verificationToken: null,
+          active: true,
+          oauth2Provider: null,
+          status: 'PENDING',
+          roles: ['business_owner'],
+        );
 
-      _authRepository.signUpPersonalAccount(account);
-    } else {
-      customShowSnackBar(context, 'يرجى اختيار نوع الحساب', Colors.redAccent);
+        print('SIGNING UP BUSINESS: ${owner.toJson()}');
+        response = await _authRepository.signUpBusinessOwner(owner);
+      } else if (_selectedValue == 'شخصي') {
+        final account = PersonalModel(
+          username: userData['email'],
+          email: userData['email'],
+          password: userData['password'],
+          phoneNumber: userData['phone'],
+          firstName: userData['first_name'],
+          lastName: userData['last_name'],
+          profilePicture: '',
+          isVerified: false,
+          birthday: userData['birthday'],
+          active: true,
+          status: 'PENDING',
+          roles: ['personal_user'],
+        );
+
+        print('SIGNING UP PERSONAL: ${account.toJson()}');
+        response = await _authRepository.signUpPersonalAccount(account);
+      } else {
+        customShowSnackBar(context, 'يرجى اختيار نوع الحساب', Colors.redAccent);
+        isLoading = false;
+        notifyListeners();
+        return;
+      }
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Navigator.pushNamed(context, VerificationScreen.id);
+      } else {
+        customShowSnackBar(context, 'فشل التسجيل: ${response.statusMessage}',
+            Colors.redAccent);
+      }
+    } catch (e) {
+      print('SIGN UP ERROR: ${e}');
+      customShowSnackBar(
+          context, 'حدث خطأ أثناء التسجيل: ${e.toString()}', Colors.redAccent);
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
   }
 

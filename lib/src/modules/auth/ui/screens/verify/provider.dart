@@ -1,7 +1,10 @@
 import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/business-owner-model.dart';
+import '../../../models/personal-model.dart';
 import '../../../repos/auth-repo.dart';
+import '../../../repos/token-helper.dart';
 
 class VerificationProvider extends ChangeNotifier {
   List<String> otp = List.generate(6, (index) => '0');
@@ -31,12 +34,18 @@ class VerificationProvider extends ChangeNotifier {
     Navigator.pushNamed(context, MainScreen.id);
   }
 
-  Future<bool> verifyToken(String token) async {
+  Future<bool> verifyToken() async {
     _isLoading = true;
     _message = null;
     notifyListeners();
 
     try {
+      final token = await TokenHelper.getToken();
+      if (token == null) {
+        _message = 'لا يوجد رمز محفوظ';
+        return false;
+      }
+
       final response = await _authRepository.verifyToken(token);
       if (response.statusCode == 200) {
         _message = response.data.toString();
@@ -68,5 +77,41 @@ class VerificationProvider extends ChangeNotifier {
       print(e.toString());
     }
     notifyListeners();
+  }
+
+  Future<bool> verifyTokenAndCreateUserModel(
+      Map<String, dynamic> userData) async {
+    _isLoading = true;
+    _message = null;
+    notifyListeners();
+
+    try {
+      final token = await TokenHelper.getToken();
+      if (token == null) {
+        _message = 'لا يوجد رمز محفوظ';
+        return false;
+      }
+
+      final response = await _authRepository.verifyToken(token);
+      if (response.statusCode == 200) {
+        if (userData['type'] == 'شركة') {
+          // final owner = BusinessOwner.fromJson(userData);
+          // await _authRepository.signUpBusinessOwner(owner);
+        } else {
+          // final personal = PersonalModel.fromJson(userData);
+          // await _authRepository.signUpPersonalAccount(personal);
+        }
+        return true;
+      } else {
+        _message = 'فشل التحقق: ${response.statusCode}';
+        return false;
+      }
+    } catch (e) {
+      _message = 'حدث خطأ أثناء التحقق: ${e.toString()}';
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 }

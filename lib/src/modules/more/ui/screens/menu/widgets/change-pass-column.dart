@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
+import '../../../../../auth/repos/token-helper.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
 import '../../../../../auth/ui/screens/login/widgets/confrm-cancel-button.dart';
 import '../../../../../auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
@@ -118,9 +119,17 @@ class ChangePassColumn extends StatelessWidget {
         ),
         CustomElevatedButton(
           text: 'تغيير كلمة المرور',
-          onPressed: () {
+          onPressed: () async {
+            final token = await TokenHelper.getToken();
+
             final menuProvider =
                 Provider.of<MenuProvider>(context, listen: false);
+            if (token == null || token.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('حدث خطأ: لم يتم العثور على التوكن')),
+              );
+              return;
+            }
             alert
                 ? menuProvider.changePasswordWithToken(
                     newPass: newPassAlertController!.text.trim(),
