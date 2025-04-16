@@ -14,19 +14,22 @@ class AdRepository {
   AdRepository._internal();
 
   factory AdRepository() => _instance;
-
   Future<void> createAd({
     required AdModel ad,
     required List<File> images,
     required String token,
   }) async {
-    final formData = FormData.fromMap({
-      'adDTO': ad.toJson(),
-      'files': images.map((image) {
-        return MultipartFile.fromFileSync(image.path,
-            filename: image.path.split('/').last);
-      }).toList(),
-    });
+    final formData = FormData();
+
+    formData.fields.add(MapEntry('adDTO', jsonEncode(ad.toJson())));
+
+    for (var image in images) {
+      formData.files.add(MapEntry(
+        'files',
+        await MultipartFile.fromFile(image.path,
+            filename: image.path.split('/').last),
+      ));
+    }
 
     final response = await Dio().post(
       createAdUrl,

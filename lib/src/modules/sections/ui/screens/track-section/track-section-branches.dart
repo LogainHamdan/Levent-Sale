@@ -84,9 +84,14 @@ class SectionTrack extends StatelessWidget {
                                             bottomNavBar: DraggableButton(
                                                 'متابعة', onPressed: () {
                                               createAdProvider.nextStep();
+
                                               showAdCreated(context);
-                                              Navigator.pushNamed(context,
-                                                  MyCollectionScreen.id);
+                                              Future.delayed(
+                                                Duration(seconds: 1),
+                                                () => Navigator.pushNamed(
+                                                    context,
+                                                    MyCollectionScreen.id),
+                                              );
                                             }),
                                             lowerWidget: SectionDetails2(
                                                 create: create))))),
@@ -94,8 +99,7 @@ class SectionTrack extends StatelessWidget {
                         ),
                       );
                     } else {
-                      debugPrint(
-                          "This is a PARENT node, showing subcategories...");
+                      debugPrint("showing subcategories...");
 
                       Navigator.push(
                         context,
@@ -111,6 +115,7 @@ class SectionTrack extends StatelessWidget {
                       );
                     }
                   }
+                //update بالمرة مش محدثة برجعلها
                 : () async {
                     updateSectionChooseProvider.setSelectedSubcategory(index);
 

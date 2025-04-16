@@ -53,10 +53,13 @@ class CustomTextField extends StatelessWidget {
                   textAlign: TextAlign.right,
                   label!,
                   style: TextStyle(
-                    fontSize: 14.sp,
-                    color: labelGrey! ? grey5 : Colors.black,
-                  ),
+                      fontSize: 14.sp,
+                      color: labelGrey! ? grey5 : Colors.black,
+                      fontWeight: FontWeight.w500),
                 ),
+              SizedBox(
+                height: 4.h,
+              ),
               TextField(
                 controller: controller,
                 keyboardType: keyboardType,
