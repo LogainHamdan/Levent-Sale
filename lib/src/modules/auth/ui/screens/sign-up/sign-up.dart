@@ -58,6 +58,7 @@ class SignUpScreen extends StatelessWidget {
                           provider.setSelectedValue(value);
                         },
                       ),
+                      SizedBox(height: 16.h),
                       if (provider.selectedValue == "شخصي") ...[
                         Row(
                           children: [
@@ -78,7 +79,10 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+                        SizedBox(height: 16.h),
                         CustomTextField(
+                          isRequired: true,
+                          errorText: 'يجب عليك ادخال تاريخ ميلاد صحيح',
                           prefix: GestureDetector(
                             onTap: () => showDatePickerDialog(
                                 context, provider.birthDateController),
@@ -94,11 +98,15 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ] else if (provider.selectedValue == "شركة") ...[
                         CustomTextField(
+                          isRequired: true,
+                          errorText: 'هذا الحقل مطلوب',
                           bgcolor: grey8,
                           controller: provider.companyNameController,
                           hint: "اسم الشركة",
                         ),
                         CustomTextField(
+                          isRequired: true,
+                          errorText: 'هذا الحقل مطلوب',
                           prefix: GestureDetector(
                             onTap: () => showDatePickerDialog(
                                 context, provider.companyDateController),
@@ -113,11 +121,15 @@ class SignUpScreen extends StatelessWidget {
                           hint: 'تاريخ انشاء الشركة',
                         ),
                         CustomTextField(
+                          isRequired: true,
+                          errorText: 'هذا الحقل مطلوب',
                           bgcolor: grey8,
                           controller: provider.companyAddressController,
                           hint: "عنوان الشركة",
                         ),
                         CustomTextField(
+                          isRequired: true,
+                          errorText: 'هذا الحقل مطلوب',
                           bgcolor: grey8,
                           controller: provider.taxNumberController,
                           hint: "الرقم الضريبي",
@@ -126,6 +138,8 @@ class SignUpScreen extends StatelessWidget {
                         SizedBox.shrink()
                       ],
                       CustomTextField(
+                        isRequired: true,
+                        errorText: 'يجب عليك ادخال بريد الكتروني صحيح',
                         bgcolor: grey8,
                         controller: provider.emailController,
                         hint: "البريد الإلكتروني",
@@ -229,6 +243,7 @@ class SignUpScreen extends StatelessWidget {
                           // }
 
                           provider.signUpUser(context, userData);
+                          Navigator.pushNamed(context, LoginScreen.id);
                         },
                         backgroundColor: kprimaryColor,
                         textColor: grey9,

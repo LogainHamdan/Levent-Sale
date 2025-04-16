@@ -18,6 +18,8 @@ class CustomTextField extends StatelessWidget {
   final Widget? prefix;
   final double? paragraphBorderRadius;
   final bool? labelGrey;
+  final bool isRequired;
+  final String? errorText;
 
   const CustomTextField({
     super.key,
@@ -34,22 +36,27 @@ class CustomTextField extends StatelessWidget {
     this.paragraphBorderRadius,
     this.prefix,
     this.labelGrey = false,
+    this.isRequired = false,
+    this.errorText,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool showError = errorText != null && errorText!.isNotEmpty;
+
     return !paragraph!
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                textAlign: TextAlign.right,
-                label!,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: labelGrey! ? grey5 : Colors.black,
+              if (label!.isNotEmpty)
+                Text(
+                  textAlign: TextAlign.right,
+                  label!,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: labelGrey! ? grey5 : Colors.black,
+                  ),
                 ),
-              ),
               TextField(
                 controller: controller,
                 keyboardType: keyboardType,
@@ -57,10 +64,12 @@ class CustomTextField extends StatelessWidget {
                 textDirection: textDirection,
                 cursorColor: Colors.black,
                 style: GoogleFonts.tajawal(
-                    textStyle: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp)),
+                  textStyle: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.sp,
+                  ),
+                ),
                 decoration: InputDecoration(
                   prefix: prefix,
                   suffixIcon: suffix,
@@ -77,67 +86,110 @@ class CustomTextField extends StatelessWidget {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.r),
-                    borderSide: BorderSide.none,
+                    borderSide: showError
+                        ? const BorderSide(color: Colors.red, width: 2.0)
+                        : BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.r),
-                    borderSide: BorderSide.none,
+                    borderSide: showError
+                        ? const BorderSide(color: Colors.red, width: 2.0)
+                        : BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.r),
-                    borderSide: BorderSide.none,
+                    borderSide: showError
+                        ? const BorderSide(color: Colors.red, width: 2.0)
+                        : BorderSide.none,
                   ),
+                  errorText: null, // إلغاء عرض الخطأ هنا
                 ),
                 onChanged: onChanged,
               ),
+              if (showError)
+                Padding(
+                  padding: EdgeInsets.only(top: 4.h, right: 8.w),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Text(
+                      errorText!,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: Colors.red,
+                      ),
+                      textAlign: TextAlign.right,
+                    ),
+                  ),
+                ),
             ],
           )
         : Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                textAlign: TextAlign.right,
-                label!,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: labelGrey! ? grey5 : Colors.black,
-                ),
-              ),
-              Container(
-                child: TextField(
-                  controller: controller,
-                  keyboardType: keyboardType,
-                  obscureText: isPassword,
-                  textDirection: textDirection,
-                  cursorColor: Colors.black,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                    fillColor: bgcolor,
-                    filled: true,
-                    hintText: hint!,
-                    hintStyle: TextStyle(color: grey3, fontSize: 16.sp),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.r),
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(paragraphBorderRadius!.r),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(paragraphBorderRadius!.r),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
+              if (label!.isNotEmpty)
+                Text(
+                  textAlign: TextAlign.right,
+                  label!,
                   style: TextStyle(
-                    fontSize: 16.0.sp,
-                    color: Colors.black,
+                    fontSize: 14.sp,
+                    color: labelGrey! ? grey5 : Colors.black,
                   ),
-                  onChanged: onChanged,
                 ),
+              TextField(
+                controller: controller,
+                keyboardType: keyboardType,
+                obscureText: isPassword,
+                textDirection: textDirection,
+                cursorColor: Colors.black,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  fillColor: bgcolor,
+                  filled: true,
+                  hintText: hint!,
+                  hintStyle: TextStyle(color: grey3, fontSize: 16.sp),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                    borderSide: showError
+                        ? const BorderSide(color: Colors.red, width: 2.0)
+                        : BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(paragraphBorderRadius!.r),
+                    borderSide: showError
+                        ? const BorderSide(color: Colors.red, width: 2.0)
+                        : BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(paragraphBorderRadius!.r),
+                    borderSide: showError
+                        ? const BorderSide(color: Colors.red, width: 2.0)
+                        : BorderSide.none,
+                  ),
+                  errorText: null,
+                ),
+                style: TextStyle(
+                  fontSize: 16.0.sp,
+                  color: Colors.black,
+                ),
+                onChanged: onChanged,
               ),
+              if (showError)
+                Padding(
+                  padding: EdgeInsets.only(top: 4.h, right: 8.w),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Text(
+                      errorText!,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: Colors.red,
+                      ),
+                      textAlign: TextAlign.right,
+                    ),
+                  ),
+                ),
             ],
           );
   }

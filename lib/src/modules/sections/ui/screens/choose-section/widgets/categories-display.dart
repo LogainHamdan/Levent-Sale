@@ -87,7 +87,7 @@ class CategoriesDisplay extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(8.0.sp),
                       child: ClipOval(
-                        child: SvgPicture.asset(
+                        child: Image.network(
                           category.imageUrl!,
                           height: 30.h,
                           width: 30.w,

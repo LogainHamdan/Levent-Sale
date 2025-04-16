@@ -46,7 +46,7 @@ class CheckingContainer extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: services.entries.map((entry) {
-                final detail = attributesData.details.firstWhere(
+                final detail = (attributesData.details ?? []).firstWhere(
                   (d) => d.id == entry.key,
                   orElse: () => Detail(id: entry.key, name: 'خدمة غير معروفة'),
                 );
@@ -54,7 +54,7 @@ class CheckingContainer extends StatelessWidget {
                 return Directionality(
                   textDirection: TextDirection.rtl,
                   child: CustomCheckBox(
-                    title: detail.name,
+                    title: detail.name ?? '',
                     value: entry.value,
                     onChanged: (value) {
                       if (create) {

@@ -1,14 +1,14 @@
 class AdAttributesModel {
-  final int id;
-  final int categoryId;
-  final Attributes attributes;
-  final List<Detail> details;
+  final int? id;
+  final int? categoryId;
+  final Attributes? attributes;
+  final List<Detail>? details;
 
   AdAttributesModel({
-    required this.id,
-    required this.categoryId,
-    required this.attributes,
-    required this.details,
+    this.id,
+    this.categoryId,
+    this.attributes,
+    this.details,
   });
 
   factory AdAttributesModel.fromJson(Map<String, dynamic> json) {
@@ -23,9 +23,9 @@ class AdAttributesModel {
 }
 
 class Attributes {
-  final List<Field> fields;
+  final List<Field>? fields;
 
-  Attributes({required this.fields});
+  Attributes({this.fields});
 
   factory Attributes.fromJson(Map<String, dynamic> json) {
     return Attributes(
@@ -56,21 +56,21 @@ String fieldTypeToString(FieldType type) {
 }
 
 class Field {
-  final String name;
-  final FieldType type;
-  final String label;
+  final String? name;
+  final FieldType? type;
+  final String? label;
   final List<String>? options;
-  final bool required;
+  final bool? required;
   final dynamic defaultValue;
   final Validation? validation;
   final String? placeholder;
 
   Field({
-    required this.name,
-    required this.type,
-    required this.label,
+    this.name,
+    this.type,
+    this.label,
     this.options,
-    required this.required,
+    this.required,
     this.defaultValue,
     this.validation,
     this.placeholder,
@@ -110,10 +110,10 @@ class Validation {
 }
 
 class Detail {
-  final int id;
-  final String name;
+  final int? id;
+  final String? name;
 
-  Detail({required this.id, required this.name});
+  Detail({this.id, this.name});
 
   factory Detail.fromJson(Map<String, dynamic> json) {
     return Detail(

@@ -1,10 +1,6 @@
-import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
-import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
-import '../../../config/constants.dart';
-import '../models/business-owner-model.dart';
-import '../models/personal-model.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -45,6 +41,18 @@ class AuthRepository {
         },
       ),
     );
+
+    dio.interceptors.add(
+      LogInterceptor(
+        request: true,
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        logPrint: (object) => print('DIO LOG: $object'),
+      ),
+    );
   }
 
   Future<Response> signUpBusinessOwner(BusinessOwner owner) async {
@@ -78,9 +86,22 @@ class AuthRepository {
     try {
       final response = await dio.post(
         googleLoginUrl,
-        data: {'token': token},
+        data: jsonEncode({'token': token}),
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
       );
-      return response.data;
+
+      if (response.statusCode == 200) {
+        return {'statusCode': 200};
+      } else {
+        return {
+          'error':
+              'Google login failed with status code: ${response.statusCode}'
+        };
+      }
     } on DioException catch (e) {
       return {
         'error': e.response?.data['message'] ??
@@ -92,21 +113,38 @@ class AuthRepository {
   Future<Map<String, dynamic>> loginUser({
     required String identifier,
     required String password,
-    required String recaptchaToken,
   }) async {
     try {
+      print("Login request: $identifier, $password");
+
       final response = await dio.post(
         loginUrl,
         data: {
           'identifier': identifier,
           'password': password,
-          'recaptchaToken': recaptchaToken,
         },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/hal+json',
+          },
+        ),
       );
-      return {'statusCode': response.statusCode, 'data': response.data};
-    } on DioException catch (e) {
+
+      print("Login response data: ${response.data}");
       return {
-        'error': e.response?.data['message'] ?? 'Login failed: ${e.message}'
+        'statusCode': response.statusCode,
+        'data': response.data,
+      };
+    } on DioException catch (e) {
+      print("Login DioException:");
+      print("Message: ${e.message}");
+      print("Type: ${e.type}");
+      print("Response: ${e.response?.data}");
+
+      return {
+        'error': e.response?.data['message'] ??
+            'خطأ غير معروف: تأكد من الاتصال بالإنترنت.',
       };
     }
   }

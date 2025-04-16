@@ -1,5 +1,9 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import 'package:Levant_Sale/src/modules/sections/models/subcategory.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details2.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,22 +51,45 @@ class SectionTrack extends StatelessWidget {
                     debugPrint(
                         "Selected: ${createSectionChooseProvider.selectedSubcategory?.name}");
 
-                    await createSectionChooseProvider.fetchSubcategories(
-                      createSectionChooseProvider.selectedSubcategory!.id,
-                    );
+                    if (createSectionChooseProvider.selectedSubcategory !=
+                        null) {
+                      await createSectionChooseProvider.fetchSubcategories(
+                          createSectionChooseProvider.selectedSubcategory!.id);
+                    } else {
+                      debugPrint("Selected subcategory is null");
+                    }
 
                     if (createSectionChooseProvider.subcategories.isEmpty) {
-                      debugPrint("This is a LEAF node, fetching attributes...");
+                      updateAdProvider.nextStep();
 
-                      await createDetailsProvider.fetchAttributes(
-                        createSectionChooseProvider.selectedSubcategory!.id,
-                      );
+                      debugPrint("fetching attributes...");
+
+                      if (createSectionChooseProvider.selectedSubcategory !=
+                          null) {
+                        await createDetailsProvider.fetchAttributes(
+                          createSectionChooseProvider.selectedSubcategory!.id,
+                        );
+                      }
 
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => CreateAdScreen(
                             lowerWidget: SectionDetails1(create: create),
+                            bottomNavBar: DraggableButton('متابعة',
+                                onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CreateAdScreen(
+                                            bottomNavBar: DraggableButton(
+                                                'متابعة', onPressed: () {
+                                              createAdProvider.nextStep();
+                                              showAdCreated(context);
+                                              Navigator.pushNamed(context,
+                                                  MyCollectionScreen.id);
+                                            }),
+                                            lowerWidget: SectionDetails2(
+                                                create: create))))),
                           ),
                         ),
                       );
@@ -86,9 +113,13 @@ class SectionTrack extends StatelessWidget {
                   }
                 : () async {
                     updateSectionChooseProvider.setSelectedSubcategory(index);
-                    await updateSectionChooseProvider.fetchSubcategories(
-                      updateSectionChooseProvider.selectedSubcategory!.id,
-                    );
+
+                    if (createSectionChooseProvider.selectedSubcategory !=
+                        null) {
+                      await updateSectionChooseProvider.fetchSubcategories(
+                        updateSectionChooseProvider.selectedSubcategory!.id,
+                      );
+                    }
                     if (updateSectionChooseProvider.subcategories.isEmpty) {
                       updateAdProvider.nextStep();
                       Navigator.push(

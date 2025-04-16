@@ -90,15 +90,17 @@ class SignUpProvider extends ChangeNotifier {
           isVerified: false,
           businessName: userData['company_name'],
           businessLicense: userData['tax_number'],
-          birthday: userData['birthday'],
-          verificationToken: null,
+          birthday: userData['birth_date'] != null
+              ? DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(
+                  DateFormat('MMMM d, yyyy').parse(userData['birth_date']))
+              : '',
           active: true,
-          oauth2Provider: null,
           status: 'PENDING',
           roles: ['business_owner'],
         );
 
         print('SIGNING UP BUSINESS: ${owner.toJson()}');
+
         response = await _authRepository.signUpBusinessOwner(owner);
       } else if (_selectedValue == 'شخصي') {
         final account = PersonalModel(
@@ -108,16 +110,21 @@ class SignUpProvider extends ChangeNotifier {
           phoneNumber: userData['phone'],
           firstName: userData['first_name'],
           lastName: userData['last_name'],
-          profilePicture: '',
+          profilePicture: null,
           isVerified: false,
-          birthday: userData['birthday'],
+          birthday: userData['birth_date'] != null
+              ? DateFormat('yyyy-MM-dd').format(
+                  DateFormat('MMMM d, yyyy').parse(userData['birth_date']))
+              : null,
           active: true,
           status: 'PENDING',
           roles: ['personal_user'],
         );
 
         print('SIGNING UP PERSONAL: ${account.toJson()}');
+
         response = await _authRepository.signUpPersonalAccount(account);
+        print('STATUS CODE:${response.statusCode}');
       } else {
         customShowSnackBar(context, 'يرجى اختيار نوع الحساب', Colors.redAccent);
         isLoading = false;
@@ -132,9 +139,19 @@ class SignUpProvider extends ChangeNotifier {
             Colors.redAccent);
       }
     } catch (e) {
-      print('SIGN UP ERROR: ${e}');
+      if (e is DioException) {
+        print('SIGN UP ERROR: ${e.message}');
+        print('RESPONSE DATA: ${e.response?.data}');
+        print('STATUS CODE: ${e.response?.statusCode}');
+      } else {
+        print('ERROR: $e');
+      }
+
       customShowSnackBar(
-          context, 'حدث خطأ أثناء التسجيل: ${e.toString()}', Colors.redAccent);
+        context,
+        'حدث خطأ أثناء التسجيل: ${e.toString()}',
+        Colors.redAccent,
+      );
     } finally {
       isLoading = false;
       notifyListeners();

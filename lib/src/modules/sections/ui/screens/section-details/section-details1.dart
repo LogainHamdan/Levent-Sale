@@ -12,12 +12,11 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widg
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../../config/constants.dart';
 import '../../../models/attriburtes.dart';
 import '../choose-section/create-ad-choose-section-provider.dart';
 import '../choose-section/update-ad-choose-section.dart';
-import '../create-ad/provider.dart';
-import '../update-ad/provider.dart';
 
 class SectionDetails1 extends StatelessWidget {
   final bool create;
@@ -46,129 +45,125 @@ class SectionDetails1 extends StatelessWidget {
     return Consumer2<CreateAdSectionDetailsProvider,
         UpdateAdSectionDetailsProvider>(
       builder: (context, createDetailsProvider, updateDetailsProvider, _) {
-        // if (create
-        //     ? createDetailsProvider.attributesData == null
-        //     : updateDetailsProvider.attributesData == null) {
-        //   return const Center(child: Text('لا توجد بيانات لعرضها'));
-        // }
+        final attributesData = create
+            ? createDetailsProvider.attributesData
+            : updateDetailsProvider.attributesData;
+
+        if (attributesData == null || attributesData.attributes == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
         return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14.w),
-            child: SingleChildScrollView(
-                child: (create
-                        ? createDetailsProvider.attributesData == null
-                        : updateDetailsProvider.attributesData == null)
-                    ? const Center(child: CircularProgressIndicator())
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          ...(create
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (attributesData.attributes?.fields?.isNotEmpty ?? false)
+                  ...(attributesData.attributes?.fields ?? []).map((field) {
+                    switch (field.type) {
+                      case FieldType.text:
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            CustomTextField(
+                              label: field.label,
+                              controller: create
                                   ? createDetailsProvider
-                                      .attributesData!.attributes.fields
+                                      .getController(field.name ?? '')
                                   : updateDetailsProvider
-                                      .attributesData!.attributes.fields)
-                              .map((field) {
-                            switch (field.type) {
-                              case FieldType.text:
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    CustomTextField(
-                                      label: field.label,
-                                      controller: TextEditingController(),
-                                      hint: field.placeholder ?? '',
-                                      bgcolor: grey8,
-                                    ),
-                                    SizedBox(height: 16.h),
-                                  ],
-                                );
-                              case FieldType.number:
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    CustomTextField(
-                                      label: field.label,
-                                      controller: TextEditingController(),
-                                      hint: field.placeholder ?? '',
-                                      keyboardType: TextInputType.number,
-                                      bgcolor: grey8,
-                                    ),
-                                    SizedBox(height: 16.h),
-                                  ],
-                                );
-                              case FieldType.dropdown:
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    CustomDropdownSection(
-                                      title: field.label,
-                                      create: true,
-                                      dropdownKey: field.name,
-                                      hint: field.placeholder ?? 'اختر',
-                                      items: field.options ?? [],
-                                    ),
-                                    SizedBox(height: 16.h),
-                                  ],
-                                );
-                              case FieldType.checkbox:
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    CustomSwitchTile(
-                                      title: field.label,
-                                      value: (create
-                                              ? createDetailsProvider
-                                                  .getSelectedValue(field.name)
-                                              : updateDetailsProvider
-                                                  .getSelectedValue(
-                                                      field.name)) ==
-                                          "true",
-                                      onChanged: (val) {
-                                        (create
-                                            ? createDetailsProvider
-                                                .setSelectedValue(
-                                                    field.name, val.toString())
-                                            : updateDetailsProvider
-                                                .setSelectedValue(field.name,
-                                                    val.toString()));
-                                      },
-                                      activeColor: kprimaryColor,
-                                    ),
-                                    SizedBox(height: 16.h),
-                                  ],
-                                );
-                            }
-                          }).toList(),
-                          if (create
-                              ? (createDetailsProvider
-                                  .attributesData!.details.isNotEmpty)
-                              : (updateDetailsProvider
-                                  .attributesData!.details.isNotEmpty))
-                            ...(create
-                                    ? createDetailsProvider
-                                        .attributesData!.details
-                                    : updateDetailsProvider
-                                        .attributesData!.details)
-                                .map((detail) {
-                              return CustomSwitchTile(
-                                title: detail.name,
-                                value: (create
-                                    ? createDetailsProvider
-                                        .getServiceValue(detail.id)
-                                    : updateDetailsProvider
-                                        .getServiceValue(detail.id)),
-                                onChanged: (val) => (create
-                                    ? createDetailsProvider.toggleService(
-                                        detail.id, val)
-                                    : updateDetailsProvider.toggleService(
-                                        detail.id, val)),
-                                activeColor: kprimaryColor,
-                              );
-                            }),
-                          SizedBox(height: 24.h),
-                          CheckingContainer(create: create),
-                          SizedBox(height: 41.h),
-                        ],
-                      )));
+                                      .getController(field.name ?? ''),
+                              hint: field.placeholder,
+                              bgcolor: grey8,
+                            ),
+                            SizedBox(height: 16.h),
+                          ],
+                        );
+                      case FieldType.number:
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            CustomTextField(
+                              label: field.label,
+                              controller: create
+                                  ? createDetailsProvider
+                                      .getController(field.name ?? '')
+                                  : updateDetailsProvider
+                                      .getController(field.name ?? ''),
+                              hint: field.placeholder,
+                              keyboardType: TextInputType.number,
+                              bgcolor: grey8,
+                            ),
+                            SizedBox(height: 16.h),
+                          ],
+                        );
+                      case FieldType.dropdown:
+                        return Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              if ((field.options ?? []).isNotEmpty) ...[
+                                CustomDropdownSection(
+                                  title: field.label ?? 'عنوان غير معروف',
+                                  create: true,
+                                  dropdownKey: field.name ?? '',
+                                  hint: field.placeholder ?? 'اختر',
+                                  items: field.options ?? [],
+                                ),
+                                SizedBox(height: 16.h),
+                              ],
+                            ]);
+                      case FieldType.checkbox:
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            CustomSwitchTile(
+                              title: field.label ?? '',
+                              value: (create
+                                      ? createDetailsProvider
+                                          .getSelectedValue(field.name ?? '')
+                                      : updateDetailsProvider.getSelectedValue(
+                                          field.name ?? '')) ==
+                                  "true",
+                              onChanged: (val) {
+                                (create
+                                    ? createDetailsProvider.setSelectedValue(
+                                        field.name ?? '', val.toString())
+                                    : updateDetailsProvider.setSelectedValue(
+                                        field.name ?? '', val.toString()));
+                              },
+                              activeColor: kprimaryColor,
+                            ),
+                            SizedBox(height: 16.h),
+                          ],
+                        );
+                      default:
+                        return SizedBox.shrink();
+                    }
+                  }).toList(),
+                if (attributesData.details?.isNotEmpty ?? false)
+                  ...(attributesData.details ?? []).map((detail) {
+                    return CustomSwitchTile(
+                      title: detail.name ?? 'خدمة غير معروفة',
+                      value: (create
+                          ? createDetailsProvider
+                              .getServiceValue(detail.id ?? 0)
+                          : updateDetailsProvider
+                              .getServiceValue(detail.id ?? 0)),
+                      onChanged: (val) => (create
+                          ? createDetailsProvider.toggleService(
+                              detail.id ?? 0, val)
+                          : updateDetailsProvider.toggleService(
+                              detail.id ?? 0, val)),
+                      activeColor: kprimaryColor,
+                    );
+                  }).toList(),
+                SizedBox(height: 24.h),
+                CheckingContainer(create: create),
+                SizedBox(height: 41.h),
+              ],
+            ),
+          ),
+        );
       },
     );
   }

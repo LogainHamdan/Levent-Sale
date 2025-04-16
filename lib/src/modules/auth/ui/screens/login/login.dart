@@ -11,8 +11,10 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-t
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../config/constants.dart';
 import 'package:provider/provider.dart';
+import '../../../repos/token-helper.dart';
 import '../splash/widgets/custom-elevated-button.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -45,6 +47,8 @@ class LoginScreen extends StatelessWidget {
                   Consumer<AuthProvider>(
                       builder: (context, authProvider, child) {
                     return CustomTextField(
+                      isRequired: true,
+                      errorText: 'يجب عليك ادخال بريد الكتروني صحيح',
                       bgcolor: grey8,
                       controller: authProvider.emailController,
                       hint: 'البريد الالكتروني / رقم الجوال',
@@ -103,9 +107,13 @@ class LoginScreen extends StatelessWidget {
                       builder: (context, authProvider, child) {
                     return CustomElevatedButton(
                       text: 'متابعة',
-                      onPressed: () => authProvider.isFormValid
-                          ? () => _handleLogin(context)
-                          : null,
+                      onPressed: () {
+                        if (authProvider.isFormValid) {
+                          _handleLogin(context);
+                        } else {
+                          print('Form not valid');
+                        }
+                      },
                       backgroundColor: kprimaryColor,
                       textColor: grey9,
                       date: false,
@@ -118,7 +126,10 @@ class LoginScreen extends StatelessWidget {
                       builder: (context, authProvider, child) {
                     return SocialButton(
                       facebook: false,
-                      onPressed: () => authProvider.googleLogin(context),
+                      onPressed: () {
+                        print("Google login button pressed.");
+                        authProvider.googleLogin(context);
+                      },
                       text: "الاستمرار بجوجل Google",
                       image: googlePath,
                     );
@@ -154,11 +165,14 @@ class LoginScreen extends StatelessWidget {
 
   Future<void> _handleLogin(BuildContext context) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    print("Login button pressed!");
+
     await authProvider.loginUser(
       context: context,
       identifier: authProvider.emailController.text.trim(),
       password: authProvider.passwordController.text.trim(),
-      recaptchaToken: 'default_trust_chain',
     );
+
+    print("Login button applied!");
   }
 }

@@ -56,10 +56,11 @@ class CustomDropdownSection extends StatelessWidget {
           double updateExpandedHeight = headerHeight +
               (updateIsOpen ? updateUniqueItems.length * itemHeight : 0);
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               CustomLabel(text: title),
               SizedBox(
-                height: 16.h,
+                height: 4.h,
               ),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),

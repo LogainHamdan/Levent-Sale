@@ -21,6 +21,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController discountController = TextEditingController();
+  final Map<String, TextEditingController> dynamicFieldControllers = {};
 
   List<File> get selectedImages => _selectedImages;
   final quill.QuillController _controller = quill.QuillController.basic();
@@ -56,7 +57,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
 
   Future<void> pickImage() async {
     final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       _selectedImages.add(File(pickedFile.path));
       notifyListeners();
@@ -73,24 +74,40 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  TextEditingController getController(String key) {
+    if (!dynamicFieldControllers.containsKey(key)) {
+      dynamicFieldControllers[key] = TextEditingController();
+    }
+    return dynamicFieldControllers[key]??TextEditingController();
+  }
+
   Future<void> fetchAttributes(int categoryId) async {
+    debugPrint('Fetching attributes for categoryId: $categoryId');
+
     try {
       final result = await _repo.getAttributesByCategory(categoryId);
+      debugPrint('Result from API: $result');
+
       if (result != null) {
         attributesData = result;
         hasError = false;
-
         _services.clear();
-        for (var detail in result.details) {
-          _services[detail.id] = false;
+
+        for (var detail in result.details ?? []) {
+          if (detail.id != null) {
+            _services[detail.id??0] = false;
+          }
         }
       } else {
         hasError = true;
+        debugPrint('No result for categoryId: $categoryId');
       }
+
+      notifyListeners();
     } catch (e) {
       hasError = true;
-      debugPrint('Error fetching attributes: $e');
+      debugPrint('Error in fetchAttributes: $e');
+      notifyListeners(); // Ensure UI updates even on error
     }
-    notifyListeners();
   }
 }

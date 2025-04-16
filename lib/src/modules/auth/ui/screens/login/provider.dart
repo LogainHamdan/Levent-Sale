@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../main/ui/screens/main_screen.dart';
 import '../../../repos/auth-repo.dart';
+import '../../../repos/token-helper.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _passwordVisible = false;
@@ -115,7 +116,7 @@ class AuthProvider extends ChangeNotifier {
     required BuildContext context,
     required String identifier,
     required String password,
-    required String recaptchaToken,
+    String? recaptchaToken,
   }) async {
     _setLoading(true);
 
@@ -129,15 +130,22 @@ class AuthProvider extends ChangeNotifier {
       final result = await _authRepository.loginUser(
         identifier: identifier,
         password: password,
-        recaptchaToken: recaptchaToken,
       );
+      print(result['statusCode']);
+      if (result.containsKey('error')) {
+        print("LOGIN ERROR: ${result['error']}");
+        _setErrorMessage(result['error'] ?? 'حدث خطأ غير متوقع.');
+        return;
+      } else {
+        print("LOGIN SUCCESS: ${result['data']}");
+      }
 
       if (result['statusCode'] == 200) {
-        _currentUser = result['data']['user'];
-        final token = result['data']['jwt'];
-
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
+        if (result['data'].isEmpty) {
+          print("Warning: No data returned from server");
+          _setErrorMessage('التسجيل لم يتم بنجاح، الاستجابة فارغة.');
+          return;
+        }
 
         notifyListeners();
         Navigator.pushNamedAndRemoveUntil(
@@ -170,37 +178,48 @@ class AuthProvider extends ChangeNotifier {
     _setErrorMessage(null);
 
     try {
+      print("Attempting Google Sign-In...");
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      print("Google user: $googleUser");
 
       if (googleUser == null) {
         _setLoading(false);
+        print("Google login canceled by user");
         return;
       }
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
       final String? token = googleAuth.idToken;
+      print("Token: $token");
 
       if (token == null) {
         throw Exception('Failed to get token');
       }
 
+      print("Making API call with token: $token");
       final result = await _authRepository.googleLogin(token);
+      print("API result: $result");
 
       if (result['statusCode'] == 200) {
+        print("Google login successful");
+
         Navigator.pushNamedAndRemoveUntil(
           context,
           MainScreen.id,
           (route) => false,
         );
       } else {
+        print("Error: ${result['error']}");
+
         _setErrorMessage(result['error'] ?? 'Google login failed');
       }
-
       _setLoading(false);
     } catch (e) {
       _setLoading(false);
       _setErrorMessage('Google login failed: ${e.toString()}');
+
+      print("Error: $e");
     }
   }
 

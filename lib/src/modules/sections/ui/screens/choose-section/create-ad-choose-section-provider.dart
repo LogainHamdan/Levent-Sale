@@ -12,6 +12,7 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
   List<RootCategoryModel> rootCategories = [];
   List<SubcategoryModel> subcategories = [];
   List<CategoryChildModel> categoryChildren = [];
+  SubcategoryModel? _selectedSubcategory;
 
   bool isLoading = false;
   RootCategoryModel? category;
@@ -21,12 +22,7 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
 
   int? get selectedSubcategoryIndex => _selectedSubcategoryIndex;
 
-  SubcategoryModel? get selectedSubcategory =>
-      (_selectedSubcategoryIndex != null &&
-              _selectedSubcategoryIndex! >= 0 &&
-              _selectedSubcategoryIndex! < subcategories.length)
-          ? subcategories[_selectedSubcategoryIndex!]
-          : null;
+  SubcategoryModel? get selectedSubcategory => _selectedSubcategory;
 
   void setSelectedCategory(int index) {
     _selectedCategoryIndex = index;
@@ -34,6 +30,8 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
 
   void setSelectedSubcategory(int index) {
     _selectedSubcategoryIndex = index;
+    _selectedSubcategory = subcategories[index];
+    notifyListeners();
   }
 
   RootCategoryModel? get selectedCategory => (selectedCategoryIndex! >= 0 &&

@@ -21,6 +21,7 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController discountController = TextEditingController();
+  final Map<String, TextEditingController> dynamicFieldControllers = {};
 
   List<File> get selectedImages => _selectedImages;
   final quill.QuillController _controller = quill.QuillController.basic();
@@ -73,6 +74,14 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  TextEditingController getController(String key) {
+    if (!dynamicFieldControllers.containsKey(key)) {
+      dynamicFieldControllers[key] = TextEditingController();
+    }
+    return dynamicFieldControllers[key] ??
+        TextEditingController(); // Safe fallback
+  }
+
   Future<void> fetchAttributes(int categoryId) async {
     debugPrint('Fetching attributes for categoryId: $categoryId');
 
@@ -84,8 +93,11 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
         attributesData = result;
         hasError = false;
         _services.clear();
-        for (var detail in result.details) {
-          _services[detail.id] = false;
+
+        for (var detail in result.details ?? []) {
+          if (detail.id != null) {
+            _services[detail.id ?? 0] = false;
+          }
         }
       } else {
         hasError = true;
@@ -96,6 +108,7 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
     } catch (e) {
       hasError = true;
       debugPrint('Error in fetchAttributes: $e');
+      notifyListeners(); // Ensure UI updates even on error
     }
   }
 }

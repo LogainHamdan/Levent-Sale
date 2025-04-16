@@ -20,82 +20,87 @@ class SectionDetails2 extends StatelessWidget {
         Provider.of<CreateAdSectionDetailsProvider>(context);
     final updateDetailsProvider =
         Provider.of<CreateAdSectionDetailsProvider>(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomTextField(
-            controller: create
-                ? createDetailsProvider.titleController
-                : updateDetailsProvider.titleController,
-            hint: '',
-            label: 'عنوان',
-            bgcolor: grey8),
-        SizedBox(
-          height: 16.h,
-        ),
-        CustomTextField(
-          label: 'وصف صغير',
-          controller: create
-              ? createDetailsProvider.shortDescController
-              : updateDetailsProvider.shortDescController,
-          hint: '',
-          bgcolor: grey8,
-          paragraphBorderRadius: 10,
-          keyboardType: TextInputType.multiline,
-          paragraph: true,
-        ),
-        SizedBox(
-          height: 16.h,
-        ),
-        Align(alignment: Alignment.centerRight, child: Text('محتوى')),
-        SizedBox(
-            height: 300.h,
-            child: RichTextEditor(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomTextField(
+                controller: create
+                    ? createDetailsProvider.titleController
+                    : updateDetailsProvider.titleController,
+                hint: '',
+                label: 'عنوان',
+                bgcolor: grey8),
+            SizedBox(
+              height: 16.h,
+            ),
+            CustomTextField(
+              label: 'وصف صغير',
+              controller: create
+                  ? createDetailsProvider.shortDescController
+                  : updateDetailsProvider.shortDescController,
+              hint: '',
+              bgcolor: grey8,
+              paragraphBorderRadius: 10,
+              keyboardType: TextInputType.multiline,
+              paragraph: true,
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+            Align(alignment: Alignment.centerRight, child: Text('محتوى')),
+            SizedBox(
+                height: 300.h,
+                child: RichTextEditor(
+                  create: create,
+                )),
+            SizedBox(height: 24.h),
+            Align(alignment: Alignment.centerRight, child: Text('صور')),
+            ImagePickerColumn(
               create: create,
-            )),
-        SizedBox(height: 24.h),
-        Align(alignment: Alignment.centerRight, child: Text('صور')),
-        ImagePickerColumn(
-          create: create,
+            ),
+            SelectedImagesSection(
+              create: create,
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+            CustomTextField(
+                label: 'رقم هاتف للتواصل',
+                controller: create
+                    ? createDetailsProvider.phoneController
+                    : updateDetailsProvider.phoneController,
+                hint: '',
+                bgcolor: grey8),
+            SizedBox(
+              height: 16.h,
+            ),
+            CustomTextField(
+                label: 'السعر',
+                controller: create
+                    ? createDetailsProvider.priceController
+                    : updateDetailsProvider.priceController,
+                hint: '',
+                bgcolor: grey8),
+            SizedBox(
+              height: 16.h,
+            ),
+            CustomTextField(
+                suffix: Icon(Icons.percent, color: grey4),
+                label: 'خصم بنسبة',
+                controller: create
+                    ? createDetailsProvider.discountController
+                    : updateDetailsProvider.discountController,
+                hint: '',
+                bgcolor: grey8),
+            SizedBox(
+              height: 16.h,
+            ),
+          ],
         ),
-        SelectedImagesSection(
-          create: create,
-        ),
-        SizedBox(
-          height: 16.h,
-        ),
-        CustomTextField(
-            label: 'رقم هاتف للتواصل',
-            controller: create
-                ? createDetailsProvider.phoneController
-                : updateDetailsProvider.phoneController,
-            hint: '',
-            bgcolor: grey8),
-        SizedBox(
-          height: 16.h,
-        ),
-        CustomTextField(
-            label: 'السعر',
-            controller: create
-                ? createDetailsProvider.priceController
-                : updateDetailsProvider.priceController,
-            hint: '',
-            bgcolor: grey8),
-        SizedBox(
-          height: 16.h,
-        ),
-        CustomTextField(
-            suffix: Icon(Icons.percent, color: grey4),
-            label: 'خصم بنسبة',
-            controller: create
-                ? createDetailsProvider.discountController
-                : updateDetailsProvider.discountController,
-            hint: '',
-            bgcolor: grey8),
-        SizedBox(
-          height: 16.h,
-        ),
-      ],
+      ),
     );
   }
 }
