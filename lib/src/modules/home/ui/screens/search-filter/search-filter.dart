@@ -5,7 +5,9 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/widgets/ho
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import '../home/data.dart';
 import '../home/widgets/search-field.dart';
 
@@ -18,7 +20,8 @@ class FilterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController filterController = TextEditingController();
-
+    final sectionsProvider =
+        Provider.of<CreateAdChooseSectionProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -52,7 +55,7 @@ class FilterScreen extends StatelessWidget {
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: categories.length,
+                  itemCount: sectionsProvider.rootCategories.length,
                   itemBuilder: (context, index) {
                     if (cardListIndex == 0) {
                       return CustomCard(
@@ -63,7 +66,7 @@ class FilterScreen extends StatelessWidget {
                           ),
                         ),
                         icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
-                        title: categories[index]['name'],
+                        title: sectionsProvider.rootCategories[index].name,
                       );
                     }
                     if (cardListIndex == 1) {

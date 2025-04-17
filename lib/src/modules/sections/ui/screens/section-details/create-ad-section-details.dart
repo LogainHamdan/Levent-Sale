@@ -111,4 +111,34 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
       notifyListeners(); // Ensure UI updates even on error
     }
   }
+
+  Map<String, dynamic> getAttributeFieldsMap() {
+    final Map<String, dynamic> attributesMap = {};
+    final attributes = attributesData?.attributes;
+
+    if (attributes == null || attributes.fields == null) return attributesMap;
+
+    for (final field in attributes.fields!) {
+      final name = field.name;
+
+      if (name == null) continue;
+
+      switch (field.type) {
+        case FieldType.text:
+        case FieldType.number:
+          attributesMap[name] = getController(name).text;
+          break;
+        case FieldType.dropdown:
+          attributesMap[name] = getSelectedValue(name);
+          break;
+        case FieldType.checkbox:
+          attributesMap[name] = getSelectedValue(name) == 'false';
+          break;
+        default:
+          attributesMap[name] = null;
+      }
+    }
+
+    return attributesMap;
+  }
 }

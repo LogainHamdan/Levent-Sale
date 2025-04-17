@@ -1,50 +1,59 @@
 class AdModel {
-  final String title;
-  final String categoryPath;
-  final String categoryNamePath;
-  final String adNo;
-  final String description;
-  final String longDescription;
-  final bool tradePossible;
-  final bool negotiable;
-  final String contactPhone;
-  final String contactEmail;
-  final int userId;
-  final double price;
-  final String governorate;
-  final String city;
-  final String fullAddress;
-  final String adType;
-  final String preferredContactMethod;
-  final String condition;
-  final String currency;
-  final Map<String, dynamic> attributes;
+  final int? id;
+  final String? title;
+  final String? categoryPath;
+  final String? categoryNamePath;
+  final String? adNo;
+  final String? description;
+  final String? longDescription;
+  final bool? tradePossible;
+  final bool? negotiable;
+  final String? contactPhone;
+  final String? contactEmail;
+  final int? userId;
+  final double? price;
+  final String? governorate;
+  final String? city;
+  final String? fullAddress;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final String? adType;
+  final String? preferredContactMethod;
+  final String? condition;
+  final String? currency;
+  final List<String>? imageUrls;
+  final Map<String, dynamic>? attributes;
 
   AdModel({
-    required this.title,
-    required this.categoryPath,
-    required this.categoryNamePath,
-    required this.adNo,
-    required this.description,
-    required this.longDescription,
-    required this.tradePossible,
-    required this.negotiable,
-    required this.contactPhone,
-    required this.contactEmail,
-    required this.userId,
-    required this.price,
-    required this.governorate,
-    required this.city,
-    required this.fullAddress,
-    required this.adType,
-    required this.preferredContactMethod,
-    required this.condition,
-    required this.currency,
-    required this.attributes,
+    this.id,
+    this.title,
+    this.categoryPath,
+    this.categoryNamePath,
+    this.adNo,
+    this.description,
+    this.longDescription,
+    this.tradePossible,
+    this.negotiable,
+    this.contactPhone,
+    this.contactEmail,
+    this.userId,
+    this.price,
+    this.governorate,
+    this.city,
+    this.fullAddress,
+    this.createdAt,
+    this.updatedAt,
+    this.adType,
+    this.preferredContactMethod,
+    this.condition,
+    this.currency,
+    this.imageUrls,
+    this.attributes,
   });
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "title": title,
       "categoryPath": categoryPath,
       "categoryNamePath": categoryNamePath,
@@ -60,11 +69,46 @@ class AdModel {
       "governorate": governorate,
       "city": city,
       "fullAddress": fullAddress,
+      "createdAt": createdAt?.toIso8601String(),
+      "updatedAt": updatedAt?.toIso8601String(),
       "adType": adType,
       "preferredContactMethod": preferredContactMethod,
       "condition": condition,
       "currency": currency,
+      "imageUrls": imageUrls,
       "attributes": attributes,
     };
+  }
+
+  factory AdModel.fromJson(Map<String, dynamic> json) {
+    return AdModel(
+      id: json['id'],
+      title: json['title'],
+      categoryPath: json['categoryPath'],
+      categoryNamePath: json['categoryNamePath'],
+      adNo: json['adNo'],
+      description: json['description'],
+      longDescription: json['longDescription'],
+      tradePossible: json['tradePossible'],
+      negotiable: json['negotiable'],
+      contactPhone: json['contactPhone'],
+      contactEmail: json['contactEmail'],
+      userId: json['userId'],
+      price: (json['price'] as num?)?.toDouble(),
+      governorate: json['governorate'],
+      city: json['city'],
+      fullAddress: json['fullAddress'],
+      createdAt:
+          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+      updatedAt:
+          json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+      adType: json['adType'],
+      preferredContactMethod: json['preferredContactMethod'],
+      condition: json['condition'],
+      currency: json['currency'],
+      imageUrls:
+          (json['imageUrls'] as List?)?.map((e) => e.toString()).toList(),
+      attributes: json['attributes'],
+    );
   }
 }

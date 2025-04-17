@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-header.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,13 +12,11 @@ import '../../../../../sections/ui/screens/section-details/section-details1.dart
 import '../../../../../sections/ui/screens/sections/sections.dart';
 
 class CategoriesList extends StatelessWidget {
-  final List<String> categoryNames;
-  final List<String> categoryImages;
+  final List<RootCategoryModel> categories;
 
   const CategoriesList({
     super.key,
-    required this.categoryNames,
-    required this.categoryImages,
+    required this.categories,
   });
 
   @override
@@ -26,23 +25,25 @@ class CategoriesList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomHeader(
-            title: 'الأقسام',
-            onPressed: () => Navigator.pushNamed(context, Sections.id)),
+          title: 'الأقسام',
+          onPressed: () => Navigator.pushNamed(context, Sections.id),
+        ),
         SingleChildScrollView(
           reverse: true,
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: List.generate(categoryNames.length, (index) {
+            children: List.generate(categories.length, (index) {
+              final category = categories[index];
               return Padding(
                 padding: EdgeInsets.only(left: index == 0 ? 0 : 16.w),
                 child: SectionItem(
-                  category: categoryNames[index],
-                  img: categoryImages[index],
+                  category: category,
+                  img: category.imageUrl ?? '',
                 ),
               );
             }),
           ),
-        )
+        ),
       ],
     );
   }

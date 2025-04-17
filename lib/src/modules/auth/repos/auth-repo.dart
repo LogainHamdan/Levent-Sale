@@ -82,31 +82,33 @@ class AuthRepository {
     }
   }
 
-  Future<Map<String, dynamic>> googleLogin(String token) async {
+  Future<Response> googleLogin(String token) async {
     try {
+      print(" token: $token");
       final response = await dio.post(
         googleLoginUrl,
         data: jsonEncode({'token': token}),
         options: Options(
           headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/hal+json',
           },
         ),
       );
-
-      if (response.statusCode == 200) {
-        return {'statusCode': 200};
-      } else {
-        return {
-          'error':
-              'Google login failed with status code: ${response.statusCode}'
-        };
-      }
+      print(" ${response.data}");
+      return response;
     } on DioException catch (e) {
-      return {
-        'error': e.response?.data['message'] ??
-            'Failed to login with Google: ${e.message}'
-      };
+      print("${e.message}");
+
+      if (e.response != null) {
+        print(" ${e.response?.data}");
+        throw Exception(' ${e.response?.data["error"] ?? "Unknown error"}');
+      } else {
+        throw Exception('${e.message}');
+      }
+    } catch (e) {
+      print(" ${e.toString()}");
+      throw Exception(' ${e.toString()}');
     }
   }
 
@@ -115,36 +117,32 @@ class AuthRepository {
     required String password,
   }) async {
     try {
-      print("Login request: $identifier, $password");
-
       final response = await dio.post(
         loginUrl,
-        data: {
+        data: jsonEncode({
           'identifier': identifier,
           'password': password,
-        },
+          'recaptchaToken': '',
+        }),
         options: Options(
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/hal+json',
           },
+          responseType: ResponseType.plain, // <== أضف هذا
         ),
       );
 
-      print("Login response data: ${response.data}");
-      return {
-        'statusCode': response.statusCode,
-        'data': response.data,
-      };
-    } on DioException catch (e) {
-      print("Login DioException:");
-      print("Message: ${e.message}");
-      print("Type: ${e.type}");
-      print("Response: ${e.response?.data}");
+      print('Raw response: ${response.data}');
 
+      // حاول تحويله إلى JSON فقط إذا كان مناسب
+      final jsonResponse = jsonDecode(response.data);
+      return jsonResponse;
+    } on DioException catch (e) {
+      print("Error: ${e.message}");
+      print("Raw response: ${e.response?.data}");
       return {
-        'error': e.response?.data['message'] ??
-            'خطأ غير معروف: تأكد من الاتصال بالإنترنت.',
+        'error': 'فشل تسجيل الدخول: الرد من السيرفر غير متوقع.',
       };
     }
   }

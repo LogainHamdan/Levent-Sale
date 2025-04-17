@@ -1,16 +1,20 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 
+import 'package:flutter/material.dart';
 import '../../../repos/ad.dart';
 
 class UpdateAdProvider extends ChangeNotifier {
-  final AdRepository _adRepository = AdRepository();
+  final AdRepository _repo = AdRepository();
 
-  int _currentStep = 3;
+  int _currentStep = 0;
   final int _totalSteps = 4;
+  bool isLoading = false;
+  String? error;
 
   int get currentStep => _currentStep;
+
   int get totalSteps => _totalSteps;
 
   void nextStep() {
@@ -28,4 +32,27 @@ class UpdateAdProvider extends ChangeNotifier {
   }
 
   bool isLastStep() => _currentStep == _totalSteps - 1;
+
+  Future<void> updateAd({
+    required int adId,
+    required AdModel adModel,
+    required String token,
+  }) async {
+    try {
+      final response = await _repo.updateAd(
+        adId: adId,
+        adModel: adModel,
+        token: token,
+      );
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        throw Exception(
+            'Failed to create ad: ${response.statusCode} - ${response.data}');
+      }
+      notifyListeners();
+    } catch (e) {
+      print(e.toString());
+      notifyListeners();
+    }
+  }
 }

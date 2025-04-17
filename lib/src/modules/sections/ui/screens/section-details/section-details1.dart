@@ -29,10 +29,6 @@ class SectionDetails1 extends StatelessWidget {
         Provider.of<CreateAdChooseSectionProvider>(context);
     final updateAdProvider =
         Provider.of<UpdateAdChooseSectionProvider>(context);
-    final createDetailsProvider =
-        Provider.of<CreateAdSectionDetailsProvider>(context);
-    final updateDetailsProvider =
-        Provider.of<UpdateAdSectionDetailsProvider>(context);
 
     final subcategory = create
         ? createAdProvider.selectedSubcategory
@@ -112,27 +108,42 @@ class SectionDetails1 extends StatelessWidget {
                                 SizedBox(height: 16.h),
                               ],
                             ]);
-                      case FieldType.checkbox:
+                      case FieldType.radio:
+                        final options = field.options ?? ['نعم', 'لا'];
+                        final onValue =
+                            options.isNotEmpty ? options.first : 'نعم';
+                        final offValue = options.length > 1 ? options[1] : 'لا';
+                        final currentValue = (create
+                            ? createDetailsProvider
+                                .getSelectedValue(field.name ?? '')
+                            : updateDetailsProvider
+                                .getSelectedValue(field.name ?? ''));
+
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             CustomSwitchTile(
                               title: field.label ?? '',
-                              value: (create
-                                      ? createDetailsProvider
-                                          .getSelectedValue(field.name ?? '')
-                                      : updateDetailsProvider.getSelectedValue(
-                                          field.name ?? '')) ==
-                                  "true",
+                              value: currentValue == onValue,
                               onChanged: (val) {
+                                final newValue = val ? onValue : offValue;
                                 (create
                                     ? createDetailsProvider.setSelectedValue(
-                                        field.name ?? '', val.toString())
+                                        field.name ?? '', newValue)
                                     : updateDetailsProvider.setSelectedValue(
-                                        field.name ?? '', val.toString()));
+                                        field.name ?? '', newValue));
                               },
                               activeColor: kprimaryColor,
                             ),
+                            SizedBox(height: 16.h),
+                          ],
+                        );
+
+                      case FieldType.checkbox:
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            CheckingContainer(create: create),
                             SizedBox(height: 16.h),
                           ],
                         );
@@ -140,25 +151,6 @@ class SectionDetails1 extends StatelessWidget {
                         return SizedBox.shrink();
                     }
                   }).toList(),
-                if (attributesData.details?.isNotEmpty ?? false)
-                  ...(attributesData.details ?? []).map((detail) {
-                    return CustomSwitchTile(
-                      title: detail.name ?? 'خدمة غير معروفة',
-                      value: (create
-                          ? createDetailsProvider
-                              .getServiceValue(detail.id ?? 0)
-                          : updateDetailsProvider
-                              .getServiceValue(detail.id ?? 0)),
-                      onChanged: (val) => (create
-                          ? createDetailsProvider.toggleService(
-                              detail.id ?? 0, val)
-                          : updateDetailsProvider.toggleService(
-                              detail.id ?? 0, val)),
-                      activeColor: kprimaryColor,
-                    );
-                  }).toList(),
-                SizedBox(height: 24.h),
-                CheckingContainer(create: create),
                 SizedBox(height: 41.h),
               ],
             ),

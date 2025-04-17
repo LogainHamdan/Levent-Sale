@@ -22,16 +22,16 @@ class AdAttributesRepository {
       debugPrint('Response code: ${response.statusCode}');
       debugPrint('Response data: ${response.data}');
 
-      if (response.statusCode == 200 &&
-          response.data is List &&
-          response.data.isNotEmpty) {
-        return AdAttributesModel.fromJson(response.data[0]);
-      } else {
-        debugPrint('Empty attributes list for categoryId $categoryId');
+      if (response.statusCode == 200 && response.data != null) {
+        final data = response.data;
+        if (data is List && data.isNotEmpty) {
+          return AdAttributesModel.fromJson(data[0]);
+        }
       }
     } catch (e) {
       debugPrint('Repo Error in getAttributesByCategory: $e');
     }
+
     return null;
   }
 }

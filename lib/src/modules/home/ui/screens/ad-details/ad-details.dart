@@ -3,8 +3,10 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../../../config/constants.dart';
 import '../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
+import '../../../../sections/ui/screens/update-ad/update-ad.dart';
 import '../ads/widgets/custom-rating.dart';
 import '../ads/widgets/title-row.dart';
 import '../evaluation/evaluations.dart';
@@ -18,19 +20,55 @@ import 'widgets/simple-title.dart';
 import 'widgets/specifications.dart';
 
 class AdDetailsScreen extends StatelessWidget {
+  final bool? toUpdate;
   static const id = '/ad-details';
 
-  const AdDetailsScreen({super.key});
+  const AdDetailsScreen({super.key, this.toUpdate = false});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: SizedBox(),
-        backgroundColor: Colors.white,
-        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-        title: TitleRow(title: 'ايفون 14 برو ماكس'),
-      ),
+      appBar: toUpdate!
+          ? AppBar(
+              leadingWidth: 40.w,
+              leading: Padding(
+                padding: EdgeInsets.only(left: 20.0.w),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {},
+                      child: SvgPicture.asset(
+                        deleteCollectionIcon,
+                        height: 20.h,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 4.w,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, UpdateAdScreen.id);
+                      },
+                      child: SvgPicture.asset(
+                        editBlackIcon,
+                        height: 20.h,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              backgroundColor: Colors.white,
+              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+              title: TitleRow(
+                title: 'تعديل اعلان',
+              ),
+            )
+          : AppBar(
+              leading: SizedBox(),
+              backgroundColor: Colors.white,
+              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+              title: TitleRow(title: 'ايفون 14 برو ماكس'),
+            ),
       body: SafeArea(
         child: Stack(
           children: [

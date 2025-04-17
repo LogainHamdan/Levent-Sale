@@ -147,7 +147,7 @@ void showSetNewPassword(BuildContext context) {
 }
 
 void showForgotPassword(BuildContext context) {
-  final authProvider = Provider.of<AuthProvider>(context, listen: false);
+  final authProvider = Provider.of<LoginProvider>(context, listen: false);
   showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.2),
@@ -207,6 +207,70 @@ void showForgotPassword(BuildContext context) {
                               authProvider.emailRequestController.text);
                           Navigator.pop(context);
                           showSetNewPassword(context);
+                        },
+                        backgroundColor: kprimaryColor,
+                        textColor: greySplash),
+                  ],
+                ),
+              )));
+    },
+  );
+}
+
+void showActivateAccount(BuildContext context) {
+  final authProvider = Provider.of<LoginProvider>(context, listen: false);
+  showDialog(
+    context: context,
+    barrierColor: Colors.black.withOpacity(0.2),
+    builder: (dialogContext) {
+      return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+          child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r)),
+              backgroundColor: grey9,
+              content: SizedBox(
+                width: 330.w,
+                height: 270.h,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.of(dialogContext).pop(),
+                          child: SvgPicture.asset(
+                            cancelPath,
+                            height: 18.h,
+                            width: 18.w,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 24.h,
+                    ),
+                    Text(
+                      'قم بتفعيل حسابك',
+                      style: GoogleFonts.tajawal(
+                          color: kprimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.sp),
+                    ),
+                    SizedBox(
+                      height: 8.h,
+                    ),
+                    Text(
+                      textAlign: TextAlign.center,
+                      ' قمنا بإرسال رابط تفعيل على الإيميل الخاص بك، ان لم تجده في صندوق الوارد ابحث عنه في البريد العشوائي.\n بعد تفعيل الحساب قم بتسجيل الدخول',
+                      style: GoogleFonts.tajawal(color: grey3, fontSize: 14.sp),
+                    ),
+                    SizedBox(height: 24.h),
+                    CustomElevatedButton(
+                        text: 'تسجيل الدخول',
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.pushNamed(context, LoginScreen.id);
                         },
                         backgroundColor: kprimaryColor,
                         textColor: greySplash),

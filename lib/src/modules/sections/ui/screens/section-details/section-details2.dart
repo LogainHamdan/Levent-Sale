@@ -61,11 +61,11 @@ class SectionDetails2 extends StatelessWidget {
             ImagePickerColumn(
               create: create,
             ),
+            SizedBox(
+              height: 10.h,
+            ),
             SelectedImagesSection(
               create: create,
-            ),
-            SizedBox(
-              height: 16.h,
             ),
             CustomTextField(
                 label: 'رقم هاتف للتواصل',

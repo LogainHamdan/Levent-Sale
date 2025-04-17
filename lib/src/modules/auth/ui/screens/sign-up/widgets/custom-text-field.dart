@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
+import '../provider.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -43,7 +45,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool showError = errorText != null && errorText!.isNotEmpty;
-
+    final provider = Provider.of<SignUpProvider>(context);
     return !paragraph!
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -105,7 +107,7 @@ class CustomTextField extends StatelessWidget {
                         ? const BorderSide(color: Colors.red, width: 2.0)
                         : BorderSide.none,
                   ),
-                  errorText: null, // إلغاء عرض الخطأ هنا
+                  errorText: null,
                 ),
                 onChanged: onChanged,
               ),
@@ -170,7 +172,7 @@ class CustomTextField extends StatelessWidget {
                         ? const BorderSide(color: Colors.red, width: 2.0)
                         : BorderSide.none,
                   ),
-                  errorText: null,
+                  errorText: errorText,
                 ),
                 style: TextStyle(
                   fontSize: 16.0.sp,

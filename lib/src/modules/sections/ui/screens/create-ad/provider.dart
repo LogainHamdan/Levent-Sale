@@ -42,13 +42,14 @@ class CreateAdProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _repo.createAd(ad: ad, images: images, token: token);
+      final response =
+          await _repo.createAd(ad: ad, images: images, token: token);
       isLoading = false;
-      //
-      // if (response.statusCode != 200 && response.statusCode != 201) {
-      //   throw Exception(
-      //       'Failed to create ad: ${response.statusCode} - ${response.data}');
-      // }
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        throw Exception(
+            'Failed to create ad: ${response.statusCode} - ${response.data}');
+      }
       notifyListeners();
     } catch (e) {
       isLoading = false;

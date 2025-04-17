@@ -57,7 +57,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
 
   Future<void> pickImage() async {
     final pickedFile =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       _selectedImages.add(File(pickedFile.path));
       notifyListeners();
@@ -78,7 +78,8 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     if (!dynamicFieldControllers.containsKey(key)) {
       dynamicFieldControllers[key] = TextEditingController();
     }
-    return dynamicFieldControllers[key]??TextEditingController();
+    return dynamicFieldControllers[key] ??
+        TextEditingController(); // Safe fallback
   }
 
   Future<void> fetchAttributes(int categoryId) async {
@@ -95,7 +96,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
 
         for (var detail in result.details ?? []) {
           if (detail.id != null) {
-            _services[detail.id??0] = false;
+            _services[detail.id ?? 0] = false;
           }
         }
       } else {
@@ -109,5 +110,35 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
       debugPrint('Error in fetchAttributes: $e');
       notifyListeners(); // Ensure UI updates even on error
     }
+  }
+
+  Map<String, dynamic> getAttributeFieldsMap() {
+    final Map<String, dynamic> attributesMap = {};
+    final attributes = attributesData?.attributes;
+
+    if (attributes == null || attributes.fields == null) return attributesMap;
+
+    for (final field in attributes.fields!) {
+      final name = field.name;
+
+      if (name == null) continue;
+
+      switch (field.type) {
+        case FieldType.text:
+        case FieldType.number:
+          attributesMap[name] = getController(name).text;
+          break;
+        case FieldType.dropdown:
+          attributesMap[name] = getSelectedValue(name);
+          break;
+        case FieldType.checkbox:
+          attributesMap[name] = getSelectedValue(name) == 'false';
+          break;
+        default:
+          attributesMap[name] = null;
+      }
+    }
+
+    return attributesMap;
   }
 }

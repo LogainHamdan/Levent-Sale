@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
+      create: (context) => LoginProvider(),
       child: Scaffold(
         body: SafeArea(
           child: Padding(
@@ -44,25 +44,26 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 28.h),
-                  Consumer<AuthProvider>(
+                  Consumer<LoginProvider>(
                       builder: (context, authProvider, child) {
                     return CustomTextField(
                       isRequired: true,
-                      errorText: 'يجب عليك ادخال بريد الكتروني صحيح',
+                      errorText: authProvider.hasTriedSubmit &&
+                              authProvider.emailController.text.trim().isEmpty
+                          ? 'يجب عليك ادخال بريد الكتروني صحيح'
+                          : null,
                       bgcolor: grey8,
                       controller: authProvider.emailController,
                       hint: 'البريد الالكتروني / رقم الجوال',
-                      onChanged: (_) => _updateButtonState(context),
                     );
                   }),
                   SizedBox(height: 16.h),
-                  Consumer<AuthProvider>(
+                  Consumer<LoginProvider>(
                       builder: (context, authProvider, child) {
                     return CustomPasswordField(
                       isConfirmField: false,
                       controller: authProvider.passwordController,
                       hint: 'كلمة المرور',
-                      onChanged: (_) => _updateButtonState(context),
                     );
                   }),
                   SizedBox(height: 8.h),
@@ -79,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       Spacer(),
-                      Consumer<AuthProvider>(
+                      Consumer<LoginProvider>(
                           builder: (context, loginProvider, child) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -103,16 +104,19 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 16.h),
-                  Consumer<AuthProvider>(
-                      builder: (context, authProvider, child) {
+                  Consumer<LoginProvider>(
+                      builder: (context, loginProvider, child) {
                     return CustomElevatedButton(
                       text: 'متابعة',
                       onPressed: () {
-                        if (authProvider.isFormValid) {
-                          _handleLogin(context);
-                        } else {
-                          print('Form not valid');
-                        }
+                        print("Login button pressed!");
+
+                        loginProvider.markTriedSubmit();
+                        loginProvider.loginUser(
+                            context: context,
+                            identifier: loginProvider.emailController.text,
+                            password: loginProvider.passwordController.text);
+                        print("Login button applied!");
                       },
                       backgroundColor: kprimaryColor,
                       textColor: grey9,
@@ -122,7 +126,7 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(height: 8.h),
                   OrRow(),
                   SizedBox(height: 8.h),
-                  Consumer<AuthProvider>(
+                  Consumer<LoginProvider>(
                       builder: (context, authProvider, child) {
                     return SocialButton(
                       facebook: false,
@@ -154,25 +158,5 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _updateButtonState(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    bool isFormValid = authProvider.emailController.text.isNotEmpty &&
-        authProvider.passwordController.text.isNotEmpty;
-    authProvider.setFormValid(isFormValid);
-  }
-
-  Future<void> _handleLogin(BuildContext context) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    print("Login button pressed!");
-
-    await authProvider.loginUser(
-      context: context,
-      identifier: authProvider.emailController.text.trim(),
-      password: authProvider.passwordController.text.trim(),
-    );
-
-    print("Login button applied!");
   }
 }

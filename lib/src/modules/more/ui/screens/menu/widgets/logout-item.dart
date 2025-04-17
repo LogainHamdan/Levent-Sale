@@ -13,7 +13,7 @@ class CustomLogoutItem extends StatelessWidget {
   const CustomLogoutItem({super.key});
 
   Future<void> _handleLogout(
-      BuildContext context, AuthProvider authProvider) async {
+      BuildContext context, LoginProvider loginProvider) async {
     bool confirm = false;
 
     await showCustomAlertDialog(
@@ -41,7 +41,7 @@ class CustomLogoutItem extends StatelessWidget {
       final token = prefs.getString('token');
 
       if (token != null) {
-        await authProvider.logoutUser(context);
+        await loginProvider.logoutUser(context);
         if (context.mounted) {
           Navigator.pop(context);
           logoutAlert(context);
@@ -62,8 +62,8 @@ class CustomLogoutItem extends StatelessWidget {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content:
-                Text(authProvider.errorMessage ?? 'حدث خطأ أثناء تسجيل الخروج'),
+            content: Text(
+                loginProvider.errorMessage ?? 'حدث خطأ أثناء تسجيل الخروج'),
             backgroundColor: Colors.red,
           ),
         );
@@ -73,10 +73,10 @@ class CustomLogoutItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthProvider>(
-      builder: (context, authProvider, child) {
+    return Consumer<LoginProvider>(
+      builder: (context, loginProvider, child) {
         return InkWell(
-          onTap: () => _handleLogout(context, authProvider),
+          onTap: () => _handleLogout(context, loginProvider),
           child: Container(
             margin: EdgeInsets.symmetric(vertical: 5.h),
             decoration: BoxDecoration(

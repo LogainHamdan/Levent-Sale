@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
+import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,7 +9,9 @@ import '../../../../main/ui/screens/main_screen.dart';
 import '../../../repos/auth-repo.dart';
 import '../../../repos/token-helper.dart';
 
-class AuthProvider extends ChangeNotifier {
+class LoginProvider extends ChangeNotifier {
+  bool hasTriedSubmit = false;
+
   bool _passwordVisible = false;
   bool _confirmPasswordVisible = false;
   bool _rememberMe = false;
@@ -33,6 +36,10 @@ class AuthProvider extends ChangeNotifier {
   bool _isFormValid = false;
 
   bool get isFormValid => _isFormValid;
+  void markTriedSubmit() {
+    hasTriedSubmit = true;
+    notifyListeners();
+  }
 
   void setFormValid(bool isValid) {
     _isFormValid = isValid;
@@ -46,6 +53,10 @@ class AuthProvider extends ChangeNotifier {
       _passwordVisible = !_passwordVisible;
     }
     notifyListeners();
+  }
+
+  String? validateCheckbox(bool value) {
+    return value ? null : 'تذكرني';
   }
 
   void toggleRememberMe(bool? value) {
@@ -132,32 +143,26 @@ class AuthProvider extends ChangeNotifier {
         password: password,
       );
       print(result['statusCode']);
-      if (result.containsKey('error')) {
-        print("LOGIN ERROR: ${result['error']}");
-        _setErrorMessage(result['error'] ?? 'حدث خطأ غير متوقع.');
-        return;
-      } else {
-        print("LOGIN SUCCESS: ${result['data']}");
-      }
 
       if (result['statusCode'] == 200) {
         if (result['data'].isEmpty) {
-          print("Warning: No data returned from server");
-          _setErrorMessage('التسجيل لم يتم بنجاح، الاستجابة فارغة.');
+          print('التسجيل لم يتم بنجاح، الاستجابة فارغة.');
           return;
         }
 
         notifyListeners();
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          MainScreen.id,
-          (route) => false,
+      }
+      if (result['statusCode'] == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('الحساب غير مفعل أو خطأ في البيانات'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+          ),
         );
-      } else {
-        _setErrorMessage(result['error'] ?? 'فشل تسجيل الدخول');
       }
     } catch (e) {
-      _setErrorMessage('فشل تسجيل الدخول: ${e.toString()}');
+      print('فشل تسجيل الدخول: ${e.toString()}');
     } finally {
       _setLoading(false);
     }
@@ -178,48 +183,35 @@ class AuthProvider extends ChangeNotifier {
     _setErrorMessage(null);
 
     try {
-      print("Attempting Google Sign-In...");
+      print("1. Attempting Google Sign-In...");
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      print("Google user: $googleUser");
+      print("2. Google user received: $googleUser");
 
       if (googleUser == null) {
+        print("2a. Google login canceled by user");
         _setLoading(false);
-        print("Google login canceled by user");
+        _setErrorMessage("Google login canceled. Please try again.");
         return;
       }
 
+      print("3. Getting authentication...");
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
+      print("4. Authentication received");
       final String? token = googleAuth.idToken;
-      print("Token: $token");
-
-      if (token == null) {
-        throw Exception('Failed to get token');
-      }
-
-      print("Making API call with token: $token");
-      final result = await _authRepository.googleLogin(token);
-      print("API result: $result");
-
-      if (result['statusCode'] == 200) {
-        print("Google login successful");
-
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          MainScreen.id,
-          (route) => false,
-        );
-      } else {
-        print("Error: ${result['error']}");
-
-        _setErrorMessage(result['error'] ?? 'Google login failed');
-      }
-      _setLoading(false);
+      print("5. Token retrieved: ${token != null ? 'yes' : 'no'}");
     } catch (e) {
-      _setLoading(false);
-      _setErrorMessage('Google login failed: ${e.toString()}');
+      print("Error in googleLogin: $e");
 
-      print("Error: $e");
+      if (e is DioException) {
+        _setErrorMessage('Network error occurred: ${e.message}');
+      } else if (e.toString().contains("Failed to retrieve Google ID token")) {
+        _setErrorMessage('Failed to retrieve token. Please try again.');
+      } else {
+        _setErrorMessage('An unexpected error occurred: ${e.toString()}');
+      }
+    } finally {
+      _setLoading(false);
     }
   }
 

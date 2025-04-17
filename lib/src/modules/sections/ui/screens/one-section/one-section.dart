@@ -1,23 +1,32 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/ad-details.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/search-field.dart';
+import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../home/ui/screens/ads/widgets/products-details.dart';
 import '../../../../home/ui/screens/home/data.dart';
+import '../choose-section/create-ad-choose-section-provider.dart';
 
 class Section extends StatelessWidget {
   static const id = '/section';
 
-  const Section({super.key});
+  const Section({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     TextEditingController sectionController = TextEditingController();
+    final sectionsProvider =
+        Provider.of<CreateAdChooseSectionProvider>(context);
+    final homeProvider = Provider.of<HomeProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +34,7 @@ class Section extends StatelessWidget {
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         leading: SizedBox(),
         title: TitleRow(
-          title: 'الاجهزة',
+          title: homeProvider.selectedCategory!.name,
         ),
       ),
       body: SafeArea(
@@ -50,18 +59,18 @@ class Section extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: categories.map((category) {
+                  children: sectionsProvider.rootCategories.map((category) {
                     return Row(
                       children: [
                         SizedBox(width: 10.w),
                         Text(
-                          '(${category['count']})',
+                          '${category.subCategories.length}',
                           style: TextStyle(
                               fontSize: 14.sp, color: Colors.grey.shade600),
                         ),
                         SizedBox(width: 2.w),
                         Text(
-                          category['name']!,
+                          category.name,
                           style: TextStyle(
                               fontSize: 16.sp, fontWeight: FontWeight.w500),
                         ),
@@ -74,7 +83,7 @@ class Section extends StatelessWidget {
                             color: Colors.grey.shade200,
                           ),
                           child: Center(
-                            child: Image.asset(category['image']!,
+                            child: Image.network(category.imageUrl!,
                                 width: 25.w, height: 25.h),
                           ),
                         ),

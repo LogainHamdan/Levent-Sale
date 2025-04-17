@@ -14,7 +14,12 @@ class EditScreen extends StatelessWidget {
     return ItemList(
       provider.buttonText,
       provider.buttonColor,
-      () => Navigator.pushNamed(context, AdDetailsScreen.id),
+      () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AdDetailsScreen(
+                    toUpdate: true,
+                  ))),
       buttonIcon: provider.buttonIcon,
       buttonTextColor: provider.buttonTextColor,
     );

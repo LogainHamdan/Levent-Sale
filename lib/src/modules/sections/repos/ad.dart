@@ -9,12 +9,16 @@ import 'package:dio/dio.dart';
 import '../models/ad.dart';
 
 class AdRepository {
+  late final Dio dio;
   static final AdRepository _instance = AdRepository._internal();
 
-  AdRepository._internal();
+  AdRepository._internal() {
+    dio = Dio();
+  }
 
   factory AdRepository() => _instance;
-  Future<void> createAd({
+
+  Future<Response> createAd({
     required AdModel ad,
     required List<File> images,
     required String token,
@@ -31,7 +35,7 @@ class AdRepository {
       ));
     }
 
-    final response = await Dio().post(
+    return await dio.post(
       createAdUrl,
       data: formData,
       options: Options(
@@ -41,5 +45,21 @@ class AdRepository {
         },
       ),
     );
+  }
+
+  Future<Response> updateAd({
+    required int adId,
+    required AdModel adModel,
+    required String token,
+  }) async {
+    final response = await dio.put(
+      '$updateAdUrl/$adId',
+      data: adModel.toJson(),
+      options: Options(headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json',
+      }),
+    );
+    return response;
   }
 }

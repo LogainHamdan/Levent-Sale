@@ -10,6 +10,8 @@ import '../verify/verify.dart';
 
 class SignUpProvider extends ChangeNotifier {
   bool isLoading = false;
+  bool hasTriedSubmit = false;
+
   String? errorMessage;
   final TextEditingController birthDateController = TextEditingController(
       text: DateFormat('MMMM dd, yyyy').format(DateTime.now()).toString());
@@ -27,7 +29,11 @@ class SignUpProvider extends ChangeNotifier {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final phoneController = TextEditingController();
-
+  String? emailError,
+      passwordError,
+      confirmPasswordError,
+      phoneError,
+      checkboxError;
   @override
   void dispose() {
     firstNameController.dispose();
@@ -55,6 +61,10 @@ class SignUpProvider extends ChangeNotifier {
   bool get isDropdownOpened => _isDropdownOpened;
 
   String get selectedValue => _selectedValue;
+  void markTriedSubmit() {
+    hasTriedSubmit = true;
+    notifyListeners();
+  }
 
   void toggleAgreement(bool? value) {
     if (value != null) {
@@ -68,6 +78,50 @@ class SignUpProvider extends ChangeNotifier {
       _selectedValue = value;
       notifyListeners();
     }
+  }
+
+  void validateFields() {
+    emailError = validateEmail(emailController.text);
+    passwordError = validatePassword(passwordController.text);
+    confirmPasswordError = validateConfirmPassword(
+      confirmPasswordController.text,
+      passwordController.text,
+    );
+    phoneError = validatePhone(phoneController.text);
+    checkboxError = validateCheckbox(agreeToTerms);
+
+    notifyListeners();
+  }
+
+  String? validateEmail(String? value) {
+    if (value == null || value.isEmpty) return 'يرجى إدخال البريد الإلكتروني';
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return emailRegex.hasMatch(value) ? null : 'البريد الإلكتروني غير صالح';
+  }
+
+  String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) return 'يرجى إدخال كلمة المرور';
+    final passwordRegex = RegExp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$&*~]).{8,}$');
+    return passwordRegex.hasMatch(value)
+        ? null
+        : 'كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي على حرف كبير، رقم، ورمز خاص';
+  }
+
+  String? validateConfirmPassword(String? value, String original) {
+    if (value == null || value.isEmpty) return 'يرجى تأكيد كلمة المرور';
+    return value == original ? null : 'كلمتا المرور غير متطابقتين';
+  }
+
+  String? validatePhone(String? value) {
+    if (value == null || value.isEmpty) return 'يرجى إدخال رقم الهاتف';
+    final phoneRegex = RegExp(r'^\+963\d{9}$');
+    return phoneRegex.hasMatch(value)
+        ? null
+        : 'رقم الهاتف يجب أن يبدأ بـ +963 ويتبعه 9 أرقام';
+  }
+
+  String? validateCheckbox(bool value) {
+    return value ? null : 'يجب الموافقة على الشروط';
   }
 
   Future<void> signUpUser(

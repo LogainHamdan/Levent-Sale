@@ -1,13 +1,17 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
+import '../../../../../sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import '../../../../../sections/ui/screens/one-section/one-section.dart';
 
 class SectionItem extends StatelessWidget {
-  final String category;
+  final RootCategoryModel category;
   final String img;
 
   const SectionItem({
@@ -18,8 +22,14 @@ class SectionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<HomeProvider>(context, listen: false);
+
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, Section.id),
+      onTap: () {
+        provider.selectCategory(category);
+
+        Navigator.pushNamed(context, Section.id);
+      },
       child: Column(
         children: [
           Center(
@@ -28,7 +38,7 @@ class SectionItem extends StatelessWidget {
               backgroundColor: grey7,
               child: Padding(
                 padding: EdgeInsets.all(6.r),
-                child: Image.asset(
+                child: Image.network(
                   img,
                   fit: BoxFit.cover,
                 ),
@@ -37,7 +47,7 @@ class SectionItem extends StatelessWidget {
           ),
           SizedBox(height: 9.h),
           Text(
-            category,
+            category.name,
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 12.sp,

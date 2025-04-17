@@ -29,7 +29,7 @@ class SignUpScreen extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SignUpProvider()),
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
       ],
       child: Scaffold(
         body: SafeArea(
@@ -58,12 +58,18 @@ class SignUpScreen extends StatelessWidget {
                           provider.setSelectedValue(value);
                         },
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 8.h),
                       if (provider.selectedValue == "شخصي") ...[
                         Row(
                           children: [
                             Expanded(
                               child: CustomTextField(
+                                errorText: provider.hasTriedSubmit &&
+                                        provider.firstNameController.text
+                                            .trim()
+                                            .isEmpty
+                                    ? 'هذا الحقل مطلوب'
+                                    : null,
                                 bgcolor: grey8,
                                 controller: provider.firstNameController,
                                 hint: "ادخل الاسم",
@@ -72,6 +78,12 @@ class SignUpScreen extends StatelessWidget {
                             SizedBox(width: 16.w),
                             Expanded(
                               child: CustomTextField(
+                                errorText: provider.hasTriedSubmit &&
+                                        provider.lastNameController.text
+                                            .trim()
+                                            .isEmpty
+                                    ? 'هذا الحقل مطلوب'
+                                    : null,
                                 bgcolor: grey8,
                                 controller: provider.lastNameController,
                                 hint: "ادخل الكنية",
@@ -79,10 +91,15 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 16.h),
+                        SizedBox(height: 8.h),
                         CustomTextField(
                           isRequired: true,
-                          errorText: 'يجب عليك ادخال تاريخ ميلاد صحيح',
+                          errorText: provider.hasTriedSubmit &&
+                                  provider.birthDateController.text
+                                      .trim()
+                                      .isEmpty
+                              ? 'يجب عليك ادخال تاريخ ميلاد صحيح'
+                              : null,
                           prefix: GestureDetector(
                             onTap: () => showDatePickerDialog(
                                 context, provider.birthDateController),
@@ -99,14 +116,24 @@ class SignUpScreen extends StatelessWidget {
                       ] else if (provider.selectedValue == "شركة") ...[
                         CustomTextField(
                           isRequired: true,
-                          errorText: 'هذا الحقل مطلوب',
+                          errorText: provider.hasTriedSubmit &&
+                                  provider.companyNameController.text
+                                      .trim()
+                                      .isEmpty
+                              ? 'هذا الحقل مطلوب'
+                              : null,
                           bgcolor: grey8,
                           controller: provider.companyNameController,
                           hint: "اسم الشركة",
                         ),
                         CustomTextField(
                           isRequired: true,
-                          errorText: 'هذا الحقل مطلوب',
+                          errorText: provider.hasTriedSubmit &&
+                                  provider.companyDateController.text
+                                      .trim()
+                                      .isEmpty
+                              ? 'هذا الحقل مطلوب'
+                              : null,
                           prefix: GestureDetector(
                             onTap: () => showDatePickerDialog(
                                 context, provider.companyDateController),
@@ -122,14 +149,24 @@ class SignUpScreen extends StatelessWidget {
                         ),
                         CustomTextField(
                           isRequired: true,
-                          errorText: 'هذا الحقل مطلوب',
+                          errorText: provider.hasTriedSubmit &&
+                                  provider.companyAddressController.text
+                                      .trim()
+                                      .isEmpty
+                              ? 'هذا الحقل مطلوب'
+                              : null,
                           bgcolor: grey8,
                           controller: provider.companyAddressController,
                           hint: "عنوان الشركة",
                         ),
                         CustomTextField(
                           isRequired: true,
-                          errorText: 'هذا الحقل مطلوب',
+                          errorText: provider.hasTriedSubmit &&
+                                  provider.taxNumberController.text
+                                      .trim()
+                                      .isEmpty
+                              ? 'هذا الحقل مطلوب'
+                              : null,
                           bgcolor: grey8,
                           controller: provider.taxNumberController,
                           hint: "الرقم الضريبي",
@@ -139,29 +176,32 @@ class SignUpScreen extends StatelessWidget {
                       ],
                       CustomTextField(
                         isRequired: true,
-                        errorText: 'يجب عليك ادخال بريد الكتروني صحيح',
+                        errorText: provider.emailError,
                         bgcolor: grey8,
                         controller: provider.emailController,
                         hint: "البريد الإلكتروني",
                         keyboardType: TextInputType.emailAddress,
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 8.h),
                       CustomPasswordField(
                         isConfirmField: false,
                         controller: provider.passwordController,
                         hint: "كلمة المرور",
+                        errorText: provider.passwordError,
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 8.h),
                       CustomPasswordField(
                         isConfirmField: true,
                         controller: provider.confirmPasswordController,
                         hint: "تأكيد كلمة المرور",
+                        errorText: provider.confirmPasswordError,
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 8.h),
                       PhoneSection(
                         controller: provider.phoneController,
+                        errorText: provider.phoneError,
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 8.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -189,21 +229,35 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+                      if (provider.checkboxError != null)
+                        Padding(
+                          padding: EdgeInsets.only(top: 4.h),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              provider.checkboxError!,
+                              style:
+                                  TextStyle(color: Colors.red, fontSize: 12.sp),
+                            ),
+                          ),
+                        ),
                       SizedBox(height: 16.h),
                       CustomElevatedButton(
                         text: 'متابعة',
                         onPressed: () {
                           final provider = Provider.of<SignUpProvider>(context,
                               listen: false);
-                          //
-                          // if (provider.selectedValue == '') {
-                          //   provider.customShowSnackBar(context,
-                          //       'يرجى اختيار نوع الحساب', Colors.redAccent);
-                          //   return;
-                          // }
+                          provider.markTriedSubmit();
+                          provider.validateFields();
 
+                          if (provider.emailError != null ||
+                              provider.passwordError != null ||
+                              provider.confirmPasswordError != null ||
+                              provider.phoneError != null ||
+                              provider.checkboxError != null) {
+                            return; // Don't proceed
+                          }
                           final isCompany = provider.selectedValue == 'شركة';
-
                           final userData = {
                             "first_name":
                                 provider.firstNameController.text.trim(),
@@ -228,19 +282,18 @@ class SignUpScreen extends StatelessWidget {
                           };
 
                           final missingField = userData.entries.firstWhere(
-                            (entry) =>
-                                entry.value == null ||
-                                entry.value.toString().isEmpty,
+                            (entry) => entry.value.toString().isEmpty,
                             orElse: () => const MapEntry('none', ''),
                           );
 
-                          // if (missingField.key != 'none') {
-                          //   provider.customShowSnackBar(
-                          //       context,
-                          //       'يرجى تعبئة الحقل:${missingField.key}',
-                          //       Colors.redAccent);
-                          //   return;
-                          // }
+                          if (missingField.key != 'none') {
+                            provider.customShowSnackBar(
+                              context,
+                              'يرجى تعبئة جميع الحقول المطلوبة',
+                              Colors.redAccent,
+                            );
+                            return;
+                          }
 
                           provider.signUpUser(context, userData);
                           Navigator.pushNamed(context, LoginScreen.id);
@@ -252,7 +305,7 @@ class SignUpScreen extends StatelessWidget {
                       SizedBox(height: 16.h),
                       OrRow(),
                       SizedBox(height: 16.h),
-                      Consumer<AuthProvider>(
+                      Consumer<LoginProvider>(
                         builder: (context, authProvider, child) {
                           return SocialButton(
                             facebook: false,

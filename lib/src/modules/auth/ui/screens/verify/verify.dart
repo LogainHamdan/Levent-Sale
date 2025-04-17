@@ -23,7 +23,7 @@ class VerificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<VerificationProvider>(context, listen: false);
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final authProvider = Provider.of<LoginProvider>(context, listen: false);
 
     return Scaffold(
       body: SafeArea(

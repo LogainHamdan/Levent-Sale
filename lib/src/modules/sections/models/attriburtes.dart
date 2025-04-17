@@ -34,7 +34,7 @@ class Attributes {
   }
 }
 
-enum FieldType { dropdown, text, checkbox, number }
+enum FieldType { dropdown, text, checkbox, number, radio }
 
 FieldType fieldTypeFromString(String type) {
   switch (type) {
@@ -46,6 +46,8 @@ FieldType fieldTypeFromString(String type) {
       return FieldType.checkbox;
     case 'number':
       return FieldType.number;
+    case 'radio':
+      return FieldType.radio;
     default:
       throw Exception('Unknown field type: $type');
   }

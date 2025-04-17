@@ -11,6 +11,7 @@ import 'custom-label.dart';
 
 class CheckingContainer extends StatelessWidget {
   final bool create;
+
   const CheckingContainer({
     super.key,
     required this.create,
@@ -40,9 +41,7 @@ class CheckingContainer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            CustomLabel(
-              text: "توفر الخدمات والمرافق",
-            ),
+            // Removed CustomLabel widget that was rendering the text
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: services.entries.map((entry) {
@@ -51,10 +50,15 @@ class CheckingContainer extends StatelessWidget {
                   orElse: () => Detail(id: entry.key, name: 'خدمة غير معروفة'),
                 );
 
+                final serviceTitle = detail.name?.isNotEmpty == true
+                    ? detail.name
+                    : 'خدمة غير معروفة';
+
                 return Directionality(
                   textDirection: TextDirection.rtl,
                   child: CustomCheckBox(
-                    title: detail.name ?? '',
+                    // No label text, just using the title from the server
+                    title: serviceTitle!,
                     value: entry.value,
                     onChanged: (value) {
                       if (create) {

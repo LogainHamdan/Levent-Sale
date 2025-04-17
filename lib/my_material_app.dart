@@ -33,6 +33,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-sect
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details1.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -86,7 +87,7 @@ class MyMaterialApp extends StatelessWidget {
                     fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            initialRoute: CreateAdScreen.id,
+            initialRoute: SignUpScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               MainScreen.id: (context) => MainScreen(),
@@ -111,6 +112,11 @@ class MyMaterialApp extends StatelessWidget {
                     empty: false,
                   ),
               CreateAdScreen.id: (context) => CreateAdScreen(
+                    lowerWidget: SectionChoose(
+                      create: true,
+                    ),
+                  ),
+              UpdateAdScreen.id: (context) => UpdateAdScreen(
                     lowerWidget: SectionChoose(
                       create: true,
                     ),
