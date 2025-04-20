@@ -20,7 +20,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<CreateAdChooseSectionProvider>(context);
+    final provider =
+        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      provider.fetchCategories();
+    });
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -47,21 +51,21 @@ class HomeScreen extends StatelessWidget {
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "العروض والخصومات",
-                    products: products),
+                    products: []),
                 ProductSection(
                     height: 130.h,
                     width: 120.w,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "الإعلانات الجديدة",
-                    products: products),
+                    products: []),
                 ProductSection(
                     height: 130.h,
                     width: 120.w,
                     onMorePressed: () =>
                         Navigator.pushNamed(context, AdsScreen.id),
                     category: "الإعلانات المقترحة",
-                    products: products),
+                    products: []),
               ],
             ),
           ),

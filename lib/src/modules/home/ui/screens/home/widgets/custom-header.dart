@@ -18,7 +18,7 @@ class CustomHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextButton(
-            onPressed: () => Navigator.pushNamed(context, AdsScreen.id),
+            onPressed: onPressed,
             child: Text('مشاهدة المزيد',
                 textDirection: TextDirection.rtl,
                 style: GoogleFonts.tajawal(

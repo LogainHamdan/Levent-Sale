@@ -8,6 +8,8 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/login/widgets/social-but
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/sign-up.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-pass-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,6 +63,8 @@ class LoginScreen extends StatelessWidget {
                   Consumer<LoginProvider>(
                       builder: (context, authProvider, child) {
                     return CustomPasswordField(
+                      login: true,
+                      errorText: 'يرجى ادخال كلمة المرور',
                       isConfirmField: false,
                       controller: authProvider.passwordController,
                       hint: 'كلمة المرور',
@@ -74,31 +78,26 @@ class LoginScreen extends StatelessWidget {
                         child: Text(
                           "نسيت كلمة المرور ؟",
                           style: TextStyle(
+                            fontWeight: FontWeight.w700,
                             color: Color(0xffF75555),
-                            fontSize: 12.sp,
+                            fontSize: 14.sp,
                           ),
                         ),
                       ),
                       Spacer(),
                       Consumer<LoginProvider>(
                           builder: (context, loginProvider, child) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'تذكرني',
-                              style: GoogleFonts.tajawal(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
+                        return CustomCheckBox(
+                          title: Text(
+                            'تذكرني',
+                            style: GoogleFonts.tajawal(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
                             ),
-                            CustomCheckBox(
-                              title: "",
-                              value: loginProvider.rememberMe,
-                              onChanged: (value) =>
-                                  loginProvider.toggleRememberMe(value),
-                            ),
-                          ],
+                          ),
+                          value: loginProvider.rememberMe,
+                          onChanged: (value) =>
+                              loginProvider.toggleRememberMe(value),
                         );
                       }),
                     ],
@@ -108,15 +107,23 @@ class LoginScreen extends StatelessWidget {
                       builder: (context, loginProvider, child) {
                     return CustomElevatedButton(
                       text: 'متابعة',
-                      onPressed: () {
+                      onPressed: () async {
                         print("Login button pressed!");
 
                         loginProvider.markTriedSubmit();
-                        loginProvider.loginUser(
-                            context: context,
-                            identifier: loginProvider.emailController.text,
-                            password: loginProvider.passwordController.text);
-                        print("Login button applied!");
+
+                        await loginProvider.loginUser(
+                          context: context,
+                          identifier: loginProvider.emailController.text,
+                          password: loginProvider.passwordController.text,
+                        );
+                        String? token = await TokenHelper.getToken();
+                        print('$token');
+                        if (token != null && token.isNotEmpty) {
+                          Navigator.pushNamed(context, MainScreen.id);
+                        } else {
+                          print("Login failed: token not available.");
+                        }
                       },
                       backgroundColor: kprimaryColor,
                       textColor: grey9,

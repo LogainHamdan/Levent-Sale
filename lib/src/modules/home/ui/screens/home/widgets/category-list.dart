@@ -5,9 +5,11 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-sect
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../main/ui/screens/main_screen.dart';
+import '../../../../../main/ui/screens/provider.dart';
 import '../../../../../sections/ui/screens/section-details/section-details1.dart';
 import '../../../../../sections/ui/screens/sections/sections.dart';
 
@@ -21,12 +23,17 @@ class CategoriesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomNavProvider = Provider.of<BottomNavProvider>(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomHeader(
           title: 'الأقسام',
-          onPressed: () => Navigator.pushNamed(context, Sections.id),
+          onPressed: () {
+            bottomNavProvider.setIndex(2);
+            Navigator.pushNamed(context, MainScreen.id);
+          },
         ),
         SingleChildScrollView(
           reverse: true,

@@ -83,7 +83,7 @@ class AdDetailsScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomCarousel(imgList: productImages),
+                              CustomCarousel(imgList: []),
                               SizedBox(height: 24.0.h),
                               Directionality(
                                 textDirection: TextDirection.ltr,
@@ -190,7 +190,7 @@ class AdDetailsScreen extends StatelessWidget {
                               onMorePressed: () =>
                                   Navigator.pushNamed(context, AdsScreen.id),
                               category: 'مزيد من الإعلانات',
-                              products: products),
+                              products: []),
                         ),
                         SliverToBoxAdapter(
                           child: SizedBox(height: 145.h),

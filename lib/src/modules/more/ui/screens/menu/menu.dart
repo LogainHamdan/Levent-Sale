@@ -23,7 +23,10 @@ class MenuScreen extends StatelessWidget {
         leading: SizedBox(),
         backgroundColor: Colors.white,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-        title: TitleRow(title: 'المزيد'),
+        title: TitleRow(
+          title: 'المزيد',
+          noBack: true,
+        ),
       ),
       body: SafeArea(
         bottom: false,

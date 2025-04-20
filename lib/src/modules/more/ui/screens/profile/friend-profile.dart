@@ -85,7 +85,7 @@ class FriendProfile extends StatelessWidget {
                               child: NameRow(
                                 name: "${user.firstName} ${user.lastName}",
                                 isVerified: false,
-                                image: user.profilePicture,
+                                image: user.profilePicture ?? '',
                               ),
                             ),
                           ],
@@ -124,7 +124,7 @@ class FriendProfile extends StatelessWidget {
                               textColor: kprimaryColor,
                             ),
                             SizedBox(width: 12.w),
-                            !user.isFollowing
+                            !user.isFollowing!
                                 ? CustomSmallButton(
                                     isOutlined: false,
                                     onPressed: () {
@@ -160,7 +160,7 @@ class FriendProfile extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Text(user.email,
+                                    Text(user.email ?? '',
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w600)),
                                     SizedBox(width: 14.w),

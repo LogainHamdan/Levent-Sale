@@ -37,31 +37,6 @@ class EmptyFav extends StatelessWidget {
             fontSize: 20.sp,
           ),
         ),
-        SizedBox(
-          height: 30.h,
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-              child: Column(
-            children: [
-              ProductSection(
-                  onMorePressed: () =>
-                      Navigator.pushNamed(context, AdsScreen.id),
-                  category: "العروض والخصومات",
-                  products: products),
-              ProductSection(
-                  onMorePressed: () =>
-                      Navigator.pushNamed(context, AdsScreen.id),
-                  category: "الإعلانات الجديدة",
-                  products: products),
-              ProductSection(
-                  onMorePressed: () =>
-                      Navigator.pushNamed(context, AdsScreen.id),
-                  category: "الإعلانات المقترحة",
-                  products: products),
-            ],
-          )),
-        ),
       ],
     );
   }

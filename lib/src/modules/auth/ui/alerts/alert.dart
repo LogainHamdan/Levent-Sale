@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/cancel-option.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/custom-alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/custom-divider.dart';
@@ -9,13 +10,16 @@ import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/option-tile.dart'
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/splash.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/verify.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/simple-title.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/custom-rating.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -103,8 +107,8 @@ void showPasswordUpdated(BuildContext context) {
                     child: CustomElevatedButton(
                         text: 'تسجيل دخول',
                         onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pushNamed(context, LoginScreen.id);
+                          Navigator.pop(dialogContext);
+                          Navigator.pushNamed(dialogContext, LoginScreen.id);
                         },
                         backgroundColor: kprimaryColor,
                         textColor: greySplash)),
@@ -202,11 +206,16 @@ void showForgotPassword(BuildContext context) {
                     SizedBox(height: 24.h),
                     CustomElevatedButton(
                         text: 'ارسال',
-                        onPressed: () {
-                          authProvider.requestPasswordReset(
-                              authProvider.emailRequestController.text);
-                          Navigator.pop(context);
-                          showSetNewPassword(context);
+                        onPressed: () async {
+                          await authProvider.requestPasswordReset(
+                            authProvider.emailRequestController.text,
+                          );
+                          if (authProvider.errorMessage == null) {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, VerificationScreen.id);
+                          } else {
+                            print("Error: ${authProvider.errorMessage}");
+                          }
                         },
                         backgroundColor: kprimaryColor,
                         textColor: greySplash),
@@ -218,7 +227,6 @@ void showForgotPassword(BuildContext context) {
 }
 
 void showActivateAccount(BuildContext context) {
-  final authProvider = Provider.of<LoginProvider>(context, listen: false);
   showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.2),
@@ -231,7 +239,7 @@ void showActivateAccount(BuildContext context) {
               backgroundColor: grey9,
               content: SizedBox(
                 width: 330.w,
-                height: 270.h,
+                height: 240.h,
                 child: Column(
                   children: [
                     Row(
@@ -262,7 +270,7 @@ void showActivateAccount(BuildContext context) {
                     ),
                     Text(
                       textAlign: TextAlign.center,
-                      ' قمنا بإرسال رابط تفعيل على الإيميل الخاص بك، ان لم تجده في صندوق الوارد ابحث عنه في البريد العشوائي.\n بعد تفعيل الحساب قم بتسجيل الدخول',
+                      ' قمنا بإرسال رابط تفعيل على الإيميل الخاص بك، ان لم تجده في صندوق الوارد ابحث عنه في البريد العشوائي. بعد تفعيل الحساب قم بتسجيل الدخول',
                       style: GoogleFonts.tajawal(color: grey3, fontSize: 14.sp),
                     ),
                     SizedBox(height: 24.h),
@@ -478,6 +486,8 @@ void showRatingDialog(BuildContext context) {
 void showAdCreated(BuildContext context) {
   final bottomNavProvider =
       Provider.of<BottomNavProvider>(context, listen: false);
+  final createAdProvider =
+      Provider.of<CreateAdProvider>(context, listen: false);
 
   if (!context.mounted) return;
 
@@ -553,7 +563,7 @@ void showAdCreated(BuildContext context) {
                       text: 'عرض تشكيلتي',
                       onPressed: () {
                         bottomNavProvider.setIndex(1);
-
+                        createAdProvider.resetProgress();
                         Navigator.pushNamed(context, MainScreen.id);
                       },
                       //my collection
@@ -599,7 +609,7 @@ void _showLocationPermissionDialog(BuildContext context) {
   );
 }
 
-void showAddToFavoriteAlert(BuildContext context) {
+void showAddToFavoriteAlert(BuildContext context, int adId, String tagId) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -647,23 +657,31 @@ void showAddToFavoriteAlert(BuildContext context) {
                             borderRadius: BorderRadius.circular(8.r),
                           ),
                           child: Center(
-                              child: Text(
-                            "مفضلتي",
-                            style: TextStyle(color: Color(0xFF212121)),
-                          )),
-                        ),
-                        SizedBox(height: 16.h),
-                        SimpleTitle(title: 'تشكيلة جديدة'),
-                        SizedBox(height: 8.h),
-                        EmptyTextField(
-                          controller: TextEditingController(),
+                            child: Text(
+                              "مفضلتي",
+                              style: TextStyle(color: Color(0xFF212121)),
+                            ),
+                          ),
                         ),
                         SizedBox(height: 16.h),
                         CustomElevatedButton(
-                            text: 'حفظ',
-                            onPressed: () => Navigator.pop(context),
-                            backgroundColor: kprimaryColor,
-                            textColor: grey9),
+                          text: 'اضافة',
+                          onPressed: () async {
+                            final token = await TokenHelper.getToken();
+
+                            final favoriteProvider =
+                                Provider.of<FavoriteProvider>(context,
+                                    listen: false);
+                            await favoriteProvider.saveToFavorite(
+                                context, adId, token ?? tokenTest);
+                            await favoriteProvider.addToTag(
+                                adId: adId,
+                                authorizationToken: token ?? tokenTest,
+                                tagId: tagId);
+                          },
+                          backgroundColor: kprimaryColor,
+                          textColor: grey9,
+                        ),
                       ],
                     ),
                   ),
@@ -677,7 +695,10 @@ void showAddToFavoriteAlert(BuildContext context) {
   );
 }
 
-void showNewCollectionAlert(BuildContext context) {
+void showNewCollectionAlert(
+    BuildContext context, TextEditingController newTagController) {
+  final provider = Provider.of<FavoriteProvider>(context);
+
   showDialog(
     context: context,
     barrierDismissible: true,
@@ -703,13 +724,24 @@ void showNewCollectionAlert(BuildContext context) {
                   children: [
                     CustomTitleCancel(title: "تشكيلة جديدة"),
                     SizedBox(height: 20.h),
-                    EmptyTextField(controller: TextEditingController()),
+                    EmptyTextField(controller: provider.tagController),
                     SizedBox(height: 20.h),
                     CustomElevatedButton(
                       text: 'حفظ',
-                      onPressed: () {
-                        Navigator.pop(context);
-                        showAddToFavoriteAlert(context);
+                      onPressed: () async {
+                        final token = await TokenHelper.getToken();
+
+                        final provider = Provider.of<FavoriteProvider>(context,
+                            listen: false);
+                        String tagName = newTagController.text.trim();
+
+                        if (tagName.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('يرجى إدخال اسم التشكيلة!')),
+                          );
+                          return;
+                        }
+                        provider.createTag(tagName, token ?? tokenTest);
                       },
                       backgroundColor: kprimaryColor,
                       textColor: grey9,
@@ -751,7 +783,7 @@ void deleteAccountAlert(BuildContext context) {
       });
 }
 
-void deleteCollectionAlert(BuildContext context) {
+void deleteCollectionAlert(BuildContext context, String tagId) {
   showCustomAlertDialog(
       context: context,
       title: 'هل أنت متأكد؟',
@@ -759,8 +791,14 @@ void deleteCollectionAlert(BuildContext context) {
       confirmText: 'حذف',
       confirmColor: errorColor,
       cancelColor: Colors.black,
-      onConfirm: () {
+      onConfirm: () async {
+        final token = await TokenHelper.getToken();
+
+        final favoriteProvider =
+            Provider.of<FavoriteProvider>(context, listen: false);
         Navigator.pop(context);
+        await favoriteProvider.deleteFavoriteTag(
+            tagId: tagId, authorizationToken: token ?? tokenTest);
         Navigator.pushNamed(context, FavoriteScreen.id);
       });
 }

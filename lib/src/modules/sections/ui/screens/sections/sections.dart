@@ -26,6 +26,7 @@ class Sections extends StatelessWidget {
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         leading: SizedBox(),
         title: TitleRow(
+          noBack: true,
           title: 'الاقسام',
         ),
       ),

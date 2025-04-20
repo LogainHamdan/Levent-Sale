@@ -53,11 +53,9 @@ class AdModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
       "title": title,
       "categoryPath": categoryPath,
       "categoryNamePath": categoryNamePath,
-      "adNo": adNo,
       "description": description,
       "longDescription": longDescription,
       "tradePossible": tradePossible,
@@ -69,14 +67,11 @@ class AdModel {
       "governorate": governorate,
       "city": city,
       "fullAddress": fullAddress,
-      "createdAt": createdAt?.toIso8601String(),
-      "updatedAt": updatedAt?.toIso8601String(),
       "adType": adType,
       "preferredContactMethod": preferredContactMethod,
       "condition": condition,
       "currency": currency,
-      "imageUrls": imageUrls,
-      "attributes": attributes,
+      "attributes": attributes, // Only if backend accepts Map<String, dynamic>
     };
   }
 

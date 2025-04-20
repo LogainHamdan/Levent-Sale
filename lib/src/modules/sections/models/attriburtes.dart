@@ -15,9 +15,12 @@ class AdAttributesModel {
     return AdAttributesModel(
       id: json['id'],
       categoryId: json['categoryId'],
-      attributes: Attributes.fromJson(json['attributes']),
-      details:
-          List<Detail>.from(json['details'].map((x) => Detail.fromJson(x))),
+      attributes: json['attributes'] != null
+          ? Attributes.fromJson(json['attributes'])
+          : null,
+      details: json['details'] != null
+          ? List<Detail>.from(json['details'].map((x) => Detail.fromJson(x)))
+          : [],
     );
   }
 }
@@ -79,9 +82,19 @@ class Field {
   });
 
   factory Field.fromJson(Map<String, dynamic> json) {
+    final String? typeStr = json['type'];
+    FieldType? _tryParseFieldType(String type) {
+      try {
+        return fieldTypeFromString(type);
+      } catch (e) {
+        print('⚠️ Unknown field type: $type');
+        return null;
+      }
+    }
+
     return Field(
       name: json['name'],
-      type: fieldTypeFromString(json['type']),
+      type: typeStr != null ? _tryParseFieldType(typeStr) : null,
       label: json['label'],
       options:
           json['options'] != null ? List<String>.from(json['options']) : null,

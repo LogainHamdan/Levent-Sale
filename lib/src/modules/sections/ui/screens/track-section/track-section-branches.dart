@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import 'package:Levant_Sale/src/modules/sections/models/subcategory.dart';
@@ -25,11 +26,11 @@ import '../section-details/create-ad-section-details.dart';
 import '../section-details/section-details1.dart';
 
 class SectionTrack extends StatelessWidget {
-  final bool create;
+  final bool? create;
   final List<SubcategoryModel> subcategories;
 
   const SectionTrack(
-      {super.key, required this.create, required this.subcategories});
+      {super.key, this.create = true, required this.subcategories});
 
   @override
   Widget build(BuildContext context) {
@@ -54,36 +55,42 @@ class SectionTrack extends StatelessWidget {
               icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
               title: subcategories[index].name,
               onTap: () async {
-                create
+                create!
                     ? createSectionChooseProvider.setSelectedSubcategory(index)
                     : updateSectionChooseProvider.setSelectedSubcategory(index);
                 debugPrint(
-                    "Selected: ${create ? createSectionChooseProvider.selectedSubcategory?.name : updateSectionChooseProvider.selectedSubcategory?.name}");
+                    "Selected: ${create! ? createSectionChooseProvider.selectedSubcategory?.name : updateSectionChooseProvider.selectedSubcategory?.name}");
 
-                if (create
-                    ? createSectionChooseProvider.selectedSubcategory != null
-                    : updateSectionChooseProvider.selectedSubcategory != null) {
-                  create
-                      ? await createSectionChooseProvider.fetchSubcategories(
-                          createSectionChooseProvider.selectedSubcategory!.id)
-                      : await updateSectionChooseProvider.fetchSubcategories(
-                          updateSectionChooseProvider.selectedSubcategory!.id);
+                if (create!) {
+                  if (createSectionChooseProvider.selectedSubcategory != null) {
+                    await createSectionChooseProvider.fetchSubcategories(
+                      createSectionChooseProvider.selectedSubcategory!.id,
+                    );
+                  } else {
+                    print('selectd subcategory is null');
+                  }
                 } else {
-                  debugPrint("Selected subcategory is null");
+                  if (updateSectionChooseProvider.selectedSubcategory != null) {
+                    await updateSectionChooseProvider.fetchSubcategories(
+                      updateSectionChooseProvider.selectedSubcategory!.id,
+                    );
+                  } else {
+                    print('selectd subcategory is null');
+                  }
                 }
 
-                if (create
+                if (create!
                     ? createSectionChooseProvider.subcategories.isEmpty
                     : updateSectionChooseProvider.subcategories.isEmpty) {
                   updateAdProvider.nextStep();
 
                   debugPrint("fetching attributes...");
 
-                  if (create
+                  if (create!
                       ? createSectionChooseProvider.selectedSubcategory != null
                       : updateSectionChooseProvider.selectedSubcategory !=
                           null) {
-                    create
+                    create!
                         ? await createDetailsProvider.fetchAttributes(
                             createSectionChooseProvider.selectedSubcategory!.id,
                           )
@@ -96,7 +103,7 @@ class SectionTrack extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => CreateAdScreen(
-                        lowerWidget: SectionDetails1(create: create),
+                        lowerWidget: SectionDetails1(create: create!),
                         bottomNavBar: DraggableButton('متابعة',
                             onPressed: () => Navigator.push(
                                 context,
@@ -104,49 +111,77 @@ class SectionTrack extends StatelessWidget {
                                     builder: (context) => CreateAdScreen(
                                         bottomNavBar: DraggableButton('متابعة',
                                             onPressed: () async {
+                                          final user =
+                                              await UserHelper.getUser();
+                                          if (user == null) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    "تعذر الحصول على معلومات المستخدم. قم بتسجيل الدخول أولاً."),
+                                                backgroundColor: Colors.red,
+                                              ),
+                                            );
+                                            return;
+                                          }
+                                          final selectedCategory =
+                                              createSectionChooseProvider
+                                                  .selectedCategory;
+                                          if (selectedCategory == null) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    "الرجاء اختيار قسم أولاً"),
+                                                backgroundColor: Colors.red,
+                                              ),
+                                            );
+                                            return;
+                                          }
+
                                           final ad = AdModel(
-                                              title: createDetailsProvider
-                                                  .titleController.text,
-                                              categoryPath:
-                                                  createSectionChooseProvider
-                                                      .selectedCategory!
-                                                      .categoryPath,
-                                              categoryNamePath:
-                                                  createSectionChooseProvider
-                                                      .selectedCategory!
-                                                      .categoryNamePath,
-                                              adNo: createDetailsProvider
-                                                  .phoneController.text,
-                                              description: createDetailsProvider
-                                                  .shortDescController.text,
-                                              longDescription: createDetailsProvider
-                                                  .contentController.text,
-                                              tradePossible: true,
-                                              negotiable: true,
-                                              contactPhone: createDetailsProvider
-                                                  .phoneController.text,
-                                              contactEmail: '',
-                                              userId: 0,
-                                              price:
-                                                  double.tryParse(createDetailsProvider.priceController.text) ??
-                                                      0.0,
-                                              governorate: '',
-                                              city: '',
-                                              fullAddress: '',
-                                              adType: "NEW",
-                                              preferredContactMethod: "CALL",
-                                              condition: "PUBLISHED",
-                                              currency: "SYP",
-                                              attributes: createDetailsProvider
-                                                  .getAttributeFieldsMap());
+                                            title: createDetailsProvider
+                                                .titleController.text,
+                                            categoryPath:
+                                                createSectionChooseProvider
+                                                    .selectedCategory!
+                                                    .categoryPath,
+                                            categoryNamePath:
+                                                createSectionChooseProvider
+                                                    .selectedCategory!
+                                                    .categoryNamePath,
+                                            description: createDetailsProvider
+                                                .shortDescController.text,
+                                            longDescription:
+                                                createDetailsProvider
+                                                    .contentController.text,
+                                            contactPhone: createDetailsProvider
+                                                .phoneController.text,
+                                            contactEmail: user.email,
+                                            userId: user.id,
+                                            price: double.tryParse(
+                                                    createDetailsProvider
+                                                        .priceController
+                                                        .text) ??
+                                                0.0,
+                                            governorate:
+                                                user.address?.governorate ?? '',
+                                            city: user.address?.city ?? '',
+                                            fullAddress:
+                                                user.address?.fullAddress ?? '',
+                                            adType: "NEW",
+                                            preferredContactMethod: "CALL",
+                                            condition: "PUBLISHED",
+                                            currency: "SYP",
+                                            attributes: createDetailsProvider
+                                                .getAttributeFieldsMap(),
+                                          );
 
-                                          final token = await SharedPreferences
-                                                  .getInstance()
-                                              .then((prefs) =>
-                                                  prefs.getString('token') ??
-                                                  '');
+                                          final token =
+                                              await TokenHelper.getToken();
+                                          print(token);
 
-                                          if (token.isEmpty) {
+                                          if (token == null) {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
                                               SnackBar(
@@ -157,7 +192,7 @@ class SectionTrack extends StatelessWidget {
                                             return;
                                           }
 
-                                          create
+                                          create!
                                               ? await createAdProvider.createAd(
                                                   ad: ad,
                                                   images: createDetailsProvider
@@ -174,21 +209,16 @@ class SectionTrack extends StatelessWidget {
                                                   token: token,
                                                 );
 
-                                          create
+                                          create!
                                               ? createAdProvider.nextStep()
                                               : updateAdProvider.nextStep();
-
-                                          // Show success message
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                                content: Text(
-                                                    "Ad created successfully!"),
-                                                backgroundColor: Colors.green),
-                                          );
+                                          create!
+                                              ? showAdCreated(context)
+                                              : Navigator.pushNamed(context,
+                                                  MyCollectionScreen.id);
                                         }),
-                                        lowerWidget:
-                                            SectionDetails2(create: create))))),
+                                        lowerWidget: SectionDetails2(
+                                            create: create!))))),
                       ),
                     ),
                   );
@@ -200,7 +230,7 @@ class SectionTrack extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => CreateAdScreen(
                         lowerWidget: SectionTrack(
-                          subcategories: create
+                          subcategories: create!
                               ? createSectionChooseProvider.subcategories
                               : updateSectionChooseProvider.subcategories,
                           create: create,

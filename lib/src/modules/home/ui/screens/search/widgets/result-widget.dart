@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/auth/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../sections/ui/screens/collection/widgets/empty-widget.dart';
-import '../../../../models/user-model.dart';
+import '../../../../models/address.dart';
 import '../provider.dart';
 
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class SearchResultsWidget extends StatelessWidget {
         itemCount: provider.results.length,
         itemBuilder: (context, index) {
           String query = provider.searchController.text.trim();
-          UserModel result = provider.results[index];
+          User result = provider.results[index];
 
           String userName = result.username ?? '';
 

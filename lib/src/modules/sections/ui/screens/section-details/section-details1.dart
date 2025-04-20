@@ -56,7 +56,12 @@ class SectionDetails1 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 if (attributesData.attributes?.fields?.isNotEmpty ?? false)
-                  ...(attributesData.attributes?.fields ?? []).map((field) {
+                  ...(attributesData.attributes?.fields ?? [])
+                      .where((field) => field.type != null)
+                      .map((field) {
+                    if (field.type == null) {
+                      return const SizedBox.shrink();
+                    }
                     switch (field.type) {
                       case FieldType.text:
                         return Column(

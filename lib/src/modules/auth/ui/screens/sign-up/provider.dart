@@ -1,11 +1,9 @@
+import 'package:Levant_Sale/src/modules/auth/models/user.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/auth-repo.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../models/business-owner-model.dart';
-import '../../../models/personal-model.dart';
 import '../verify/verify.dart';
 
 class SignUpProvider extends ChangeNotifier {
@@ -34,6 +32,7 @@ class SignUpProvider extends ChangeNotifier {
       confirmPasswordError,
       phoneError,
       checkboxError;
+
   @override
   void dispose() {
     firstNameController.dispose();
@@ -61,6 +60,7 @@ class SignUpProvider extends ChangeNotifier {
   bool get isDropdownOpened => _isDropdownOpened;
 
   String get selectedValue => _selectedValue;
+
   void markTriedSubmit() {
     hasTriedSubmit = true;
     notifyListeners();
@@ -117,14 +117,14 @@ class SignUpProvider extends ChangeNotifier {
     final phoneRegex = RegExp(r'^\+963\d{9}$');
     return phoneRegex.hasMatch(value)
         ? null
-        : 'رقم الهاتف يجب أن يبدأ بـ +963 ويتبعه 9 أرقام';
+        : 'رقم الهاتف هنا يجب أن يتكون من 9 أرقام';
   }
 
   String? validateCheckbox(bool value) {
     return value ? null : 'يجب الموافقة على الشروط';
   }
 
-  Future<void> signUpUser(
+  Future<bool> signUpUser(
       BuildContext context, Map<String, dynamic> userData) async {
     isLoading = true;
     notifyListeners();
@@ -133,64 +133,54 @@ class SignUpProvider extends ChangeNotifier {
       Response response;
 
       if (_selectedValue == 'شركة') {
-        final owner = BusinessOwner(
-          username: userData['email'],
+        final owner = User(
           email: userData['email'],
           password: userData['password'],
           phoneNumber: userData['phone'],
           firstName: userData['first_name'],
           lastName: userData['last_name'],
-          profilePicture: null,
-          isVerified: false,
           businessName: userData['company_name'],
           businessLicense: userData['tax_number'],
           birthday: userData['birth_date'] != null
-              ? DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(
-                  DateFormat('MMMM d, yyyy').parse(userData['birth_date']))
-              : '',
-          active: true,
-          status: 'PENDING',
+              ? DateFormat('MMMM d, yyyy').parse(userData['birth_date'])
+              : null,
           roles: ['business_owner'],
         );
 
         print('SIGNING UP BUSINESS: ${owner.toJson()}');
 
-        response = await _authRepository.signUpBusinessOwner(owner);
+        response = await _authRepository.signUp(owner);
       } else if (_selectedValue == 'شخصي') {
-        final account = PersonalModel(
-          username: userData['email'],
+        final account = User(
           email: userData['email'],
           password: userData['password'],
           phoneNumber: userData['phone'],
           firstName: userData['first_name'],
           lastName: userData['last_name'],
-          profilePicture: null,
-          isVerified: false,
           birthday: userData['birth_date'] != null
-              ? DateFormat('yyyy-MM-dd').format(
-                  DateFormat('MMMM d, yyyy').parse(userData['birth_date']))
+              ? DateFormat('MMMM d, yyyy').parse(userData['birth_date'])
               : null,
-          active: true,
-          status: 'PENDING',
           roles: ['personal_user'],
         );
 
         print('SIGNING UP PERSONAL: ${account.toJson()}');
 
-        response = await _authRepository.signUpPersonalAccount(account);
+        response = await _authRepository.signUp(account);
         print('STATUS CODE:${response.statusCode}');
       } else {
         customShowSnackBar(context, 'يرجى اختيار نوع الحساب', Colors.redAccent);
-        isLoading = false;
-        notifyListeners();
-        return;
+        return false;
       }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Navigator.pushNamed(context, VerificationScreen.id);
+        return true;
       } else {
-        customShowSnackBar(context, 'فشل التسجيل: ${response.statusMessage}',
-            Colors.redAccent);
+        customShowSnackBar(
+          context,
+          'فشل التسجيل: ${response.statusMessage}',
+          Colors.redAccent,
+        );
+        return false;
       }
     } catch (e) {
       if (e is DioException) {
@@ -200,12 +190,13 @@ class SignUpProvider extends ChangeNotifier {
       } else {
         print('ERROR: $e');
       }
-
+      print(e.toString());
       customShowSnackBar(
         context,
-        'حدث خطأ أثناء التسجيل: ${e.toString()}',
+        'حدث خطأ أثناء التسجيل',
         Colors.redAccent,
       );
+      return false;
     } finally {
       isLoading = false;
       notifyListeners();

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
+import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
 import '../../../repos/ad.dart';
@@ -14,6 +15,7 @@ class CreateAdProvider extends ChangeNotifier {
   String? error;
 
   int get currentStep => _currentStep;
+
   int get totalSteps => _totalSteps;
 
   void nextStep() {
@@ -32,29 +34,32 @@ class CreateAdProvider extends ChangeNotifier {
 
   bool isLastStep() => _currentStep == _totalSteps - 1;
 
+  void resetProgress() {
+    _currentStep = 0;
+    isLoading = false;
+    error = null;
+    notifyListeners();
+  }
+
   Future<void> createAd({
     required AdModel ad,
     required List<File> images,
     required String token,
   }) async {
-    isLoading = true;
-    error = null;
-    notifyListeners();
-
     try {
-      final response =
-          await _repo.createAd(ad: ad, images: images, token: token);
-      isLoading = false;
-
-      if (response.statusCode != 200 && response.statusCode != 201) {
-        throw Exception(
-            'Failed to create ad: ${response.statusCode} - ${response.data}');
+      final response = await _repo.createAd(
+        ad: ad,
+        images: images,
+        token: token,
+      );
+      print(response.statusCode);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print("AdCreatedSuccessfully");
+      } else {
+        print("AdCreatedFailed");
       }
-      notifyListeners();
     } catch (e) {
-      isLoading = false;
-      error = e.toString();
-      notifyListeners();
+      print("AdCreatedFailed");
     }
   }
 }

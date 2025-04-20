@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
@@ -57,9 +58,6 @@ class CheckingContainer extends StatelessWidget {
                 return Directionality(
                   textDirection: TextDirection.rtl,
                   child: CustomCheckBox(
-                    // No label text, just using the title from the server
-                    title: serviceTitle!,
-                    value: entry.value,
                     onChanged: (value) {
                       if (create) {
                         createProvider.toggleService(entry.key, value);
@@ -67,6 +65,12 @@ class CheckingContainer extends StatelessWidget {
                         updateProvider.toggleService(entry.key, value);
                       }
                     },
+                    value: entry.value,
+                    title: Text(
+                      serviceTitle!,
+                      style: GoogleFonts.tajawal(
+                          fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
                   ),
                 );
               }).toList(),

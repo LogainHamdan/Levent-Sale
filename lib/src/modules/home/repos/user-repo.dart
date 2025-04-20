@@ -1,6 +1,7 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:dio/dio.dart';
-import '../models/user-model.dart';
+import '../../auth/models/user.dart';
+import '../models/address.dart';
 
 class UserRepository {
   final Dio _dio;
@@ -11,13 +12,13 @@ class UserRepository {
 
   factory UserRepository() => _instance;
 
-  Future<List<UserModel>> searchUsers(String username) async {
+  Future<List<User>> searchUsers(String username) async {
     final response = await _dio.get(
       searchUrl,
       queryParameters: {'username': username},
     );
 
     List data = response.data;
-    return data.map((user) => UserModel.fromJson(user)).toList();
+    return data.map((user) => User.fromJson(user)).toList();
   }
 }

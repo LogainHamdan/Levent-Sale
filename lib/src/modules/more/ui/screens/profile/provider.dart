@@ -1,11 +1,13 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/models/user.dart';
+import 'package:Levant_Sale/src/modules/auth/models/user.dart';
 import 'package:Levant_Sale/src/modules/more/repositories/follow-repo.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../auth/repos/token-helper.dart';
-import '../../../../home/models/user-model.dart';
+import '../../../../home/models/address.dart';
 import '../../../repositories/user-profile-repo.dart';
 import '../follow/provider.dart';
 
@@ -13,7 +15,7 @@ class ProfileProvider extends ChangeNotifier {
   final UserProfileRepository repository = UserProfileRepository();
   final FollowRepository followRepository = FollowRepository();
 
-  UserModel? user;
+  User? user;
   String? error;
 
   Future<void> loadProfile(String token) async {
@@ -21,7 +23,7 @@ class ProfileProvider extends ChangeNotifier {
       final response = await repository.getProfile(token);
 
       if (response.statusCode == 200) {
-        user = UserModel.fromJson(response.data);
+        user = User.fromJson(response.data);
       } else {
         error = "error ${response.statusCode}";
         user = null;
@@ -48,7 +50,7 @@ class ProfileProvider extends ChangeNotifier {
       final response = await repository.getUserProfile(token, userId);
 
       if (response.statusCode == 200) {
-        user = UserModel.fromJson(response.data);
+        user = User.fromJson(response.data);
         error = null;
       } else {
         error = " ${response.statusCode}";
@@ -83,10 +85,10 @@ class ProfileProvider extends ChangeNotifier {
       return;
     }
     try {
-      if (user!.isFollowing) {
-        await followRepository.unfollowUser(user!.id, token);
+      if (user!.isFollowing ?? false) {
+        await followRepository.unfollowUser(user!.id ?? 0, token);
       } else {
-        await followRepository.followUser(user!.id, token);
+        await followRepository.followUser(user!.id ?? 0, token);
       }
     } catch (e) {
       debugPrint('$e');

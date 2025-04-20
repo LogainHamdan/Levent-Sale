@@ -14,7 +14,7 @@ const String loginUrl = "$baseUrl/users/login";
 const String googleLoginUrl = "$baseUrl/users/google-login";
 const String requestUpdatePassUrl = "$baseUrl/users/request-password-reset";
 const String signUpUrl = "$baseUrl/users/register";
-const String signUpBusinessOwnerUrl = "$baseUrl/users/register-business-owner";
+// const String signUpBusinessOwnerUrl = "$baseUrl/users/register-business-owner";
 const String verifyUrl = "$baseUrl/users/verify";
 const String resendVerifyUrl = "$baseUrl/users/resend-verification-code";
 
@@ -41,6 +41,16 @@ const String getCategoryChildrenUrl = '$baseUrl/ads/get/category/children';
 const String getAttributesById = '$baseUrl/ads/attributes/category';
 const String createAdUrl = '$baseUrl/ads/add';
 const String updateAdUrl = '$baseUrl/ads/update';
+
+///more
+const String getTagsUrl = '$baseUrl/favorites/tags';
+const String getFavoritesByTagUrl = '$baseUrl/favorites/get/by-tag';
+const String createTagUrl = '$baseUrl/favorites/tags/create';
+const String addToFavUrl = '$baseUrl/favorites/add';
+const String removeFromFavUrl = '$baseUrl/favorites/delete';
+const String checkFavUrl = '$baseUrl/favorites/check';
+const String addToTagUrl = '$baseUrl/favorites/add';
+const String deleteTagUrl = '$baseUrl/favorites/tags/delete';
 
 // primary colors
 Color kprimaryColor = const Color(0xff82B81C);

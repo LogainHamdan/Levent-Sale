@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/ad-details.dart';
+import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +10,7 @@ import 'dicount-badge.dart';
 import 'favorite-bitton.dart';
 
 class ProductItem extends StatelessWidget {
-  final Map<String, String> product;
+  final AdModel product;
   final String category;
   final double? height;
   final double? width;
@@ -28,7 +29,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String productKey = '$category-${product['name']!}';
+    String productKey = '$category-${product.title}}';
 
     return InkWell(
         onTap: () => Navigator.pushNamed(context, AdDetailsScreen.id),
@@ -50,17 +51,19 @@ class ProductItem extends StatelessWidget {
                   ),
                   child: Stack(
                     children: [
-                      Image.asset(
+                      Image.network(
                         height: 125.h,
                         width: double.infinity,
-                        product['image']!,
+                        product.imageUrls![0],
                         fit: BoxFit.cover,
                       ),
                       Positioned(
                         top: 8.h,
                         left: 8.w,
-                        child:
-                            CustomButton(favIcon: true, productKey: productKey),
+                        child: CustomButton(
+                          favIcon: true,
+                          ad: product,
+                        ),
                       ),
                       hasDiscount!
                           ? Positioned(
@@ -80,7 +83,7 @@ class ProductItem extends StatelessWidget {
                         height: 8.h,
                       ),
                       Text(
-                        product['name']!,
+                        product.title!,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 12.sp),
                         textAlign: TextAlign.right,
@@ -114,7 +117,7 @@ class ProductItem extends StatelessWidget {
                           ),
                           Expanded(
                             child: Text(
-                              product['price']!,
+                              " ${product.price}",
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,

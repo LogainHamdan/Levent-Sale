@@ -5,11 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 class TitleRow extends StatelessWidget {
   final Function()? additionalBackFunction;
   final String title;
+  final bool? noBack;
 
   const TitleRow({
     super.key,
     required this.title,
     this.additionalBackFunction,
+    this.noBack = false,
   });
 
   @override
@@ -36,11 +38,13 @@ class TitleRow extends StatelessWidget {
             Navigator.pop(context);
             additionalBackFunction?.call();
           },
-          child: Icon(
-            Icons.arrow_forward,
-            size: 24.sp,
-            color: Colors.black,
-          ),
+          child: noBack!
+              ? SizedBox()
+              : Icon(
+                  Icons.arrow_forward,
+                  size: 24.sp,
+                  color: Colors.black,
+                ),
         ),
       ],
     );

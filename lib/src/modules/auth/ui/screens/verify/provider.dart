@@ -1,8 +1,6 @@
 import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../models/business-owner-model.dart';
-import '../../../models/personal-model.dart';
 import '../../../repos/auth-repo.dart';
 import '../../../repos/token-helper.dart';
 

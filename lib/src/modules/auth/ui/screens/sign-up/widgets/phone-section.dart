@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
+import '../provider.dart';
 
 class PhoneSection extends StatelessWidget {
   final String? hint;
@@ -19,15 +21,16 @@ class PhoneSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final signUpProvider = Provider.of<SignUpProvider>(context);
+
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         SizedBox(
           width: double.infinity,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Phone number input
               Expanded(
                 child: Container(
                   padding:
@@ -89,14 +92,16 @@ class PhoneSection extends StatelessWidget {
             ],
           ),
         ),
-        if (errorText != null)
+        if ((signUpProvider.hasTriedSubmit) &&
+            errorText != null &&
+            errorText!.isNotEmpty)
           Padding(
             padding: EdgeInsets.only(top: 4.h, right: 8.w),
             child: Text(
               errorText!,
               textDirection: TextDirection.rtl,
               style: TextStyle(
-                color: Colors.red,
+                color: Color(0xffF75555),
                 fontSize: 12.sp,
               ),
             ),

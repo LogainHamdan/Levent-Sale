@@ -93,7 +93,10 @@ class Section extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(child: ProductsDetails()),
+            Expanded(
+                child: ProductsDetails(
+              productList: [],
+            )),
           ],
         ),
       ),

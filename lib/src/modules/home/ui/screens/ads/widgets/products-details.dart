@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-
-import '../../home/data.dart';
-import '../../home/provider.dart';
-import '../../home/widgets/product-item.dart';
+import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +8,9 @@ import '../../home/provider.dart';
 import '../../home/widgets/product-item.dart';
 
 class ProductsDetails extends StatelessWidget {
-  const ProductsDetails({super.key});
+  final List<AdModel>? productList;
+
+  const ProductsDetails({super.key, required this.productList});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +19,7 @@ class ProductsDetails extends StatelessWidget {
     scrollProvider.scrollToEnd();
 
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.0.w,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
       child: SingleChildScrollView(
         reverse: true,
         controller: scrollProvider.scrollController,
@@ -38,12 +32,12 @@ class ProductsDetails extends StatelessWidget {
             mainAxisSpacing: 8.0,
             childAspectRatio: 0.8,
           ),
-          itemCount: products.length,
+          itemCount: productList!.length,
           itemBuilder: (context, index) {
             return ProductItem(
               spacecUnderPic: true,
               hasDiscount: false,
-              product: products.reversed.toList()[index],
+              product: productList!.reversed.toList()[index],
               category: '',
             );
           },

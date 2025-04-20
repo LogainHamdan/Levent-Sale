@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../config/constants.dart';
 import '../../login/provider.dart';
+import '../provider.dart';
 
 class CustomPasswordField extends StatelessWidget {
   final TextEditingController controller;
@@ -12,7 +13,7 @@ class CustomPasswordField extends StatelessWidget {
   final bool isConfirmField;
   final ValueChanged<String>? onChanged;
   final String? errorText;
-
+  final bool? login;
   const CustomPasswordField({
     super.key,
     required this.controller,
@@ -20,10 +21,13 @@ class CustomPasswordField extends StatelessWidget {
     this.isConfirmField = false,
     this.onChanged,
     this.errorText,
+    this.login = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final signUpProvider = Provider.of<SignUpProvider>(context);
+
     return Consumer<LoginProvider>(
       builder: (context, loginProvider, child) {
         bool isVisible = isConfirmField
@@ -31,7 +35,7 @@ class CustomPasswordField extends StatelessWidget {
             : loginProvider.passwordVisible;
 
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Container(
               height: 48.h,
@@ -97,14 +101,17 @@ class CustomPasswordField extends StatelessWidget {
                 ],
               ),
             ),
-            if (errorText != null)
+            if ((login!
+                    ? loginProvider.hasTriedSubmit
+                    : signUpProvider.hasTriedSubmit) &&
+                errorText != null &&
+                errorText!.isNotEmpty)
               Padding(
-                padding: EdgeInsets.only(top: 4.h, right: 8.w),
+                padding: EdgeInsets.only(top: 4.h),
                 child: Text(
                   errorText!,
-                  textDirection: TextDirection.rtl,
                   style: TextStyle(
-                    color: Colors.red,
+                    color: Color(0xffF75555),
                     fontSize: 12.sp,
                   ),
                 ),

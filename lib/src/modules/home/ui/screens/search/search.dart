@@ -74,7 +74,7 @@ class SearchScreen extends StatelessWidget {
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
                   category: "العروض والخصومات",
-                  products: products,
+                  products: [],
                 ),
                 ProductSection(
                   hasDiscount: false,
@@ -82,7 +82,7 @@ class SearchScreen extends StatelessWidget {
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
                   category: "الإعلانات الجديدة",
-                  products: products,
+                  products: [],
                 ),
                 ProductSection(
                   hasDiscount: false,
@@ -90,7 +90,7 @@ class SearchScreen extends StatelessWidget {
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
                   category: "الإعلانات المقترحة",
-                  products: products,
+                  products: [],
                 ),
               ],
             ),

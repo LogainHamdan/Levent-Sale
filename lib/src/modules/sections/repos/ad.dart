@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-
 import '../../../config/constants.dart';
-
 import 'package:dio/dio.dart';
-
 import '../models/ad.dart';
+import 'package:http_parser/http_parser.dart';
 
 class AdRepository {
   late final Dio dio;
@@ -17,34 +15,46 @@ class AdRepository {
   }
 
   factory AdRepository() => _instance;
-
   Future<Response> createAd({
     required AdModel ad,
     required List<File> images,
     required String token,
   }) async {
-    final formData = FormData();
+    final Map<String, dynamic> adMap = ad.toJson();
 
-    formData.fields.add(MapEntry('adDTO', jsonEncode(ad.toJson())));
+    final formMap = <String, dynamic>{
+      for (var entry in adMap.entries) 'adDTO.${entry.key}': entry.value,
+      'files': [
+        for (var image in images)
+          await MultipartFile.fromFile(
+            image.path,
+            filename: image.path.split('/').last,
+          ),
+      ],
+    };
+    final formData = FormData.fromMap(formMap);
 
-    for (var image in images) {
-      formData.files.add(MapEntry(
-        'files',
-        await MultipartFile.fromFile(image.path,
-            filename: image.path.split('/').last),
-      ));
+    try {
+      final response = await dio.post(
+        createAdUrl,
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+      print('${response.statusCode}');
+      print('${response.data}');
+
+      return response;
+    } on DioException catch (e) {
+      print('${e.response?.statusCode}');
+      print('${e.message}');
+      print('${e.response?.data}');
+      rethrow;
     }
-
-    return await dio.post(
-      createAdUrl,
-      data: formData,
-      options: Options(
-        headers: {
-          'Authorization': token,
-          'Content-Type': 'multipart/form-data',
-        },
-      ),
-    );
   }
 
   Future<Response> updateAd({
@@ -60,6 +70,7 @@ class AdRepository {
         'Content-Type': 'application/json',
       }),
     );
+
     return response;
   }
 }

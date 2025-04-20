@@ -1,12 +1,14 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/custom-rating.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/favorite-bitton.dart';
+import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../config/constants.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  final AdModel? ad;
+  const ProductCard({super.key, this.ad});
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +88,10 @@ class ProductCard extends StatelessWidget {
               Positioned(
                 left: 5.w,
                 top: 5.h,
-                child: CustomButton(productKey: '', favIcon: true),
+                child: CustomButton(
+                  favIcon: true,
+                  ad: ad!,
+                ),
               )
             ],
           ),

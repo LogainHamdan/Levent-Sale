@@ -25,6 +25,7 @@ class MyCollectionScreen extends StatelessWidget {
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         leading: SizedBox(),
         title: TitleRow(
+          noBack: true,
           title: 'تشكيلتي',
         ),
       ),

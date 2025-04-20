@@ -6,8 +6,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../main/ui/screens/main_screen.dart';
+import '../../../models/user.dart';
 import '../../../repos/auth-repo.dart';
 import '../../../repos/token-helper.dart';
+import '../../../repos/user-helper.dart';
 
 class LoginProvider extends ChangeNotifier {
   bool hasTriedSubmit = false;
@@ -127,13 +129,13 @@ class LoginProvider extends ChangeNotifier {
     required BuildContext context,
     required String identifier,
     required String password,
-    String? recaptchaToken,
   }) async {
     _setLoading(true);
 
     if (identifier.isEmpty || password.isEmpty) {
       _setLoading(false);
       _setErrorMessage('الرجاء ملء جميع الحقول.');
+      await TokenHelper.removeToken();
       return;
     }
 
@@ -142,17 +144,25 @@ class LoginProvider extends ChangeNotifier {
         identifier: identifier,
         password: password,
       );
+
       print(result['statusCode']);
 
       if (result['statusCode'] == 200) {
-        if (result['data'].isEmpty) {
-          print('التسجيل لم يتم بنجاح، الاستجابة فارغة.');
+        final token = result['token'];
+        final userData = result['user'];
+        if (token == null) {
+          print('التوكن غير موجود.');
+          await TokenHelper.removeToken();
           return;
         }
 
+        await TokenHelper.saveToken(token);
+        await UserHelper.saveUser(User.fromJson(userData));
+        print('Token saved: $token');
+        print('Login result: $result');
         notifyListeners();
-      }
-      if (result['statusCode'] == 401) {
+      } else {
+        await TokenHelper.removeToken();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('الحساب غير مفعل أو خطأ في البيانات'),
@@ -162,6 +172,7 @@ class LoginProvider extends ChangeNotifier {
         );
       }
     } catch (e) {
+      await TokenHelper.removeToken();
       print('فشل تسجيل الدخول: ${e.toString()}');
     } finally {
       _setLoading(false);
@@ -221,14 +232,14 @@ class LoginProvider extends ChangeNotifier {
 
     try {
       final response = await _authRepository.requestPasswordReset(email);
-
+      print(response.statusCode);
       if (response.statusCode == 200) {
         debugPrint("Password reset email sent.");
       } else {
         _setErrorMessage("Failed to send reset email: ${response.statusCode}");
       }
     } catch (e) {
-      _setErrorMessage("$e");
+      _setErrorMessage("Error: $e");
     } finally {
       _setLoading(false);
     }

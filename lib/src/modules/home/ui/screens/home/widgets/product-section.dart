@@ -3,11 +3,12 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-ite
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../sections/models/ad.dart';
 import 'custom-header.dart';
 
 class ProductSection extends StatelessWidget {
   final String category;
-  final List<Map<String, String>> products;
+  final List<AdModel> products;
   final bool? isHalfed;
   final Function() onMorePressed;
   final double? height;

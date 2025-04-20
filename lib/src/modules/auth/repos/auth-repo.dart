@@ -5,8 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../config/constants.dart';
-import '../models/business-owner-model.dart';
-import '../models/personal-model.dart';
+import '../models/user.dart';
 
 class AuthRepository {
   static final AuthRepository _instance = AuthRepository._internal();
@@ -55,12 +54,8 @@ class AuthRepository {
     );
   }
 
-  Future<Response> signUpBusinessOwner(BusinessOwner owner) async {
-    return await dio.post(signUpBusinessOwnerUrl, data: owner.toJson());
-  }
-
-  Future<Response> signUpPersonalAccount(PersonalModel account) async {
-    return await dio.post(signUpUrl, data: account.toJson());
+  Future<Response> signUp(User owner) async {
+    return await dio.post(signUpUrl, data: owner.toJson());
   }
 
   Future<Response> requestPasswordReset(String email) async {
@@ -73,12 +68,22 @@ class AuthRepository {
             "Content-Type": "application/json",
             "Accept": "application/hal+json",
           },
+          responseType: ResponseType.plain,
         ),
       );
+
+      print('Response status: ${response.statusCode}');
+      print('Response data: ${response.data}');
       return response;
     } on DioException catch (e) {
-      if (e.response != null) return e.response!;
-      rethrow;
+      print('DioException: ${e.message}');
+      print('Response: ${e.response?.data}');
+      return e.response ??
+          Response(
+            requestOptions: RequestOptions(path: url),
+            statusCode: 500,
+            statusMessage: 'Unknown Error',
+          );
     }
   }
 
@@ -129,19 +134,22 @@ class AuthRepository {
             'Content-Type': 'application/json',
             'Accept': 'application/hal+json',
           },
-          responseType: ResponseType.plain, // <== أضف هذا
+          responseType: ResponseType.plain,
         ),
       );
 
       print('Raw response: ${response.data}');
 
-      // حاول تحويله إلى JSON فقط إذا كان مناسب
       final jsonResponse = jsonDecode(response.data);
-      return jsonResponse;
+      return {
+        'statusCode': response.statusCode,
+        ...jsonResponse,
+      };
     } on DioException catch (e) {
       print("Error: ${e.message}");
       print("Raw response: ${e.response?.data}");
       return {
+        'statusCode': e.response?.statusCode ?? 500,
         'error': 'فشل تسجيل الدخول: الرد من السيرفر غير متوقع.',
       };
     }

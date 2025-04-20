@@ -14,6 +14,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notificati
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/search-filter.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search/search.dart';
 import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/why-to-delete.dart';
@@ -43,6 +44,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'src/modules/sections/ui/screens/collection/my-collection.dart';
 
 class MyMaterialApp extends StatelessWidget {
@@ -50,6 +52,8 @@ class MyMaterialApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favProvider = context.watch<FavoriteProvider>();
+
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -87,7 +91,7 @@ class MyMaterialApp extends StatelessWidget {
                     fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            initialRoute: SignUpScreen.id,
+            initialRoute: MainScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               MainScreen.id: (context) => MainScreen(),
@@ -108,9 +112,7 @@ class MyMaterialApp extends StatelessWidget {
               MyCollectionScreen.id: (context) => MyCollectionScreen(
                     empty: false,
                   ),
-              FavoriteScreen.id: (context) => FavoriteScreen(
-                    empty: false,
-                  ),
+              FavoriteScreen.id: (context) => FavoriteScreen(),
               CreateAdScreen.id: (context) => CreateAdScreen(
                     lowerWidget: SectionChoose(
                       create: true,
@@ -143,7 +145,9 @@ class MyMaterialApp extends StatelessWidget {
               WhyToDeleteScreen.id: (context) => WhyToDeleteScreen(),
               SearchScreen.id: (context) => SearchScreen(),
               FavoriteCollectionScreen.id: (context) =>
-                  FavoriteCollectionScreen(),
+                  FavoriteCollectionScreen(
+                    tagId: favProvider.selectedTag!.id,
+                  ),
               DeleteAccountScreen.id: (context) => DeleteAccountScreen(
                     phase1email: true,
                   ),

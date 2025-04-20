@@ -39,7 +39,9 @@ class AdsScreen extends StatelessWidget {
                   controller: adController,
                 ),
               ),
-              ProductsDetails(),
+              ProductsDetails(
+                productList: [],
+              ),
             ],
           ),
         ),

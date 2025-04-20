@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,10 +12,10 @@ import '../provider.dart';
 
 class CustomCarousel extends StatelessWidget {
   final String productKey = "iphone_14_pro_max";
-
+  final AdModel? ad;
   final List<String> imgList;
 
-  const CustomCarousel({super.key, required this.imgList});
+  const CustomCarousel({super.key, required this.imgList, this.ad});
 
   @override
   Widget build(BuildContext context) {
@@ -97,11 +98,17 @@ class CustomCarousel extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CustomButton(favIcon: true, productKey: productKey),
+                        CustomButton(
+                          favIcon: true,
+                          ad: ad!,
+                        ),
                         SizedBox(
                           width: 5.w,
                         ),
-                        CustomButton(favIcon: false, productKey: productKey),
+                        CustomButton(
+                          favIcon: false,
+                          ad: ad!,
+                        ),
                       ],
                     ),
                   ),
