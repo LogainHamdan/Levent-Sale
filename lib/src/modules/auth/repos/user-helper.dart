@@ -26,4 +26,10 @@ class UserHelper {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_userKey);
   }
+
+  static Future<bool> isLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userJson = prefs.getString(_userKey);
+    return userJson != null;
+  }
 }

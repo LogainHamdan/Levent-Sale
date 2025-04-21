@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:Levant_Sale/src/modules/auth/models/user.dart';
 import 'package:Levant_Sale/src/modules/more/repositories/address-repo.dart';
 import 'package:Levant_Sale/src/modules/more/repositories/edit-profile-repo.dart';
 import 'package:dio/dio.dart';
@@ -6,32 +8,48 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../auth/repos/user-helper.dart';
+import '../../../../home/models/address.dart';
+
 class EditProfileProvider extends ChangeNotifier {
   final EditProfileRepository repository = EditProfileRepository();
   final ImagePicker _picker = ImagePicker();
-  final TextEditingController nameController =
-      TextEditingController(text: 'منة الله');
-  final TextEditingController emailController =
-      TextEditingController(text: 'menna@gmail.com');
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController dateController = TextEditingController(
-      text: DateFormat('MMMM dd, yyyy').format(DateTime.now()));
-  final TextEditingController addressController =
-      TextEditingController(text: 'حلب');
-  final TextEditingController taxController =
-      TextEditingController(text: '23456789');
 
-  bool isCompanyAccount;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController taxController = TextEditingController();
+  TextEditingController businessNameController = TextEditingController();
+
+  bool isCompanyAccount = false;
   bool isLoading = false;
   String? errorMessage;
   File? _profileImage;
   File? _coverImage;
 
-  EditProfileProvider({this.isCompanyAccount = true});
-
   File? get profileImage => _profileImage;
 
   File? get coverImage => _coverImage;
+  Future<void> init() async {
+    final user = await UserHelper.getUser();
+    if (user != null) {
+      nameController.text = '${user.firstName ?? ''} ${user.lastName ?? ''}';
+      emailController.text = user.email ?? '';
+      phoneController.text = user.phoneNumber ?? '';
+      dateController.text = user.birthday.toString() ?? '';
+      addressController.text = user.address?.fullAddress ?? '';
+      taxController.text = user.businessLicense ?? '';
+      businessNameController.text = user.businessName ?? '';
+      isCompanyAccount = checkIfCompanyAccount(user.roles);
+    }
+    notifyListeners();
+  }
+
+  bool checkIfCompanyAccount(List<String>? roles) {
+    return roles?.contains('business-owner') ?? false;
+  }
 
   void setProfileImage(File? selectedImage) {
     _profileImage = selectedImage;
@@ -66,63 +84,76 @@ class EditProfileProvider extends ChangeNotifier {
     }
   }
 
-  Future<FormData> _buildFormData({
+  Future<Map<String, dynamic>> _buildJsonBody({
     String? firstName,
     String? lastName,
     String? birthday,
-    bool? isCompanyAccount,
-    File? profilePicture,
+    String? profilePicture,
     String? businessName,
     String? businessLicense,
-    String? address,
+    Address? address,
   }) async {
-    final Map<String, dynamic> formMap = {
+    return {
       "firstName": firstName,
       "lastName": lastName,
       "birthday": birthday,
-      if (profilePicture != null)
-        "profilePicture": await MultipartFile.fromFile(profilePicture.path),
+      "businessName": businessName,
+      "businessLicense": businessLicense,
+      "address": address != null &&
+              address.governorate != null &&
+              address.city != null &&
+              address.fullAddress != null
+          ? {
+              "governorate": address.governorate,
+              "city": address.city,
+              "fullAddress": address.fullAddress,
+            }
+          : null,
     };
+  }
 
-    if (isCompanyAccount!) {
-      if (businessName != null) formMap["businessName"] = businessName;
-      if (businessLicense != null) formMap["businessLicense"] = businessLicense;
-      if (address != null) formMap["address"] = {"location": address};
-    }
+  Future<String> convertImageToBase64(File imageFile) async {
+    final bytes = await imageFile.readAsBytes();
+    String base64String = base64Encode(bytes);
 
-    return FormData.fromMap(formMap);
+    base64String = base64String.split(" ")[1].trim();
+
+    return base64String;
   }
 
   Future<void> updateProfile({
     required String token,
     String? firstName,
     String? lastName,
-    DateTime? birthday,
+    String? birthday,
     File? profilePicture,
     String? businessName,
     String? businessLicense,
-    String? address,
+    Address? address,
   }) async {
     try {
       isLoading = true;
       errorMessage = null;
       notifyListeners();
 
-      final formattedBirthday = DateFormat('yyyy-MM-dd').format(birthday!);
-      final formData = await _buildFormData(
+      String? base64ProfilePicture;
+      if (profilePicture != null) {
+        base64ProfilePicture = await convertImageToBase64(profilePicture);
+      }
+
+      final jsonBody = await _buildJsonBody(
         firstName: firstName,
         lastName: lastName,
-        birthday: formattedBirthday,
-        isCompanyAccount: isCompanyAccount,
-        profilePicture: profilePicture ?? _profileImage,
+        birthday: birthday,
+        profilePicture: base64ProfilePicture,
         businessName: businessName,
         businessLicense: businessLicense,
         address: address,
       );
 
       final response = await repository.updateProfile(
+        jsonBody: jsonBody,
         token: token,
-        formData: formData,
       );
 
       switch (response.statusCode) {
@@ -132,9 +163,12 @@ class EditProfileProvider extends ChangeNotifier {
           break;
         default:
           errorMessage = "error: ${response.statusCode}";
+          print(
+              "Failed to update profile. Status code: ${response.statusCode}");
       }
     } catch (e) {
-      errorMessage = "$e";
+      errorMessage = "An error occurred: $e";
+      print("Error updating profile: $e");
     } finally {
       isLoading = false;
       notifyListeners();
@@ -142,27 +176,27 @@ class EditProfileProvider extends ChangeNotifier {
   }
 
   Future<void> updateAddress({
-    required int addressId,
-    required int id,
-    required String governorate,
-    required String city,
-    required String fullAddress,
-    required String token,
+    int? addressId,
+    int? id,
+    String? governorate,
+    String? city,
+    String? fullAddress,
+    String? token,
   }) async {
     isLoading = true;
     errorMessage = null;
     notifyListeners();
-
+    final user = await UserHelper.getUser();
     try {
       final response = await AddressRepository.instance.updateAddress(
-        addressId: addressId,
-        id: id,
-        governorate: governorate,
-        city: city,
-        fullAddress: fullAddress,
-        token: token,
+        addressId: addressId ?? user?.address?.id ?? 0,
+        id: id ?? user?.id ?? 0,
+        governorate: governorate ?? user?.address?.governorate ?? '',
+        city: city ?? user?.address?.city ?? '',
+        fullAddress: fullAddress ?? user?.address?.fullAddress ?? '',
+        token: token ?? '',
       );
-
+      print(response.statusCode);
       if (response.statusCode == 200) {
         debugPrint('Address updated successfully');
       } else {

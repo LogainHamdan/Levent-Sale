@@ -9,7 +9,6 @@ import 'custom-header.dart';
 class ProductSection extends StatelessWidget {
   final String category;
   final List<AdModel> products;
-  final bool? isHalfed;
   final Function() onMorePressed;
   final double? height;
   final double? width;
@@ -18,7 +17,6 @@ class ProductSection extends StatelessWidget {
     super.key,
     required this.category,
     required this.products,
-    this.isHalfed = false,
     required this.onMorePressed,
     this.height = 169,
     this.width = 144,
@@ -27,69 +25,35 @@ class ProductSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return !isHalfed!
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomHeader(onPressed: onMorePressed, title: category),
-              SizedBox(
-                height: 5.h,
-              ),
-              Transform.translate(
-                offset: Offset(0, -8.h),
-                child: SingleChildScrollView(
-                  reverse: true,
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: products
-                        .map(
-                          (product) => Padding(
-                            padding: EdgeInsets.only(left: 16.0.w),
-                            child: ProductItem(
-                              hasDiscount: hasDiscount!,
-                              height: height!,
-                              width: width!,
-                              product: product,
-                              category: category,
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ),
-            ],
-          )
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomHeader(onPressed: onMorePressed, title: category),
-              Transform.translate(
-                offset: Offset(0, -8.h),
-                child: SingleChildScrollView(
-                  reverse: true,
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: products
-                        .map(
-                          (product) => Padding(
-                            padding: EdgeInsets.only(left: 16.0.w),
-                            child: ProductItem(
-                              hasDiscount: hasDiscount,
-                              height: height!,
-                              width: width!,
-                              product: product,
-                              category: category,
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ),
-            ],
-          );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomHeader(onPressed: onMorePressed, title: category),
+        Transform.translate(
+          offset: Offset(0, -8.h),
+          child: SizedBox(
+            height: 169,
+            child: ListView(
+              reverse: true,
+              scrollDirection: Axis.horizontal,
+              children: products
+                  .map(
+                    (product) => Padding(
+                      padding: EdgeInsets.only(left: 16.0.w),
+                      child: ProductItem(
+                        hasDiscount: hasDiscount,
+                        height: height!,
+                        width: width!,
+                        product: product,
+                        category: category,
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

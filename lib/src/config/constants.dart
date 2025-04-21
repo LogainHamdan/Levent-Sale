@@ -32,6 +32,7 @@ const String profileUrl = "$baseUrl/users/profile";
 
 ///home
 const String searchUrl = "$baseUrl/users/search";
+const String adsUrl = "$baseUrl/search/ads/paged";
 
 ///sections
 const String getCategoriesUrl = '$baseUrl/ads/get/all/roots';

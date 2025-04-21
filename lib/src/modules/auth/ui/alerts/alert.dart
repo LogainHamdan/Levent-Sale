@@ -29,6 +29,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../../config/constants.dart';
+import '../../../home/models/address.dart';
 import '../../../home/ui/screens/evaluation/widgets/img-picker.dart';
 import '../../../main/ui/screens/main_screen.dart';
 import '../../../main/ui/screens/provider.dart';
@@ -566,7 +567,6 @@ void showAdCreated(BuildContext context) {
                         createAdProvider.resetProgress();
                         Navigator.pushNamed(context, MainScreen.id);
                       },
-                      //my collection
                       backgroundColor: kprimaryColor,
                       textColor: grey9,
                       date: false,
@@ -759,15 +759,55 @@ void showNewCollectionAlert(
 
 void editDoneAlert(BuildContext context) {
   showCustomAlertDialog(
-      context: context,
-      title: 'تم التعديل',
-      message: 'هل أنت متأكد من التعديلات؟',
-      confirmText: 'تعديل',
-      confirmColor: infoColor,
-      onConfirm: () {
-        Navigator.pop(context);
-        Navigator.pushNamed(context, ProfileScreen.id);
-      });
+    context: context,
+    title: 'تم التعديل',
+    message: 'هل أنت متأكد من التعديلات؟',
+    confirmText: 'تعديل',
+    confirmColor: infoColor,
+    onConfirm: () async {
+      final profileProvider =
+          Provider.of<EditProfileProvider>(context, listen: false);
+      final token = await TokenHelper.getToken();
+      if (token == null || token.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('حدث خطأ: لم يتم العثور على التوكن')),
+        );
+        return;
+      }
+      print("updateProfile called");
+
+      // Safely split the first and last names
+      String firstName =
+          profileProvider.nameController.text.split(" ").isNotEmpty
+              ? profileProvider.nameController.text.split(" ").first
+              : '';
+      String lastName =
+          profileProvider.nameController.text.split(" ").length > 1
+              ? profileProvider.nameController.text.split(" ").last
+              : '';
+
+      final address = Address(
+        id: 0,
+        governorate: null,
+        city: null,
+        fullAddress: profileProvider.addressController.text,
+      );
+
+      await profileProvider.updateProfile(
+        token: token,
+        firstName: firstName,
+        lastName: lastName,
+        birthday: profileProvider.dateController.text,
+        businessName: profileProvider.businessNameController.text,
+        businessLicense: profileProvider.taxController.text,
+        address: address,
+        profilePicture: profileProvider.profileImage,
+      );
+
+      Navigator.pop(context);
+      // Navigator.pushNamed(context, ProfileScreen.id);
+    },
+  );
 }
 
 void deleteAccountAlert(BuildContext context) {
@@ -819,7 +859,8 @@ void logoutAlert(BuildContext context) {
 
 void changePictureOptionAlert(
     BuildContext context, Function(File?) onImageSelected) {
-  final editProfileProvider = Provider.of<EditProfileProvider>(context);
+  final editProfileProvider =
+      Provider.of<EditProfileProvider>(context, listen: false);
 
   void deleteImage() {
     onImageSelected(null);

@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/banner.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/category-list.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-section.dart';
@@ -20,57 +21,60 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider =
+    final createProvider =
         Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      provider.fetchCategories();
-    });
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: false,
-      extendBody: true,
-      body: SafeArea(
-        bottom: false,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(top: 12.0.h, right: 10.w, left: 10.w),
-            child: Column(
-              children: [
-                TopSearchBar(),
-                TopBanner(),
-                CategoriesList(
-                  categories: provider.rootCategories,
+    return Consumer<HomeProvider>(
+      builder: (context, provider, _) {
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          resizeToAvoidBottomInset: false,
+          extendBody: true,
+          body: SafeArea(
+            bottom: false,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.only(top: 12.0.h, right: 10.w, left: 10.w),
+                child: SizedBox(
+                  height: 1100.h,
+                  child: Column(
+                    children: [
+                      TopSearchBar(),
+                      TopBanner(),
+                      CategoriesList(categories: createProvider.rootCategories),
+                      SizedBox(height: 10.h),
+                      ProductSection(
+                        width: 125.w,
+                        height: 135.h,
+                        onMorePressed: () =>
+                            Navigator.pushNamed(context, AdsScreen.id),
+                        category: "العروض والخصومات",
+                        products: provider.allAds,
+                      ),
+                      ProductSection(
+                        width: 125.w,
+                        height: 135.h,
+                        onMorePressed: () =>
+                            Navigator.pushNamed(context, AdsScreen.id),
+                        category: "الإعلانات الجديدة",
+                        products: provider.allAds,
+                      ),
+                      ProductSection(
+                        width: 125.w,
+                        height: 135.h,
+                        onMorePressed: () =>
+                            Navigator.pushNamed(context, AdsScreen.id),
+                        category: "الإعلانات المقترحة",
+                        products: provider.allAds,
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                ProductSection(
-                    width: 120.w,
-                    height: 130.h,
-                    onMorePressed: () =>
-                        Navigator.pushNamed(context, AdsScreen.id),
-                    category: "العروض والخصومات",
-                    products: []),
-                ProductSection(
-                    height: 130.h,
-                    width: 120.w,
-                    onMorePressed: () =>
-                        Navigator.pushNamed(context, AdsScreen.id),
-                    category: "الإعلانات الجديدة",
-                    products: []),
-                ProductSection(
-                    height: 130.h,
-                    width: 120.w,
-                    onMorePressed: () =>
-                        Navigator.pushNamed(context, AdsScreen.id),
-                    category: "الإعلانات المقترحة",
-                    products: []),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

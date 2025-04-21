@@ -2,10 +2,12 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/products-det
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../main/ui/screens/main_screen.dart';
 import '../home/data.dart';
 import '../home/home.dart';
+import '../home/provider.dart';
 import '../home/widgets/product-item.dart';
 import '../home/widgets/search-field.dart';
 
@@ -16,6 +18,11 @@ class AdsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await homeProvider.loadAds();
+    });
     TextEditingController adController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +47,7 @@ class AdsScreen extends StatelessWidget {
                 ),
               ),
               ProductsDetails(
-                productList: [],
+                productList: homeProvider.allAds,
               ),
             ],
           ),

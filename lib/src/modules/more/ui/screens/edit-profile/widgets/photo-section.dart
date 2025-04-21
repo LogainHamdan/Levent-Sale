@@ -12,7 +12,8 @@ class ImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final editProfileProvider = Provider.of<EditProfileProvider>(context);
+    final editProfileProvider =
+        Provider.of<EditProfileProvider>(context, listen: false);
     final File? profileImage = editProfileProvider.profileImage;
 
     return Column(

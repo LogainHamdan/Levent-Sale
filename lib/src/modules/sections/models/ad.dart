@@ -23,6 +23,7 @@ class AdModel {
   final String? currency;
   final List<String>? imageUrls;
   final Map<String, dynamic>? attributes;
+  final String? tagId;
 
   AdModel({
     this.id,
@@ -49,6 +50,7 @@ class AdModel {
     this.currency,
     this.imageUrls,
     this.attributes,
+    this.tagId,
   });
 
   Map<String, dynamic> toJson() {
@@ -71,7 +73,8 @@ class AdModel {
       "preferredContactMethod": preferredContactMethod,
       "condition": condition,
       "currency": currency,
-      "attributes": attributes, // Only if backend accepts Map<String, dynamic>
+      "attributes": attributes,
+      "tagId": tagId,
     };
   }
 
@@ -84,12 +87,15 @@ class AdModel {
       adNo: json['adNo'],
       description: json['description'],
       longDescription: json['longDescription'],
-      tradePossible: json['tradePossible'],
-      negotiable: json['negotiable'],
+      tradePossible:
+          json['tradePossible'] == true || json['tradePossible'] == 'نعم',
+      negotiable: json['negotiable'] == true || json['negotiable'] == 'نعم',
       contactPhone: json['contactPhone'],
       contactEmail: json['contactEmail'],
       userId: json['userId'],
-      price: (json['price'] as num?)?.toDouble(),
+      price: json['price'] != null
+          ? double.tryParse(json['price'].toString())
+          : null,
       governorate: json['governorate'],
       city: json['city'],
       fullAddress: json['fullAddress'],
@@ -104,6 +110,7 @@ class AdModel {
       imageUrls:
           (json['imageUrls'] as List?)?.map((e) => e.toString()).toList(),
       attributes: json['attributes'],
+      tagId: json['tagId'],
     );
   }
 }

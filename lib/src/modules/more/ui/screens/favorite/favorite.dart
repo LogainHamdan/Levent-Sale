@@ -104,21 +104,18 @@ class FavoriteScreen extends StatelessWidget {
                         ProductSection(
                           onMorePressed: () =>
                               Navigator.pushNamed(context, AdsScreen.id),
-                          isHalfed: true,
                           category: "العروض والخصومات",
                           products: [],
                         ),
                         ProductSection(
                           onMorePressed: () =>
                               Navigator.pushNamed(context, AdsScreen.id),
-                          isHalfed: true,
                           category: "الإعلانات الجديدة",
                           products: [],
                         ),
                         ProductSection(
                           onMorePressed: () =>
                               Navigator.pushNamed(context, AdsScreen.id),
-                          isHalfed: true,
                           category: "الإعلانات المفترحة",
                           products: [],
                         ),

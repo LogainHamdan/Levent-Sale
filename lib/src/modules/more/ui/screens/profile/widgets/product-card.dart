@@ -7,8 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../config/constants.dart';
 
 class ProductCard extends StatelessWidget {
-  final AdModel? ad;
-  const ProductCard({super.key, this.ad});
+  final AdModel ad;
+  const ProductCard({super.key, required this.ad});
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +90,7 @@ class ProductCard extends StatelessWidget {
                 top: 5.h,
                 child: CustomButton(
                   favIcon: true,
-                  ad: ad!,
+                  ad: ad,
                 ),
               )
             ],

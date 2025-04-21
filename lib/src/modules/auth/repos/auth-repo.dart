@@ -155,14 +155,13 @@ class AuthRepository {
     }
   }
 
-  Future<void> logoutUser() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
+  Future<Response> logoutUser() async {
+    final token = await TokenHelper.getToken();
 
-    if (token == null) throw Exception('User not logged in');
+    if (token == null) throw Exception('قم بتسجيل الدخول أولاً');
 
     try {
-      await dio.post(
+      final response = await dio.post(
         logoutUrl,
         options: Options(
           headers: {
@@ -171,10 +170,14 @@ class AuthRepository {
           },
         ),
       );
-      await prefs.clear();
+      await TokenHelper.removeToken();
+      return response;
     } on DioException catch (e) {
-      throw Exception(
-          e.response?.data['message'] ?? 'Logout failed: ${e.message}');
+      final responseData = e.response?.data;
+
+      print('$responseData');
+
+      throw Exception(responseData);
     }
   }
 

@@ -38,10 +38,13 @@ class CustomButton extends StatelessWidget {
                     authorizationToken: token,
                   );
 
-                  if (favoriteProvider.isFavorite!) {
+                  if (favoriteProvider.isFavorite) {
                     favoriteProvider.deleteFavorite('${ad.id}');
                   } else {
-                    // showAddToFavoriteAlert(context, ad.id ?? 0, ad.tagId ?? '');
+                    await Future.delayed(Duration(milliseconds: 300));
+                    //عشان الكونتكست بطير  مسافة ما يروح يجيب الاليرت
+                    if (!context.mounted) return;
+                    showAddToFavoriteAlert(context, ad.id ?? 0, ad.tagId ?? '');
                   }
                 },
                 customBorder: const CircleBorder(),
@@ -50,7 +53,7 @@ class CustomButton extends StatelessWidget {
                   backgroundColor: Colors.white,
                   child: Center(
                     child: favIcon
-                        ? favoriteProvider.isFavorite!
+                        ? favoriteProvider.isFavorite
                             ? SvgPicture.asset(
                                 favColoredPath,
                                 height: 14.h,

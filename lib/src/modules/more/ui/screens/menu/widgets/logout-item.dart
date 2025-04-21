@@ -1,112 +1,53 @@
+import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../../../../config/constants.dart';
-import '../../../../../auth/ui/alerts/alert.dart';
-import '../../../../../auth/ui/alerts/widgets/custom-alert.dart';
 import '../../../../../auth/ui/screens/login/provider.dart';
 
 class CustomLogoutItem extends StatelessWidget {
   const CustomLogoutItem({super.key});
 
-  Future<void> _handleLogout(
-      BuildContext context, LoginProvider loginProvider) async {
-    bool confirm = false;
-
-    await showCustomAlertDialog(
-      context: context,
-      title: 'تأكيد تسجيل الخروج',
-      message: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
-      confirmText: 'نعم',
-      confirmColor: errorColor,
-      cancelColor: Colors.black,
-      onConfirm: () {
-        confirm = true;
-      },
-    );
-
-    if (!confirm) return;
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
-    );
-
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token');
-
-      if (token != null) {
-        await loginProvider.logoutUser(context);
-        if (context.mounted) {
-          Navigator.pop(context);
-          logoutAlert(context);
-        }
-      } else {
-        if (context.mounted) {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('لا يوجد جلسة تسجيل دخول حالياً'),
-              backgroundColor: Colors.orange,
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      if (context.mounted) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-                loginProvider.errorMessage ?? 'حدث خطأ أثناء تسجيل الخروج'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Consumer<LoginProvider>(
-      builder: (context, loginProvider, child) {
-        return InkWell(
-          onTap: () => _handleLogout(context, loginProvider),
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 5.h),
-            decoration: BoxDecoration(
-              color: grey8,
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: ListTile(
-              trailing: SvgPicture.asset(
-                logoutIcon,
-                height: 22.h,
+    return InkWell(
+      onTap: () async {
+        print('button clicked');
+
+        await Provider.of<LoginProvider>(context, listen: false)
+            .logoutUser(context);
+        print('button succeeded');
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 5.h),
+        decoration: BoxDecoration(
+          color: grey8,
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        child: ListTile(
+          trailing: SvgPicture.asset(
+            logoutIcon,
+            height: 22.h,
+          ),
+          title: Padding(
+            padding: EdgeInsets.all(8.0.sp),
+            child: Text(
+              'تسجيل الخروج',
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,
+              style: GoogleFonts.tajawal(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+                color: Colors.red,
               ),
-              title: Padding(
-                padding: EdgeInsets.all(8.0.sp),
-                child: Text(
-                  'تسجيل الخروج',
-                  textDirection: TextDirection.rtl,
-                  textAlign: TextAlign.right,
-                  style: GoogleFonts.tajawal(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-              leading:
-                  Icon(Icons.arrow_back_ios_new, size: 18.sp, color: grey3),
             ),
           ),
-        );
-      },
+          leading: Icon(Icons.arrow_back_ios_new, size: 18.sp, color: grey3),
+        ),
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/main/ui/screens/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
@@ -11,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+
+import '../../../sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 
 class MainScreen extends StatelessWidget {
   static const id = '/main';
@@ -47,6 +50,15 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomNavProvider = Provider.of<BottomNavProvider>(context);
+
+    final provider =
+        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await provider.fetchCategories();
+      await homeProvider.loadAds();
+    });
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

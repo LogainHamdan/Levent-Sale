@@ -77,17 +77,22 @@ class LoginProvider extends ChangeNotifier {
     _setLoading(true);
 
     try {
-      await _authRepository.logoutUser();
-      _currentUser = null;
-      _setLoading(false);
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        LoginScreen.id,
-        (route) => false,
-      );
+      var response = await _authRepository.logoutUser();
+
+      if (response.statusCode == 200) {
+        await TokenHelper.removeToken();
+        await UserHelper.removeUser();
+
+        _setLoading(false);
+        print('Logout successful');
+      } else {
+        _setLoading(false);
+        _setErrorMessage(' Logout failed: ${response.statusCode}');
+      }
     } catch (e) {
       _setLoading(false);
       _setErrorMessage(e.toString());
+      print('$e');
     }
   }
 

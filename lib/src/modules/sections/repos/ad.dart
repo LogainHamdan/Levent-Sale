@@ -73,4 +73,20 @@ class AdRepository {
 
     return response;
   }
+
+  Future<Response> getAds({int page = 0, int size = 8, List<int>? ids}) async {
+    try {
+      final response = await dio.get(
+        adsUrl,
+        queryParameters: {
+          'page': page,
+          'size': size,
+          if (ids != null) 'ids': ids,
+        },
+      );
+      return response;
+    } catch (e) {
+      throw Exception('Repository API error: $e');
+    }
+  }
 }

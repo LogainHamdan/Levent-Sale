@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/guest-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/logged-column.dart';
@@ -14,39 +15,71 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoggedIn = Provider.of<MenuProvider>(context).isLoggedIn;
-    return Scaffold(
-      extendBody: true,
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        leading: SizedBox(),
-        backgroundColor: Colors.white,
-        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-        title: TitleRow(
-          title: 'المزيد',
-          noBack: true,
-        ),
-      ),
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            isLoggedIn
-                ? Padding(
-                    padding: EdgeInsets.all(16.0.sp),
-                    child: LoggedInColumn(),
-                  )
-                : Padding(
-                    padding: EdgeInsets.all(16.0.sp),
-                    child: GuestColumn(),
-                  ),
-            Spacer(),
-            // CustomBottomNavigationBar(),
-          ],
-        ),
-      ),
+    return FutureBuilder<bool>(
+      future: UserHelper.isLoggedIn(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+            appBar: AppBar(
+              leading: SizedBox(),
+              backgroundColor: Colors.white,
+              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+              title: TitleRow(
+                title: 'المزيد',
+                noBack: true,
+              ),
+            ),
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (snapshot.hasError) {
+          return Scaffold(
+            appBar: AppBar(
+              leading: SizedBox(),
+              backgroundColor: Colors.white,
+              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+              title: TitleRow(
+                title: 'المزيد',
+                noBack: true,
+              ),
+            ),
+            body: Center(child: Text('Error: ${snapshot.error}')),
+          );
+        }
+
+        final isLoggedIn = snapshot.data ?? false;
+        return Scaffold(
+          extendBody: true,
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            leading: SizedBox(),
+            backgroundColor: Colors.white,
+            titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+            title: TitleRow(
+              title: 'المزيد',
+              noBack: true,
+            ),
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              isLoggedIn
+                  ? Padding(
+                      padding: EdgeInsets.all(16.0.sp),
+                      child: LoggedInColumn(),
+                    )
+                  : Padding(
+                      padding: EdgeInsets.all(16.0.sp),
+                      child: GuestColumn(),
+                    ),
+              Spacer(),
+              // CustomBottomNavigationBar(),
+            ],
+          ),
+        );
+      },
     );
   }
 }

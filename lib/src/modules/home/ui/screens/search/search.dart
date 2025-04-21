@@ -70,7 +70,6 @@ class SearchScreen extends StatelessWidget {
                 SizedBox(height: 100.h),
                 ProductSection(
                   hasDiscount: false,
-                  isHalfed: true,
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
                   category: "العروض والخصومات",
@@ -78,7 +77,6 @@ class SearchScreen extends StatelessWidget {
                 ),
                 ProductSection(
                   hasDiscount: false,
-                  isHalfed: true,
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
                   category: "الإعلانات الجديدة",
@@ -86,7 +84,6 @@ class SearchScreen extends StatelessWidget {
                 ),
                 ProductSection(
                   hasDiscount: false,
-                  isHalfed: true,
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
                   category: "الإعلانات المقترحة",

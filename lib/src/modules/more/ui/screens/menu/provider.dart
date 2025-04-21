@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -6,11 +7,6 @@ import '../../../repositories/change-pass-repo.dart';
 
 class MenuProvider with ChangeNotifier {
   bool isLoading = false;
-  bool isLoggedIn = true;
-  void toggleAuth() {
-    isLoggedIn = !isLoggedIn;
-    notifyListeners();
-  }
 
   Future<void> submitChangePassword({
     required BuildContext context,

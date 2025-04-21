@@ -1,12 +1,24 @@
 import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
+import 'package:Levant_Sale/src/modules/sections/repos/ad.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../sections/models/ad.dart';
 
 class HomeProvider extends ChangeNotifier {
   final Map<String, bool> _favorites = {};
   int _currentIndex = 0;
   final ScrollController scrollController = ScrollController();
   RootCategoryModel? _selectedCategory;
+  AdRepository repo = AdRepository();
+  List<AdModel> allAds = [];
+  List<AdModel> discountedAds = [];
+  List<AdModel> newAds = [];
+  List<AdModel> suggestedAds = [];
+  bool isLoading = false;
+  String? error;
+
   int get currentIndex => _currentIndex;
+
   RootCategoryModel? get selectedCategory => _selectedCategory;
 
   bool isFavorite(String productKey) => _favorites[productKey] ?? false;
@@ -39,5 +51,36 @@ class HomeProvider extends ChangeNotifier {
   void dispose() {
     scrollController.dispose();
     super.dispose();
+  }
+
+  Future<void> loadAds({int page = 0, int size = 8, List<int>? ids}) async {
+    isLoading = true;
+    error = null;
+    notifyListeners();
+
+    try {
+      final response = await repo.getAds(page: page, size: size, ids: ids);
+      print('Raw response content: ${response.data['content']}');
+
+      if (response.statusCode == 200) {
+        List<dynamic> content = response.data['content'];
+
+        for (var item in content) {
+          try {
+            final ad = AdModel.fromJson(item);
+            print('Parsed ad: ${ad.title}');
+          } catch (e) {
+            print('Failed to parse ad: $e');
+          }
+        }
+
+        allAds = content.map((e) => AdModel.fromJson(e)).toList();
+      }
+    } catch (e) {
+      error = 'Failed to load ads: $e';
+    }
+
+    isLoading = false;
+    notifyListeners();
   }
 }

@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../config/constants.dart';
 import '../../../../auth/repos/token-helper.dart';
+import '../../../../auth/repos/user-helper.dart';
 import '../../../../auth/ui/alerts/alert.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/phone-section.dart';
@@ -16,11 +17,13 @@ import '../../../../home/ui/screens/ads/widgets/title-row.dart';
 
 class EditProfileScreen extends StatelessWidget {
   static const id = '/edit-profile';
+
   const EditProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final profileProvider = Provider.of<EditProfileProvider>(context);
+    final profileProvider =
+        Provider.of<EditProfileProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -28,8 +31,20 @@ class EditProfileScreen extends StatelessWidget {
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         leading: SizedBox(),
         title: Center(
-          child: TitleRow(
-            title: 'تعديل منة الله',
+          child: FutureBuilder(
+            future: UserHelper.getUser(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              } else if (snapshot.hasData) {
+                final user = snapshot.data;
+                return TitleRow(
+                  title: '${user?.firstName} تعديل',
+                );
+              } else {
+                return TitleRow(title: 'تعديل المستخدم');
+              }
+            },
           ),
         ),
       ),
@@ -84,6 +99,13 @@ class EditProfileScreen extends StatelessWidget {
                   SizedBox(height: 16.h),
                   CustomTextField(
                     labelGrey: true,
+                    controller: profileProvider.businessNameController,
+                    label: 'اسم الشركة',
+                    bgcolor: grey8,
+                  ),
+                  SizedBox(height: 16.h),
+                  CustomTextField(
+                    labelGrey: true,
                     controller: profileProvider.addressController,
                     label: 'عنوان الشركة',
                     bgcolor: grey8,
@@ -124,35 +146,6 @@ class EditProfileScreen extends StatelessWidget {
       bottomNavigationBar: DraggableButton(
         'حفظ التعديلات',
         onPressed: () async {
-          final token = await TokenHelper.getToken();
-
-          if (token == null || token.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('حدث خطأ: لم يتم العثور على التوكن')),
-            );
-            return;
-          }
-
-          await profileProvider.updateProfile(
-            token: token,
-            firstName: !profileProvider.isCompanyAccount
-                ? profileProvider.nameController.text.split(" ").first
-                : '',
-            lastName: !profileProvider.isCompanyAccount
-                ? profileProvider.nameController.text.split(" ").last
-                : '',
-            birthday: DateTime.now(),
-            businessName:
-                profileProvider.isCompanyAccount ? "اسم الشركة" : null,
-            businessLicense: profileProvider.isCompanyAccount
-                ? profileProvider.taxController.text
-                : null,
-            address: profileProvider.isCompanyAccount
-                ? profileProvider.addressController.text
-                : null,
-            profilePicture: profileProvider.profileImage,
-          );
-
           editDoneAlert(context);
         },
         icon: SvgPicture.asset(

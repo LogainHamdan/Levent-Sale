@@ -1,14 +1,14 @@
 class Address {
-  final int id;
-  final String governorate;
-  final String city;
-  final String fullAddress;
+  final int? id;
+  final String? governorate;
+  final String? city;
+  final String? fullAddress;
 
   Address({
-    required this.id,
-    required this.governorate,
-    required this.city,
-    required this.fullAddress,
+    this.id,
+    this.governorate,
+    this.city,
+    this.fullAddress,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) {

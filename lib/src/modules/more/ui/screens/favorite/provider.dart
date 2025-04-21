@@ -4,6 +4,7 @@ import 'package:Levant_Sale/src/modules/more/repositories/favorite-repo.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../auth/repos/token-helper.dart';
 import '../../../../sections/models/ad.dart';
 import '../../../models/tag.dart';
 
@@ -16,7 +17,8 @@ class FavoriteProvider with ChangeNotifier {
   String errorMessage = '';
   TextEditingController tagController = TextEditingController();
   bool _isFavorite = false;
-  bool? get isFavorite => _isFavorite;
+  bool get isFavorite => _isFavorite;
+
   void setSelectedTag(TagModel tag) {
     selectedTag = tag;
     notifyListeners();
@@ -159,8 +161,8 @@ class FavoriteProvider with ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        print(response.data);
-        _isFavorite = response.data['isFavorite'] ?? false;
+        print("Status check response: ${response.data}");
+        _isFavorite = response.data is bool ? response.data : false;
       }
     } on DioException catch (e) {
       print(e.response?.statusCode);

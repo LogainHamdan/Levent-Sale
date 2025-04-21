@@ -51,17 +51,14 @@ class EmptyWidget extends StatelessWidget {
             child: Column(
           children: [
             ProductSection(
-                isHalfed: true,
                 onMorePressed: () => Navigator.pushNamed(context, AdsScreen.id),
                 category: "العروض والخصومات",
                 products: []),
             ProductSection(
-                isHalfed: true,
                 onMorePressed: () => Navigator.pushNamed(context, AdsScreen.id),
                 category: "الإعلانات الجديدة",
                 products: []),
             ProductSection(
-                isHalfed: true,
                 onMorePressed: () => Navigator.pushNamed(context, AdsScreen.id),
                 category: "الإعلانات المفترحة",
                 products: []),
