@@ -15,19 +15,34 @@ class EditProfileRepository {
   EditProfileRepository._internal(this.dio);
 
   final Dio dio;
+
   Future<Response> updateProfile({
     required String token,
     required Map<String, dynamic> jsonBody,
   }) async {
     try {
-      final formData = FormData.fromMap(jsonBody);
+      final formData = FormData();
 
-      final response = await dio.put(editProfileUrl,
-          data: formData,
-          options: Options(headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'multipart/form-data',
-          }));
+      jsonBody.forEach((key, value) {
+        if (value != null) {
+          if (key == 'profilePicture' && value is String) {
+            formData.fields.add(MapEntry(key, value));
+          } else if (value is Map) {
+            formData.fields.add(MapEntry(key, jsonEncode(value)));
+          } else {
+            formData.fields.add(MapEntry(key, value.toString()));
+          }
+        }
+      });
+
+      final response = await dio.put(
+        editProfileUrl,
+        data: formData,
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'multipart/form-data',
+        }),
+      );
 
       return response;
     } catch (e, stack) {

@@ -32,6 +32,7 @@ class EditProfileProvider extends ChangeNotifier {
   File? get profileImage => _profileImage;
 
   File? get coverImage => _coverImage;
+
   Future<void> init() async {
     final user = await UserHelper.getUser();
     if (user != null) {
@@ -112,13 +113,10 @@ class EditProfileProvider extends ChangeNotifier {
     };
   }
 
-  Future<String> convertImageToBase64(File imageFile) async {
-    final bytes = await imageFile.readAsBytes();
-    String base64String = base64Encode(bytes);
-
-    base64String = base64String.split(" ")[1].trim();
-
-    return base64String;
+  static String encryptImage({
+    required File image,
+  }) {
+    return 'data:image/${image.path.substring(image.path.lastIndexOf('.') + 1)};base64,${base64Encode(image.readAsBytesSync())}';
   }
 
   Future<void> updateProfile({
@@ -138,7 +136,8 @@ class EditProfileProvider extends ChangeNotifier {
 
       String? base64ProfilePicture;
       if (profilePicture != null) {
-        base64ProfilePicture = await convertImageToBase64(profilePicture);
+        base64ProfilePicture = encryptImage(image: profilePicture);
+        print(base64ProfilePicture);
       }
 
       final jsonBody = await _buildJsonBody(

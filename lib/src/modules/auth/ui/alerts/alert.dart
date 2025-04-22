@@ -776,7 +776,6 @@ void editDoneAlert(BuildContext context) {
       }
       print("updateProfile called");
 
-      // Safely split the first and last names
       String firstName =
           profileProvider.nameController.text.split(" ").isNotEmpty
               ? profileProvider.nameController.text.split(" ").first
