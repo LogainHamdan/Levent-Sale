@@ -17,10 +17,10 @@ import 'package:provider/provider.dart';
 
 import '../provider.dart';
 
-class SearchResultsWidget extends StatelessWidget {
-  final SearchProvider provider;
-
-  const SearchResultsWidget({super.key, required this.provider});
+class SearchUsersWidget extends StatelessWidget {
+  const SearchUsersWidget({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,10 @@ class SearchResultsWidget extends StatelessWidget {
       return ListView.separated(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: provider.results.length,
+        itemCount: provider.users.length,
         itemBuilder: (context, index) {
           String query = provider.searchController.text.trim();
-          User result = provider.results[index];
+          User result = provider.users[index];
 
           String userName = result.username ?? '';
 

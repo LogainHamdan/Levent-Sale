@@ -20,10 +20,13 @@ class AdRepository {
     required List<File> images,
     required String token,
   }) async {
-    final Map<String, dynamic> adMap = ad.toJson();
+    // Convert AdModel to JSON string
+    final String adDTOJson = jsonEncode(ad.toJson());
 
     final formMap = <String, dynamic>{
-      for (var entry in adMap.entries) 'adDTO.${entry.key}': entry.value,
+      'adDTO': MultipartFile.fromString(adDTOJson,
+          contentType: MediaType(
+              'application', 'json')), // JSON string, not a nested object
       'files': [
         for (var image in images)
           await MultipartFile.fromFile(
@@ -32,6 +35,7 @@ class AdRepository {
           ),
       ],
     };
+
     final formData = FormData.fromMap(formMap);
 
     try {

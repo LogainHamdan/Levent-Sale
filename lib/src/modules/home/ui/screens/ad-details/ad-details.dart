@@ -83,7 +83,7 @@ class AdDetailsScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomCarousel(imgList: []),
+                              //  CustomCarousel(imgList: []),
                               SizedBox(height: 24.0.h),
                               Directionality(
                                 textDirection: TextDirection.ltr,

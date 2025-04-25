@@ -35,7 +35,6 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/sect
 import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';

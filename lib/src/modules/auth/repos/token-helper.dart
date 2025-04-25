@@ -6,7 +6,7 @@ class TokenHelper {
   static Future<void> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
     final result = await prefs.setString(_tokenKey, token);
-    print('saveToken result: $result'); // true إذا تم التخزين بنجاح
+    print('saveToken result: $result');
   }
 
   static Future<String?> getToken() async {

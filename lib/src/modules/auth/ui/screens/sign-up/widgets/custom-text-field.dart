@@ -78,7 +78,7 @@ class CustomTextField extends StatelessWidget {
                 decoration: InputDecoration(
                   prefix: prefix,
                   suffixIcon: suffix,
-                  hintText: hint!,
+                  hintText: hint ?? '',
                   fillColor: bgcolor,
                   filled: true,
                   hintTextDirection: TextDirection.rtl,

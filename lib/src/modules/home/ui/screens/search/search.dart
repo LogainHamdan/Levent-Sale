@@ -4,7 +4,8 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/products-det
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-section.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/search-field.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search/provider.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/search/widgets/result-widget.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/search/widgets/users-results.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/search/widgets/ads-results.dart'; // تأكد من استيراده
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,12 +17,19 @@ import '../home/data.dart';
 
 class SearchScreen extends StatelessWidget {
   static const id = '/search';
-
-  const SearchScreen({super.key});
+  final bool? users;
+  const SearchScreen({super.key, this.users = false});
 
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<SearchProvider>();
+    final isUsersSearch = users == true;
+    final query = provider.searchController.text.trim();
+
+    final hasNoResults = query.isNotEmpty &&
+        ((isUsersSearch && provider.users.isEmpty) ||
+            (!isUsersSearch && provider.ads.isEmpty)) &&
+        !provider.isLoadingSearch;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -37,37 +45,46 @@ class SearchScreen extends StatelessWidget {
                 Row(
                   children: [
                     SearchField(
-                      width: 295,
-                      controller: provider.searchController,
-                      onChanged: (value) {
-                        provider.searchUsers();
-                      },
-                    ),
-                    SizedBox(
-                      width: 8.w,
-                    ),
+                        width: 295,
+                        controller: provider.searchController,
+                        onChanged: (value) {
+                          print("✅ onChanged triggered with: $value");
+                          provider.searchAds(value, page: 0, size: 8); // ✅
+                        }),
+                    SizedBox(width: 8.w),
                     InkWell(
-                        child: Icon(
-                          Icons.arrow_forward_outlined,
-                          size: 24.sp,
-                          color: Colors.black,
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                        })
+                      child: Icon(
+                        Icons.arrow_forward_outlined,
+                        size: 24.sp,
+                        color: Colors.black,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    )
                   ],
                 ),
                 SizedBox(height: 24.h),
-                provider.searchController.text.isEmpty ||
-                        (provider.results.isEmpty && !provider.isLoading)
-                    ? NoInfoWidget(
-                        msg: 'لا يوجد نتائج بحث مطابقة',
-                        img: searchNoResultIcon,
-                      )
-                    : SearchResultsWidget(
-                        provider: provider,
-                      ),
+
+                // Results / No Results
+                if (query.isEmpty)
+                  NoInfoWidget(
+                    msg: 'ابدأ بكتابة كلمة للبحث',
+                    img: searchNoResultIcon,
+                  )
+                else if (hasNoResults)
+                  NoInfoWidget(
+                    msg: 'لا يوجد نتائج بحث مطابقة',
+                    img: searchNoResultIcon,
+                  )
+                else
+                  isUsersSearch
+                      ? const SearchUsersWidget()
+                      : const SearchAdsWidget(),
+
                 SizedBox(height: 100.h),
+
+                // Static Product Sections
                 ProductSection(
                   hasDiscount: false,
                   onMorePressed: () =>

@@ -31,20 +31,36 @@ class CustomButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(18.r),
               child: InkWell(
                 onTap: () async {
-                  if (token == null) return;
+                  try {
+                    if (token == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('يجب تسجيل الدخول أولاً')),
+                      );
+                      return;
+                    }
 
-                  await favoriteProvider.checkFavoriteStatus(
-                    adId: ad.id ?? 0,
-                    authorizationToken: token,
-                  );
+                    // First check current status
+                    await favoriteProvider.checkFavoriteStatus(
+                      adId: ad.id ?? 0,
+                      authorizationToken: token,
+                    );
 
-                  if (favoriteProvider.isFavorite) {
-                    favoriteProvider.deleteFavorite('${ad.id}');
-                  } else {
-                    await Future.delayed(Duration(milliseconds: 300));
-                    //عشان الكونتكست بطير  مسافة ما يروح يجيب الاليرت
-                    if (!context.mounted) return;
-                    showAddToFavoriteAlert(context, ad.id ?? 0, ad.tagId ?? '');
+                    if (favoriteProvider.isFavorite) {
+                      await favoriteProvider.deleteFavorite('');
+                    } else {
+                      if (context.mounted) {
+                        print(
+                            "Attempting to show bottom sheet for adId: ${ad.id ?? 0} and tagId: ${ad.tagId ?? ''}");
+                        showAddToFavoriteAlert(
+                            context, ad.id ?? 0, ad.tagId ?? '');
+                      }
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('حدث خطأ: ${e.toString()}')),
+                      );
+                    }
                   }
                 },
                 customBorder: const CircleBorder(),

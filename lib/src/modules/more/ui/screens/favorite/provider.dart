@@ -95,48 +95,6 @@ class FavoriteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> saveToFavorite(
-      BuildContext context, int adId, String token) async {
-    if (tagController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('أدخل اسم التاج أولاً!')),
-      );
-      return;
-    }
-
-    isLoading = true;
-    notifyListeners();
-
-    try {
-      final response = await repo.addAdToFavorites(
-        token: token,
-        adId: adId,
-        tagId: tagController.text.trim(),
-      );
-
-      if (response.statusCode == 200) {
-        tagController.clear();
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('تمت الإضافة بنجاح!')),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${response.statusCode}')),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('خطأ أثناء الإضافة'),
-        ),
-      );
-    } finally {
-      isLoading = false;
-      notifyListeners();
-    }
-  }
-
   Future<void> deleteFavorite(String favid) async {
     notifyListeners();
 
@@ -152,20 +110,32 @@ class FavoriteProvider with ChangeNotifier {
     required int adId,
     required String authorizationToken,
   }) async {
+    print('Checking favorite status for ad $adId'); // Debug print
     notifyListeners();
 
     try {
+      print('Making API call...'); // Debug print
       final response = await repo.checkFavoriteStatus(
         adId: adId,
         authorizationToken: authorizationToken,
       );
+      print('API response: ${response.statusCode}'); // Debug print
 
       if (response.statusCode == 200) {
-        print("Status check response: ${response.data}");
         _isFavorite = response.data is bool ? response.data : false;
+        print('Favorite status: $_isFavorite'); // Debug print
+      } else {
+        print('Unexpected status code: ${response.statusCode}'); // Debug print
+        _isFavorite = false;
       }
     } on DioException catch (e) {
-      print(e.response?.statusCode);
+      print('DioError: ${e.message}'); // More detailed error print
+      print('Error type: ${e.type}'); // DioError type
+      print(
+          'Error response: ${e.response?.statusCode}'); // Response if available
+      _isFavorite = false;
+    } catch (e) {
+      print('General error: $e'); // Catch any other exceptions
       _isFavorite = false;
     }
   }

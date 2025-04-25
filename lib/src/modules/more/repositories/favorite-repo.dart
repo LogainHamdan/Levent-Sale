@@ -59,24 +59,6 @@ class FavoriteRepository {
     );
   }
 
-  Future<Response> addAdToFavorites({
-    required String token,
-    required int adId,
-    required String tagId,
-  }) async {
-    return await _dio.post(
-      '$addToFavUrl$adId',
-      options: Options(
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      ),
-      queryParameters: {
-        'tagId': tagId,
-      },
-    );
-  }
-
   Future<Response> deleteFavorite(String favid) async {
     try {
       final response = await _dio.delete('$removeFromFavUrl/$favid');
@@ -90,17 +72,13 @@ class FavoriteRepository {
     required int adId,
     required String authorizationToken,
   }) async {
-    try {
-      final response = await _dio.get(
-        '$checkFavUrl/$adId',
-        options: Options(headers: {
-          'Authorization': authorizationToken,
-        }),
-      );
-      return response;
-    } on DioException catch (e) {
-      rethrow;
-    }
+    final response = await _dio.get(
+      '$checkFavUrl/$adId',
+      options: Options(headers: {
+        'Authorization': authorizationToken,
+      }),
+    );
+    return response;
   }
 
   Future<Response> addFavoriteToTag({

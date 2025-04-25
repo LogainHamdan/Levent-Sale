@@ -39,7 +39,25 @@ class SearchField extends StatelessWidget {
           suffixIcon: Padding(
             padding: EdgeInsets.all(10.w),
             child: InkWell(
-                onTap: () => Navigator.pushNamed(context, SearchScreen.id),
+                onTap: () {
+                  final text = controller.text.trim();
+                  print("Search icon tapped");
+                  if (text.isNotEmpty) {
+                    if (onChanged != null) {
+                      onChanged!(text);
+                    }
+                    // ✅ اختياري: التنقل إلى صفحة نتائج البحث دائمًا
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            SearchScreen(), // أو SearchScreen(users: true)
+                      ),
+                    );
+                  } else {
+                    Navigator.pushNamed(context, SearchScreen.id);
+                  }
+                },
                 child: Image.asset(searchIcon, height: 24.h, width: 24.w)),
           ),
           prefixIcon: hasFilterIcon!

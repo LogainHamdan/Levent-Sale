@@ -38,6 +38,7 @@ class EditProfileScreen extends StatelessWidget {
                 return CircularProgressIndicator();
               } else if (snapshot.hasData) {
                 final user = snapshot.data;
+
                 return TitleRow(
                   title: '${user?.firstName} تعديل',
                 );

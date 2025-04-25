@@ -33,6 +33,7 @@ const String profileUrl = "$baseUrl/users/profile";
 ///home
 const String searchUrl = "$baseUrl/users/search";
 const String adsUrl = "$baseUrl/search/ads/paged";
+const String searchAdsUrl = "$baseUrl/search/ads/search";
 
 ///sections
 const String getCategoriesUrl = '$baseUrl/ads/get/all/roots';
@@ -47,7 +48,6 @@ const String updateAdUrl = '$baseUrl/ads/update';
 const String getTagsUrl = '$baseUrl/favorites/tags';
 const String getFavoritesByTagUrl = '$baseUrl/favorites/get/by-tag';
 const String createTagUrl = '$baseUrl/favorites/tags/create';
-const String addToFavUrl = '$baseUrl/favorites/add';
 const String removeFromFavUrl = '$baseUrl/favorites/delete';
 const String checkFavUrl = '$baseUrl/favorites/check';
 const String addToTagUrl = '$baseUrl/favorites/add';

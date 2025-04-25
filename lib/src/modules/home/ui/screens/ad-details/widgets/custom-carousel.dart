@@ -12,10 +12,10 @@ import '../provider.dart';
 
 class CustomCarousel extends StatelessWidget {
   final String productKey = "iphone_14_pro_max";
-  final AdModel? ad;
+  final AdModel ad;
   final List<String> imgList;
 
-  const CustomCarousel({super.key, required this.imgList, this.ad});
+  const CustomCarousel({super.key, required this.imgList, required this.ad});
 
   @override
   Widget build(BuildContext context) {
@@ -100,14 +100,14 @@ class CustomCarousel extends StatelessWidget {
                       children: [
                         CustomButton(
                           favIcon: true,
-                          ad: ad!,
+                          ad: ad,
                         ),
                         SizedBox(
                           width: 5.w,
                         ),
                         CustomButton(
                           favIcon: false,
-                          ad: ad!,
+                          ad: ad,
                         ),
                       ],
                     ),

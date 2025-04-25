@@ -610,22 +610,24 @@ void _showLocationPermissionDialog(BuildContext context) {
 }
 
 void showAddToFavoriteAlert(BuildContext context, int adId, String tagId) {
-  showModalBottomSheet(
+  if (!context.mounted) return;
+
+  showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    isDismissible: true,
-    builder: (context) {
+    builder: (BuildContext sheetContext) {
+      final mediaQuery = MediaQuery.of(sheetContext);
+      final screenHeight = mediaQuery.size.height;
+
       return GestureDetector(
-        onTap: () => Navigator.pop(context),
+        onTap: () => Navigator.pop(sheetContext),
         behavior: HitTestBehavior.opaque,
         child: Stack(
           children: [
             BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
-              child: Container(
-                color: Colors.white.withOpacity(0.2),
-              ),
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(color: Colors.white.withOpacity(0.2)),
             ),
             Positioned(
               bottom: 0,
@@ -634,56 +636,96 @@ void showAddToFavoriteAlert(BuildContext context, int adId, String tagId) {
               child: GestureDetector(
                 onTap: () {},
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
+                  height: screenHeight * 0.4,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(15.r)),
-                  ),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 8.h),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CustomTitleCancel(title: "احفظ في قائمة المفضلة"),
-                        SizedBox(height: 32.h),
-                        Container(
-                          height: 40.h,
-                          decoration: BoxDecoration(
-                            color: greySplash,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "مفضلتي",
-                              style: TextStyle(color: Color(0xFF212121)),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 16.h),
-                        CustomElevatedButton(
-                          text: 'اضافة',
-                          onPressed: () async {
-                            final token = await TokenHelper.getToken();
-
-                            final favoriteProvider =
-                                Provider.of<FavoriteProvider>(context,
-                                    listen: false);
-                            await favoriteProvider.saveToFavorite(
-                                context, adId, token ?? tokenTest);
-                            await favoriteProvider.addToTag(
-                                adId: adId,
-                                authorizationToken: token ?? tokenTest,
-                                tagId: tagId);
-                          },
-                          backgroundColor: kprimaryColor,
-                          textColor: grey9,
-                        ),
-                      ],
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(15),
                     ),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        "احفظ في قائمة المفضلة",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 32),
+                      Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "مفضلتي",
+                            style: TextStyle(color: Color(0xFF212121)),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () async {
+                          try {
+                            final token = await TokenHelper.getToken();
+                            if (token == null || token.isEmpty) {
+                              if (sheetContext.mounted) {
+                                ScaffoldMessenger.of(sheetContext).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('يجب تسجيل الدخول أولاً'),
+                                  ),
+                                );
+                              }
+                              return;
+                            }
+
+                            if (sheetContext.mounted) {
+                              final favoriteProvider =
+                                  Provider.of<FavoriteProvider>(
+                                sheetContext,
+                                listen: false,
+                              );
+
+                              if (tagId.isNotEmpty) {
+                                await favoriteProvider.addToTag(
+                                  adId: adId,
+                                  authorizationToken: token,
+                                  tagId: tagId,
+                                );
+                                if (sheetContext.mounted) {
+                                  Navigator.pop(sheetContext);
+                                  ScaffoldMessenger.of(sheetContext)
+                                      .showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('تمت الإضافة إلى المفضلة بنجاح'),
+                                    ),
+                                  );
+                                }
+                              }
+                            }
+                          } catch (e) {
+                            if (sheetContext.mounted) {
+                              ScaffoldMessenger.of(sheetContext).showSnackBar(
+                                SnackBar(
+                                  content: Text('حدث خطأ: ${e.toString()}'),
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        child: const Text('اضافة'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

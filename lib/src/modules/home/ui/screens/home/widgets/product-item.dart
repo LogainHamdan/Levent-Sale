@@ -95,6 +95,7 @@ class ProductItem extends StatelessWidget {
                     Text(
                       product.description ?? '',
                       textDirection: TextDirection.rtl,
+                      maxLines: 3,
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 12.sp,

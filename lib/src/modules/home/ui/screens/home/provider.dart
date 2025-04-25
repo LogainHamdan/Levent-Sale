@@ -64,7 +64,8 @@ class HomeProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         List<dynamic> content = response.data['content'];
-
+        print(response.statusCode);
+        print(response.data);
         for (var item in content) {
           try {
             final ad = AdModel.fromJson(item);
