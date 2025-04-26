@@ -51,7 +51,6 @@ class AdRepository {
     }
   }
 
-// Helper method to prepare files for upload
   Future<List<MultipartFile>> _prepareFiles(List<File> images) async {
     final List<MultipartFile> multipartFiles = [];
 

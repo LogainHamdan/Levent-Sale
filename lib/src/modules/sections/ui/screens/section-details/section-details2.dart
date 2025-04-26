@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/column-img-pick.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-dropdown.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-quill.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/selected-img-section.dart';
 import 'package:flutter/material.dart';
@@ -98,6 +99,21 @@ class SectionDetails2 extends StatelessWidget {
             SizedBox(
               height: 16.h,
             ),
+            CustomDropdownSection(
+                hint: 'ادخل اسم المدينة',
+                items: ['دمشق', 'روما'],
+                dropdownKey: 'المدينة',
+                create: create,
+                title: 'المدينة'),
+            SizedBox(
+              height: 16.h,
+            ),
+            CustomDropdownSection(
+                hint: 'ادخل اسم المحافظة',
+                items: ['دمشق', 'حلب'],
+                dropdownKey: 'المحافظة',
+                create: create,
+                title: 'المحافظة'),
           ],
         ),
       ),

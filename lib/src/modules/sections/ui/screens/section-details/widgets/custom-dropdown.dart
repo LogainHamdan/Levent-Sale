@@ -149,6 +149,7 @@ class CustomDropdownSection extends StatelessWidget {
                                   children: createUniqueItems.map((item) {
                                     return InkWell(
                                       onTap: () {
+
                                         createProvider.setSelectedValue(
                                             dropdownKey, item);
                                         createProvider.setDropdownOpened(

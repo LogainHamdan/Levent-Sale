@@ -4,6 +4,7 @@ import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
+import 'package:Levant_Sale/src/modules/home/models/address.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import 'package:Levant_Sale/src/modules/sections/models/subcategory.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
@@ -146,6 +147,11 @@ class SectionTrack extends StatelessWidget {
                                                       MapEntry(key, value))
                                                 ..removeWhere((key, value) =>
                                                     value == null);
+                                          final address = Address(
+                                              governorate: createDetailsProvider
+                                                  .getSelectedValue('المحافظة'),
+                                              city: createDetailsProvider
+                                                  .getSelectedValue('المدينة'));
 
                                           final ad = AdModel(
                                               title: createDetailsProvider
@@ -166,12 +172,12 @@ class SectionTrack extends StatelessWidget {
                                                   .phoneController.text,
                                               contactEmail: user.email,
                                               userId: user.id,
-                                              price: double.tryParse(createDetailsProvider.priceController.text) ??
-                                                  0.0,
+                                              price:
+                                                  double.tryParse(createDetailsProvider.priceController.text) ??
+                                                      0.0,
                                               governorate:
-                                                  user.address?.governorate ??
-                                                      '',
-                                              city: user.address?.city ?? '',
+                                                  address.governorate ?? '',
+                                              city: address.city ?? '',
                                               fullAddress:
                                                   user.address?.fullAddress ?? '',
                                               adType: "NEW",
