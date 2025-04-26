@@ -20,25 +20,16 @@ class AdRepository {
     required List<File> images,
     required String token,
   }) async {
-    // Convert AdModel to JSON string
-    final String adDTOJson = jsonEncode(ad.toJson());
+    final String adModelJson = jsonEncode(ad.toJson());
 
-    final formMap = <String, dynamic>{
+    final formData = FormData.fromMap({
       'adDTO': MultipartFile.fromBytes(
-        utf8.encode(adDTOJson),
-        filename: 'adDTO.json',
+        utf8.encode(adModelJson),
         contentType: MediaType('application', 'json'),
       ),
-      'files': [
-        for (var image in images)
-          await MultipartFile.fromFile(
-            image.path,
-            filename: image.path.split('/').last,
-          ),
-      ],
-    };
-
-    final formData = FormData.fromMap(formMap);
+      // Properly attach files
+      'files': await _prepareFiles(images),
+    });
 
     try {
       final response = await dio.post(
@@ -51,16 +42,28 @@ class AdRepository {
           },
         ),
       );
-      print('${response.statusCode}');
-      print('${response.data}');
-
       return response;
     } on DioException catch (e) {
-      print('${e.response?.statusCode}');
-      print('${e.message}');
-      print('${e.response?.data}');
+      print('Error: ${e.response?.statusCode}');
+      print('Message: ${e.message}');
+      print('Data: ${e.response?.data}');
       rethrow;
     }
+  }
+
+// Helper method to prepare files for upload
+  Future<List<MultipartFile>> _prepareFiles(List<File> images) async {
+    final List<MultipartFile> multipartFiles = [];
+
+    for (final image in images) {
+      final multipartFile = await MultipartFile.fromFile(
+        image.path,
+        filename: image.path.split('/').last.replaceAll(' ', '_'),
+      );
+      multipartFiles.add(multipartFile);
+    }
+
+    return multipartFiles;
   }
 
   Future<Response> updateAd({
