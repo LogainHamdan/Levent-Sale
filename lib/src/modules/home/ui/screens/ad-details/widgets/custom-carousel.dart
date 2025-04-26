@@ -39,7 +39,7 @@ class CustomCarousel extends StatelessWidget {
                     items: imgList.map((item) {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(4.0.r),
-                        child: Image.asset(
+                        child: Image.network(
                           item,
                           fit: BoxFit.cover,
                           width: double.infinity,

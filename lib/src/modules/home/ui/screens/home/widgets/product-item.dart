@@ -19,7 +19,7 @@ class ProductItem extends StatelessWidget {
     super.key,
     required this.product,
     required this.category,
-    this.height = 140,
+    this.height = 120,
     this.width = 144,
     this.hasDiscount = true,
     this.spacecUnderPic = false,
@@ -33,8 +33,10 @@ class ProductItem extends StatelessWidget {
             : '';
 
     return InkWell(
-      onTap: () =>
-          Navigator.pushNamed(context, AdDetailsScreen.id, arguments: product),
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AdDetailsScreen(ad: product))),
       child: Container(
         height: height!.h,
         width: width!.w,

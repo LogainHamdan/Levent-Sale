@@ -19,7 +19,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../home/ui/screens/search-filter/widgets/card.dart';
 import '../../../models/ad.dart';
-import '../../../models/attriburtes.dart';
 import '../choose-section/create-ad-choose-section-provider.dart';
 import '../choose-section/update-ad-choose-section.dart';
 import '../create-ad/create-ad.dart';
@@ -140,25 +139,14 @@ class SectionTrack extends StatelessWidget {
                                             );
                                             return;
                                           }
-                                          List<Field> attributeFields = [];
-
-                                          final filteredAttributes =
+                                          Map<String, dynamic>
+                                              filteredAttributes =
                                               createDetailsProvider
                                                   .getAttributeFieldsMap()
                                                   .map((key, value) =>
                                                       MapEntry(key, value))
                                                 ..removeWhere((key, value) =>
                                                     value == null);
-
-                                          for (var entry
-                                              in filteredAttributes.entries) {
-                                            if (entry.value
-                                                is Map<String, dynamic>) {
-                                              attributeFields.add(
-                                                  Field.fromJson(entry.value));
-                                            }
-                                          }
-
                                           final address = Address(
                                               governorate: createDetailsProvider
                                                   .getSelectedValue('المحافظة'),
@@ -180,18 +168,17 @@ class SectionTrack extends StatelessWidget {
                                                   .shortDescController.text,
                                               longDescription: createDetailsProvider
                                                   .contentController.text,
-                                              contactPhone: createDetailsProvider
-                                                  .phoneController.text,
+                                              contactPhone:
+                                                  createDetailsProvider
+                                                      .phoneController.text,
                                               contactEmail: user.email,
                                               userId: user.id,
-                                              price:
-                                                  double.tryParse(createDetailsProvider.priceController.text) ??
-                                                      0.0,
-                                              governorate:
-                                                  address.governorate ?? '',
+                                              price: double.tryParse(
+                                                      createDetailsProvider.priceController.text) ??
+                                                  0.0,
+                                              governorate: address.fullAddress ?? '',
                                               city: address.city ?? '',
-                                              fullAddress:
-                                                  user.address?.fullAddress ?? '',
+                                              fullAddress: address.fullAddress ?? '',
                                               adType: "NEW",
                                               preferredContactMethod: "CALL",
                                               condition: "PUBLISHED",

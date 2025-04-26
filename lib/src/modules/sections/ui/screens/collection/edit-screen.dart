@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/item-list.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class EditScreen extends StatelessWidget {
           MaterialPageRoute(
               builder: (context) => AdDetailsScreen(
                     toUpdate: true,
+                ad: AdModel(),
                   ))),
       buttonIcon: provider.buttonIcon,
       buttonTextColor: provider.buttonTextColor,

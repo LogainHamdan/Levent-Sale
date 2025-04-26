@@ -1,3 +1,5 @@
+import 'package:Levant_Sale/src/modules/sections/models/attriburtes.dart';
+
 class AdModel {
   final int? id;
   final String? title;
@@ -22,7 +24,7 @@ class AdModel {
   final String? condition;
   final String? currency;
   final List<String>? imageUrls;
-  final Map<String, dynamic>? attributes;
+  final Map<String?, dynamic>? attributes;
   final String? tagId;
 
   AdModel({

@@ -4,16 +4,26 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversatio
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../../auth/models/user.dart';
 import '../../ads/widgets/products-details.dart';
 import '../../home/data.dart';
+import '../../home/provider.dart';
 import '../../home/widgets/product-item.dart';
 
 class CustomDraggableScrollableSheet extends StatelessWidget {
-  const CustomDraggableScrollableSheet({super.key});
+  final User user;
+  const CustomDraggableScrollableSheet({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await homeProvider.loadAds();
+    });
+
     return DraggableScrollableSheet(
       initialChildSize: 0.25,
       minChildSize: 0.1,
@@ -77,24 +87,23 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                "بسمة باسم",
+                                '${user.firstName} ${user.lastName}',
                                 style: TextStyle(
                                     fontSize: 18.sp,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black),
                               ),
                               Text(
-                                "عضو منذ يناير 2024",
+                                " عضو منذ${user.createdAt}",
                                 style: TextStyle(fontSize: 14.sp, color: grey4),
                               ),
                             ],
                           ),
                           SizedBox(width: 10.w),
                           CircleAvatar(
-                            radius: 30.r,
-                            backgroundImage: AssetImage(
-                                'assets/imgs_icons/home/assets/imgs/بسمة.png'),
-                          ),
+                              radius: 30.r,
+                              backgroundImage:
+                                  NetworkImage(user.profilePicture ?? '')),
                         ],
                       ),
                     ],
@@ -115,7 +124,7 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: []
+                    children: homeProvider.allAds
                         .skip([].length > 2 ? [].length - 2 : 0)
                         .map(
                           (product) => Padding(
@@ -125,7 +134,7 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                               height: 130.h,
                               hasDiscount: false,
                               product: product,
-                              category: '',
+                              category: product.categoryNamePath ?? '',
                             ),
                           ),
                         )
