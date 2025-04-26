@@ -39,7 +39,6 @@ class CustomButton extends StatelessWidget {
                       return;
                     }
 
-                    // First check current status
                     await favoriteProvider.checkFavoriteStatus(
                       adId: ad.id ?? 0,
                       authorizationToken: token,

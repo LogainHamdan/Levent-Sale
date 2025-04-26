@@ -19,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../home/ui/screens/search-filter/widgets/card.dart';
 import '../../../models/ad.dart';
+import '../../../models/attriburtes.dart';
 import '../choose-section/create-ad-choose-section-provider.dart';
 import '../choose-section/update-ad-choose-section.dart';
 import '../create-ad/create-ad.dart';
@@ -139,14 +140,25 @@ class SectionTrack extends StatelessWidget {
                                             );
                                             return;
                                           }
-                                          Map<String, dynamic>
-                                              filteredAttributes =
+                                          List<Field> attributeFields = [];
+
+                                          final filteredAttributes =
                                               createDetailsProvider
                                                   .getAttributeFieldsMap()
                                                   .map((key, value) =>
                                                       MapEntry(key, value))
                                                 ..removeWhere((key, value) =>
                                                     value == null);
+
+                                          for (var entry
+                                              in filteredAttributes.entries) {
+                                            if (entry.value
+                                                is Map<String, dynamic>) {
+                                              attributeFields.add(
+                                                  Field.fromJson(entry.value));
+                                            }
+                                          }
+
                                           final address = Address(
                                               governorate: createDetailsProvider
                                                   .getSelectedValue('المحافظة'),

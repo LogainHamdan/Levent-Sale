@@ -24,6 +24,7 @@ class AdRepository {
 print( ad.toJson(),);
     final formData = FormData.fromMap({
       'adDTO':jsonEncode(adModelJson),
+
       // Properly attach files
       'files': await _prepareFiles(images),
     });

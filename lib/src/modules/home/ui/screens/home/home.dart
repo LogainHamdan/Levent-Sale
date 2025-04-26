@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(top: 12.0.h, right: 10.w, left: 10.w),
                 child: SizedBox(
-                  height: 1100.h,
+                  height: 1300,
                   child: Column(
                     children: [
                       TopSearchBar(),
@@ -44,24 +44,24 @@ class HomeScreen extends StatelessWidget {
                       CategoriesList(categories: createProvider.rootCategories),
                       SizedBox(height: 10.h),
                       ProductSection(
-                        width: 125.w,
-                        height: 135.h,
+                        width: 130,
+                        height: 170,
                         onMorePressed: () =>
                             Navigator.pushNamed(context, AdsScreen.id),
                         category: "العروض والخصومات",
                         products: provider.allAds,
                       ),
                       ProductSection(
-                        width: 125.w,
-                        height: 135.h,
+                        width: 130,
+                        height: 170,
                         onMorePressed: () =>
                             Navigator.pushNamed(context, AdsScreen.id),
                         category: "الإعلانات الجديدة",
                         products: provider.allAds,
                       ),
                       ProductSection(
-                        width: 125.w,
-                        height: 135.h,
+                        width: 130,
+                        height: 170,
                         onMorePressed: () =>
                             Navigator.pushNamed(context, AdsScreen.id),
                         category: "الإعلانات المقترحة",

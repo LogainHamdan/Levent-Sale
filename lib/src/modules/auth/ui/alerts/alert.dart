@@ -609,10 +609,12 @@ void _showLocationPermissionDialog(BuildContext context) {
   );
 }
 
+
  showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async{
  await showModalBottomSheet(
     context: context,
     isScrollControlled: true,
+    context: context,
     backgroundColor: Colors.transparent,
     builder: (BuildContext sheetContext) {
       final mediaQuery = MediaQuery.of(sheetContext);
