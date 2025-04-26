@@ -609,11 +609,10 @@ void _showLocationPermissionDialog(BuildContext context) {
   );
 }
 
-void showAddToFavoriteAlert(BuildContext context, int adId, String tagId) {
-  if (!context.mounted) return;
 
-  showModalBottomSheet<void>(
-    useRootNavigator: true,
+ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async{
+ await showModalBottomSheet(
+    context: context,
     isScrollControlled: true,
     context: context,
     backgroundColor: Colors.transparent,
@@ -624,7 +623,8 @@ void showAddToFavoriteAlert(BuildContext context, int adId, String tagId) {
       return GestureDetector(
         onTap: () => Navigator.pop(sheetContext),
         behavior: HitTestBehavior.opaque,
-        child: Stack(
+        child:
+        Stack(
           children: [
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),

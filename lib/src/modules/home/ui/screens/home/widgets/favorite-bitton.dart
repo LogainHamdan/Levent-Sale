@@ -47,12 +47,11 @@ class CustomButton extends StatelessWidget {
                     if (favoriteProvider.isFavorite) {
                       await favoriteProvider.deleteFavorite('');
                     } else {
-                      if (context.mounted) {
-                        print(
-                            "Attempting to show bottom sheet for adId: ${ad.id ?? 0} and tagId: ${ad.tagId ?? ''}");
-                        showAddToFavoriteAlert(
-                            context, ad.id ?? 0, ad.tagId ?? '');
-                      }
+                      print(
+                          "Attempting to show bottom sheet for adId: ${ad.id ?? 0} and tagId: ${ad.tagId ?? ''}");
+
+                      await showAddToFavoriteAlert(
+                          context, ad.id ?? 0, ad.tagId ?? '');
                     }
                   } catch (e) {
                     if (context.mounted) {

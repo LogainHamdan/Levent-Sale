@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/config/shared_data.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/sign-up.dart';
@@ -37,7 +38,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+// import 'package:flutter_quill/flutter_quill.dart';
 
 // import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -62,9 +63,9 @@ class MyMaterialApp extends StatelessWidget {
           textDirection: TextDirection.rtl,
           child: MaterialApp(
             localizationsDelegates: const [
-              FlutterQuillLocalizations.delegate,
+              // FlutterQuillLocalizations.delegate,
             ],
-            navigatorKey: GlobalKey<NavigatorState>(),
+            navigatorKey:SharedData.navigationKey,
             debugShowCheckedModeBanner: false,
             title: 'Levent Sale',
             theme: ThemeData(
