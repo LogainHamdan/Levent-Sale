@@ -66,7 +66,7 @@ class AdDetailsScreen extends StatelessWidget {
                       },
                       child: SvgPicture.asset(
                         editBlackIcon,
-                        height: 20.h,
+                        height: 100.h,
                       ),
                     ),
                 ],
@@ -197,8 +197,6 @@ class AdDetailsScreen extends StatelessWidget {
                               ),
                               SliverToBoxAdapter(
                                 child: ProductSection(
-                                    width: 120.w,
-                                    height: 130.h,
                                     onMorePressed: () => Navigator.pushNamed(
                                         context, AdsScreen.id),
                                     category: 'مزيد من الإعلانات',

@@ -16,8 +16,11 @@ class FavoriteProvider with ChangeNotifier {
   bool isLoading = false;
   String errorMessage = '';
   TextEditingController tagController = TextEditingController();
-  bool _isFavorite = false;
-  bool get isFavorite => _isFavorite;
+  Map<int, bool> favoriteStatus = {};
+
+  bool isFavorite(int adId) {
+    return favoriteStatus[adId] ?? false;
+  }
 
   void setSelectedTag(TagModel tag) {
     selectedTag = tag;
@@ -122,21 +125,21 @@ class FavoriteProvider with ChangeNotifier {
       print('API response: ${response.statusCode}'); // Debug print
 
       if (response.statusCode == 200) {
-        _isFavorite = response.data is bool ? response.data : false;
-        print('Favorite status: $_isFavorite'); // Debug print
+        favoriteStatus[adId] = response.data is bool ? response.data : false;
+        print('Favorite status: ${favoriteStatus[adId]}'); // Debug print
       } else {
         print('Unexpected status code: ${response.statusCode}'); // Debug print
-        _isFavorite = false;
+        favoriteStatus[adId] = false;
       }
     } on DioException catch (e) {
       print('DioError: ${e.message}'); // More detailed error print
       print('Error type: ${e.type}'); // DioError type
       print(
           'Error response: ${e.response?.statusCode}'); // Response if available
-      _isFavorite = false;
+      favoriteStatus[adId] = false;
     } catch (e) {
       print('General error: $e'); // Catch any other exceptions
-      _isFavorite = false;
+      favoriteStatus[adId] = false;
     }
   }
 

@@ -8,6 +8,16 @@ import '../../../../../auth/repos/token-helper.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
 import '../../../../../sections/models/ad.dart';
 
+import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import '../../../../../../config/constants.dart';
+import '../../../../../auth/repos/token-helper.dart';
+import '../../../../../auth/ui/alerts/alert.dart';
+import '../../../../../sections/models/ad.dart';
+
 class CustomButton extends StatelessWidget {
   final bool favIcon;
   final AdModel ad;
@@ -44,7 +54,8 @@ class CustomButton extends StatelessWidget {
                       authorizationToken: token,
                     );
 
-                    if (favoriteProvider.isFavorite) {
+                    if (favoriteProvider.isFavorite(ad.id ?? 0)) {
+                      // هنا المفروض يكون عندك طريقة لحذف المفضلة باستخدام ID صحيح
                       await favoriteProvider.deleteFavorite('');
                     } else {
                       print(
@@ -67,7 +78,7 @@ class CustomButton extends StatelessWidget {
                   backgroundColor: Colors.white,
                   child: Center(
                     child: favIcon
-                        ? favoriteProvider.isFavorite
+                        ? (favoriteProvider.isFavorite(ad.id ?? 0)
                             ? SvgPicture.asset(
                                 favColoredPath,
                                 height: 14.h,
@@ -77,9 +88,9 @@ class CustomButton extends StatelessWidget {
                                 favUncoloredPath,
                                 height: 16.h,
                                 width: 16.w,
-                              )
+                              ))
                         : SvgPicture.asset(
-                            shareIcon,
+                            shareIcon, // مثلا إذا favIcon == false، ممكن يظهر shareIcon
                             height: 16.h,
                             width: 16.w,
                           ),

@@ -19,7 +19,7 @@ class ProductItem extends StatelessWidget {
     super.key,
     required this.product,
     required this.category,
-    this.height = 120,
+    this.height = 100,
     this.width = 144,
     this.hasDiscount = true,
     this.spacecUnderPic = false,
@@ -106,6 +106,9 @@ class ProductItem extends StatelessWidget {
                       ),
                       textAlign: TextAlign.right,
                     ),
+                    SizedBox(
+                      height: 12.h,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -114,14 +117,21 @@ class ProductItem extends StatelessWidget {
                           rateNum: true,
                           small: true,
                         ),
-                        Text(
-                          "${product.price?.toStringAsFixed(0) ?? '0'} ${product.currency ?? ''}",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.sp,
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        SizedBox(
+                          width: 50.w,
+                          child: Text(
+                            overflow: TextOverflow.ellipsis,
+                            "${product.price?.toStringAsFixed(0) ?? '0'} ${product.currency ?? ''}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.sp,
+                            ),
+                            textAlign: TextAlign.right,
                           ),
-                          textAlign: TextAlign.right,
                         ),
                       ],
                     ),

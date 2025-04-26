@@ -29,6 +29,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/friend-profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
+import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
@@ -38,6 +39,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 // import 'package:flutter_quill/flutter_quill.dart';
 
 // import 'package:flutter_quill/flutter_quill.dart';
@@ -63,9 +65,9 @@ class MyMaterialApp extends StatelessWidget {
           textDirection: TextDirection.rtl,
           child: MaterialApp(
             localizationsDelegates: const [
-              // FlutterQuillLocalizations.delegate,
+              FlutterQuillLocalizations.delegate,
             ],
-            navigatorKey:SharedData.navigationKey,
+            navigatorKey: SharedData.navigationKey,
             debugShowCheckedModeBanner: false,
             title: 'Levent Sale',
             theme: ThemeData(
@@ -91,7 +93,7 @@ class MyMaterialApp extends StatelessWidget {
                     fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            initialRoute: MainScreen.id,
+            initialRoute: LoginScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               MainScreen.id: (context) => MainScreen(),
@@ -101,7 +103,9 @@ class MyMaterialApp extends StatelessWidget {
               HomeScreen.id: (context) => HomeScreen(),
               AdsScreen.id: (context) => AdsScreen(),
               ReviewsScreen.id: (context) => ReviewsScreen(),
-              AdDetailsScreen.id: (context) => AdDetailsScreen(),
+              AdDetailsScreen.id: (context) => AdDetailsScreen(
+                    ad: AdModel(),
+                  ),
               ChatListScreen.id: (context) => ChatListScreen(),
               ConversationScreen.id: (context) =>
                   ConversationScreen(msgsAvailable: true),

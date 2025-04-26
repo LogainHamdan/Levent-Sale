@@ -44,24 +44,18 @@ class HomeScreen extends StatelessWidget {
                       CategoriesList(categories: createProvider.rootCategories),
                       SizedBox(height: 10.h),
                       ProductSection(
-                        width: 130,
-                        height: 170,
                         onMorePressed: () =>
                             Navigator.pushNamed(context, AdsScreen.id),
                         category: "العروض والخصومات",
                         products: provider.allAds,
                       ),
                       ProductSection(
-                        width: 130,
-                        height: 170,
                         onMorePressed: () =>
                             Navigator.pushNamed(context, AdsScreen.id),
                         category: "الإعلانات الجديدة",
                         products: provider.allAds,
                       ),
                       ProductSection(
-                        width: 130,
-                        height: 170,
                         onMorePressed: () =>
                             Navigator.pushNamed(context, AdsScreen.id),
                         category: "الإعلانات المقترحة",

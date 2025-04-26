@@ -86,15 +86,19 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(
-                                '${user.firstName} ${user.lastName}',
-                                style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
+                              SizedBox(
+                                width: 120.w,
+                                child: Text(
+                                  '${user.firstName} ${user.lastName}',
+                                  style: TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
                               ),
                               Text(
-                                " عضو منذ${user.createdAt}",
+                                " عضو منذ${user.createdAt ?? ''}",
                                 style: TextStyle(fontSize: 14.sp, color: grey4),
                               ),
                             ],
@@ -130,8 +134,7 @@ class CustomDraggableScrollableSheet extends StatelessWidget {
                           (product) => Padding(
                             padding: EdgeInsets.only(left: 16.0.w),
                             child: ProductItem(
-                              width: 120.w,
-                              height: 130.h,
+                              height: 120.h,
                               hasDiscount: false,
                               product: product,
                               category: product.categoryNamePath ?? '',
