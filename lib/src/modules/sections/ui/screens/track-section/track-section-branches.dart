@@ -138,44 +138,47 @@ class SectionTrack extends StatelessWidget {
                                             );
                                             return;
                                           }
+                                          Map<String, dynamic>
+                                              filteredAttributes =
+                                              createDetailsProvider
+                                                  .getAttributeFieldsMap()
+                                                  .map((key, value) =>
+                                                      MapEntry(key, value))
+                                                ..removeWhere((key, value) =>
+                                                    value == null);
 
                                           final ad = AdModel(
-                                            title: createDetailsProvider
-                                                .titleController.text,
-                                            categoryPath:
-                                                createSectionChooseProvider
-                                                    .selectedCategory!
-                                                    .categoryPath,
-                                            categoryNamePath:
-                                                createSectionChooseProvider
-                                                    .selectedCategory!
-                                                    .categoryNamePath,
-                                            description: createDetailsProvider
-                                                .shortDescController.text,
-                                            longDescription:
-                                                createDetailsProvider
-                                                    .contentController.text,
-                                            contactPhone: createDetailsProvider
-                                                .phoneController.text,
-                                            contactEmail: user.email,
-                                            userId: user.id,
-                                            price: double.tryParse(
-                                                    createDetailsProvider
-                                                        .priceController
-                                                        .text) ??
-                                                0.0,
-                                            governorate:
-                                                user.address?.governorate ?? '',
-                                            city: user.address?.city ?? '',
-                                            fullAddress:
-                                                user.address?.fullAddress ?? '',
-                                            adType: "NEW",
-                                            preferredContactMethod: "CALL",
-                                            condition: "PUBLISHED",
-                                            currency: "SYP",
-                                            attributes: createDetailsProvider
-                                                .getAttributeFieldsMap(),
-                                          );
+                                              title: createDetailsProvider
+                                                  .titleController.text,
+                                              categoryPath:
+                                                  createSectionChooseProvider
+                                                      .selectedCategory!
+                                                      .categoryPath,
+                                              categoryNamePath:
+                                                  createSectionChooseProvider
+                                                      .selectedCategory!
+                                                      .categoryNamePath,
+                                              description: createDetailsProvider
+                                                  .shortDescController.text,
+                                              longDescription: createDetailsProvider
+                                                  .contentController.text,
+                                              contactPhone: createDetailsProvider
+                                                  .phoneController.text,
+                                              contactEmail: user.email,
+                                              userId: user.id,
+                                              price: double.tryParse(createDetailsProvider.priceController.text) ??
+                                                  0.0,
+                                              governorate:
+                                                  user.address?.governorate ??
+                                                      '',
+                                              city: user.address?.city ?? '',
+                                              fullAddress:
+                                                  user.address?.fullAddress ?? '',
+                                              adType: "NEW",
+                                              preferredContactMethod: "CALL",
+                                              condition: "PUBLISHED",
+                                              currency: "SYP",
+                                              attributes: filteredAttributes);
 
                                           final token =
                                               await TokenHelper.getToken();

@@ -24,9 +24,11 @@ class AdRepository {
     final String adDTOJson = jsonEncode(ad.toJson());
 
     final formMap = <String, dynamic>{
-      'adDTO': MultipartFile.fromString(adDTOJson,
-          contentType: MediaType(
-              'application', 'json')), // JSON string, not a nested object
+      'adDTO': MultipartFile.fromBytes(
+        utf8.encode(adDTOJson),
+        filename: 'adDTO.json',
+        contentType: MediaType('application', 'json'),
+      ),
       'files': [
         for (var image in images)
           await MultipartFile.fromFile(
