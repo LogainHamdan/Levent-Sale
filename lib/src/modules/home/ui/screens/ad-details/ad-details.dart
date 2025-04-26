@@ -66,7 +66,7 @@ class AdDetailsScreen extends StatelessWidget {
                       },
                       child: SvgPicture.asset(
                         editBlackIcon,
-                        height: 100.h,
+                        height: 20.h,
                       ),
                     ),
                 ],

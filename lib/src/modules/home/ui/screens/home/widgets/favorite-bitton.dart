@@ -30,75 +30,70 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FavoriteProvider>(
-      builder: (context, favoriteProvider, child) {
-        return FutureBuilder<String?>(
-          future: TokenHelper.getToken(),
-          builder: (context, tokenSnapshot) {
-            final token = tokenSnapshot.data;
+    return FutureBuilder<String?>(
+      future: TokenHelper.getToken(),
+      builder: (context, tokenSnapshot) {
+        final favoriteProvider =
+            Provider.of<FavoriteProvider>(context, listen: false);
 
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(18.r),
-              child: InkWell(
-                onTap: () async {
-                  try {
-                    if (token == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('يجب تسجيل الدخول أولاً')),
-                      );
-                      return;
-                    }
+        final token = tokenSnapshot.data;
 
-                    await favoriteProvider.checkFavoriteStatus(
-                      adId: ad.id ?? 0,
-                      authorizationToken: token,
-                    );
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(18.r),
+          child: InkWell(
+            onTap: () async {
+              try {
+                if (token == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'يجب تسجيل الدخول أولاً',
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return;
+                }
 
-                    if (favoriteProvider.isFavorite(ad.id ?? 0)) {
-                      // هنا المفروض يكون عندك طريقة لحذف المفضلة باستخدام ID صحيح
-                      await favoriteProvider.deleteFavorite('');
-                    } else {
-                      print(
-                          "Attempting to show bottom sheet for adId: ${ad.id ?? 0} and tagId: ${ad.tagId ?? ''}");
-
-                      await showAddToFavoriteAlert(
-                          context, ad.id ?? 0, ad.tagId ?? '');
-                    }
-                  } catch (e) {
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('حدث خطأ: ${e.toString()}')),
-                      );
-                    }
-                  }
-                },
-                customBorder: const CircleBorder(),
-                child: CircleAvatar(
-                  radius: 14.w,
-                  backgroundColor: Colors.white,
-                  child: Center(
-                    child: favIcon
-                        ? (favoriteProvider.isFavorite(ad.id ?? 0)
-                            ? SvgPicture.asset(
-                                favColoredPath,
-                                height: 14.h,
-                                width: 14.w,
-                              )
-                            : SvgPicture.asset(
-                                favUncoloredPath,
-                                height: 16.h,
-                                width: 16.w,
-                              ))
+                if (favoriteProvider.isFavorite(ad.id ?? 0)) {
+                  await favoriteProvider.deleteFavorite('');
+                } else {
+                  await showAddToFavoriteAlert(
+                      context, ad.id ?? 0, ad.tagId ?? '');
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('حدث خطأ: ${e.toString()}')),
+                  );
+                }
+              }
+            },
+            customBorder: const CircleBorder(),
+            child: CircleAvatar(
+              radius: 14.w,
+              backgroundColor: Colors.white,
+              child: Center(
+                child: favIcon
+                    ? (favoriteProvider.isFavorite(ad.id ?? 0)
+                        ? SvgPicture.asset(
+                            favColoredPath,
+                            height: 14.h,
+                            width: 14.w,
+                          )
                         : SvgPicture.asset(
-                            shareIcon, // مثلا إذا favIcon == false، ممكن يظهر shareIcon
+                            favUncoloredPath,
                             height: 16.h,
                             width: 16.w,
-                          ),
-                  ),
-                ),
+                          ))
+                    : SvgPicture.asset(
+                        shareIcon, // مثلا إذا favIcon == false، ممكن يظهر shareIcon
+                        height: 16.h,
+                        width: 16.w,
+                      ),
               ),
-            );
-          },
+            ),
+          ),
         );
       },
     );

@@ -617,7 +617,10 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
     builder: (BuildContext sheetContext) {
       final mediaQuery = MediaQuery.of(sheetContext);
       final screenHeight = mediaQuery.size.height;
-
+      final favoriteProvider = Provider.of<FavoriteProvider>(
+        sheetContext,
+        listen: false,
+      );
       return GestureDetector(
         onTap: () => Navigator.pop(sheetContext),
         behavior: HitTestBehavior.opaque,
@@ -631,100 +634,103 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
               bottom: 0,
               left: 0,
               right: 0,
-              child: GestureDetector(
-                onTap: () {},
-                child: Container(
-                  height: screenHeight * 0.4,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(15),
+              child: Container(
+                height: screenHeight * 0.4,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(15.r),
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      "احفظ في قائمة المفضلة",
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 10,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        "احفظ في قائمة المفضلة",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                    const SizedBox(height: 32),
+                    Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      const SizedBox(height: 32),
-                      Container(
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "مفضلتي",
-                            style: TextStyle(color: Color(0xFF212121)),
-                          ),
+                      child: Center(
+                        child: Text(
+                          favoriteProvider.tagController.text,
+                          style: TextStyle(color: Color(0xFF212121)),
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () async {
-                          try {
-                            final token = await TokenHelper.getToken();
-                            if (token == null || token.isEmpty) {
+                    ),
+                    const SizedBox(height: 16),
+                    CustomElevatedButton(
+                      backgroundColor: kprimaryColor,
+                      text: 'اضافة الى المفضلة',
+                      textColor: grey9,
+                      onPressed: () async {
+                        try {
+                          final token = await TokenHelper.getToken();
+
+                          if (sheetContext.mounted) {
+                            if (tagId.isNotEmpty) {
+                              await favoriteProvider.addToTag(
+                                adId: adId,
+                                authorizationToken: token ?? '',
+                                tagId: tagId,
+                              );
                               if (sheetContext.mounted) {
+                                Navigator.pop(sheetContext);
                                 ScaffoldMessenger.of(sheetContext).showSnackBar(
                                   const SnackBar(
-                                    content: Text('يجب تسجيل الدخول أولاً'),
+                                    content:
+                                        Text('تمت الإضافة إلى المفضلة بنجاح'),
                                   ),
                                 );
                               }
-                              return;
-                            }
-
-                            if (sheetContext.mounted) {
-                              final favoriteProvider =
-                                  Provider.of<FavoriteProvider>(
-                                sheetContext,
-                                listen: false,
-                              );
-
-                              if (tagId.isNotEmpty) {
-                                await favoriteProvider.addToTag(
-                                  adId: adId,
-                                  authorizationToken: token,
-                                  tagId: tagId,
-                                );
-                                if (sheetContext.mounted) {
-                                  Navigator.pop(sheetContext);
-                                  ScaffoldMessenger.of(sheetContext)
-                                      .showSnackBar(
-                                    const SnackBar(
-                                      content:
-                                          Text('تمت الإضافة إلى المفضلة بنجاح'),
-                                    ),
-                                  );
-                                }
-                              }
-                            }
-                          } catch (e) {
-                            if (sheetContext.mounted) {
-                              ScaffoldMessenger.of(sheetContext).showSnackBar(
-                                SnackBar(
-                                  content: Text('حدث خطأ: ${e.toString()}'),
-                                ),
-                              );
                             }
                           }
-                        },
-                        child: const Text('اضافة'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white,
-                        ),
+                        } catch (e) {
+                          if (sheetContext.mounted) {
+                            ScaffoldMessenger.of(sheetContext).showSnackBar(
+                              SnackBar(
+                                content: Text('حدث خطأ: ${e.toString()}'),
+                              ),
+                            );
+                          }
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    GestureDetector(
+                      onTap: () => showNewCollectionAlert(
+                          context, favoriteProvider.tagController),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'تشكيلة جديدة',
+                            style: TextStyle(
+                                color: grey0,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          SizedBox(width: 8.w),
+                          SvgPicture.asset(
+                            addCircleBlackIcon,
+                            height: 20.h,
+                            width: 20.w,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
             ),
@@ -737,11 +743,12 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
 
 void showNewCollectionAlert(
     BuildContext context, TextEditingController newTagController) {
-  final provider = Provider.of<FavoriteProvider>(context);
+  final provider = Provider.of<FavoriteProvider>(context, listen: false);
 
   showDialog(
     context: context,
     barrierDismissible: true,
+    barrierColor: Colors.black.withOpacity(0.2),
     builder: (context) {
       return GestureDetector(
         onTap: () => Navigator.pop(context),
@@ -777,11 +784,28 @@ void showNewCollectionAlert(
 
                         if (tagName.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('يرجى إدخال اسم التشكيلة!')),
+                            SnackBar(
+                              content: Text(
+                                'يرجى إدخال اسم التشكيلة!',
+                              ),
+                              backgroundColor: Colors.red,
+                            ),
                           );
                           return;
                         }
-                        provider.createTag(tagName, token ?? tokenTest);
+                        print('to create');
+
+                        provider.createTag(tagName, token ?? '');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'تم اشناء التشكيلة بنجاح!',
+                            ),
+                            backgroundColor: kprimaryColor,
+                          ),
+                        );
+                        Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                       backgroundColor: kprimaryColor,
                       textColor: grey9,

@@ -90,6 +90,7 @@ class FavoriteProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         print(response.data);
+        print('create tag: ${response.statusCode}');
       }
     } catch (e) {
       print(e.toString());
