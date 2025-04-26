@@ -98,5 +98,5 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
     }
   }
 
-  notifyListeners();
+
 }

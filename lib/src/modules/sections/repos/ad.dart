@@ -20,30 +20,29 @@ class AdRepository {
     required List<File> images,
     required String token,
   }) async {
-    final String adModelJson = jsonEncode(ad.toJson());
-
+    final adModelJson = ad.toJson();
+print( ad.toJson(),);
     final formData = FormData.fromMap({
-      'adDTO': MultipartFile.fromBytes(
-        utf8.encode(adModelJson),
-        contentType: MediaType('application', 'json'),
-      ),
+      'adDTO':jsonEncode(adModelJson),
       // Properly attach files
       'files': await _prepareFiles(images),
     });
-
+    print(formData.fields);
     try {
       final response = await dio.post(
         createAdUrl,
         data: formData,
         options: Options(
           headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'multipart/form-data',
+            'Authorization': token,
           },
         ),
       );
+      final actualSize = response.requestOptions.headers['content-length'];
+      print("actualSize$actualSize");
       return response;
     } on DioException catch (e) {
+      print(e);
       print('Error: ${e.response?.statusCode}');
       print('Message: ${e.message}');
       print('Data: ${e.response?.data}');
@@ -53,16 +52,35 @@ class AdRepository {
 
   Future<List<MultipartFile>> _prepareFiles(List<File> images) async {
     final List<MultipartFile> multipartFiles = [];
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
 
-    for (final image in images) {
-      final multipartFile = await MultipartFile.fromFile(
+    for (int i = 0; i < images.length; i++) {
+      final image = images[i];
+      final extension = image.path.split('.').last.toLowerCase();
+
+      multipartFiles.add(await MultipartFile.fromFile(
         image.path,
-        filename: image.path.split('/').last.replaceAll(' ', '_'),
-      );
-      multipartFiles.add(multipartFile);
+        filename: 'image_${timestamp}_$i.$extension', // Unique filename
+        contentType: _getMediaType(extension), // Proper content type
+      ));
     }
 
     return multipartFiles;
+  }
+  MediaType _getMediaType(String extension) {
+    switch (extension) {
+      case 'jpg':
+      case 'jpeg':
+        return MediaType('image', 'jpeg');
+      case 'png':
+        return MediaType('image', 'png');
+      case 'gif':
+        return MediaType('image', 'gif');
+      case 'webp':
+        return MediaType('image', 'webp');
+      default:
+        return MediaType('application', 'octet-stream');
+    }
   }
 
   Future<Response> updateAd({

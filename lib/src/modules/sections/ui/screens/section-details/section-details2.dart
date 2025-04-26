@@ -101,7 +101,7 @@ class SectionDetails2 extends StatelessWidget {
             ),
             CustomDropdownSection(
                 hint: 'ادخل اسم المدينة',
-                items: ['دمشق', 'روما'],
+                items: ['مدينة دمشق', 'مدينة دوما'],
                 dropdownKey: 'المدينة',
                 create: create,
                 title: 'المدينة'),
@@ -110,7 +110,7 @@ class SectionDetails2 extends StatelessWidget {
             ),
             CustomDropdownSection(
                 hint: 'ادخل اسم المحافظة',
-                items: ['دمشق', 'حلب'],
+                items: ['محافظة دمشق', 'محافظة دوما'],
                 dropdownKey: 'المحافظة',
                 create: create,
                 title: 'المحافظة'),
