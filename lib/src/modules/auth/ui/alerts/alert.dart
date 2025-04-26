@@ -613,8 +613,9 @@ void showAddToFavoriteAlert(BuildContext context, int adId, String tagId) {
   if (!context.mounted) return;
 
   showModalBottomSheet<void>(
-    context: context,
+    useRootNavigator: true,
     isScrollControlled: true,
+    context: context,
     backgroundColor: Colors.transparent,
     builder: (BuildContext sheetContext) {
       final mediaQuery = MediaQuery.of(sheetContext);

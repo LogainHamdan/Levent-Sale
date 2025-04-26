@@ -46,7 +46,7 @@ class ProductItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              flex: 6,
+              flex: 3,
               child: ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(4.r)),
                 child: Stack(
@@ -94,16 +94,16 @@ class ProductItem extends StatelessWidget {
                     ),
                     Text(
                       product.description ?? '',
+                      overflow: TextOverflow.ellipsis,
                       textDirection: TextDirection.rtl,
-                      maxLines: 3,
+                      maxLines: 2,
                       style: TextStyle(
                         color: Colors.grey,
-                        fontSize: 12.sp,
+                        fontSize: 10.sp,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.right,
                     ),
-                    const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

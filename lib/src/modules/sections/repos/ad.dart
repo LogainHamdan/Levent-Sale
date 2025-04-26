@@ -23,10 +23,7 @@ class AdRepository {
     final String adModelJson = jsonEncode(ad.toJson());
 
     final formData = FormData.fromMap({
-      'adDTO': MultipartFile.fromBytes(
-        utf8.encode(adModelJson),
-        contentType: MediaType('application', 'json'),
-      ),
+      'adDTO': adModelJson,
       // Properly attach files
       'files': await _prepareFiles(images),
     });
