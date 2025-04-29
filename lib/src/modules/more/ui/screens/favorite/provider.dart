@@ -17,6 +17,8 @@ class FavoriteProvider with ChangeNotifier {
   String errorMessage = '';
   TextEditingController tagController = TextEditingController();
   Map<int, bool> favoriteStatus = {};
+  TagModel? _currentTag;
+  TagModel? get currentTag => _currentTag;
 
   bool isFavorite(int adId) {
     return favoriteStatus[adId] ?? false;
@@ -40,14 +42,15 @@ class FavoriteProvider with ChangeNotifier {
 
     try {
       final response = await repo.getFavoriteTags(token);
-      print(" $response");
+      print("Response from API: $response");
 
-      if (response != null) {
+      if (response != null && response.isNotEmpty) {
         tags = response;
         errorMessage = '';
-        print("${tags.map((e) => e.name).toList()}");
+        print("Tags fetched: ${tags.map((e) => e.name).toList()}");
       } else {
         errorMessage = 'Failed to fetch tags: No data';
+        print("No data received");
       }
     } catch (e) {
       if (e is DioException) {
@@ -59,7 +62,7 @@ class FavoriteProvider with ChangeNotifier {
 
         print("$status, Message: $message");
       } else {
-        print("$e");
+        print("Error: $e");
       }
     }
 
@@ -84,19 +87,22 @@ class FavoriteProvider with ChangeNotifier {
     }
   }
 
-  Future<void> createTag(String name, String token) async {
+  Future<TagModel?> createTag(String name, String token) async {
     try {
       final response = await repo.createTag(name: name, token: token);
-
       if (response.statusCode == 200) {
-        print(response.data);
-        print('create tag: ${response.statusCode}');
+        print(response.statusCode);
+        final tag = TagModel.fromJson(response.data);
+        _currentTag = tag;
+        selectedTag = tag;
+        print(selectedTag?.id ?? '');
+        notifyListeners();
+        return tag;
       }
     } catch (e) {
-      print(e.toString());
+      print('createTag error: $e');
     }
-
-    notifyListeners();
+    return null;
   }
 
   Future<void> deleteFavorite(String favid) async {
@@ -118,7 +124,6 @@ class FavoriteProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      print('Making API call...'); // Debug print
       final response = await repo.checkFavoriteStatus(
         adId: adId,
         authorizationToken: authorizationToken,
@@ -158,8 +163,11 @@ class FavoriteProvider with ChangeNotifier {
         tagId: tagId,
       );
 
+      print('Status code: ${response.statusCode}');
       if (response.statusCode == 200) {
         print(response.data['favoriteId'] ?? response.data['id']);
+      } else {
+        print('Add to tag failed: ${response.data}');
       }
     } on DioException catch (e) {
       print(e.response?.statusCode);

@@ -21,9 +21,11 @@ class AdRepository {
     required String token,
   }) async {
     final adModelJson = ad.toJson();
-print( ad.toJson(),);
+    print(
+      ad.toJson(),
+    );
     final formData = FormData.fromMap({
-      'adDTO':jsonEncode(adModelJson),
+      'adDTO': jsonEncode(adModelJson),
 
       // Properly attach files
       'files': await _prepareFiles(images),
@@ -68,6 +70,7 @@ print( ad.toJson(),);
 
     return multipartFiles;
   }
+
   MediaType _getMediaType(String extension) {
     switch (extension) {
       case 'jpg':
@@ -114,6 +117,30 @@ print( ad.toJson(),);
       return response;
     } catch (e) {
       throw Exception('Repository API error: $e');
+    }
+  }
+
+  Future<List<AdModel>> getMyAdsByStatus({
+    required String token,
+    required String status,
+  }) async {
+    try {
+      final response = await dio.get(
+        '$getAdsByStatus/$status/ads',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      final List data = response.data;
+      print(response.data);
+      return data.map((e) => AdModel.fromJson(e)).toList();
+    } on DioException catch (e) {
+      print('Error fetching ads by status: ${e.response?.statusCode}');
+      print('Message: ${e.response?.data}');
+      rethrow;
     }
   }
 }

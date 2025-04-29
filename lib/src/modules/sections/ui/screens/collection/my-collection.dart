@@ -3,19 +3,27 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/e
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
 import '../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
+import '../../../../home/ui/screens/home/provider.dart';
 import '../../../../main/ui/screens/main_screen.dart';
 import '../create-ad/create-ad.dart';
 
 class MyCollectionScreen extends StatelessWidget {
-  final bool empty;
   static const id = '/collection';
 
-  const MyCollectionScreen({super.key, required this.empty});
+  const MyCollectionScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await homeProvider.loadAds();
+    });
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
@@ -35,9 +43,8 @@ class MyCollectionScreen extends StatelessWidget {
           children: [
             SizedBox(height: 16.h),
 
-            empty
-                ? Expanded(
-                    child: EmptyWidget(
+            homeProvider.allAds.isEmpty
+                ? EmptyWidget(
                     msg: 'إعلاناتي فارغة',
                     img: emptyAdsIcon,
                     child: Padding(
@@ -51,8 +58,8 @@ class MyCollectionScreen extends StatelessWidget {
                         date: false,
                       ),
                     ),
-                  ))
-                : Expanded(child: JoinMyCollection()),
+                  )
+                : JoinMyCollection(),
             // CustomBottomNavigationBar()
           ],
         ),

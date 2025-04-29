@@ -4,7 +4,9 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/i
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../auth/repos/token-helper.dart';
 import '../../../../home/ui/screens/ad-details/ad-details.dart';
+import '../../../../home/ui/screens/home/provider.dart';
 
 class EditScreen extends StatelessWidget {
   const EditScreen({super.key});
@@ -12,6 +14,11 @@ class EditScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<MyCollectionScreenProvider>(context);
+    var adProvider = Provider.of<MyCollectionScreenProvider>(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final token = await TokenHelper.getToken();
+      await adProvider.fetchMyAdsByStatus(token ?? '', 'PUBLISHED');
+    });
     return ItemList(
       provider.buttonText,
       provider.buttonColor,
@@ -20,7 +27,7 @@ class EditScreen extends StatelessWidget {
           MaterialPageRoute(
               builder: (context) => AdDetailsScreen(
                     toUpdate: true,
-                ad: AdModel(),
+                    ad: AdModel(),
                   ))),
       buttonIcon: provider.buttonIcon,
       buttonTextColor: provider.buttonTextColor,

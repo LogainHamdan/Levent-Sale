@@ -3,9 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../models/ad.dart';
+import '../../../repos/ad.dart';
+
 class MyCollectionScreenProvider extends ChangeNotifier {
   int _currentIndex = 0;
   final PageController pageController = PageController();
+  AdRepository repo = AdRepository();
 
   final List<String> _buttons = ['مراجعة', 'تعديل', 'عرض'];
   final List<Color> _buttonColors = [
@@ -60,6 +64,24 @@ class MyCollectionScreenProvider extends ChangeNotifier {
 
   void updateIndex(int index) {
     _currentIndex = index;
+    notifyListeners();
+  }
+
+  List<AdModel> myAdsByStatus = [];
+  bool isLoadingAds = false;
+
+  Future<void> fetchMyAdsByStatus(String token, String status) async {
+    isLoadingAds = true;
+    notifyListeners();
+
+    try {
+      final ads = await repo.getMyAdsByStatus(token: token, status: status);
+      myAdsByStatus = ads;
+    } catch (e) {
+      print(" Failed to fetch ads: $e");
+    }
+
+    isLoadingAds = false;
     notifyListeners();
   }
 }

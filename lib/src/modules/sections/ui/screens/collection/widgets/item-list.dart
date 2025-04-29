@@ -3,6 +3,10 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/c
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../models/ad.dart';
+import '../provider.dart';
 
 class ItemList extends StatelessWidget {
   final String buttonText;
@@ -11,15 +15,25 @@ class ItemList extends StatelessWidget {
   final Function() onPressed;
   final Widget buttonIcon;
 
-  const ItemList(this.buttonText, this.buttonColor, this.onPressed,
-      {super.key, required this.buttonIcon, required this.buttonTextColor});
+  const ItemList(
+    this.buttonText,
+    this.buttonColor,
+    this.onPressed, {
+    super.key,
+    required this.buttonIcon,
+    required this.buttonTextColor,
+  });
 
   @override
   Widget build(BuildContext context) {
+    var adProvider = Provider.of<MyCollectionScreenProvider>(context);
+
     return ListView.builder(
-      itemCount: 3,
-      itemBuilder: (context, index) {
-        return SizedBox(
+        itemCount: adProvider.myAdsByStatus.length,
+        itemBuilder: (context, index) {
+          final ad = adProvider.myAdsByStatus[index];
+
+          return SizedBox(
             width: 307.w,
             height: 110.h,
             child: Card(
@@ -40,7 +54,7 @@ class ItemList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '\$41.1',
+                            '\$${ad.price.toString()}',
                             style: TextStyle(
                               fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
@@ -48,7 +62,7 @@ class ItemList extends StatelessWidget {
                           ),
                           Spacer(),
                           Text(
-                            '12-7-2025',
+                            '${ad.createdAt?.day}-${ad.createdAt?.month}-${ad.createdAt?.year}',
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: grey3,
@@ -58,14 +72,12 @@ class ItemList extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      width: 40.w,
-                    ),
+                    SizedBox(width: 40.w),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'ايفون 14 برو ماكس',
+                          ad.title ?? '',
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 14.sp,
@@ -73,11 +85,9 @@ class ItemList extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(
-                          height: 4.h,
-                        ),
+                        SizedBox(height: 4.h),
                         Text(
-                          'الاجهزة',
+                          ad.categoryNamePath ?? '',
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 12.sp,
@@ -85,9 +95,7 @@ class ItemList extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        SizedBox(
-                          height: 8.h,
-                        ),
+                        SizedBox(height: 8.h),
                         Align(
                           alignment: Alignment.centerRight,
                           child: CustomActionButton(
@@ -106,17 +114,20 @@ class ItemList extends StatelessWidget {
                       child: SizedBox(
                         height: 81.h,
                         width: 69.w,
-                        child: Image.asset(
-                          'assets/imgs_icons/home/assets/imgs/ايفون4.png',
-                          fit: BoxFit.cover,
-                        ),
+                        child: ad.imageUrls != null && ad.imageUrls!.isNotEmpty
+                            ? Image.network(ad.imageUrls!.first,
+                                fit: BoxFit.cover)
+                            : Image.asset(
+                                'assets/imgs_icons/home/assets/imgs/ايفون4.png',
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ));
-      },
-    );
+            ),
+          );
+        });
   }
 }

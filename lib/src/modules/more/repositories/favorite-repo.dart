@@ -11,18 +11,24 @@ class FavoriteRepository {
   FavoriteRepository._internal();
 
   factory FavoriteRepository() => _instance;
-
   Future<List<TagModel>?> getFavoriteTags(String token) async {
     try {
       final response = await _dio.get(
         getTagsUrl,
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'},
-        ),
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+        }),
       );
+      print("Response data: ${response.data}");
       final List<dynamic> data = response.data;
       return data.map((e) => TagModel.fromJson(e)).toList();
     } catch (e) {
+      if (e is DioException) {
+        final status = e.response?.statusCode;
+        final message = e.response?.data ?? "Unknown error";
+        print("Error in API call: $status");
+        print("Error details: $message");
+      }
       rethrow;
     }
   }
@@ -90,14 +96,17 @@ class FavoriteRepository {
       final response = await _dio.post(
         '$addToTagUrl/$adId',
         options: Options(headers: {
-          'Authorization': authorizationToken,
+          'Authorization': 'Bearer $authorizationToken',
         }),
         data: {
           'tagId': tagId,
+          'adId': adId,
         },
       );
       return response;
-    } on DioException {
+    } on DioException catch (e) {
+      print('Error in API call: ${e.response?.statusCode}');
+      print('Error details: ${e.response?.data}');
       rethrow;
     }
   }

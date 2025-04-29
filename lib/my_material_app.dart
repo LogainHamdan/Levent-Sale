@@ -113,9 +113,7 @@ class MyMaterialApp extends StatelessWidget {
               NotificationsScreen.id: (context) => NotificationsScreen(
                     noData: false,
                   ),
-              MyCollectionScreen.id: (context) => MyCollectionScreen(
-                    empty: false,
-                  ),
+              MyCollectionScreen.id: (context) => MyCollectionScreen(),
               FavoriteScreen.id: (context) => FavoriteScreen(),
               CreateAdScreen.id: (context) => CreateAdScreen(
                     lowerWidget: SectionChoose(

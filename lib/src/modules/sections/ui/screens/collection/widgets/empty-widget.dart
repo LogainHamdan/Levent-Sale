@@ -1,7 +1,9 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
@@ -21,6 +23,8 @@ class EmptyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<HomeProvider>(context);
+
     return Column(
       children: [
         SizedBox(
@@ -47,23 +51,28 @@ class EmptyWidget extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        SingleChildScrollView(
-            child: Column(
-          children: [
-            ProductSection(
-                onMorePressed: () => Navigator.pushNamed(context, AdsScreen.id),
-                category: "العروض والخصومات",
-                products: []),
-            ProductSection(
-                onMorePressed: () => Navigator.pushNamed(context, AdsScreen.id),
-                category: "الإعلانات الجديدة",
-                products: []),
-            ProductSection(
-                onMorePressed: () => Navigator.pushNamed(context, AdsScreen.id),
-                category: "الإعلانات المفترحة",
-                products: []),
-          ],
-        )),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          child: Column(
+            children: [
+              ProductSection(
+                  onMorePressed: () =>
+                      Navigator.pushNamed(context, AdsScreen.id),
+                  category: "العروض والخصومات",
+                  products: provider.allAds),
+              ProductSection(
+                  onMorePressed: () =>
+                      Navigator.pushNamed(context, AdsScreen.id),
+                  category: "الإعلانات الجديدة",
+                  products: provider.allAds),
+              ProductSection(
+                  onMorePressed: () =>
+                      Navigator.pushNamed(context, AdsScreen.id),
+                  category: "الإعلانات المفترحة",
+                  products: provider.allAds),
+            ],
+          ),
+        ),
       ],
     );
   }

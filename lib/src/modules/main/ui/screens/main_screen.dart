@@ -35,7 +35,7 @@ class MainScreen extends StatelessWidget {
   ];
   final List<Widget> screens = const [
     MenuScreen(),
-    MyCollectionScreen(empty: false),
+    MyCollectionScreen(),
     Sections(),
     HomeScreen(),
   ];

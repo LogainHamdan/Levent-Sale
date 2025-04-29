@@ -52,6 +52,7 @@ const String removeFromFavUrl = '$baseUrl/favorites/delete';
 const String checkFavUrl = '$baseUrl/favorites/check';
 const String addToTagUrl = '$baseUrl/favorites/add';
 const String deleteTagUrl = '$baseUrl/favorites/tags/delete';
+const String getAdsByStatus = '$baseUrl/ads/my';
 
 // primary colors
 Color kprimaryColor = const Color(0xff82B81C);

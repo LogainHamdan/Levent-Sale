@@ -14,11 +14,13 @@ class JoinMyCollection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<MyCollectionScreenProvider>(context);
-
     return Scaffold(
       body: Column(
         children: [
-          TabBarWidget(),
+          SizedBox(
+            height: 60.h,
+            child: TabBarWidget(), // fix infinite layout issue
+          ),
           SizedBox(height: 16.h),
           Expanded(
             child: PageView(

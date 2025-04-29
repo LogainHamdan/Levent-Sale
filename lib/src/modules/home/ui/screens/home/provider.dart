@@ -11,9 +11,7 @@ class HomeProvider extends ChangeNotifier {
   RootCategoryModel? _selectedCategory;
   AdRepository repo = AdRepository();
   List<AdModel> allAds = [];
-  List<AdModel> discountedAds = [];
-  List<AdModel> newAds = [];
-  List<AdModel> suggestedAds = [];
+
   bool isLoading = false;
   String? error;
 

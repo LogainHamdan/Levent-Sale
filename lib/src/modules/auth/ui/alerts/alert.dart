@@ -635,30 +635,46 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
               left: 0,
               right: 0,
               child: Container(
-                height: screenHeight * 0.4,
+                height: screenHeight * 0.35,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(15.r),
                   ),
                 ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 10.h,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.of(sheetContext).pop(),
+                          child: Padding(
+                            padding: EdgeInsets.all(10.w),
+                            child: SvgPicture.asset(
+                              cancelPath,
+                              height: 18.h,
+                              width: 18.w,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     const Text(
                       "احفظ في قائمة المفضلة",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: 10.h),
                     Container(
-                      height: 40,
+                      height: 40.h,
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Center(
                         child: Text(
@@ -667,21 +683,26 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     CustomElevatedButton(
                       backgroundColor: kprimaryColor,
                       text: 'اضافة الى المفضلة',
                       textColor: grey9,
                       onPressed: () async {
+                        print(
+                            'Selected Tag ID: ${favoriteProvider.selectedTag?.id ?? 'No tag selected'}');
                         try {
                           final token = await TokenHelper.getToken();
-
+                          print(token);
+                          favoriteProvider.fetchTags(token ?? '');
+                          print(favoriteProvider.tags);
                           if (sheetContext.mounted) {
-                            if (tagId.isNotEmpty) {
+                            if (favoriteProvider.selectedTag != null) {
+                              print('Calling addToTag...');
                               await favoriteProvider.addToTag(
                                 adId: adId,
                                 authorizationToken: token ?? '',
-                                tagId: tagId,
+                                tagId: favoriteProvider.selectedTag!.id,
                               );
                               if (sheetContext.mounted) {
                                 Navigator.pop(sheetContext);
@@ -692,6 +713,12 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
                                   ),
                                 );
                               }
+                            } else {
+                              ScaffoldMessenger.of(sheetContext).showSnackBar(
+                                const SnackBar(
+                                  content: Text('الرجاء اختيار التشكيلة'),
+                                ),
+                              );
                             }
                           }
                         } catch (e) {
@@ -717,16 +744,17 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
                           Text(
                             'تشكيلة جديدة',
                             style: TextStyle(
-                                color: grey0,
-                                fontSize: 12.sp,
+                                color: kprimaryColor,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w400),
                           ),
-                          SizedBox(width: 8.w),
+                          SizedBox(width: 4.w),
                           SvgPicture.asset(
-                            addCircleBlackIcon,
+                            addCircleGreenIcon,
                             height: 20.h,
                             width: 20.w,
                           ),
+                          SizedBox(width: 10.w),
                         ],
                       ),
                     )
@@ -799,12 +827,11 @@ void showNewCollectionAlert(
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              'تم اشناء التشكيلة بنجاح!',
+                              'تم انشاء التشكيلة بنجاح!',
                             ),
                             backgroundColor: kprimaryColor,
                           ),
                         );
-                        Navigator.pop(context);
                         Navigator.pop(context);
                       },
                       backgroundColor: kprimaryColor,
