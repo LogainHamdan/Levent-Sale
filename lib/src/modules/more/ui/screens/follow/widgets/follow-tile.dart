@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,7 +18,7 @@ class FollowTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<FollowProvider>(context);
+    var provider = Provider.of<FollowProvider>(context, listen: false);
 
     return ListTile(
       trailing: CircleAvatar(
@@ -45,7 +46,17 @@ class FollowTile extends StatelessWidget {
         child: CustomElevatedButton(
           fontSize: 16.sp,
           text: user.isFollowing ? 'إلغاء المتابعة' : 'متابعة',
-          onPressed: () => provider.toggleFollow(index),
+          onPressed: () async {
+            final token = await TokenHelper.getToken();
+            if (token == null || token.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: errorColor,
+                  content: Text('قم بتسجيل الدخول اولاً')));
+              return;
+            }
+            await provider.toggleFollowProfile(context,
+                followingId: user.id, token: token ?? '');
+          },
           backgroundColor: user.isFollowing ? grey7 : kprimaryColor,
           textColor: user.isFollowing ? Colors.black : grey9,
         ),

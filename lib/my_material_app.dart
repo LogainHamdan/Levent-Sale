@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/config/shared_data.dart';
+import 'package:Levant_Sale/src/modules/auth/models/user.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/sign-up.dart';
@@ -93,7 +94,7 @@ class MyMaterialApp extends StatelessWidget {
                     fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            initialRoute: MainScreen.id,
+            initialRoute: LoginScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               MainScreen.id: (context) => MainScreen(),
@@ -137,7 +138,7 @@ class MyMaterialApp extends StatelessWidget {
                 final args = ModalRoute.of(context)!.settings.arguments
                     as Map<String, dynamic>;
                 return FriendProfile(
-                  userId: args['userId'],
+                  user: User(),
                   token: args['token'],
                 );
               },
@@ -148,7 +149,7 @@ class MyMaterialApp extends StatelessWidget {
               SearchScreen.id: (context) => SearchScreen(),
               FavoriteCollectionScreen.id: (context) =>
                   FavoriteCollectionScreen(
-                    tagId: favProvider.selectedTag!.id,
+                    tagId: favProvider.selectedTag!.id ?? '',
                   ),
               DeleteAccountScreen.id: (context) => DeleteAccountScreen(
                     phase1email: true,

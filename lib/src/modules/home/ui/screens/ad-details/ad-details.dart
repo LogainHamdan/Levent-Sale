@@ -38,13 +38,11 @@ class AdDetailsScreen extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await homeProvider.loadAds();
     });
-    final imageUrl = (ad.imageUrls != null && ad.imageUrls!.isNotEmpty)
-        ? ad.imageUrls!.first
-        : '';
 
     return FutureBuilder(
         future: UserHelper.getUser(),
         builder: (context, snapshot) {
+          print(ad.userId);
           if (!snapshot.hasData) {
             return Scaffold(
               body: Center(
@@ -212,7 +210,7 @@ class AdDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   CustomDraggableScrollableSheet(
-                    user: user,
+                    userId: ad.userId ?? user.id ?? 0,
                   ),
                 ],
               ),

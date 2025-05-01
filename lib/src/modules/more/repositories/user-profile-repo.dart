@@ -33,7 +33,7 @@ class UserProfileRepository {
       '$profileUrl/$userId',
       options: Options(
         headers: {
-          'Authorization': token,
+          'Accept': 'application/hal+json',
         },
       ),
     );

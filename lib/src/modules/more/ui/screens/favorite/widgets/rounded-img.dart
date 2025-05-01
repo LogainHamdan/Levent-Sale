@@ -26,7 +26,10 @@ class RoundedImage extends StatelessWidget {
         bottomLeft: isBottomLeft ? Radius.circular(5.r) : Radius.zero,
         bottomRight: isBottomRight ? Radius.circular(5.r) : Radius.zero,
       ),
-      child: Image.asset(assetPath, fit: BoxFit.cover),
+      child: assetPath.isNotEmpty
+        ? Image.network(assetPath, fit: BoxFit.cover)
+        : const SizedBox(),
+
     );
   }
 }

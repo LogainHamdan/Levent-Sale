@@ -1,6 +1,7 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/empty-fav.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/fav-grid.dart';
@@ -10,27 +11,48 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../auth/ui/alerts/alert.dart';
 import '../../../../home/ui/screens/ads/ads.dart';
-import '../../../../home/ui/screens/home/data.dart';
 import '../../../../home/ui/screens/home/widgets/product-section.dart';
-class FavoriteScreen extends StatelessWidget {
+
+class FavoriteScreen extends StatefulWidget {
   static const id = '/fav';
   const FavoriteScreen({super.key});
 
-  Future<void> _initData(FavoriteProvider provider) async {
-    final token = await TokenHelper.getToken();
+  @override
+  State<FavoriteScreen> createState() => _FavoriteScreenState();
+}
+
+class _FavoriteScreenState extends State<FavoriteScreen> {
+  late FavoriteProvider provider;
+  late Future<void> _dataFuture;
+  late HomeProvider homeProvider;
+  String? token;
+
+  Future<void> _initData() async {
+    token = await TokenHelper.getToken();
     if (token != null) {
-      await provider.fetchTags(token);
+      await provider.fetchTags(token ?? '');
+      for (final tag in provider.tags) {
+        await provider.fetchFavoritesByTag(
+            token: token ?? '', tagId: tag.id ?? '');
+      }
+      homeProvider.loadAds();
     } else {
       debugPrint('Token not found');
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<FavoriteProvider>(context, listen: false);
+  void initState() {
+    super.initState();
+    provider = Provider.of<FavoriteProvider>(context, listen: false);
+    homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    _dataFuture = _initData();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return FutureBuilder<void>(
-      future: _initData(provider),
+      future: _dataFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -67,26 +89,27 @@ class FavoriteScreen extends StatelessWidget {
                         } else if (provider.tags.isEmpty) {
                           return const EmptyFav();
                         } else {
-                          return SizedBox(
-                            height: 270.h,
-                            child: GridView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                                childAspectRatio: 1,
-                              ),
-                              itemCount: provider.tags.length,
-                              itemBuilder: (context, index) {
-                                final tag = provider.tags[index];
-                                return CustomGridView(
-                                  tag: tag,
-                                  token: tokenTest,
-                                );
-                              },
+                          return GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 8,
+                              crossAxisSpacing: 8,
+                              childAspectRatio: 1,
                             ),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: provider.tags.length,
+                            itemBuilder: (context, index) {
+                              final tag = provider.tags[index];
+                              final favorites =
+                                  provider.tagFavorites[tag.id ?? ''] ?? [];
+                              return CustomGridView(
+                                favorites: favorites,
+                                tag: tag,
+                                token: token ?? '',
+                              );
+                            },
                           );
                         }
                       },
@@ -96,19 +119,19 @@ class FavoriteScreen extends StatelessWidget {
                       onMorePressed: () =>
                           Navigator.pushNamed(context, AdsScreen.id),
                       category: "العروض والخصومات",
-                      products: [],
+                      products: homeProvider.allAds,
                     ),
                     ProductSection(
                       onMorePressed: () =>
                           Navigator.pushNamed(context, AdsScreen.id),
                       category: "الإعلانات الجديدة",
-                      products: [],
+                      products: homeProvider.allAds,
                     ),
                     ProductSection(
                       onMorePressed: () =>
                           Navigator.pushNamed(context, AdsScreen.id),
                       category: "الإعلانات المفترحة",
-                      products: [],
+                      products: homeProvider.allAds,
                     ),
                   ],
                 ),

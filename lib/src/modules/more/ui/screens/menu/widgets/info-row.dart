@@ -72,8 +72,10 @@ class InfoRow extends StatelessWidget {
                     CircleAvatar(
                       radius: 30.r,
                       backgroundColor: Colors.white,
-                      backgroundImage: AssetImage(
-                          "assets/imgs_icons/home/assets/imgs/منال.png"),
+                      backgroundImage: user.profilePicture != null
+                          ? NetworkImage(user.profilePicture ?? '')
+                          : AssetImage(
+                              "assets/imgs_icons/home/assets/imgs/منال.png"),
                     ),
                   ],
                 );

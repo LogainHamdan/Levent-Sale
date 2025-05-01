@@ -74,25 +74,4 @@ class ProfileProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  Future<void> toggleFollowProfile(BuildContext context) async {
-    final token = await TokenHelper.getToken();
-
-    if (token == null || token.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('حدث خطأ: لم يتم العثور على التوكن')),
-      );
-      return;
-    }
-    try {
-      if (user!.isFollowing ?? false) {
-        await followRepository.unfollowUser(user!.id ?? 0, token);
-      } else {
-        await followRepository.followUser(user!.id ?? 0, token);
-      }
-    } catch (e) {
-      debugPrint('$e');
-    }
-    notifyListeners();
-  }
 }

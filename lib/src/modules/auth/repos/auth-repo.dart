@@ -17,41 +17,7 @@ class AuthRepository {
   }
 
   AuthRepository._internal() {
-    dio = Dio(
-      BaseOptions(
-        baseUrl: baseUrl,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      ),
-    );
-
-    dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) async {
-          final prefs = await SharedPreferences.getInstance();
-          final token = prefs.getString('token');
-          if (token != null) {
-            options.headers['Authorization'] = 'Bearer $token';
-          }
-          return handler.next(options);
-        },
-      ),
-    );
-
-    dio.interceptors.add(
-      LogInterceptor(
-        request: true,
-        requestHeader: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        error: true,
-        logPrint: (object) => print('DIO LOG: $object'),
-      ),
-    );
+    dio = Dio();
   }
 
   Future<Response> signUp(User owner) async {
@@ -152,6 +118,28 @@ class AuthRepository {
         'statusCode': e.response?.statusCode ?? 500,
         'error': 'فشل تسجيل الدخول: الرد من السيرفر غير متوقع.',
       };
+    }
+  }
+
+  Future<User?> getUserById({required int id, required String token}) async {
+    try {
+      final response = await dio.get(
+        '$getUserUrl/$id',
+        queryParameters: {'id': id},
+        options: Options(
+          headers: {
+            'Accept': 'application/hal+json',
+            //ما في توكن ب سويجر ومش زابطة ابداً حتى لو حطيتها
+          },
+        ),
+      );
+      return User.fromJson(response.data);
+    } on DioException catch (e) {
+      print("Error: ${e.message}");
+      print("Error: ${e.response?.statusCode}");
+      print("Error: ${e.type}");
+      print("Raw response: ${e.response?.data}");
+      return null;
     }
   }
 

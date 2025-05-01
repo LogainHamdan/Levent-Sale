@@ -15,32 +15,37 @@ class FollowRepository {
     _dio = Dio();
   }
 
-  Future<void> unfollowUser(int followingId, String token) async {
+  Future<Response> unfollowUser(
+      {required int followingId, required String token}) async {
     try {
       final response = await _dio.post(
         "$unfollowUrl/$followingId",
+        queryParameters: {'followingId': followingId},
         options: Options(headers: {
-          'Authorization': 'Bearer $token',
+          'Authorization': token,
+          'Accept': 'application/hal+json'
         }),
       );
       print("Unfollowed successfully: ${response.data}");
+      return response;
     } catch (e) {
       print("Unfollow failed: $e");
       rethrow;
     }
   }
 
-  Future<void> followUser(int followingId, String token) async {
+  Future<Response> followUser(
+      {required int followingId, required String token}) async {
     try {
       final response = await _dio.post(
         "$followUrl/$followingId",
+        queryParameters: {'followingId': followingId},
         options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
+          headers: {'Authorization': token, 'Accept': 'application/hal+json'},
         ),
       );
       print("Followed successfully: ${response.data}");
+      return response;
     } catch (e) {
       print("Follow failed: $e");
       rethrow;

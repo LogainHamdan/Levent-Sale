@@ -1,7 +1,7 @@
 import 'package:Levant_Sale/src/modules/sections/models/attriburtes.dart';
 
 class AdModel {
-  final int? id;
+  final dynamic id;
   final String? title;
   final String? categoryPath;
   final String? categoryNamePath;

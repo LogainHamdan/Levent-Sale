@@ -19,8 +19,6 @@ class LoginProvider extends ChangeNotifier {
   bool _rememberMe = false;
   String? _errorMessage;
   bool _isLoading = false;
-  Map<String, dynamic>? _currentUser;
-  Map<String, dynamic>? get currentUser => _currentUser;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -181,6 +179,15 @@ class LoginProvider extends ChangeNotifier {
       print('فشل تسجيل الدخول: ${e.toString()}');
     } finally {
       _setLoading(false);
+    }
+  }
+
+  Future<User?> getUserById({required int id, required String token}) async {
+    try {
+      final userData = await _authRepository.getUserById(id: id, token: token);
+      return userData;
+    } catch (e) {
+      return null;
     }
   }
 

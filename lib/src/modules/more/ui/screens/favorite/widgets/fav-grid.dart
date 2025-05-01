@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../config/constants.dart';
+import '../../../../../sections/models/ad.dart';
 import '../../../../models/tag.dart';
 import '../../fav-collection-screen/fav-collection-screen.dart';
 
@@ -14,8 +15,13 @@ import '../provider.dart';
 class CustomGridView extends StatelessWidget {
   final TagModel tag;
   final String token;
+  final List<dynamic> favorites;
 
-  const CustomGridView({super.key, required this.tag, required this.token});
+  const CustomGridView(
+      {super.key,
+      required this.tag,
+      required this.token,
+      required this.favorites});
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +30,12 @@ class CustomGridView extends StatelessWidget {
         final provider = context.read<FavoriteProvider>();
         provider.setSelectedTag(tag);
 
-        await provider.fetchFavoritesByTag(token, tag.id);
-
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                FavoriteCollectionScreen(tagId: provider.selectedTag!.id),
+            builder: (context) => FavoriteCollectionScreen(
+              tagId: provider.selectedTag!.id ?? '',
+            ),
           ),
         );
       },
@@ -40,34 +45,53 @@ class CustomGridView extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                        child: RoundedImage(
-                            assetPath: 'assets/imgs/ايفون4.png',
-                            isTopLeft: true)),
-                    Expanded(
-                        child: RoundedImage(
-                            assetPath: 'assets/imgs/ايفون5.png',
-                            isTopRight: true)),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: RoundedImage(
-                            assetPath: 'assets/imgs/ايفون3.png',
-                            isBottomLeft: true)),
-                    Expanded(
-                        child: RoundedImage(
-                            assetPath: 'assets/imgs/ايفون2.png',
-                            isBottomRight: true)),
-                  ],
-                ),
-              ],
-            ),
+            if (favorites.isEmpty)
+              const SizedBox()
+            else
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: favorites.length > 0
+                            ? RoundedImage(
+                                isTopLeft: true,
+                                assetPath: favorites[0].imageUrls?.first ?? '',
+                              )
+                            : const SizedBox(),
+                      ),
+                      Expanded(
+                        child: favorites.length > 1
+                            ? RoundedImage(
+                                assetPath: favorites[1].imageUrls?.first ?? '',
+                                isTopRight: true,
+                              )
+                            : const SizedBox(),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: favorites.length > 2
+                            ? RoundedImage(
+                                assetPath: favorites[2].imageUrls?.first ?? '',
+                                isBottomLeft: true,
+                              )
+                            : const SizedBox(),
+                      ),
+                      Expanded(
+                        child: favorites.length > 3
+                            ? RoundedImage(
+                                assetPath: favorites[3].imageUrls?.first ?? '',
+                                isBottomRight: true,
+                              )
+                            : const SizedBox(),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             Positioned(
               bottom: 0,
               left: 0,
@@ -84,7 +108,7 @@ class CustomGridView extends StatelessWidget {
                 padding: EdgeInsets.all(10.sp),
                 alignment: Alignment.centerRight,
                 child: Text(
-                  tag.name,
+                  tag.name ?? '',
                   style: GoogleFonts.tajawal(
                     textStyle: TextStyle(
                       color: Colors.black,

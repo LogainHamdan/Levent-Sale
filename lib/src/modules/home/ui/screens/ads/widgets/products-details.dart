@@ -15,34 +15,45 @@ class ProductsDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scrollProvider = context.read<HomeProvider>();
-
     scrollProvider.scrollToEnd();
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-      child: SingleChildScrollView(
-        reverse: true,
-        controller: scrollProvider.scrollController,
-        child: GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 8.0,
-            mainAxisSpacing: 8.0,
-            childAspectRatio: 0.8,
-          ),
-          itemCount: productList!.length,
-          itemBuilder: (context, index) {
-            return ProductItem(
-              spacecUnderPic: true,
-              hasDiscount: false,
-              product: productList!.reversed.toList()[index],
-              category: '',
-            );
-          },
-        ),
-      ),
+      child: productList != null && productList!.isNotEmpty
+          ? SingleChildScrollView(
+              reverse: true,
+              controller: scrollProvider.scrollController,
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 8.0,
+                  childAspectRatio: 0.8,
+                ),
+                itemCount: productList!.length,
+                itemBuilder: (context, index) {
+                  return ProductItem(
+                    spacecUnderPic: true,
+                    hasDiscount: false,
+                    product: productList![index],
+                    category: '',
+                  );
+                },
+              ),
+            )
+          : Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 50.h),
+                child: Text(
+                  'لا يوجد اعلانات هنا',
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                  ),
+                ),
+              ),
+            ),
     );
   }
 }

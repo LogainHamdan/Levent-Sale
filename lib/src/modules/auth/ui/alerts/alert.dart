@@ -33,9 +33,12 @@ import '../../../home/models/address.dart';
 import '../../../home/ui/screens/evaluation/widgets/img-picker.dart';
 import '../../../main/ui/screens/main_screen.dart';
 import '../../../main/ui/screens/provider.dart';
+import '../../../more/models/tag.dart';
 import '../../../more/ui/screens/edit-profile/provider.dart';
 import '../../../more/ui/screens/edit-profile/widgets/title-cancel.dart';
+import '../../../sections/ui/screens/section-details/widgets/custom-dropdown.dart';
 import '../screens/login/widgets/confrm-cancel-button.dart';
+import '../screens/sign-up/widgets/custom-dropdowm.dart';
 import '../screens/sign-up/widgets/custom-pass-field.dart';
 import '../screens/sign-up/widgets/custom-text-field.dart';
 import '../screens/splash/widgets/custom-elevated-button.dart';
@@ -609,14 +612,14 @@ void _showLocationPermissionDialog(BuildContext context) {
   );
 }
 
-showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
+showAddToFavoriteAlert(BuildContext context, dynamic adId, String tagId) async {
+  final token = await TokenHelper.getToken();
   await showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder: (BuildContext sheetContext) {
       final mediaQuery = MediaQuery.of(sheetContext);
-      final screenHeight = mediaQuery.size.height;
       final favoriteProvider = Provider.of<FavoriteProvider>(
         sheetContext,
         listen: false,
@@ -635,7 +638,6 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
               left: 0,
               right: 0,
               child: Container(
-                height: screenHeight * 0.35,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(
@@ -650,8 +652,13 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        Text(
+                          textAlign: TextAlign.center,
+                          "احفظ في قائمة المفضلة",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         GestureDetector(
                           onTap: () => Navigator.of(sheetContext).pop(),
                           child: Padding(
@@ -665,23 +672,29 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
                         ),
                       ],
                     ),
-                    const Text(
-                      "احفظ في قائمة المفضلة",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10.h),
-                    Container(
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: Center(
-                        child: Text(
-                          favoriteProvider.tagController.text,
-                          style: TextStyle(color: Color(0xFF212121)),
-                        ),
-                      ),
+                    SizedBox(height: 20.h),
+                    FutureBuilder(
+                      future:
+                          Provider.of<FavoriteProvider>(context, listen: false)
+                              .fetchTags(token ?? ''),
+                      builder: (context, snapshot) {
+                        final provider = Provider.of<FavoriteProvider>(context);
+                        final tagNames =
+                            provider.tags.map((e) => e.name).toList();
+
+                        return CustomDropdownSection(
+                            hint: "اختر التشكيلة",
+                            items: tagNames,
+                            dropdownKey: "tagDropdown",
+                            create: true,
+                            onItemSelected: (selectedItem) {
+                              final tag = favoriteProvider.tags.firstWhere(
+                                  (tag) => tag.name == selectedItem);
+                              print(favoriteProvider.tags);
+                              print(tag.name);
+                              favoriteProvider.setSelectedTag(tag);
+                            });
+                      },
                     ),
                     SizedBox(height: 16.h),
                     CustomElevatedButton(
@@ -690,11 +703,10 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
                       textColor: grey9,
                       onPressed: () async {
                         print(
-                            'Selected Tag ID: ${favoriteProvider.selectedTag?.id ?? 'No tag selected'}');
+                            'Selected Tag: ${favoriteProvider.selectedTag?.name ?? 'No tag selected'}');
                         try {
                           final token = await TokenHelper.getToken();
                           print(token);
-                          favoriteProvider.fetchTags(token ?? '');
                           print(favoriteProvider.tags);
                           if (sheetContext.mounted) {
                             if (favoriteProvider.selectedTag != null) {
@@ -702,11 +714,11 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
                               await favoriteProvider.addToTag(
                                 adId: adId,
                                 authorizationToken: token ?? '',
-                                tagId: favoriteProvider.selectedTag!.id,
+                                tagId: favoriteProvider.selectedTag!.id ?? '',
                               );
                               if (sheetContext.mounted) {
-                                Navigator.pop(sheetContext);
-                                ScaffoldMessenger.of(sheetContext).showSnackBar(
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content:
                                         Text('تمت الإضافة إلى المفضلة بنجاح'),
@@ -714,9 +726,12 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
                                 );
                               }
                             } else {
-                              ScaffoldMessenger.of(sheetContext).showSnackBar(
-                                const SnackBar(
-                                  content: Text('الرجاء اختيار التشكيلة'),
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: errorColor,
+                                  content: Text(
+                                    'الرجاء اختيار التشكيلة',
+                                  ),
                                 ),
                               );
                             }
@@ -725,7 +740,7 @@ showAddToFavoriteAlert(BuildContext context, int adId, String tagId) async {
                           if (sheetContext.mounted) {
                             ScaffoldMessenger.of(sheetContext).showSnackBar(
                               SnackBar(
-                                content: Text('حدث خطأ: ${e.toString()}'),
+                                content: Text('الإعلان بالمفضلة بالفعل'),
                               ),
                             );
                           }
@@ -821,9 +836,10 @@ void showNewCollectionAlert(
                           );
                           return;
                         }
-                        print('to create');
 
-                        provider.createTag(tagName, token ?? '');
+                        await provider.createTag(tagName, token ?? '');
+
+                        await provider.fetchTags(token ?? '');
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(

@@ -14,9 +14,9 @@ const String loginUrl = "$baseUrl/users/login";
 const String googleLoginUrl = "$baseUrl/users/google-login";
 const String requestUpdatePassUrl = "$baseUrl/users/request-password-reset";
 const String signUpUrl = "$baseUrl/users/register";
-// const String signUpBusinessOwnerUrl = "$baseUrl/users/register-business-owner";
 const String verifyUrl = "$baseUrl/users/verify";
 const String resendVerifyUrl = "$baseUrl/users/resend-verification-code";
+const String getUserUrl = "$baseUrl/users";
 
 ///follow
 const String unfollowUrl = "$baseUrl/users/unfollow";

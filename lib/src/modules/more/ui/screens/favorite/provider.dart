@@ -12,7 +12,7 @@ class FavoriteProvider with ChangeNotifier {
   final FavoriteRepository repo = FavoriteRepository();
   List<TagModel> tags = [];
   TagModel? selectedTag;
-  List<AdModel> favorites = [];
+  Map<String, List<AdModel>> tagFavorites = {};
   bool isLoading = false;
   String errorMessage = '';
   TextEditingController tagController = TextEditingController();
@@ -70,17 +70,22 @@ class FavoriteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchFavoritesByTag(String token, String tagId) async {
+  Future<void> fetchFavoritesByTag({
+    required String token,
+    required String tagId,
+  }) async {
+    if (tagFavorites.containsKey(tagId)) return;
+
     isLoading = true;
+    notifyListeners();
 
     try {
-      final result = await repo.getFavoritesByTag(token, tagId);
-      favorites = result['favorites'];
-      final statusCode = result['statusCode'];
-
-      print('Status Code: $statusCode');
+      final result = await repo.getFavoritesByTag(token: token, tagId: tagId);
+      tagFavorites[tagId] = result;
+      errorMessage = '';
     } catch (e) {
-      print('Error: ${e.toString()}');
+      errorMessage = e.toString();
+      print('Error fetching favs by tag: $errorMessage');
     } finally {
       isLoading = false;
       notifyListeners();
@@ -105,12 +110,19 @@ class FavoriteProvider with ChangeNotifier {
     return null;
   }
 
-  Future<void> deleteFavorite(String favid) async {
+  Future<void> deleteFavorite(
+      {required String favid, required String token}) async {
     notifyListeners();
 
     try {
-      final response = await repo.deleteFavorite(favid);
-      print(response.data);
+      final response = await repo.deleteFavorite(token: token, favid: favid);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print(response.data);
+        print('delete fav done: ${response.data}');
+      } else {
+        print('delete fav failed: ${response.data}');
+      }
     } on DioException catch (e) {
       print(e.response?.statusCode);
     }
@@ -128,23 +140,22 @@ class FavoriteProvider with ChangeNotifier {
         adId: adId,
         authorizationToken: authorizationToken,
       );
-      print('API response: ${response.statusCode}'); // Debug print
+      print('check: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         favoriteStatus[adId] = response.data is bool ? response.data : false;
-        print('Favorite status: ${favoriteStatus[adId]}'); // Debug print
+        print('Favorite status: ${favoriteStatus[adId]}');
       } else {
-        print('Unexpected status code: ${response.statusCode}'); // Debug print
+        print('Unexpected status code: ${response.statusCode}');
         favoriteStatus[adId] = false;
       }
     } on DioException catch (e) {
-      print('DioError: ${e.message}'); // More detailed error print
-      print('Error type: ${e.type}'); // DioError type
-      print(
-          'Error response: ${e.response?.statusCode}'); // Response if available
+      print('DioError: ${e.message}');
+      print('Error type: ${e.type}');
+      print('Error response: ${e.response?.statusCode}');
       favoriteStatus[adId] = false;
     } catch (e) {
-      print('General error: $e'); // Catch any other exceptions
+      print('General error: $e');
       favoriteStatus[adId] = false;
     }
   }
@@ -162,8 +173,7 @@ class FavoriteProvider with ChangeNotifier {
         authorizationToken: authorizationToken,
         tagId: tagId,
       );
-
-      print('Status code: ${response.statusCode}');
+      print('data:${response.data.toString()}');
       if (response.statusCode == 200) {
         print(response.data['favoriteId'] ?? response.data['id']);
       } else {

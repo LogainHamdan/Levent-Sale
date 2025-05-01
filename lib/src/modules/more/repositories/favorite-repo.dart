@@ -11,12 +11,13 @@ class FavoriteRepository {
   FavoriteRepository._internal();
 
   factory FavoriteRepository() => _instance;
+
   Future<List<TagModel>?> getFavoriteTags(String token) async {
     try {
       final response = await _dio.get(
         getTagsUrl,
         options: Options(headers: {
-          'Authorization': 'Bearer $token',
+          'Authorization': token,
         }),
       );
       print("Response data: ${response.data}");
@@ -33,24 +34,22 @@ class FavoriteRepository {
     }
   }
 
-  Future<Map<String, dynamic>> getFavoritesByTag(
-      String token, String tagId) async {
+  Future<List<AdModel>> getFavoritesByTag({
+    required String token,
+    required String tagId,
+  }) async {
     try {
       final response = await _dio.get(
         getFavoritesByTagUrl,
         options: Options(
-          headers: {'Authorization': 'Bearer $token'},
+          headers: {'Authorization': token},
         ),
         queryParameters: {'tagId': tagId},
       );
 
-      final data = response.data as List;
-      final favorites = data.map((item) => AdModel.fromJson(item)).toList();
-
-      return {
-        'favorites': favorites,
-        'statusCode': response.statusCode,
-      };
+      return (response.data as List)
+          .map((json) => AdModel.fromJson(json))
+          .toList();
     } on DioException catch (e) {
       throw Exception(e.response?.data['message'] ?? 'Unknown error');
     }
@@ -65,9 +64,14 @@ class FavoriteRepository {
     );
   }
 
-  Future<Response> deleteFavorite(String favid) async {
+  Future<Response> deleteFavorite(
+      {required String token, required String favid}) async {
     try {
-      final response = await _dio.delete('$removeFromFavUrl/$favid');
+      final response = await _dio.delete('$removeFromFavUrl/$favid',
+          options: Options(headers: {
+            'Authorization': token,
+          }),
+          queryParameters: {'favid': favid});
       return response;
     } on DioException catch (e) {
       throw e;
@@ -75,7 +79,7 @@ class FavoriteRepository {
   }
 
   Future<Response> checkFavoriteStatus({
-    required int adId,
+    required dynamic adId,
     required String authorizationToken,
   }) async {
     final response = await _dio.get(
@@ -95,13 +99,12 @@ class FavoriteRepository {
     try {
       final response = await _dio.post(
         '$addToTagUrl/$adId',
-        options: Options(headers: {
-          'Authorization': 'Bearer $authorizationToken',
-        }),
-        data: {
-          'tagId': tagId,
-          'adId': adId,
-        },
+        options: Options(
+          headers: {
+            'Authorization': authorizationToken,
+          },
+        ),
+        queryParameters: {'adId': adId, 'tagId': tagId},
       );
       return response;
     } on DioException catch (e) {

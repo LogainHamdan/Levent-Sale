@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,25 +11,47 @@ import '../../../../home/ui/screens/home/widgets/search-field.dart';
 import '../../../../sections/models/ad.dart';
 import '../favorite/provider.dart';
 
-class FavoriteCollectionScreen extends StatelessWidget {
+class FavoriteCollectionScreen extends StatefulWidget {
   static const id = '/fav-collection';
   final String tagId;
 
   const FavoriteCollectionScreen({super.key, required this.tagId});
 
   @override
+  State<FavoriteCollectionScreen> createState() =>
+      _FavoriteCollectionScreenState();
+}
+
+class _FavoriteCollectionScreenState extends State<FavoriteCollectionScreen> {
+  bool isInitialized = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!isInitialized) {
+      final provider = context.read<FavoriteProvider>();
+      TokenHelper.getToken().then((token) {
+        provider.fetchFavoritesByTag(token: token ?? '', tagId: widget.tagId);
+      });
+      isInitialized = true;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final provider = context.watch<FavoriteProvider>();
+    final favorites = provider.tagFavorites[widget.tagId] ?? [];
 
-    final filteredFavorites = provider.favorites;
-
-    if (provider.isLoading) {
-      return const Center(child: CircularProgressIndicator());
+    if (provider.isLoading && favorites.isEmpty) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
 
-    if (filteredFavorites.isEmpty) {
-      return const Center(
-          child: Text('No favorites found for this collection.'));
+    if (favorites.isEmpty) {
+      return const Scaffold(
+        body: Center(child: Text('لا يوجد اعلانات مفضلة لهذه التشكيلة')),
+      );
     }
 
     return Scaffold(
@@ -38,12 +61,12 @@ class FavoriteCollectionScreen extends StatelessWidget {
         leading: Padding(
           padding: EdgeInsets.only(left: 20.0.w),
           child: InkWell(
-            onTap: () => deleteCollectionAlert(context, tagId),
+            onTap: () => deleteCollectionAlert(context, widget.tagId),
             child: SvgPicture.asset(deleteCollectionIcon, height: 20.h),
           ),
         ),
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-        title: TitleRow(title: 'المفضلة'),
+        title: const TitleRow(title: 'المفضلة'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -57,7 +80,7 @@ class FavoriteCollectionScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 12.h),
-              ProductsDetails(productList: filteredFavorites),
+              ProductsDetails(productList: favorites),
             ],
           ),
         ),

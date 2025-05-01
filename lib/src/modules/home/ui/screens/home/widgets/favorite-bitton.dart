@@ -18,7 +18,7 @@ import '../../../../../auth/repos/token-helper.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
 import '../../../../../sections/models/ad.dart';
 
-class CustomButton extends StatelessWidget {
+class CustomButton extends StatefulWidget {
   final bool favIcon;
   final AdModel ad;
 
@@ -29,73 +29,99 @@ class CustomButton extends StatelessWidget {
   });
 
   @override
+  State<CustomButton> createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> {
+  bool? isFav;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFavoriteStatus();
+  }
+
+  Future<void> _loadFavoriteStatus() async {
+    final token = await TokenHelper.getToken();
+    if (token != null && widget.favIcon) {
+      final provider = Provider.of<FavoriteProvider>(context, listen: false);
+      final adId = widget.ad.id ?? 0;
+      await provider.checkFavoriteStatus(adId: adId, authorizationToken: token);
+      setState(() {
+        isFav = provider.isFavorite(adId);
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String?>(
-      future: TokenHelper.getToken(),
-      builder: (context, tokenSnapshot) {
-        final favoriteProvider =
-            Provider.of<FavoriteProvider>(context, listen: false);
+    final favoriteProvider =
+        Provider.of<FavoriteProvider>(context, listen: false);
 
-        final token = tokenSnapshot.data;
-
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(18.r),
-          child: InkWell(
-            onTap: () async {
-              try {
-                if (token == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'يجب تسجيل الدخول أولاً',
-                      ),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                  return;
-                }
-
-                if (favoriteProvider.isFavorite(ad.id ?? 0)) {
-                  await favoriteProvider.deleteFavorite('');
-                } else {
-                  await showAddToFavoriteAlert(
-                      context, ad.id ?? 0, ad.tagId ?? '');
-                }
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('حدث خطأ: ${e.toString()}')),
-                  );
-                }
-              }
-            },
-            customBorder: const CircleBorder(),
-            child: CircleAvatar(
-              radius: 14.w,
-              backgroundColor: Colors.white,
-              child: Center(
-                child: favIcon
-                    ? (favoriteProvider.isFavorite(ad.id ?? 0)
-                        ? SvgPicture.asset(
-                            favColoredPath,
-                            height: 14.h,
-                            width: 14.w,
-                          )
-                        : SvgPicture.asset(
-                            favUncoloredPath,
-                            height: 16.h,
-                            width: 16.w,
-                          ))
-                    : SvgPicture.asset(
-                        shareIcon, // مثلا إذا favIcon == false، ممكن يظهر shareIcon
-                        height: 16.h,
-                        width: 16.w,
-                      ),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(18.r),
+      child: InkWell(
+        onTap: () async {
+          final token = await TokenHelper.getToken();
+          if (token == null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('يجب تسجيل الدخول أولاً'),
+                backgroundColor: Colors.red,
               ),
-            ),
+            );
+            return;
+          }
+
+          final adId = widget.ad.id ?? 0;
+
+          await favoriteProvider.checkFavoriteStatus(
+            adId: adId,
+            authorizationToken: token,
+          );
+
+          if (favoriteProvider.isFavorite(adId)) {
+            await favoriteProvider.deleteFavorite(token: token, favid: '$adId');
+          } else {
+            await showAddToFavoriteAlert(
+              context,
+              adId,
+              widget.ad.tagId ?? '',
+            );
+          }
+
+          setState(() {
+            isFav = favoriteProvider.isFavorite(adId);
+          });
+        },
+        customBorder: const CircleBorder(),
+        child: CircleAvatar(
+          radius: 14.w,
+          backgroundColor: Colors.white,
+          child: Center(
+            child: widget.favIcon
+                ? _buildFavoriteIcon()
+                : SvgPicture.asset(
+                    shareIcon,
+                    height: 16.h,
+                    width: 16.w,
+                  ),
           ),
-        );
-      },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFavoriteIcon() {
+    if (isFav == null) {
+      // Still loading status
+      return CircularProgressIndicator(strokeWidth: 1.5);
+    }
+
+    return SvgPicture.asset(
+      isFav! ? favColoredPath : favUncoloredPath,
+      height: 14.h,
+      width: 14.w,
     );
   }
 }

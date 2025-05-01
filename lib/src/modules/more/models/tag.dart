@@ -1,12 +1,12 @@
 class TagModel {
-  final String id;
-  final int userId;
-  final String name;
+  final String? id;
+  final int? userId;
+  final String? name;
 
   TagModel({
-    required this.id,
-    required this.userId,
-    required this.name,
+    this.id,
+    this.userId,
+    this.name,
   });
 
   factory TagModel.fromJson(Map<String, dynamic> json) {

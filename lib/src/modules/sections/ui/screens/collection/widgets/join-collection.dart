@@ -14,27 +14,25 @@ class JoinMyCollection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<MyCollectionScreenProvider>(context);
-    return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 60.h,
-            child: TabBarWidget(), // fix infinite layout issue
+    return Column(
+      children: [
+        SizedBox(
+          height: 60.h,
+          child: TabBarWidget(),
+        ),
+        SizedBox(height: 16.h),
+        Expanded(
+          child: PageView(
+            controller: provider.pageController,
+            onPageChanged: provider.updateIndex,
+            children: const [
+              ReviewScreen(),
+              EditScreen(),
+              ViewScreen(),
+            ],
           ),
-          SizedBox(height: 16.h),
-          Expanded(
-            child: PageView(
-              controller: provider.pageController,
-              onPageChanged: provider.updateIndex,
-              children: const [
-                ReviewScreen(),
-                EditScreen(),
-                ViewScreen(),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
