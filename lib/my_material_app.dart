@@ -40,7 +40,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+// import 'package:flutter_quill/flutter_quill.dart';
 // import 'package:flutter_quill/flutter_quill.dart';
 
 // import 'package:flutter_quill/flutter_quill.dart';
@@ -66,7 +66,7 @@ class MyMaterialApp extends StatelessWidget {
           textDirection: TextDirection.rtl,
           child: MaterialApp(
             localizationsDelegates: const [
-              FlutterQuillLocalizations.delegate,
+              // FlutterQuillLocalizations.delegate,
             ],
             navigatorKey: SharedData.navigationKey,
             debugShowCheckedModeBanner: false,
@@ -94,7 +94,7 @@ class MyMaterialApp extends StatelessWidget {
                     fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            initialRoute: LoginScreen.id,
+            initialRoute: MainScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               MainScreen.id: (context) => MainScreen(),

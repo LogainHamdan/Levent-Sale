@@ -25,8 +25,35 @@ class AdRepository {
       ad.toJson(),
     );
     final formData = FormData.fromMap({
-      'adDTO': jsonEncode(adModelJson),
-
+      'adDTO': {
+        "title": "qweads",
+        "categoryPath": "1",
+        "categoryNamePath": "العقارات",
+        "description": "asdasdasdas",
+        "longDescription": "",
+        "tradePossible": null,
+        "negotiable": null,
+        "contactPhone": "+970592078540",
+        "contactEmail": "logain.s.hamdan@ieee.org",
+        "userId": 157,
+        "price": 10.0,
+        "governorate": "",
+        "city": "مدينة دمشق",
+        "fullAddress": "",
+        "adType": "NEW",
+        "preferredContactMethod": "CALL",
+        "condition": "PUBLISHED",
+        "currency": "SYP",
+        "attributes": {
+          "gross_area": "10",
+          "net_area": "10",
+          "room_type": "1+0 (استوديو)",
+          "floor_number": "قبو",
+          "furnishing": "مفروشة بالكامل",
+          "bathroom_count": "1",
+          "contract_type": "سنوي"
+        },
+      },
       // Properly attach files
       'files': await _prepareFiles(images),
     });
