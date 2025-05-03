@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../auth/models/user.dart';
 import '../follow/provider.dart';
 
 class ProfileScreen extends StatelessWidget {

@@ -56,8 +56,8 @@ class MainScreen extends StatelessWidget {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await provider.fetchCategories();
       await homeProvider.loadAds();
+      await provider.fetchCategories();
     });
 
     return Scaffold(

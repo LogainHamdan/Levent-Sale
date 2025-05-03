@@ -11,11 +11,13 @@ class HomeProvider extends ChangeNotifier {
   RootCategoryModel? _selectedCategory;
   AdRepository repo = AdRepository();
   List<AdModel> allAds = [];
+  AdModel? _selectedAd;
 
   bool isLoading = false;
   String? error;
 
   int get currentIndex => _currentIndex;
+  AdModel? get selectedAd => _selectedAd;
 
   RootCategoryModel? get selectedCategory => _selectedCategory;
 
@@ -24,6 +26,11 @@ class HomeProvider extends ChangeNotifier {
   void toggleFavorite(String productKey) {
     _favorites[productKey] =
         !_favorites.containsKey(productKey) || !_favorites[productKey]!;
+    notifyListeners();
+  }
+
+  void selectAd(AdModel ad) {
+    _selectedAd = ad;
     notifyListeners();
   }
 
@@ -81,5 +88,27 @@ class HomeProvider extends ChangeNotifier {
 
     isLoading = false;
     notifyListeners();
+  }
+
+  Future<AdModel?> getAdById(int id) async {
+    isLoading = true;
+    error = null;
+
+    try {
+      final ad = await repo.getAdById(id: id);
+
+      if (ad != null) {
+        _selectedAd = ad;
+        return ad;
+      } else {
+        error = "Failed to load ad: empty or invalid response.";
+        return null;
+      }
+    } catch (e) {
+      error = "Exception while loading ad: $e";
+      return null;
+    } finally {
+      isLoading = false;
+    }
   }
 }

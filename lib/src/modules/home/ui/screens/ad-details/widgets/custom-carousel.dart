@@ -12,10 +12,9 @@ import '../provider.dart';
 
 class CustomCarousel extends StatelessWidget {
   final String productKey = "iphone_14_pro_max";
-  final AdModel ad;
-  final List<String> imgList;
+  final AdModel? ad;
 
-  const CustomCarousel({super.key, required this.imgList, required this.ad});
+  const CustomCarousel({super.key, this.ad});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,8 @@ class CustomCarousel extends StatelessWidget {
                         carouselProvider.updateIndex(index);
                       },
                     ),
-                    items: imgList.map((item) {
+                    items: ad?.imageUrls?.map((item) {
+                      print('images paths: ${ad?.imageUrls.toString()}');
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(4.0.r),
                         child: Image.network(
@@ -75,7 +75,7 @@ class CustomCarousel extends StatelessWidget {
                               height: 16.h,
                             ),
                             Text(
-                              "${carouselProvider.currentIndex + 1}/${imgList.length}",
+                              "${carouselProvider.currentIndex + 1}/${ad?.imageUrls?.length}",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18.sp,

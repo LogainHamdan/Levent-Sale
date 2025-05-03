@@ -11,7 +11,6 @@ import '../../../models/followers.dart';
 import '../../../models/following.dart';
 
 class FollowProvider extends ChangeNotifier {
-  final GetFollowRepository getFollowRepository = GetFollowRepository();
   final FollowRepository followRepository = FollowRepository();
   final String authToken = '';
 
@@ -33,7 +32,7 @@ class FollowProvider extends ChangeNotifier {
     _isFollowersLoading = true;
     notifyListeners();
     try {
-      _followers = await getFollowRepository.getFollowers(userId);
+      _followers = await followRepository.getFollowers(userId);
     } catch (e) {
       _followers = [];
       print('Error fetching followers: $e');
@@ -49,7 +48,7 @@ class FollowProvider extends ChangeNotifier {
 
     try {
       _followingUsers =
-          await getFollowRepository.getFollowingUsers(userId, authToken);
+          await followRepository.getFollowingUsers(userId, authToken);
     } catch (e) {
       print('Error fetching following users: $e');
     } finally {
@@ -61,8 +60,9 @@ class FollowProvider extends ChangeNotifier {
   Future<void> toggleFollowProfile(BuildContext context,
       {required int followingId, required String token}) async {
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    final user =
-        await loginProvider.getUserById(id: followingId, token: token ?? '');
+    final user = await loginProvider.getUserById(
+      id: followingId,
+    );
     try {
       final response = (user?.isFollowing ?? false)
           ? await followRepository.unfollowUser(

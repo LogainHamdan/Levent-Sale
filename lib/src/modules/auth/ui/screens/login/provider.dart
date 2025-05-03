@@ -182,9 +182,9 @@ class LoginProvider extends ChangeNotifier {
     }
   }
 
-  Future<User?> getUserById({required int id, required String token}) async {
+  Future<User?> getUserById({required int id}) async {
     try {
-      final userData = await _authRepository.getUserById(id: id, token: token);
+      final userData = await _authRepository.getUserById(id: id);
       return userData;
     } catch (e) {
       return null;
@@ -238,12 +238,12 @@ class LoginProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> requestPasswordReset(String email) async {
+  Future<void> requestPasswordReset({required String email}) async {
     _setLoading(true);
     _setErrorMessage(null);
 
     try {
-      final response = await _authRepository.requestPasswordReset(email);
+      final response = await _authRepository.requestPasswordReset(email: email);
       print(response.statusCode);
       if (response.statusCode == 200) {
         debugPrint("Password reset email sent.");
@@ -252,6 +252,7 @@ class LoginProvider extends ChangeNotifier {
       }
     } catch (e) {
       _setErrorMessage("Error: $e");
+      print(e.toString());
     } finally {
       _setLoading(false);
     }

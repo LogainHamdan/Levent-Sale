@@ -27,7 +27,7 @@ class EditScreen extends StatelessWidget {
           MaterialPageRoute(
               builder: (context) => AdDetailsScreen(
                     toUpdate: true,
-                    ad: AdModel(),
+                    adId: 0,
                   ))),
       buttonIcon: provider.buttonIcon,
       buttonTextColor: provider.buttonTextColor,

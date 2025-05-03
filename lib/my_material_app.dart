@@ -40,10 +40,8 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_quill/flutter_quill.dart';
-// import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
-// import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,7 +64,7 @@ class MyMaterialApp extends StatelessWidget {
           textDirection: TextDirection.rtl,
           child: MaterialApp(
             localizationsDelegates: const [
-              // FlutterQuillLocalizations.delegate,
+              FlutterQuillLocalizations.delegate,
             ],
             navigatorKey: SharedData.navigationKey,
             debugShowCheckedModeBanner: false,
@@ -94,7 +92,7 @@ class MyMaterialApp extends StatelessWidget {
                     fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            initialRoute: MainScreen.id,
+            initialRoute: LoginScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
               MainScreen.id: (context) => MainScreen(),
@@ -102,10 +100,11 @@ class MyMaterialApp extends StatelessWidget {
               SignUpScreen.id: (context) => SignUpScreen(),
               VerificationScreen.id: (context) => VerificationScreen(),
               HomeScreen.id: (context) => HomeScreen(),
+              HomeScreen.id: (context) => HomeScreen(),
               AdsScreen.id: (context) => AdsScreen(),
               ReviewsScreen.id: (context) => ReviewsScreen(),
               AdDetailsScreen.id: (context) => AdDetailsScreen(
-                    ad: AdModel(),
+                    adId: 0,
                   ),
               ChatListScreen.id: (context) => ChatListScreen(),
               ConversationScreen.id: (context) =>
@@ -139,7 +138,6 @@ class MyMaterialApp extends StatelessWidget {
                     as Map<String, dynamic>;
                 return FriendProfile(
                   user: User(),
-                  token: args['token'],
                 );
               },
               FollowingScreen.id: (context) => FollowingScreen(),

@@ -39,29 +39,31 @@ class MyCollectionScreen extends StatelessWidget {
       ),
       body: SafeArea(
         bottom: false,
-        child: Column(
-          children: [
-            SizedBox(height: 16.h),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 16.h),
 
-            homeProvider.allAds.isEmpty
-                ? EmptyWidget(
-                    msg: 'إعلاناتي فارغة',
-                    img: emptyAdsIcon,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0.w),
-                      child: CustomElevatedButton(
-                        text: 'ابدأ في انشاء إعلانك',
-                        onPressed: () =>
-                            Navigator.pushNamed(context, CreateAdScreen.id),
-                        backgroundColor: kprimaryColor,
-                        textColor: grey9,
-                        date: false,
+              homeProvider.allAds.isEmpty
+                  ? EmptyWidget(
+                      msg: 'إعلاناتي فارغة',
+                      img: emptyAdsIcon,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+                        child: CustomElevatedButton(
+                          text: 'ابدأ في انشاء إعلانك',
+                          onPressed: () =>
+                              Navigator.pushNamed(context, CreateAdScreen.id),
+                          backgroundColor: kprimaryColor,
+                          textColor: grey9,
+                          date: false,
+                        ),
                       ),
-                    ),
-                  )
-                : JoinMyCollection(),
-            // CustomBottomNavigationBar()
-          ],
+                    )
+                  : JoinMyCollection(),
+              // CustomBottomNavigationBar()
+            ],
+          ),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:Levant_Sale/src/modules/sections/repos/attributes.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:image_picker/image_picker.dart';
 
 import '../../../models/attriburtes.dart';
@@ -24,9 +24,9 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   final Map<String, TextEditingController> dynamicFieldControllers = {};
 
   List<File> get selectedImages => _selectedImages;
-  // final quill.QuillController _controller = quill.QuillController.basic();
+  final quill.QuillController _controller = quill.QuillController.basic();
 
-  // quill.QuillController get controller => _controller;
+  quill.QuillController get controller => _controller;
 
   Map<int, bool> get services => _services;
 

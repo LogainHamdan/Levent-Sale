@@ -15,67 +15,38 @@ class AdRepository {
   }
 
   factory AdRepository() => _instance;
-  Future<Response> createAd({
+  Future<AdModel?> createAd({
     required AdModel ad,
     required List<File> images,
     required String token,
   }) async {
-    final adModelJson = ad.toJson();
-    print(
-      ad.toJson(),
-    );
-    final formData = FormData.fromMap({
-      'adDTO': {
-        "title": "qweads",
-        "categoryPath": "1",
-        "categoryNamePath": "العقارات",
-        "description": "asdasdasdas",
-        "longDescription": "",
-        "tradePossible": null,
-        "negotiable": null,
-        "contactPhone": "+970592078540",
-        "contactEmail": "logain.s.hamdan@ieee.org",
-        "userId": 157,
-        "price": 10.0,
-        "governorate": "",
-        "city": "مدينة دمشق",
-        "fullAddress": "",
-        "adType": "NEW",
-        "preferredContactMethod": "CALL",
-        "condition": "PUBLISHED",
-        "currency": "SYP",
-        "attributes": {
-          "gross_area": "10",
-          "net_area": "10",
-          "room_type": "1+0 (استوديو)",
-          "floor_number": "قبو",
-          "furnishing": "مفروشة بالكامل",
-          "bathroom_count": "1",
-          "contract_type": "سنوي"
-        },
-      },
-      // Properly attach files
-      'files': await _prepareFiles(images),
-    });
-    print(formData.fields);
     try {
+      final formData = FormData();
+
+      formData.fields.add(MapEntry('adDTO', jsonEncode(ad.toJson())));
+
+      final imageFiles = await _prepareFiles(images);
+
+      for (var file in imageFiles) {
+        formData.files.add(MapEntry('files', file));
+      }
+
       final response = await dio.post(
         createAdUrl,
         data: formData,
         options: Options(
           headers: {
             'Authorization': token,
+            'Accept': '*/*',
+            'Content-Type': 'multipart/form-data',
           },
         ),
       );
-      final actualSize = response.requestOptions.headers['content-length'];
-      print("actualSize$actualSize");
-      return response;
+      return AdModel.fromJson(response.data);
     } on DioException catch (e) {
-      print(e);
-      print('Error: ${e.response?.statusCode}');
-      print('Message: ${e.message}');
-      print('Data: ${e.response?.data}');
+      print('Dio error: ${e.message}');
+      print('Status: ${e.response?.statusCode}');
+      print('Response: ${e.response?.data}');
       rethrow;
     }
   }
@@ -90,8 +61,8 @@ class AdRepository {
 
       multipartFiles.add(await MultipartFile.fromFile(
         image.path,
-        filename: 'image_${timestamp}_$i.$extension', // Unique filename
-        contentType: _getMediaType(extension), // Proper content type
+        filename: 'image_${timestamp}_$i.$extension',
+        contentType: _getMediaType(extension),
       ));
     }
 
@@ -142,6 +113,23 @@ class AdRepository {
         },
       );
       return response;
+    } catch (e) {
+      throw Exception('Repository API error: $e');
+    }
+  }
+
+  Future<AdModel?> getAdById({required int id}) async {
+    try {
+      final response = await dio.get("$getAdUrl/$id");
+      print("fetching the ad:${response.statusCode}");
+      if (response.statusCode == 200) {
+        print(response.data);
+
+        return AdModel.fromJson(response.data);
+      } else {
+        print('Failed to get ad. Status code: ${response.statusCode}');
+        return null;
+      }
     } catch (e) {
       throw Exception('Repository API error: $e');
     }

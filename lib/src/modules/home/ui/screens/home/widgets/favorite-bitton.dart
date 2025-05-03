@@ -20,12 +20,12 @@ import '../../../../../sections/models/ad.dart';
 
 class CustomButton extends StatefulWidget {
   final bool favIcon;
-  final AdModel ad;
+  final AdModel? ad;
 
   const CustomButton({
     super.key,
     required this.favIcon,
-    required this.ad,
+    this.ad,
   });
 
   @override
@@ -45,7 +45,7 @@ class _CustomButtonState extends State<CustomButton> {
     final token = await TokenHelper.getToken();
     if (token != null && widget.favIcon) {
       final provider = Provider.of<FavoriteProvider>(context, listen: false);
-      final adId = widget.ad.id ?? 0;
+      final adId = widget.ad?.id ?? 0;
       await provider.checkFavoriteStatus(adId: adId, authorizationToken: token);
       setState(() {
         isFav = provider.isFavorite(adId);
@@ -73,7 +73,7 @@ class _CustomButtonState extends State<CustomButton> {
             return;
           }
 
-          final adId = widget.ad.id ?? 0;
+          final adId = widget.ad?.id ?? 0;
 
           await favoriteProvider.checkFavoriteStatus(
             adId: adId,
@@ -86,7 +86,7 @@ class _CustomButtonState extends State<CustomButton> {
             await showAddToFavoriteAlert(
               context,
               adId,
-              widget.ad.tagId ?? '',
+              widget.ad?.tagId ?? '',
             );
           }
 

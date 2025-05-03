@@ -12,66 +12,31 @@ import '../../../repositories/user-profile-repo.dart';
 import '../follow/provider.dart';
 
 class ProfileProvider extends ChangeNotifier {
-  final UserProfileRepository repository = UserProfileRepository();
   final FollowRepository followRepository = FollowRepository();
 
   User? user;
   String? error;
 
-  Future<void> loadProfile(String token) async {
+  Future<User?> getProfile({required int userId}) async {
     try {
-      final response = await repository.getProfile(token);
-
-      if (response.statusCode == 200) {
-        user = User.fromJson(response.data);
-      } else {
-        error = "error ${response.statusCode}";
-        user = null;
-      }
-    } on DioException catch (e) {
-      user = null;
-      if (e.response != null) {
-        error = "${e.response?.statusCode}";
-        print(error);
-      } else {
-        error = "${e.message}";
-        print(error);
-      }
+      final user = await followRepository.getProfile(userId: userId);
+      print('user loaded successfully:${user?.username}');
+      error = null;
+      return user;
     } catch (e) {
+      print('user loaded:${user?.username}');
       user = null;
-      error = "$e";
-      print(error);
-    }
-    notifyListeners();
-  }
 
-  Future<void> loadUserProfile(String token, int userId) async {
-    try {
-      final response = await repository.getUserProfile(token, userId);
-
-      if (response.statusCode == 200) {
-        user = User.fromJson(response.data);
-        error = null;
+      if (e is DioException) {
+        error = "Error: ${e.message}";
       } else {
-        error = " ${response.statusCode}";
-        print(error);
+        error = "An unexpected error occurred: $e";
+      }
 
-        user = null;
-      }
-    } on DioException catch (e) {
-      user = null;
-      if (e.response != null) {
-        error = "${e.response?.statusCode}";
-      } else {
-        error = "${e.message}";
-        print(error);
-      }
-    } catch (e) {
-      user = null;
-      error = " $e";
       print(error);
-    }
+      notifyListeners();
 
-    notifyListeners();
+      return null;
+    }
   }
 }

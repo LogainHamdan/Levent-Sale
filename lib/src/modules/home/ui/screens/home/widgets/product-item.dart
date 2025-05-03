@@ -1,7 +1,9 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/ad-details.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import '../../../../../../config/constants.dart';
 import '../../ads/widgets/custom-rating.dart';
 import 'dicount-badge.dart';
@@ -31,12 +33,15 @@ class ProductItem extends StatelessWidget {
         (product.imageUrls != null && product.imageUrls!.isNotEmpty)
             ? product.imageUrls!.first
             : '';
-
+    final provider = Provider.of<HomeProvider>(context, listen: false);
     return InkWell(
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => AdDetailsScreen(ad: product))),
+      onTap: () {
+        provider.selectAd(product);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AdDetailsScreen(adId: product.id)));
+      },
       child: Container(
         height: height!.h,
         width: width!.w,

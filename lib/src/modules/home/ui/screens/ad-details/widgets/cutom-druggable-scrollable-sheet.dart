@@ -1,9 +1,11 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/friend-profile.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -40,15 +42,12 @@ class _CustomDraggableScrollableSheetState
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await homeProvider.loadAds();
-    });
+    print('user passed: ${widget.userId}');
 
     return token == null
         ? Center(child: CircularProgressIndicator())
         : FutureBuilder(
-            future: loginProvider.getUserById(id: widget.userId, token: token!),
+            future: loginProvider.getUserById(id: widget.userId),
             builder: (context, snapshot) {
               final user = snapshot.data;
               return DraggableScrollableSheet(
@@ -136,25 +135,26 @@ class _CustomDraggableScrollableSheetState
                                     SizedBox(width: 10.w),
                                     GestureDetector(
                                       onTap: () async {
-                                        if (token != null) {
-                                          final user =
-                                              await loginProvider.getUserById(
-                                                  id: widget.userId,
-                                                  token: token!);
-
-                                          if (user != null) {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    FriendProfile(
-                                                        user: user,
-                                                        token: token!),
-                                              ),
-                                            );
-                                          } else {
-                                            print('لا يوجد مستخدم');
-                                          }
+                                        final user = await loginProvider
+                                            .getUserById(id: widget.userId);
+                                        final currentUser =
+                                            await UserHelper.getUser();
+                                        if (user != null) {
+                                          widget.userId != currentUser?.id
+                                              ? Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        FriendProfile(
+                                                            user: user),
+                                                  ),
+                                                )
+                                              : Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ProfileScreen()),
+                                                );
                                         }
                                       },
                                       child: CircleAvatar(

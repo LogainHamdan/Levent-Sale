@@ -41,25 +41,24 @@ class CreateAdProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createAd({
+  Future<AdModel?> createAd({
     required AdModel ad,
     required List<File> images,
     required String token,
   }) async {
     try {
-      final response = await _repo.createAd(
+      final adCreated = await _repo.createAd(
         ad: ad,
         images: images,
         token: token,
       );
-      print(response.statusCode);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        print("AdCreatedSuccessfully");
-      } else {
-        print("AdCreatedFailed");
-      }
+
+      print("Ad Created: ${adCreated?.id}");
+
+      return adCreated;
     } catch (e) {
-      print("AdCreatedFailed");
+      print("Ad Created Failed: $e");
+      return null;
     }
   }
 }

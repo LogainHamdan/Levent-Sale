@@ -25,11 +25,11 @@ import 'widgets/simple-title.dart';
 import 'widgets/specifications.dart';
 
 class AdDetailsScreen extends StatelessWidget {
-  final AdModel ad;
+  final int adId;
   final bool? toUpdate;
   static const id = '/ad-details';
 
-  const AdDetailsScreen({super.key, this.toUpdate = false, required this.ad});
+  const AdDetailsScreen({super.key, this.toUpdate = false, required this.adId});
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +37,14 @@ class AdDetailsScreen extends StatelessWidget {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await homeProvider.loadAds();
+      await homeProvider.getAdById(adId);
     });
 
     return FutureBuilder(
         future: UserHelper.getUser(),
         builder: (context, snapshot) {
-          print(ad.userId);
+          final ad = homeProvider.selectedAd;
+          print("user id for ad:${ad?.userId}");
           if (!snapshot.hasData) {
             return Scaffold(
               body: Center(
@@ -57,7 +59,7 @@ class AdDetailsScreen extends StatelessWidget {
               leadingWidth: 40.w,
               leading: Row(
                 children: [
-                  if (user.id == ad.userId)
+                  if (user.id == ad?.userId)
                     InkWell(
                       onTap: () {
                         Navigator.pushNamed(context, UpdateAdScreen.id);
@@ -72,7 +74,7 @@ class AdDetailsScreen extends StatelessWidget {
               backgroundColor: Colors.white,
               titleTextStyle: Theme.of(context).textTheme.bodyLarge,
               title: TitleRow(
-                title: ad.title ?? '',
+                title: ad?.title ?? '',
               ),
             ),
             body: SafeArea(
@@ -89,56 +91,53 @@ class AdDetailsScreen extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CustomCarousel(
-                                      imgList: ad.imageUrls ?? [],
-                                      ad: ad,
-                                    ),
+                                    if (ad != null)
+                                      CustomCarousel(
+                                        ad: ad,
+                                      ),
                                     SizedBox(height: 24.0.h),
-                                    Directionality(
-                                      textDirection: TextDirection.ltr,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(right: 8.w),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              "${ad.price} ${ad.currency}",
-                                              style: TextStyle(
-                                                fontSize: 20.sp,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 8.w),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "${ad?.price} ${ad?.currency}",
+                                            style: TextStyle(
+                                              fontSize: 20.sp,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                            SizedBox(height: 5.h),
-                                            Text(
-                                              'نشر في ${ad.createdAt ?? ''}',
-                                              style: TextStyle(
+                                          ),
+                                          SizedBox(height: 5.h),
+                                          Text(
+                                            'نشر في ${ad?.createdAt ?? ''}',
+                                            style: TextStyle(
+                                              fontSize: 14.sp,
+                                              color: grey3,
+                                            ),
+                                          ),
+                                          CustomRating(
+                                            rateNum: true,
+                                            flexible: false,
+                                          ),
+                                          SizedBox(height: 8.h),
+                                          Text(
+                                            textDirection: TextDirection.rtl,
+                                            ad?.description ?? '',
+                                            maxLines: 4,
+                                            style: TextStyle(
                                                 fontSize: 14.sp,
-                                                color: grey3,
-                                              ),
-                                            ),
-                                            CustomRating(
-                                              rateNum: true,
-                                              flexible: false,
-                                            ),
-                                            SizedBox(height: 8.h),
-                                            Text(
-                                              ad.description ?? '',
-                                              maxLines: 4,
-                                              textDirection: TextDirection.rtl,
-                                              style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  color: grey2,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ],
-                                        ),
+                                                color: grey2,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     SizedBox(height: 24.h),
                                     SimpleTitle(title: 'التعريفات'),
                                     SizedBox(height: 16.h),
-                                    DetailsSection(ad: ad),
+                                    if (ad != null) DetailsSection(ad: ad),
                                     SizedBox(height: 24.h),
                                     SimpleTitle(title: 'الوصف'),
                                     SizedBox(height: 10.h),
@@ -210,7 +209,7 @@ class AdDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   CustomDraggableScrollableSheet(
-                    userId: ad.userId ?? user.id ?? 0,
+                    userId: ad?.userId ?? 0,
                   ),
                 ],
               ),

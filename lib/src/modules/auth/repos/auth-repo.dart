@@ -24,14 +24,13 @@ class AuthRepository {
     return await dio.post(signUpUrl, data: owner.toJson());
   }
 
-  Future<Response> requestPasswordReset(String email) async {
+  Future<Response> requestPasswordReset({required String email}) async {
     final String url = '$requestUpdatePassUrl/$email';
     try {
       final response = await dio.post(
         url,
         options: Options(
           headers: {
-            "Content-Type": "application/json",
             "Accept": "application/hal+json",
           },
           responseType: ResponseType.plain,
@@ -121,9 +120,11 @@ class AuthRepository {
     }
   }
 
-  Future<User?> getUserById({required int id, required String token}) async {
+  Future<User?> getUserById({required int id}) async {
     try {
-      print( '$getUserUrl/$id',);
+      print(
+        '$getUserUrl/$id',
+      );
       final response = await dio.get(
         'http://37.148.208.169:8081/users/$id',
         options: Options(

@@ -41,7 +41,7 @@ class CustomSmallButton extends StatelessWidget {
                   Text(text,
                       style: GoogleFonts.tajawal(
                           textStyle: TextStyle(
-                              fontSize: 18.sp,
+                              fontSize: 16.sp,
                               color: textColor,
                               fontWeight: FontWeight.w500))),
                   SizedBox(width: 10.w),
@@ -63,7 +63,7 @@ class CustomSmallButton extends StatelessWidget {
                   Text(text,
                       style: GoogleFonts.tajawal(
                           textStyle: TextStyle(
-                              fontSize: 18.sp,
+                              fontSize: 16.sp,
                               color: textColor,
                               fontWeight: FontWeight.w500))),
                   SizedBox(width: 10.w),
