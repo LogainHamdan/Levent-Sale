@@ -6,6 +6,7 @@ import '../../../../../../config/constants.dart';
 import '../../follow/join-follow.dart';
 
 class FollowContainer extends StatelessWidget {
+  final int userId;
   final Widget leftChild;
   final Widget rightChild;
 
@@ -13,12 +14,14 @@ class FollowContainer extends StatelessWidget {
     super.key,
     required this.leftChild,
     required this.rightChild,
+    required this.userId,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.pushNamed(context, JoinFollow.id),
+      onTap: () => Navigator.push(context,
+          MaterialPageRoute(builder: (context) => JoinFollow(userId: userId))),
       child: Container(
         height: 100.h,
         decoration: BoxDecoration(

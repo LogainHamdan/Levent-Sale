@@ -10,7 +10,7 @@ class FollowingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<FollowProvider>(context);
+    final provider = Provider.of<FollowProvider>(context, listen: false);
 
     return Scaffold(
       body: SafeArea(
@@ -22,7 +22,6 @@ class FollowingScreen extends StatelessWidget {
                   final followedUser = provider.followingUsers[index];
                   return FollowTile(
                     user: followedUser,
-                    index: index,
                   );
                 },
               ),

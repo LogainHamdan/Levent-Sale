@@ -122,9 +122,6 @@ class AuthRepository {
 
   Future<User?> getUserById({required int id}) async {
     try {
-      print(
-        '$getUserUrl/$id',
-      );
       final response = await dio.get(
         'http://37.148.208.169:8081/users/$id',
         options: Options(

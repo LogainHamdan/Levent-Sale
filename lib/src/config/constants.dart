@@ -22,6 +22,8 @@ const String getUserUrl = "$baseUrl/users";
 const String unfollowUrl = "$baseUrl/users/unfollow";
 const String followUrl = "$baseUrl/users/follow";
 const String followingUrl = "$baseUrl/users/following";
+const String followersUrl = "$baseUrl/users/followers";
+const String followCountUrl = "$baseUrl/users/counts";
 
 ///profile
 const String editProfileUrl = "$baseUrl/users/update-profile";

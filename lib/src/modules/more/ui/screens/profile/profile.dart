@@ -17,9 +17,10 @@ import '../../../../auth/models/user.dart';
 import '../follow/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
+  final int userId;
   static const id = '/profile';
 
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +64,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               FollowContainer(
+                userId: userId,
                 leftChild: Column(
                   children: [
                     Text(

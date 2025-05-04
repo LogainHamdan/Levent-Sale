@@ -41,49 +41,47 @@ class ProductCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  SizedBox(
-                    height: 10.h,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: 10.h,
+                ),
+                Text(
+                  textDirection: TextDirection.rtl,
+                  ad.title ?? '',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Text(
-                    textDirection: TextDirection.rtl,
-                    ad.title ?? '',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                SizedBox(height: 4.h),
+                Text(
+                  textDirection: TextDirection.rtl,
+                  ad.description ?? '',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: grey3,
                   ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    textDirection: TextDirection.rtl,
-                    ad.description ?? '',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: grey3,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(height: 20.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomRating(small: true, rateNum: true, flexible: false),
-                      Text(
-                        '${ad.currency} ${ad.price}',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 20.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomRating(small: true, rateNum: true, flexible: false),
+                    Text(
+                      '${ad.currency} ${ad.price}',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
             SizedBox(width: 12.w),
             Stack(

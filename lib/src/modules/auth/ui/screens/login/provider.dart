@@ -183,8 +183,10 @@ class LoginProvider extends ChangeNotifier {
   }
 
   Future<User?> getUserById({required int id}) async {
+    print('user passed in provider:$id');
     try {
       final userData = await _authRepository.getUserById(id: id);
+
       return userData;
     } catch (e) {
       return null;

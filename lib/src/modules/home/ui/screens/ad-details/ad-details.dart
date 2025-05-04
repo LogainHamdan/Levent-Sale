@@ -56,6 +56,7 @@ class AdDetailsScreen extends StatelessWidget {
 
           final user = snapshot.data![0] as User;
           final ad = homeProvider.selectedAd;
+          print('userId before pass: ${ad?.userId}');
 
           return Scaffold(
             appBar: AppBar(

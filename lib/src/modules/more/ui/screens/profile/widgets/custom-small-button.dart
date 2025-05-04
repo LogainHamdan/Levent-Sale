@@ -26,9 +26,11 @@ class CustomSmallButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 150.w,
+      height: 40.h,
       child: isOutlined
           ? OutlinedButton(
               style: OutlinedButton.styleFrom(
+                shadowColor: Colors.transparent,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4),
                 ),
@@ -43,7 +45,7 @@ class CustomSmallButton extends StatelessWidget {
                           textStyle: TextStyle(
                               fontSize: 16.sp,
                               color: textColor,
-                              fontWeight: FontWeight.w500))),
+                              fontWeight: FontWeight.w400))),
                   SizedBox(width: 10.w),
                   icon,
                 ],
@@ -51,9 +53,10 @@ class CustomSmallButton extends StatelessWidget {
             )
           : ElevatedButton(
               style: ElevatedButton.styleFrom(
+                shadowColor: Colors.transparent,
                 backgroundColor: buttonColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(4.r),
                 ),
               ),
               onPressed: onPressed,

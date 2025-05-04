@@ -1,8 +1,9 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
+import 'package:Levant_Sale/src/modules/more/models/profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/custom-small-button.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/follow-container.dart';
@@ -14,15 +15,17 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../auth/models/user.dart';
+import '../../../../sections/models/ad.dart';
+import '../follow/provider.dart';
 
 class FriendProfile extends StatefulWidget {
-  final User user;
+  final int userId;
 
   static const id = '/friend-profile';
 
   const FriendProfile({
     super.key,
-    required this.user,
+    required this.userId,
   });
 
   @override
@@ -30,24 +33,35 @@ class FriendProfile extends StatefulWidget {
 }
 
 class _FriendProfileState extends State<FriendProfile> {
-  late final int userId;
+  late Future<Profile?> _profileFuture;
+  late Future<List<AdModel>> _userAdsFuture;
 
   @override
   void initState() {
     super.initState();
-    userId = widget.user.id ?? 0;
-    print('userId in initState: $userId');
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
+
+    _profileFuture = profileProvider.getProfile(userId: widget.userId);
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+
+    final allAds = homeProvider.allAds;
+    _userAdsFuture = Future.wait(
+      allAds
+          .where((ad) => ad.userId == widget.userId)
+          .map((ad) => homeProvider.getAdById(ad.id))
+          .whereType<Future<AdModel>>()
+          .toList(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<HomeProvider>(context, listen: false);
-    final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    print('user i want to pass ${widget.user.id}');
+    final followProvider = Provider.of<FollowProvider>(context, listen: false);
+    print('user i want to pass ${widget.userId}');
 
     return FutureBuilder(
-        future: profileProvider.getProfile(userId: widget.user.id ?? 0),
+        future: _profileFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
@@ -59,20 +73,17 @@ class _FriendProfileState extends State<FriendProfile> {
                     const Center(child: Text('حدث خطأ أثناء تحميل البيانات')));
           }
           final userToShow = snapshot.data!;
+          print('is following:${userToShow.isFollowing}');
 
-          return SafeArea(
-            child: Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.white,
-                titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-                leading: const SizedBox(),
-                title: TitleRow(
-                  title: userToShow != null
-                      ? "${userToShow.firstName} ${userToShow.lastName}"
-                      : "الملف الشخصي",
-                ),
-              ),
-              body: SingleChildScrollView(
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+              leading: const SizedBox(),
+              title: TitleRow(title: userToShow.username ?? ''),
+            ),
+            body: SafeArea(
+              child: SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                   child: Column(
@@ -94,25 +105,26 @@ class _FriendProfileState extends State<FriendProfile> {
                             right: 20.w,
                             child: NameRow(
                               name:
-                                  "${userToShow?.firstName} ${userToShow?.lastName}",
+                                  "${userToShow.firstName} ${userToShow.lastName}",
                               isVerified: false,
-                              image: userToShow?.profilePicture ?? '',
+                              image: userToShow.profilePicture ?? '',
                             ),
                           ),
                         ],
                       ),
                       SizedBox(height: 16.h),
                       FollowContainer(
+                        userId: widget.userId,
                         leftChild: Column(
                           children: [
-                            Text('${userToShow?.followingCount ?? 0}',
+                            Text('${userToShow.followingCount}',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text('يتابع'),
                           ],
                         ),
                         rightChild: Column(
                           children: [
-                            Text('${userToShow?.followersCount ?? 0}',
+                            Text('${userToShow.followersCount}',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text('متابع'),
                           ],
@@ -137,9 +149,16 @@ class _FriendProfileState extends State<FriendProfile> {
                           userToShow.isFollowing == false
                               ? CustomSmallButton(
                                   isOutlined: false,
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    final token = await TokenHelper.getToken();
+                                    print(
+                                        'to invoke toggle: id: ${widget.userId} and token: $token}');
+                                    followProvider.followProfile(context,
+                                        followingId: widget.userId,
+                                        token: token ?? "");
+                                  },
                                   icon: SvgPicture.asset(
-                                    addCircleGreenIcon,
+                                    addCircleWhiteIcon,
                                     height: 20.h,
                                   ),
                                   text: 'متابعة',
@@ -148,7 +167,13 @@ class _FriendProfileState extends State<FriendProfile> {
                                 )
                               : CustomSmallButton(
                                   isOutlined: false,
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    final token = await TokenHelper.getToken();
+                                    print('to invoke toggle');
+                                    followProvider.unfollowProfile(context,
+                                        followingId: widget.userId,
+                                        token: token ?? "");
+                                  },
                                   icon: const SizedBox(),
                                   text: 'إلغاء المتابعة',
                                   textColor: Colors.black,
@@ -167,7 +192,7 @@ class _FriendProfileState extends State<FriendProfile> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(userToShow?.phoneNumber ?? '',
+                                  Text(userToShow.phoneNumber ?? '',
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w600)),
                                   SizedBox(width: 14.w),
@@ -183,7 +208,7 @@ class _FriendProfileState extends State<FriendProfile> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Text(userToShow?.email ?? '',
+                                  Text(userToShow.email ?? '',
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w600)),
                                   SizedBox(width: 14.w),
@@ -195,29 +220,34 @@ class _FriendProfileState extends State<FriendProfile> {
                         ),
                       ),
                       SizedBox(height: 16.h),
-                      ...provider.allAds
-                          .where((ad) => ad.userId == userToShow.id)
-                          .map((ad) => FutureBuilder(
-                                future: provider.getAdById(ad.id),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return CircularProgressIndicator();
-                                  } else if (snapshot.hasError) {
-                                    return Text('Error loading ad');
-                                  } else {
-                                    final adToShow = snapshot.data;
-                                    if (adToShow == null) return SizedBox();
-
-                                    return Column(
-                                      children: [
-                                        ProductCard(ad: provider.selectedAd!),
-                                        SizedBox(height: 16.h),
-                                      ],
-                                    );
-                                  }
-                                },
-                              ))
+                      FutureBuilder<List<AdModel?>>(
+                        future: _userAdsFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error loading ads');
+                          } else if (!snapshot.hasData ||
+                              snapshot.data!.isEmpty) {
+                            return Text('لا يوجد إعلانات لهذا المستخدم');
+                          } else {
+                            final adsToShow = snapshot.data!;
+                            return Column(
+                              children: adsToShow
+                                  .map((ad) => Column(
+                                        children: [
+                                          ad != null
+                                              ? ProductCard(ad: ad)
+                                              : SizedBox.shrink(),
+                                          SizedBox(height: 16.h),
+                                        ],
+                                      ))
+                                  .toList(),
+                            );
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ),

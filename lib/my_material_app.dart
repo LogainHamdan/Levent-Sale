@@ -131,17 +131,19 @@ class MyMaterialApp extends StatelessWidget {
               MenuScreen.id: (context) => MenuScreen(),
               EditProfileScreen.id: (context) => EditProfileScreen(),
               TechnicalSupportScreen.id: (context) => TechnicalSupportScreen(),
-              ProfileScreen.id: (context) => ProfileScreen(),
+              ProfileScreen.id: (context) => ProfileScreen(
+                    userId: 0,
+                  ),
               FriendProfile.id: (context) {
-                final args = ModalRoute.of(context)!.settings.arguments
-                    as Map<String, dynamic>;
                 return FriendProfile(
-                  user: User(),
+                  userId: 0,
                 );
               },
               FollowingScreen.id: (context) => FollowingScreen(),
               FollowersScreen.id: (context) => FollowersScreen(),
-              JoinFollow.id: (context) => JoinFollow(),
+              JoinFollow.id: (context) => JoinFollow(
+                    userId: 0,
+                  ),
               WhyToDeleteScreen.id: (context) => WhyToDeleteScreen(),
               SearchScreen.id: (context) => SearchScreen(),
               FavoriteCollectionScreen.id: (context) =>

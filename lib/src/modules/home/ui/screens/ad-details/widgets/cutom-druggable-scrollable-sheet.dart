@@ -44,167 +44,167 @@ class _CustomDraggableScrollableSheetState
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);
     print('user passed: ${widget.userId}');
 
-    return token == null
-        ? Center(child: CircularProgressIndicator())
-        : FutureBuilder(
-            future: loginProvider.getUserById(id: widget.userId),
-            builder: (context, snapshot) {
-              final user = snapshot.data;
-              return DraggableScrollableSheet(
-                initialChildSize: 0.25,
-                minChildSize: 0.1,
-                maxChildSize: 0.7,
-                builder: (context, scrollController) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20.r)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10.r,
-                          spreadRadius: 2.r,
-                        ),
-                      ],
+    return FutureBuilder(
+        future: loginProvider.getUserById(id: widget.userId),
+        builder: (context, snapshot) {
+          final user = snapshot.data;
+          return DraggableScrollableSheet(
+            initialChildSize: 0.25,
+            minChildSize: 0.1,
+            maxChildSize: 0.7,
+            builder: (context, scrollController) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(20.r)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10.r,
+                      spreadRadius: 2.r,
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0.sp),
-                      child: SingleChildScrollView(
-                        controller: scrollController,
-                        child: Column(
-                          children: [
-                            Center(
-                              child: Container(
-                                height: 5.h,
-                                width: 40.w,
-                                decoration: BoxDecoration(
-                                  color: grey7,
-                                  borderRadius: BorderRadius.circular(2.r),
-                                ),
-                              ),
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(16.0.sp),
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Container(
+                            height: 5.h,
+                            width: 40.w,
+                            decoration: BoxDecoration(
+                              color: grey7,
+                              borderRadius: BorderRadius.circular(2.r),
                             ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      width: 50.w,
-                                      height: 50.h,
-                                      decoration: BoxDecoration(
-                                        color: greySplash,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: IconButton(
-                                        icon: Icon(
-                                          Icons.call,
-                                          color: kprimaryColor,
-                                          size: 18.sp,
-                                        ),
-                                        onPressed: () {},
-                                      ),
+                                Container(
+                                  width: 50.w,
+                                  height: 50.h,
+                                  decoration: BoxDecoration(
+                                    color: greySplash,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.call,
+                                      color: kprimaryColor,
+                                      size: 18.sp,
                                     ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          width: 120.w,
-                                          child: Text(
-                                            '${user?.firstName} ${user?.lastName}',
-                                            style: TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                fontSize: 18.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black),
-                                          ),
-                                        ),
-                                        Text(
-                                          " عضو منذ${user?.createdAt ?? ''}",
-                                          style: TextStyle(
-                                              fontSize: 14.sp, color: grey4),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        final user = await loginProvider
-                                            .getUserById(id: widget.userId);
-                                        final currentUser =
-                                            await UserHelper.getUser();
-                                        if (user != null) {
-                                          widget.userId != currentUser?.id
-                                              ? Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        FriendProfile(
-                                                            user: user),
-                                                  ),
-                                                )
-                                              : Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ProfileScreen()),
-                                                );
-                                        }
-                                      },
-                                      child: CircleAvatar(
-                                          radius: 30.r,
-                                          backgroundImage: NetworkImage(
-                                              user?.profilePicture ?? '')),
-                                    ),
-                                  ],
+                                    onPressed: () {},
+                                  ),
                                 ),
                               ],
                             ),
-                            SizedBox(height: 20.h),
-                            CustomElevatedButton(
-                              icon: SvgPicture.asset(
-                                chatWhiteIcon,
-                                height: 20.h,
-                              ),
-                              text: 'محادثة',
-                              onPressed: () => Navigator.pushNamed(
-                                  context, ConversationScreen.id),
-                              backgroundColor: kprimaryColor,
-                              textColor: grey9,
-                            ),
-                            SizedBox(height: 20.h),
                             Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: homeProvider.allAds
-                                  .skip([].length > 2 ? [].length - 2 : 0)
-                                  .map(
-                                    (product) => Padding(
-                                      padding: EdgeInsets.only(left: 16.0.w),
-                                      child: ProductItem(
-                                        height: 120.h,
-                                        hasDiscount: false,
-                                        product: product,
-                                        category:
-                                            product.categoryNamePath ?? '',
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    SizedBox(
+                                      width: 120.w,
+                                      child: Text(
+                                        textDirection: TextDirection.rtl,
+                                        '${user?.username}',
+                                        style: TextStyle(
+                                            overflow: TextOverflow.ellipsis,
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
                                       ),
                                     ),
-                                  )
-                                  .toList(),
+                                    Text(
+                                      " عضو منذ${user?.createdAt ?? ''}",
+                                      style: TextStyle(
+                                          fontSize: 14.sp, color: grey4),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(width: 10.w),
+                                GestureDetector(
+                                  onTap: () async {
+                                    final currentUser =
+                                        await UserHelper.getUser();
+                                    print('user before call: ${widget.userId}');
+                                    if (user != null) {
+                                      user.id != currentUser?.id
+                                          ? Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    FriendProfile(
+                                                        userId: widget.userId),
+                                              ),
+                                            )
+                                          : Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProfileScreen(
+                                                        userId:
+                                                            currentUser?.id ??
+                                                                0,
+                                                      )),
+                                            );
+                                    }
+                                  },
+                                  child: CircleAvatar(
+                                      radius: 30.r,
+                                      backgroundImage: NetworkImage(
+                                          user?.profilePicture ?? '')),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ),
+                        SizedBox(height: 20.h),
+                        CustomElevatedButton(
+                          icon: SvgPicture.asset(
+                            chatWhiteIcon,
+                            height: 20.h,
+                          ),
+                          text: 'محادثة',
+                          onPressed: () => Navigator.pushNamed(
+                              context, ConversationScreen.id),
+                          backgroundColor: kprimaryColor,
+                          textColor: grey9,
+                        ),
+                        SizedBox(height: 20.h),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: homeProvider.allAds
+                              .skip([].length > 2 ? [].length - 2 : 0)
+                              .map(
+                                (product) => Padding(
+                                  padding: EdgeInsets.only(left: 16.0.w),
+                                  child: ProductItem(
+                                    height: 120.h,
+                                    hasDiscount: false,
+                                    product: product,
+                                    category: product.categoryNamePath ?? '',
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ],
                     ),
-                  );
-                },
+                  ),
+                ),
               );
-            });
+            },
+          );
+        });
   }
 }

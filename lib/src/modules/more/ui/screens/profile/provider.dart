@@ -8,24 +8,24 @@ import 'package:provider/provider.dart';
 
 import '../../../../auth/repos/token-helper.dart';
 import '../../../../home/models/address.dart';
+import '../../../models/profile.dart';
 import '../../../repositories/user-profile-repo.dart';
 import '../follow/provider.dart';
 
 class ProfileProvider extends ChangeNotifier {
   final FollowRepository followRepository = FollowRepository();
 
-  User? user;
+  Profile? profile;
   String? error;
 
-  Future<User?> getProfile({required int userId}) async {
+  Future<Profile?> getProfile({required int userId}) async {
     try {
-      final user = await followRepository.getProfile(userId: userId);
-      print('user loaded successfully:${user?.username}');
+      final profile = await followRepository.getProfile(userId: userId);
+      print('Profile loaded successfully: ${profile?.username}');
       error = null;
-      return user;
+      return profile;
     } catch (e) {
-      print('user loaded:${user?.username}');
-      user = null;
+      profile = null;
 
       if (e is DioException) {
         error = "Error: ${e.message}";

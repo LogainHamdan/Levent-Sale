@@ -26,7 +26,6 @@ class FollowersScreen extends StatelessWidget {
                   final follower = provider.followers[index];
                   return FollowTile(
                     user: follower,
-                    index: index,
                   );
                 },
               ),

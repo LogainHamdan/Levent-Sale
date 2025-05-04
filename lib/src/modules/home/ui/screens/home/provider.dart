@@ -91,11 +91,13 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<AdModel?> getAdById(int id) async {
+    print('get ad invoked');
     isLoading = true;
     error = null;
 
     try {
       final ad = await repo.getAdById(id: id);
+      print('get ad done');
 
       if (ad != null) {
         _selectedAd = ad;

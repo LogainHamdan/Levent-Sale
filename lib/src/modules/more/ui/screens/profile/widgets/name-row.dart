@@ -21,7 +21,7 @@ class NameRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        isVerified! ? SvgPicture.asset(verifiedWhiteIcon): SizedBox(),
+        isVerified! ? SvgPicture.asset(verifiedWhiteIcon) : SizedBox(),
         SizedBox(
           width: 12.w,
         ),
@@ -40,7 +40,7 @@ class NameRow extends StatelessWidget {
             backgroundColor: Colors.white,
             child: CircleAvatar(
               radius: 32.r,
-              backgroundImage: AssetImage(image),
+              backgroundImage: NetworkImage(image),
             ),
           ),
         ),
