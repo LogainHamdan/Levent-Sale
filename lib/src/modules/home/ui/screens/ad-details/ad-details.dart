@@ -41,19 +41,22 @@ class AdDetailsScreen extends StatelessWidget {
     });
 
     return FutureBuilder(
-        future: UserHelper.getUser(),
+        future: Future.wait([
+          UserHelper.getUser(),
+          homeProvider.getAdById(adId),
+        ]),
         builder: (context, snapshot) {
-          final ad = homeProvider.selectedAd;
-          print("user id for ad:${ad?.userId}");
           if (!snapshot.hasData) {
             return Scaffold(
               body: Center(
-                  child: CircularProgressIndicator(
-                color: kprimaryColor,
-              )),
+                child: CircularProgressIndicator(color: kprimaryColor),
+              ),
             );
           }
-          final user = snapshot.data!;
+
+          final user = snapshot.data![0] as User;
+          final ad = homeProvider.selectedAd;
+
           return Scaffold(
             appBar: AppBar(
               leadingWidth: 40.w,
