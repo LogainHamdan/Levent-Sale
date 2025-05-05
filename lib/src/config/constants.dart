@@ -36,7 +36,8 @@ const String profileUrl = "$baseUrl/users/profile";
 const String searchUrl = "$baseUrl/users/search";
 const String adsUrl = "$baseUrl/search/ads/paged";
 const String getAdUrl = "$baseUrl/ads/get";
-const String searchAdsUrl = "$baseUrl/search/ads/search";
+const String searchAdsUrl =
+    "http://37.148.208.169:8088/search/ads/search?query=";
 
 ///sections
 const String getCategoriesUrl = '$baseUrl/ads/get/all/roots';
@@ -46,6 +47,9 @@ const String getCategoryChildrenUrl = '$baseUrl/ads/get/category/children';
 const String getAttributesById = '$baseUrl/ads/attributes/category';
 const String createAdUrl = '$baseUrl/ads/add';
 const String updateAdUrl = '$baseUrl/ads/update';
+const String getCitiesUrl = 'http://37.148.208.169:8081/cities?page=0&size=20';
+const String getGovernoratesUrl =
+    'http://37.148.208.169:8081/governorates?page=0&size=20';
 
 ///more
 const String getTagsUrl = '$baseUrl/favorites/tags';
@@ -55,7 +59,10 @@ const String removeFromFavUrl = '$baseUrl/favorites/delete';
 const String checkFavUrl = '$baseUrl/favorites/check';
 const String addToTagUrl = '$baseUrl/favorites/add';
 const String deleteTagUrl = '$baseUrl/favorites/tags/delete';
+
+///collection
 const String getAdsByStatus = '$baseUrl/ads/my';
+const String getUserAdsUrl = '$baseUrl/search/ads/user';
 
 // primary colors
 Color kprimaryColor = const Color(0xff82B81C);

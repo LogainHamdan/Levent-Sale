@@ -9,6 +9,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/custom-s
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/follow-container.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/name-row.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/product-card.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -34,30 +35,24 @@ class FriendProfile extends StatefulWidget {
 
 class _FriendProfileState extends State<FriendProfile> {
   late Future<Profile?> _profileFuture;
-  late Future<List<AdModel>> _userAdsFuture;
+  late Future<void> _userAdsFuture;
 
   @override
   void initState() {
     super.initState();
     final profileProvider =
         Provider.of<ProfileProvider>(context, listen: false);
-
-    _profileFuture = profileProvider.getProfile(userId: widget.userId);
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
-    final allAds = homeProvider.allAds;
-    _userAdsFuture = Future.wait(
-      allAds
-          .where((ad) => ad.userId == widget.userId)
-          .map((ad) => homeProvider.getAdById(ad.id))
-          .whereType<Future<AdModel>>()
-          .toList(),
-    );
+    _profileFuture = profileProvider.getProfile(userId: widget.userId);
+
+    _userAdsFuture = homeProvider.loadUserAds(userId: widget.userId);
   }
 
   @override
   Widget build(BuildContext context) {
     final followProvider = Provider.of<FollowProvider>(context, listen: false);
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
     print('user i want to pass ${widget.userId}');
 
     return FutureBuilder(
@@ -220,26 +215,20 @@ class _FriendProfileState extends State<FriendProfile> {
                         ),
                       ),
                       SizedBox(height: 16.h),
-                      FutureBuilder<List<AdModel?>>(
+                      FutureBuilder<void>(
                         future: _userAdsFuture,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return CircularProgressIndicator();
                           } else if (snapshot.hasError) {
-                            return Text('Error loading ads');
-                          } else if (!snapshot.hasData ||
-                              snapshot.data!.isEmpty) {
-                            return Text('لا يوجد إعلانات لهذا المستخدم');
+                            return Text('فشل تحميل الاعلانات');
                           } else {
-                            final adsToShow = snapshot.data!;
                             return Column(
-                              children: adsToShow
+                              children: homeProvider.userAds
                                   .map((ad) => Column(
                                         children: [
-                                          ad != null
-                                              ? ProductCard(ad: ad)
-                                              : SizedBox.shrink(),
+                                          ProductCard(ad: ad),
                                           SizedBox(height: 16.h),
                                         ],
                                       ))

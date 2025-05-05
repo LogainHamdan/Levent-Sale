@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/dio.dart';
 
 import '../../auth/models/user.dart';
-import '../models/follow-count.dart';
+import '../models/follow.dart';
 
 import '../models/profile.dart';
 
@@ -34,22 +34,6 @@ class FollowRepository {
       return response;
     } catch (e) {
       print("Unfollow failed: $e");
-      rethrow;
-    }
-  }
-
-  Future<FollowCount> getFollowCount({
-    required int userId,
-  }) async {
-    try {
-      final response = await _dio.get(
-        "$followCountUrl/$userId",
-        options: Options(headers: {'Accept': 'application/hal+json'}),
-      );
-      print("follow count fetched: ${response.data}");
-      return FollowCount.fromJson(response.data);
-    } catch (e) {
-      print("follow count failed: $e");
       rethrow;
     }
   }
@@ -93,27 +77,30 @@ class FollowRepository {
     }
   }
 
-  Future<List<User>> getFollowingUsers({required int userId}) async {
+  Future<List<FollowProfileModel>> getFollowingUsers(
+      {required int userId}) async {
     try {
       final response = await _dio.get(
         "$followingUrl/$userId",
       );
-
       final data = response.data;
-      print(data);
-      return data.map((json) => User.fromJson(json)).toList();
+      if (data is List) {
+        return data.map((json) => FollowProfileModel.fromJson(json)).toList();
+      } else {
+        throw Exception("Unexpected data format: not a List");
+      }
     } catch (e) {
       throw Exception("Error fetching following users: $e");
     }
   }
 
-  Future<List<User>> getFollowers({required int userId}) async {
+  Future<List<FollowProfileModel>> getFollowers({required int userId}) async {
     try {
       final response = await _dio.get('$followersUrl/$userId');
       List data = response.data;
       print(data);
 
-      return data.map((json) => User.fromJson(json)).toList();
+      return data.map((json) => FollowProfileModel.fromJson(json)).toList();
     } catch (e) {
       throw Exception("Error fetching followers: $e");
     }

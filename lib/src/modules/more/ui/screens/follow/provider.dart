@@ -5,37 +5,26 @@ import 'package:flutter/material.dart';
 import '../../../../../config/constants.dart';
 
 import '../../../../auth/models/user.dart';
-import '../../../models/follow-count.dart';
+import '../../../models/follow.dart';
+import '../../../models/profile.dart';
 
 class FollowProvider extends ChangeNotifier {
   final FollowRepository followRepository = FollowRepository();
   final String authToken = '';
-  FollowCount? _followCount;
 
-  List<User> _followers = [];
+  List<FollowProfileModel> _followers = [];
 
-  List<User> get followers => _followers;
+  List<FollowProfileModel> get followers => _followers;
   bool _isFollowersLoading = false;
 
   bool get isFollowersLoading => _isFollowersLoading;
 
-  List<User> _followingUsers = [];
+  List<FollowProfileModel> _followingUsers = [];
 
-  List<User> get followingUsers => _followingUsers;
+  List<FollowProfileModel> get followingUsers => _followingUsers;
   bool _isFollowingLoading = false;
 
-  FollowCount? get followCount => _followCount;
-
   bool get isFollowingLoading => _isFollowingLoading;
-
-  Future<void> fetchFollowCount(int userId) async {
-    try {
-      _followCount = await followRepository.getFollowCount(userId: userId);
-      notifyListeners();
-    } catch (e) {
-      print("Error fetching follow count: $e");
-    }
-  }
 
   Future<void> fetchFollowingUsers({required int userId}) async {
     _isFollowingLoading = true;

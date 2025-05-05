@@ -48,8 +48,8 @@ class SearchScreen extends StatelessWidget {
                         width: 295,
                         controller: provider.searchController,
                         onChanged: (value) {
-                          print("✅ onChanged triggered with: $value");
-                          provider.searchAds(value, page: 0, size: 8); // ✅
+                          print("onChanged triggered with: $value");
+                          provider.searchAds(query: value, page: 0, size: 8);
                         }),
                     SizedBox(width: 8.w),
                     InkWell(

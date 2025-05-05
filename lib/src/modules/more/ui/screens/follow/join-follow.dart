@@ -76,7 +76,7 @@ class _JoinFollowState extends State<JoinFollow> {
                   ),
                 ),
                 body: const TabBarView(
-                  children: [FollowingScreen(), FollowersScreen()],
+                  children: [FollowersScreen(), FollowingScreen()],
                 ),
               ),
             ),

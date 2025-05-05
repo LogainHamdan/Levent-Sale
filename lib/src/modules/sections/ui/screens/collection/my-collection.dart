@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-widget.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
@@ -22,7 +23,8 @@ class MyCollectionScreen extends StatelessWidget {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await homeProvider.loadAds();
+      final user = await UserHelper.getUser();
+      await homeProvider.loadUserAds(userId: user?.id ?? 0);
     });
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -39,31 +41,29 @@ class MyCollectionScreen extends StatelessWidget {
       ),
       body: SafeArea(
         bottom: false,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 16.h),
+        child: Column(
+          children: [
+            SizedBox(height: 16.h),
 
-              homeProvider.allAds.isEmpty
-                  ? EmptyWidget(
-                      msg: 'إعلاناتي فارغة',
-                      img: emptyAdsIcon,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12.0.w),
-                        child: CustomElevatedButton(
-                          text: 'ابدأ في انشاء إعلانك',
-                          onPressed: () =>
-                              Navigator.pushNamed(context, CreateAdScreen.id),
-                          backgroundColor: kprimaryColor,
-                          textColor: grey9,
-                          date: false,
-                        ),
+            homeProvider.userAds.isEmpty
+                ? EmptyWidget(
+                    msg: 'إعلاناتي فارغة',
+                    img: emptyAdsIcon,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+                      child: CustomElevatedButton(
+                        text: 'ابدأ في انشاء إعلانك',
+                        onPressed: () =>
+                            Navigator.pushNamed(context, CreateAdScreen.id),
+                        backgroundColor: kprimaryColor,
+                        textColor: grey9,
+                        date: false,
                       ),
-                    )
-                  : JoinMyCollection(),
-              // CustomBottomNavigationBar()
-            ],
-          ),
+                    ),
+                  )
+                : Expanded(child: JoinMyCollection()),
+            // CustomBottomNavigationBar()
+          ],
         ),
       ),
     );

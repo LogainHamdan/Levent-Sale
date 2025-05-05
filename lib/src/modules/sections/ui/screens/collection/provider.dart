@@ -67,10 +67,11 @@ class MyCollectionScreenProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<AdModel> myAdsByStatus = [];
+  List<AdModel?> myAdsByStatus = [];
   bool isLoadingAds = false;
 
-  Future<void> fetchMyAdsByStatus(String token, String status) async {
+  Future<void> fetchMyAdsByStatus(
+      {required String token, required String status}) async {
     isLoadingAds = true;
     notifyListeners();
 

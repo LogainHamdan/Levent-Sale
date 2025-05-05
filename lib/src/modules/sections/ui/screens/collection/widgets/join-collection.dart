@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../edit-screen.dart';
 import '../provider.dart';
+import '../edit-screen.dart';
 import '../review-screen.dart';
 import '../view-screen.dart';
 
@@ -13,22 +13,26 @@ class JoinMyCollection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<MyCollectionScreenProvider>(context);
-    return Column(
-      children: [
-        SizedBox(
-          height: 60.h,
-          child: TabBarWidget(),
+    final provider = Provider.of<MyCollectionScreenProvider>(context);
+
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: SizedBox(height: 60.h, child: const TabBarWidget()),
         ),
-        SizedBox(height: 16.h),
-        PageView(
-          controller: provider.pageController,
-          onPageChanged: provider.updateIndex,
-          children: const [
-            ReviewScreen(),
-            EditScreen(),
-            ViewScreen(),
-          ],
+        SliverToBoxAdapter(
+          child: SizedBox(height: 16.h),
+        ),
+        SliverFillRemaining(
+          child: PageView(
+            controller: provider.pageController,
+            onPageChanged: provider.updateIndex,
+            children: const [
+              ReviewScreen(),
+              EditScreen(),
+              ViewScreen(),
+            ],
+          ),
         ),
       ],
     );

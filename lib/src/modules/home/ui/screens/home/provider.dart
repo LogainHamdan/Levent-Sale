@@ -11,6 +11,7 @@ class HomeProvider extends ChangeNotifier {
   RootCategoryModel? _selectedCategory;
   AdRepository repo = AdRepository();
   List<AdModel> allAds = [];
+  List<AdModel> userAds = [];
   AdModel? _selectedAd;
 
   bool isLoading = false;
@@ -84,6 +85,26 @@ class HomeProvider extends ChangeNotifier {
       }
     } catch (e) {
       error = 'Failed to load ads: $e';
+    }
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> loadUserAds({required int userId}) async {
+    isLoading = true;
+    error = null;
+    notifyListeners();
+
+    try {
+      userAds = await repo.getUserAds(userId: userId);
+      print('userAds: $userAds');
+      for (var ad in userAds) {
+        print('Loaded ad: ${ad.title}');
+      }
+    } catch (e) {
+      error = 'Failed to load ads: $e';
+      print(error);
     }
 
     isLoading = false;

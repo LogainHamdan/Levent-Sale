@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/update-ad-section-details.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/column-img-pick.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-dropdown.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-quill.dart';
@@ -10,17 +11,47 @@ import '../../../../../config/constants.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import 'create-ad-section-details.dart';
 
-class SectionDetails2 extends StatelessWidget {
+class SectionDetails2 extends StatefulWidget {
   final bool create;
 
   const SectionDetails2({super.key, required this.create});
 
   @override
+  State<SectionDetails2> createState() => _SectionDetails2State();
+}
+
+class _SectionDetails2State extends State<SectionDetails2> {
+  late final createProvider;
+  late final updateProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    createProvider =
+        Provider.of<CreateAdSectionDetailsProvider>(context, listen: false);
+    updateProvider =
+        Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
+    Future.microtask(() => createProvider.loadCities());
+    Future.microtask(() => updateProvider.loadCities());
+    Future.microtask(() => createProvider.loadGovernorates());
+    Future.microtask(() => updateProvider.loadGovernorates());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final createDetailsProvider =
-        Provider.of<CreateAdSectionDetailsProvider>(context);
-    final updateDetailsProvider =
-        Provider.of<CreateAdSectionDetailsProvider>(context);
+    final List<String?> cityNames = (widget.create
+            ? createProvider.cities.map((city) => city.cityName)
+            : updateProvider.cities.map((city) => city.cityName))
+        .cast<String?>()
+        .toList();
+    final List<String?> governorates = (widget.create
+            ? createProvider.governorates
+                .map((governorate) => governorate.governorateName)
+            : updateProvider.governorates
+                .map((governorate) => governorate.governorateName))
+        .cast<String?>()
+        .toList();
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.0.w),
       child: SingleChildScrollView(
@@ -28,9 +59,9 @@ class SectionDetails2 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomTextField(
-                controller: create
-                    ? createDetailsProvider.titleController
-                    : updateDetailsProvider.titleController,
+                controller: widget.create
+                    ? createProvider.titleController
+                    : updateProvider.titleController,
                 hint: '',
                 label: 'عنوان',
                 bgcolor: grey8),
@@ -39,9 +70,9 @@ class SectionDetails2 extends StatelessWidget {
             ),
             CustomTextField(
               label: 'وصف صغير',
-              controller: create
-                  ? createDetailsProvider.shortDescController
-                  : updateDetailsProvider.shortDescController,
+              controller: widget.create
+                  ? createProvider.shortDescController
+                  : updateProvider.shortDescController,
               hint: '',
               bgcolor: grey8,
               paragraphBorderRadius: 10,
@@ -55,24 +86,24 @@ class SectionDetails2 extends StatelessWidget {
             SizedBox(
                 height: 300.h,
                 child: RichTextEditor(
-                  create: create,
+                  create: widget.create,
                 )),
             SizedBox(height: 24.h),
             Align(alignment: Alignment.centerRight, child: Text('صور')),
             ImagePickerColumn(
-              create: create,
+              create: widget.create,
             ),
             SizedBox(
               height: 10.h,
             ),
             SelectedImagesSection(
-              create: create,
+              create: widget.create,
             ),
             CustomTextField(
                 label: 'رقم هاتف للتواصل',
-                controller: create
-                    ? createDetailsProvider.phoneController
-                    : updateDetailsProvider.phoneController,
+                controller: widget.create
+                    ? createProvider.phoneController
+                    : updateProvider.phoneController,
                 hint: '',
                 bgcolor: grey8),
             SizedBox(
@@ -80,9 +111,9 @@ class SectionDetails2 extends StatelessWidget {
             ),
             CustomTextField(
                 label: 'السعر',
-                controller: create
-                    ? createDetailsProvider.priceController
-                    : updateDetailsProvider.priceController,
+                controller: widget.create
+                    ? createProvider.priceController
+                    : updateProvider.priceController,
                 hint: '',
                 bgcolor: grey8),
             SizedBox(
@@ -91,9 +122,9 @@ class SectionDetails2 extends StatelessWidget {
             CustomTextField(
                 suffix: Icon(Icons.percent, color: grey4),
                 label: 'خصم بنسبة',
-                controller: create
-                    ? createDetailsProvider.discountController
-                    : updateDetailsProvider.discountController,
+                controller: widget.create
+                    ? createProvider.discountController
+                    : updateProvider.discountController,
                 hint: '',
                 bgcolor: grey8),
             SizedBox(
@@ -101,18 +132,18 @@ class SectionDetails2 extends StatelessWidget {
             ),
             CustomDropdownSection(
                 hint: 'ادخل اسم المدينة',
-                items: ['مدينة دمشق', 'مدينة دوما'],
+                items: cityNames,
                 dropdownKey: 'المدينة',
-                create: create,
+                create: widget.create,
                 title: 'المدينة'),
             SizedBox(
               height: 16.h,
             ),
             CustomDropdownSection(
                 hint: 'ادخل اسم المحافظة',
-                items: ['محافظة دمشق', 'محافظة دوما'],
+                items: governorates,
                 dropdownKey: 'المحافظة',
-                create: create,
+                create: widget.create,
                 title: 'المحافظة'),
           ],
         ),

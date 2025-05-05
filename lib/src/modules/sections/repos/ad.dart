@@ -118,6 +118,27 @@ class AdRepository {
     }
   }
 
+  Future<List<AdModel>> getUserAds({required int userId}) async {
+    try {
+      final response = await dio.get('$getUserAdsUrl/$userId',
+          options: Options(headers: {'Accept': '*/*'}));
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+
+        if (data is List) {
+          return data.map((json) => AdModel.fromJson(json)).toList();
+        } else {
+          throw Exception('Unexpected response format: expected a list');
+        }
+      } else {
+        throw Exception('Failed to load ads: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Repository API error: $e');
+    }
+  }
+
   Future<AdModel?> getAdById({required int id}) async {
     try {
       final response = await dio.get("$getAdUrl/$id");
@@ -135,7 +156,7 @@ class AdRepository {
     }
   }
 
-  Future<List<AdModel>> getMyAdsByStatus({
+  Future<List<AdModel?>> getMyAdsByStatus({
     required String token,
     required String status,
   }) async {
@@ -144,7 +165,7 @@ class AdRepository {
         '$getAdsByStatus/$status/ads',
         options: Options(
           headers: {
-            'Authorization': 'Bearer $token',
+            'Authorization': token,
           },
         ),
       );

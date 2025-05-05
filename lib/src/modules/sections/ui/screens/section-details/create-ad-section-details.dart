@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:Levant_Sale/src/modules/more/models/profile.dart';
 import 'package:Levant_Sale/src/modules/sections/repos/attributes.dart';
+import 'package:Levant_Sale/src/modules/sections/repos/city.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +15,7 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   final Map<String, bool> _dropdownOpenedMap = {};
   final Map<int, bool> _services = {};
   final AdAttributesRepository _repo = AdAttributesRepository();
+  final CityRepository cityRepo = CityRepository();
   AdAttributesModel? attributesData;
   bool hasError = false;
   final TextEditingController titleController = TextEditingController();
@@ -22,7 +25,12 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController discountController = TextEditingController();
   final Map<String, TextEditingController> dynamicFieldControllers = {};
-
+  List<City> _cities = [];
+  bool _isLoading = false;
+  List<Governorate> _governorates = [];
+  List<Governorate> get governorates => _governorates;
+  List<City> get cities => _cities;
+  bool get isLoading => _isLoading;
   List<File> get selectedImages => _selectedImages;
   final quill.QuillController _controller = quill.QuillController.basic();
 
@@ -141,4 +149,41 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
 
     return attributesMap;
   }
+
+  Future<void> loadCities(
+      {int page = 0, int size = 20, List<String>? sort}) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      _cities = await cityRepo.getCities(page: page, size: size, sort: sort);
+    } catch (e) {
+      print('Error loading cities: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+  Future<void> loadGovernorates({
+    int page = 0,
+    int size = 20,
+    List<String>? sort,
+  }) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      _governorates = await cityRepo.getGovernorates(
+        page: page,
+        size: size,
+        sort: sort,
+      );
+    } catch (e) {
+      print('Error loading governorates: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
 }

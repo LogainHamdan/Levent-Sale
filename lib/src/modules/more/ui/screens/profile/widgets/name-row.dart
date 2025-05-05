@@ -32,16 +32,12 @@ class NameRow extends StatelessWidget {
         SizedBox(
           width: 12.w,
         ),
-        Positioned(
-          bottom: -20.h,
-          right: 16.r,
+        CircleAvatar(
+          radius: 34.r,
+          backgroundColor: Colors.white,
           child: CircleAvatar(
-            radius: 34.r,
-            backgroundColor: Colors.white,
-            child: CircleAvatar(
-              radius: 32.r,
-              backgroundImage: NetworkImage(image),
-            ),
+            radius: 32.r,
+            backgroundImage: NetworkImage(image),
           ),
         ),
       ],

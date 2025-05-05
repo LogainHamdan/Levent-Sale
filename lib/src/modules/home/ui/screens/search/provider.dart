@@ -50,14 +50,16 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> searchAds(String query, {int? page = 0, int? size = 8}) async {
+  Future<void> searchAds(
+      {required String query, int? page = 0, int? size = 8}) async {
     _isLoadingSearch = true;
     _errorSearch = null;
     _ads = [];
     notifyListeners();
 
     try {
-      final res = await _searchRepository.searchAds(query, page, size);
+      final res = await _searchRepository.searchAds(
+          query: query, page: page, size: size);
       print(res.statusCode);
       if (res.statusCode == 200) {
         print(res.data);

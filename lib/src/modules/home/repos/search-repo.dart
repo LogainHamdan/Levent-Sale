@@ -9,22 +9,20 @@ class SearchRepository {
 
   final Dio _dio = Dio();
 
-  Future<Response> searchAds(String query, int? page, int? size) async {
+  Future<Response> searchAds(
+      {required String query, int? page = 0, int? size = 8}) async {
     print("searchAds called with: $query");
 
     try {
-      print('🔍 Query parameters sent: ${{
+      print('Query parameters sent: ${{
         'query': query,
         'page': page,
         'size': size,
       }}');
       final response = await _dio.get(
-        searchAdsUrl,
-        queryParameters: {
-          'query': query,
-          'page': page ?? 0,
-          'size': size ?? 8,
-        },
+        '$searchAdsUrl$query&page=$page&size=$size',
+        options: Options(headers: {'Accept': '*/*'}),
+
       );
 
       return response;

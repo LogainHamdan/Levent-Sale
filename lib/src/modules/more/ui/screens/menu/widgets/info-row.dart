@@ -68,7 +68,7 @@ class InfoRow extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(width: 12.w),
+                    SizedBox(width: 10.w),
                     CircleAvatar(
                       radius: 30.r,
                       backgroundColor: Colors.white,

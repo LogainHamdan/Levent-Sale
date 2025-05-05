@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/ad-details.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/custom-action-button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,13 +13,11 @@ class ItemList extends StatelessWidget {
   final String buttonText;
   final Color buttonColor;
   final Color buttonTextColor;
-  final Function() onPressed;
   final Widget buttonIcon;
 
   const ItemList(
     this.buttonText,
-    this.buttonColor,
-    this.onPressed, {
+    this.buttonColor, {
     super.key,
     required this.buttonIcon,
     required this.buttonTextColor,
@@ -26,7 +25,8 @@ class ItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var adProvider = Provider.of<MyCollectionScreenProvider>(context);
+    var adProvider =
+        Provider.of<MyCollectionScreenProvider>(context, listen: false);
 
     return ListView.builder(
         itemCount: adProvider.myAdsByStatus.length,
@@ -48,80 +48,81 @@ class ItemList extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SizedBox(
-                      height: 120.h,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '\$${ad.price.toString()}',
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            '${ad.createdAt?.day}-${ad.createdAt?.month}-${ad.createdAt?.year}',
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: grey3,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 40.w),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          ad.title ?? '',
-                          textAlign: TextAlign.right,
+                          '\$${ad?.price.toString()}',
                           style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.black,
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 4.h),
+                        Spacer(),
                         Text(
-                          ad.categoryNamePath ?? '',
-                          textAlign: TextAlign.right,
+                          '${ad?.createdAt?.day}-${ad?.createdAt?.month}-${ad?.createdAt?.year}',
                           style: TextStyle(
                             fontSize: 12.sp,
                             color: grey3,
                             fontWeight: FontWeight.w400,
                           ),
-                        ),
-                        SizedBox(height: 8.h),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: CustomActionButton(
-                            text: buttonText,
-                            icon: buttonIcon,
-                            onPressed: onPressed,
-                            backgroundColor: buttonColor,
-                            textColor: buttonTextColor,
-                          ),
-                        ),
+                        )
                       ],
+                    ),
+                    SizedBox(width: 40.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            ad?.title ?? '',
+                            textDirection: TextDirection.rtl,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            overflow: TextOverflow.ellipsis,
+                            ad?.categoryNamePath ?? '',
+                            textDirection: TextDirection.rtl,
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: grey3,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(height: 8.h),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: CustomActionButton(
+                              text: buttonText,
+                              icon: buttonIcon,
+                              onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          AdDetailsScreen(adId: ad?.id))),
+                              backgroundColor: buttonColor,
+                              textColor: buttonTextColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(width: 16.w),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(4.r),
                       child: SizedBox(
-                        height: 81.h,
-                        width: 69.w,
-                        child: ad.imageUrls != null && ad.imageUrls!.isNotEmpty
-                            ? Image.network(ad.imageUrls!.first,
-                                fit: BoxFit.cover)
-                            : Image.asset(
-                                'assets/imgs_icons/home/assets/imgs/ايفون4.png',
-                                fit: BoxFit.cover,
-                              ),
-                      ),
+                          height: 81.h,
+                          width: 69.w,
+                          child: Image.network(ad?.imageUrls?.first ?? '',
+                              fit: BoxFit.cover)),
                     ),
                   ],
                 ),
