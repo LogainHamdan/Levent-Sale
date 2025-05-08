@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
 import 'package:flutter/material.dart';
@@ -17,14 +18,7 @@ class CustomLogoutItem extends StatelessWidget {
     return InkWell(
       onTap: () async {
         print('button clicked');
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          LoginScreen.id,
-              (route) => false,
-        );
-        await Provider.of<LoginProvider>(context, listen: false)
-            .logoutUser(context);
-        print('button succeeded');
+        logoutAlert(context);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 5.h),

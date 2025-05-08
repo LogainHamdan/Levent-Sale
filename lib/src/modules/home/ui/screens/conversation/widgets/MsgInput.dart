@@ -8,8 +8,20 @@ import 'package:provider/provider.dart';
 import '../provider.dart';
 import 'attach-section.dart';
 
+import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import '../provider.dart';
+import 'attach-section.dart';
+
 class MessageInput extends StatelessWidget {
-  const MessageInput({super.key});
+  final void Function(String message) onSend;
+
+  const MessageInput({super.key, required this.onSend});
 
   @override
   Widget build(BuildContext context) {
@@ -28,20 +40,14 @@ class MessageInput extends StatelessWidget {
               children: [
                 AttachSection(
                   oneOrTwo: 1,
-                  icon: SvgPicture.asset(
-                    photoAttachIcon,
-                    height: 24.h,
-                    width: 24.w,
-                  ),
+                  icon: SvgPicture.asset(photoAttachIcon,
+                      height: 24.h, width: 24.w),
                 ),
                 SizedBox(width: 16.w),
                 AttachSection(
                   oneOrTwo: 2,
-                  icon: SvgPicture.asset(
-                    linkAttachIcon,
-                    height: 24.h,
-                    width: 24.w,
-                  ),
+                  icon: SvgPicture.asset(linkAttachIcon,
+                      height: 24.h, width: 24.w),
                 ),
               ],
             ),
@@ -61,10 +67,12 @@ class MessageInput extends StatelessWidget {
                         .read<ConversationProvider>()
                         .updateMessage(value),
                     style: GoogleFonts.tajawal(
-                        textStyle: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18.sp)),
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18.sp,
+                      ),
+                    ),
                     decoration: InputDecoration(
                       hintText: 'اكتب رسالة',
                       hintTextDirection: TextDirection.rtl,
@@ -86,15 +94,19 @@ class MessageInput extends StatelessWidget {
             Selector<ConversationProvider, String>(
               selector: (_, provider) => provider.message,
               builder: (context, message, child) {
+                // Always show the send button if the message is not empty
                 return message.trim().isNotEmpty
                     ? IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.asset(
-                          sendIcon,
-                          height: 20.h,
-                        ),
+                        onPressed: () {
+                          onSend(message.trim());
+                          context
+                              .read<ConversationProvider>()
+                              .updateMessage('');
+                        },
+                        icon: SvgPicture.asset(sendIcon, height: 20.h),
                       )
-                    : SizedBox.shrink();
+                    : SizedBox
+                        .shrink(); // Keep the space for the icon even if hidden
               },
             ),
           ],

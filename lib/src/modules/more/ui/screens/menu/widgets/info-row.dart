@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/edit-profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../auth/models/user.dart';
 import '../../../../../auth/repos/user-helper.dart';
+import '../../../../../auth/ui/screens/splash/splash.dart';
 
 class InfoRow extends StatelessWidget {
   const InfoRow({
@@ -85,27 +87,31 @@ class InfoRow extends StatelessWidget {
             },
           );
         } else {
-          return Row(
-            children: [
-              Spacer(),
-              Text(
-                "تسجيل/دخول",
-                style: GoogleFonts.tajawal(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+          return GestureDetector(
+            onTap: () =>
+                Navigator.pushReplacementNamed(context, LoginScreen.id),
+            child: Row(
+              children: [
+                Spacer(),
+                Text(
+                  "تسجيل/دخول",
+                  style: GoogleFonts.tajawal(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-              SizedBox(width: 12.w),
-              ClipOval(
-                child: SvgPicture.asset(
-                  personIcon,
-                  width: 60.r,
-                  height: 60.r,
-                  fit: BoxFit.cover,
+                SizedBox(width: 12.w),
+                ClipOval(
+                  child: SvgPicture.asset(
+                    personIcon,
+                    width: 60.r,
+                    height: 60.r,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }
       },

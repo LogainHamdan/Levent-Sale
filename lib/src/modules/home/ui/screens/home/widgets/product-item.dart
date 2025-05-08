@@ -21,7 +21,7 @@ class ProductItem extends StatelessWidget {
     super.key,
     required this.product,
     required this.category,
-    this.height = 100,
+    this.height = 120,
     this.width = 144,
     this.hasDiscount = true,
     this.spacecUnderPic = false,

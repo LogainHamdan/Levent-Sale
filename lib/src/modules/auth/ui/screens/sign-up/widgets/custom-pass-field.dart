@@ -109,6 +109,7 @@ class CustomPasswordField extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 4.h),
                 child: Text(
+                  textDirection: TextDirection.rtl,
                   errorText!,
                   style: TextStyle(
                     color: Color(0xffF75555),

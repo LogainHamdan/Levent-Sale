@@ -33,7 +33,7 @@ class Sections extends StatelessWidget {
       body: SafeArea(
         bottom: false,
         child: Padding(
-          padding: EdgeInsets.all(8.0.sp),
+          padding: EdgeInsets.symmetric(horizontal: 16.0.w),
           child: SingleChildScrollView(
             child: Column(
               children: [

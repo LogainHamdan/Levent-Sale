@@ -8,27 +8,39 @@ import '../../../repositories/change-pass-repo.dart';
 class MenuProvider with ChangeNotifier {
   bool isLoading = false;
 
+  final TextEditingController oldPassController = TextEditingController();
+  final TextEditingController sentCodeController = TextEditingController();
+  final TextEditingController newPassAlertController = TextEditingController();
+  final TextEditingController confirmNewPassAlertController =
+      TextEditingController();
+  final TextEditingController newPassController = TextEditingController();
+  final TextEditingController confirmNewPassController =
+      TextEditingController();
+
+  @override
+  void dispose() {
+    oldPassController.dispose();
+    sentCodeController.dispose();
+    newPassAlertController.dispose();
+    confirmNewPassAlertController.dispose();
+    newPassController.dispose();
+    confirmNewPassController.dispose();
+    super.dispose();
+  }
+
   Future<void> submitChangePassword({
     required BuildContext context,
     required int userId,
-    required String oldPass,
-    required String newPass,
-    required String confirmPass,
     required String token,
   }) async {
-    if (newPass != confirmPass) {
-      _showError(context, 'كلمات المرور غير متطابقة');
-      return;
-    }
-
     isLoading = true;
     notifyListeners();
 
     try {
       final Response response = await ChangePasswordRepository().changePassword(
         userId: userId,
-        oldPassword: oldPass,
-        newPassword: newPass,
+        oldPassword: oldPassController.text.trim(),
+        newPassword: newPassController.text.trim(),
         token: token,
       );
 
@@ -36,7 +48,7 @@ class MenuProvider with ChangeNotifier {
         _showSuccess(context, 'تم تغيير كلمة المرور بنجاح');
       }
     } catch (e) {
-      print(e);
+      debugPrint('$e');
       _showError(context, 'فشل الاتصال بالخادم');
     } finally {
       isLoading = false;
@@ -45,8 +57,6 @@ class MenuProvider with ChangeNotifier {
   }
 
   Future<void> changePasswordWithToken({
-    required String newPass,
-    required String confirmPass,
     required String token,
   }) async {
     isLoading = true;
@@ -54,8 +64,8 @@ class MenuProvider with ChangeNotifier {
 
     try {
       final response = await ChangePasswordRepository().changePasswordWithToken(
-        newPassword: newPass,
-        newPasswordVerify: confirmPass,
+        newPassword: newPassAlertController.text.trim(),
+        newPasswordVerify: confirmNewPassAlertController.text.trim(),
         token: token,
       );
 

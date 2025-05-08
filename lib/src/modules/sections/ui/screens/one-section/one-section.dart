@@ -4,6 +4,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.da
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/search-field.dart';
 import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/widgets/horizontal-categories.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,53 +51,12 @@ class Section extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.w,
-                vertical: 12.0.h,
-              ),
-              child: SingleChildScrollView(
-                reverse: true,
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: sectionsProvider.rootCategories.map((category) {
-                    return Row(
-                      children: [
-                        SizedBox(width: 10.w),
-                        Text(
-                          '${category.subCategories.length}',
-                          style: TextStyle(
-                              fontSize: 14.sp, color: Colors.grey.shade600),
-                        ),
-                        SizedBox(width: 2.w),
-                        Text(
-                          category.name,
-                          style: TextStyle(
-                              fontSize: 16.sp, fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(width: 8.w),
-                        Container(
-                          width: 40.w,
-                          height: 40.h,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey.shade200,
-                          ),
-                          child: Center(
-                            child: Image.network(category.imageUrl!,
-                                width: 25.w, height: 25.h),
-                          ),
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                ),
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+              child: HorizontalCategories(),
             ),
-            Expanded(
-                child: ProductsDetails(
-              productList: [],
-            )),
+            ProductsDetails(
+              productList: homeProvider.allAds,
+            ),
           ],
         ),
       ),

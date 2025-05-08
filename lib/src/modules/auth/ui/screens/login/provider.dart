@@ -19,7 +19,7 @@ class LoginProvider extends ChangeNotifier {
   bool _rememberMe = false;
   String? _errorMessage;
   bool _isLoading = false;
-
+  String? passwordError;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailRequestController = TextEditingController();
@@ -59,6 +59,18 @@ class LoginProvider extends ChangeNotifier {
     return value ? null : 'تذكرني';
   }
 
+  void validateFields() {
+    passwordError = validatePassword(passwordController.text);
+    _isFormValid = passwordError == null;
+    notifyListeners();
+  }
+
+  String? validatePassword(String value) {
+    if (value.isEmpty) return 'يرجى إدخال كلمة المرور';
+    if (value.length < 8) return 'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل';
+    return null;
+  }
+
   void toggleRememberMe(bool? value) {
     if (value != null) {
       _rememberMe = value;
@@ -71,11 +83,11 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> logoutUser(BuildContext context) async {
+  Future<void> logoutUser(BuildContext context, {required String token}) async {
     _setLoading(true);
 
     try {
-      var response = await _authRepository.logoutUser();
+      var response = await _authRepository.logoutUser(token: token);
 
       if (response.statusCode == 200) {
         await TokenHelper.removeToken();
@@ -128,6 +140,37 @@ class LoginProvider extends ChangeNotifier {
     return token != null;
   }
 
+  Future<User?> getUserById({required int id}) async {
+    print('user passed in provider:$id');
+    try {
+      final userData = await _authRepository.getUserById(id: id);
+
+      return userData;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<void> requestPasswordReset({required String email}) async {
+    _setLoading(true);
+    _setErrorMessage(null);
+
+    try {
+      final response = await _authRepository.requestPasswordReset(email: email);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        debugPrint("Password reset email sent.");
+      } else {
+        _setErrorMessage("Failed to send reset email: ${response.statusCode}");
+      }
+    } catch (e) {
+      _setErrorMessage("Error: $e");
+      print(e.toString());
+    } finally {
+      _setLoading(false);
+    }
+  }
+
   Future<void> loginUser({
     required BuildContext context,
     required String identifier,
@@ -147,9 +190,6 @@ class LoginProvider extends ChangeNotifier {
         identifier: identifier,
         password: password,
       );
-
-      print(result['statusCode']);
-
       if (result['statusCode'] == 200) {
         final token = result['token'];
         final userData = result['user'];
@@ -182,14 +222,45 @@ class LoginProvider extends ChangeNotifier {
     }
   }
 
-  Future<User?> getUserById({required int id}) async {
-    print('user passed in provider:$id');
-    try {
-      final userData = await _authRepository.getUserById(id: id);
+  Future<void> googleLoginUser({
+    required String token,
+  }) async {
+    _setLoading(true);
 
-      return userData;
+    if (token.isEmpty) {
+      _setLoading(false);
+      _setErrorMessage('فشل تسجيل الدخول عبر جوجل. لم يتم الحصول على التوكن.');
+      await TokenHelper.removeToken();
+      return;
+    }
+
+    try {
+      final result = await _authRepository.googleLogin(token: token);
+
+      if (result.statusCode == 200) {
+        final tokenData = result.data['token'];
+        final userData = result.data['user'];
+
+        if (tokenData == null) {
+          print('التوكن غير موجود.');
+          await TokenHelper.removeToken();
+          return;
+        }
+
+        await TokenHelper.saveToken(tokenData);
+        await UserHelper.saveUser(User.fromJson(userData));
+
+        print('Google Token saved: $tokenData');
+        print('Google login result: $userData');
+        notifyListeners();
+      } else {
+        await TokenHelper.removeToken();
+      }
     } catch (e) {
-      return null;
+      await TokenHelper.removeToken();
+      print('خطأ في تسجيل الدخول عبر جوجل: ${e.toString()}');
+    } finally {
+      _setLoading(false);
     }
   }
 
@@ -201,62 +272,5 @@ class LoginProvider extends ChangeNotifier {
   void _setErrorMessage(String? message) {
     _errorMessage = message;
     notifyListeners();
-  }
-
-  Future<void> googleLogin(BuildContext context) async {
-    _setLoading(true);
-    _setErrorMessage(null);
-
-    try {
-      print("1. Attempting Google Sign-In...");
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      print("2. Google user received: $googleUser");
-
-      if (googleUser == null) {
-        print("2a. Google login canceled by user");
-        _setLoading(false);
-        _setErrorMessage("Google login canceled. Please try again.");
-        return;
-      }
-
-      print("3. Getting authentication...");
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      print("4. Authentication received");
-      final String? token = googleAuth.idToken;
-      print("5. Token retrieved: ${token != null ? 'yes' : 'no'}");
-    } catch (e) {
-      print("Error in googleLogin: $e");
-
-      if (e is DioException) {
-        _setErrorMessage('Network error occurred: ${e.message}');
-      } else if (e.toString().contains("Failed to retrieve Google ID token")) {
-        _setErrorMessage('Failed to retrieve token. Please try again.');
-      } else {
-        _setErrorMessage('An unexpected error occurred: ${e.toString()}');
-      }
-    } finally {
-      _setLoading(false);
-    }
-  }
-
-  Future<void> requestPasswordReset({required String email}) async {
-    _setLoading(true);
-    _setErrorMessage(null);
-
-    try {
-      final response = await _authRepository.requestPasswordReset(email: email);
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        debugPrint("Password reset email sent.");
-      } else {
-        _setErrorMessage("Failed to send reset email: ${response.statusCode}");
-      }
-    } catch (e) {
-      _setErrorMessage("Error: $e");
-      print(e.toString());
-    } finally {
-      _setLoading(false);
-    }
   }
 }

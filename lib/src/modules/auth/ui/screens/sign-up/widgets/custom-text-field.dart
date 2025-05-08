@@ -91,22 +91,25 @@ class CustomTextField extends StatelessWidget {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.r),
-                    borderSide: showError
-                        ? const BorderSide(color: Color(0xffF75555), width: 2.0)
-                        : BorderSide.none,
+                    borderSide:
+                        // showError
+                        //     ? const BorderSide(color: Color(0xffF75555), width: 2.0)
+                        //     :
+                        //
+                        BorderSide.none,
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                    borderSide: showError
-                        ? const BorderSide(color: Color(0xffF75555), width: 2.0)
-                        : BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                    borderSide: showError
-                        ? const BorderSide(color: Color(0xffF75555), width: 2.0)
-                        : BorderSide.none,
-                  ),
+                  // enabledBorder: OutlineInputBorder(
+                  //   borderRadius: BorderRadius.circular(10.r),
+                  //   borderSide: showError
+                  //       ? const BorderSide(color: Color(0xffF75555), width: 2.0)
+                  //       : BorderSide.none,
+                  // ),
+                  // focusedBorder: OutlineInputBorder(
+                  //   borderRadius: BorderRadius.circular(10.r),
+                  //   borderSide: showError
+                  //       ? const BorderSide(color: Color(0xffF75555), width: 2.0)
+                  //       : BorderSide.none,
+                  // ),
                   errorText: null,
                 ),
                 onChanged: onChanged,

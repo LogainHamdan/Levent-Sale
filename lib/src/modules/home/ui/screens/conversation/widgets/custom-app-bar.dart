@@ -19,12 +19,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      scrolledUnderElevation: 0,
       leading: IconButton(
         icon: leadingIcon,
         onPressed: () {},
       ),
       backgroundColor: grey9,
-      elevation: 4.0,
+      elevation: 0.5,
       shadowColor: Colors.grey.withOpacity(0.5),
       title: Padding(
         padding: EdgeInsets.symmetric(vertical: 8.0.h),
@@ -40,7 +41,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               SizedBox(width: 10.w),
               CircleAvatar(
-                backgroundImage: AssetImage(profileImageAsset),
+                backgroundImage: NetworkImage(profileImageAsset),
               ),
               SizedBox(width: 10.w),
               SizedBox(

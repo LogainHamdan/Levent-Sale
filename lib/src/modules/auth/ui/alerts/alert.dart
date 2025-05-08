@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/cancel-option.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/custom-alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/custom-divider.dart';
@@ -20,6 +21,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -143,11 +145,7 @@ void showSetNewPassword(BuildContext context) {
             backgroundColor: grey9,
             content: SizedBox(
               height: 355.h,
-              child: ChangePassColumn(
-                  sentCodeController: sentCodeController,
-                  newPassAlertController: newPassAlertController,
-                  confirmNewPassAlertController: confirmNewPassAlertController,
-                  alert: true),
+              child: ChangePassColumn(alert: true),
             )),
       );
     },
@@ -377,7 +375,7 @@ void showDatePickerDialog(
             title: Text(
               "حدد التاريخ",
               style: GoogleFonts.tajawal(
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -391,8 +389,8 @@ void showDatePickerDialog(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TableCalendar(
-                      firstDay: DateTime(2025),
-                      lastDay: DateTime(2030),
+                      firstDay: DateTime(1900),
+                      lastDay: DateTime(2025),
                       focusedDay: _selectedDay,
                       selectedDayPredicate: (day) {
                         return isSameDay(_selectedDay, day);
@@ -677,18 +675,16 @@ void _showLocationPermissionDialog(BuildContext context) {
   );
 }
 
-showAddToFavoriteAlert(BuildContext context, dynamic adId, String tagId) async {
+Future<void> showAddToFavoriteAlert(
+    BuildContext context, dynamic adId, String tagId) async {
   final token = await TokenHelper.getToken();
   await showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder: (BuildContext sheetContext) {
-      final mediaQuery = MediaQuery.of(sheetContext);
-      final favoriteProvider = Provider.of<FavoriteProvider>(
-        sheetContext,
-        listen: false,
-      );
+      final favoriteProvider =
+          Provider.of<FavoriteProvider>(sheetContext, listen: false);
       return GestureDetector(
         onTap: () => Navigator.pop(sheetContext),
         behavior: HitTestBehavior.opaque,
@@ -705,14 +701,10 @@ showAddToFavoriteAlert(BuildContext context, dynamic adId, String tagId) async {
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(15.r),
-                  ),
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(15.r)),
                 ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 10.h,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -720,9 +712,9 @@ showAddToFavoriteAlert(BuildContext context, dynamic adId, String tagId) async {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          textAlign: TextAlign.center,
                           "احفظ في قائمة المفضلة",
                           style: TextStyle(fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
                         ),
                         GestureDetector(
                           onTap: () => Navigator.of(sheetContext).pop(),
@@ -739,26 +731,23 @@ showAddToFavoriteAlert(BuildContext context, dynamic adId, String tagId) async {
                     ),
                     SizedBox(height: 20.h),
                     FutureBuilder(
-                      future:
-                          Provider.of<FavoriteProvider>(context, listen: false)
-                              .fetchTags(token ?? ''),
+                      future: favoriteProvider.fetchTags(token ?? ''),
                       builder: (context, snapshot) {
                         final provider = Provider.of<FavoriteProvider>(context);
                         final tagNames =
                             provider.tags.map((e) => e.name).toList();
 
                         return CustomDropdownSection(
-                            hint: "اختر التشكيلة",
-                            items: tagNames,
-                            dropdownKey: "tagDropdown",
-                            create: true,
-                            onItemSelected: (selectedItem) {
-                              final tag = favoriteProvider.tags.firstWhere(
-                                  (tag) => tag.name == selectedItem);
-                              print(favoriteProvider.tags);
-                              print(tag.name);
-                              favoriteProvider.setSelectedTag(tag);
-                            });
+                          hint: "اختر التشكيلة",
+                          items: tagNames,
+                          dropdownKey: "tagDropdown",
+                          create: true,
+                          onItemSelected: (selectedItem) {
+                            final tag = favoriteProvider.tags
+                                .firstWhere((tag) => tag.name == selectedItem);
+                            favoriteProvider.setSelectedTag(tag);
+                          },
+                        );
                       },
                     ),
                     SizedBox(height: 16.h),
@@ -767,54 +756,60 @@ showAddToFavoriteAlert(BuildContext context, dynamic adId, String tagId) async {
                       text: 'اضافة الى المفضلة',
                       textColor: grey9,
                       onPressed: () async {
-                        print(
-                            'Selected Tag: ${favoriteProvider.selectedTag?.name ?? 'No tag selected'}');
                         try {
                           final token = await TokenHelper.getToken();
-                          print(token);
-                          print(favoriteProvider.tags);
-                          if (sheetContext.mounted) {
-                            if (favoriteProvider.selectedTag != null) {
-                              print('Calling addToTag...');
-                              await favoriteProvider.addToTag(
-                                adId: adId,
-                                authorizationToken: token ?? '',
-                                tagId: favoriteProvider.selectedTag!.id ?? '',
+                          final success = await favoriteProvider.addToTag(
+                            context,
+                            adId: adId,
+                            authorizationToken: token ?? '',
+                            tagId: favoriteProvider.selectedTag!.id ?? '',
+                          );
+
+                          Navigator.pop(sheetContext);
+
+                          if (context.mounted) {
+                            if (success) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('تمت الإضافة إلى المفضلة بنجاح',
+                                      textDirection: TextDirection.rtl),
+                                  backgroundColor: kprimaryColor,
+                                ),
                               );
-                              if (sheetContext.mounted) {
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('تمت الإضافة إلى المفضلة بنجاح'),
-                                  ),
-                                );
-                              }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  backgroundColor: errorColor,
                                   content: Text(
-                                    'الرجاء اختيار التشكيلة',
+                                    'الإعلان موجود بالمفضلة بالفعل',
+                                    textDirection: TextDirection.rtl,
                                   ),
+                                  backgroundColor: errorColor,
                                 ),
                               );
                             }
                           }
-                        } catch (e) {
-                          if (sheetContext.mounted) {
-                            ScaffoldMessenger.of(sheetContext).showSnackBar(
+                        } on DioException catch (e) {
+                          Navigator.pop(sheetContext);
+                          if (e.response?.statusCode == 409) {
+                            ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('الإعلان بالمفضلة بالفعل'),
+                                content: Text('الإعلان موجود بالمفضلة بالفعل'),
+                                backgroundColor: Colors.orange,
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text('حدث خطأ غير متوقع، حاول مرة أخرى'),
+                                backgroundColor: Colors.red,
                               ),
                             );
                           }
                         }
                       },
                     ),
-                    SizedBox(
-                      height: 20.h,
-                    ),
+                    SizedBox(height: 20.h),
                     GestureDetector(
                       onTap: () => showNewCollectionAlert(
                           context, favoriteProvider.tagController),
@@ -829,15 +824,11 @@ showAddToFavoriteAlert(BuildContext context, dynamic adId, String tagId) async {
                                 fontWeight: FontWeight.w400),
                           ),
                           SizedBox(width: 4.w),
-                          SvgPicture.asset(
-                            addCircleGreenIcon,
-                            height: 20.h,
-                            width: 20.w,
-                          ),
-                          SizedBox(width: 10.w),
+                          SvgPicture.asset(addCircleGreenIcon,
+                              height: 20.h, width: 20.w),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -1009,12 +1000,14 @@ void deleteCollectionAlert(BuildContext context, String tagId) {
             Provider.of<FavoriteProvider>(context, listen: false);
         Navigator.pop(context);
         await favoriteProvider.deleteFavoriteTag(
-            tagId: tagId, authorizationToken: token ?? tokenTest);
+            tagId: tagId, authorizationToken: token ?? '');
         Navigator.pushNamed(context, FavoriteScreen.id);
       });
 }
 
-void logoutAlert(BuildContext context) {
+void logoutAlert(
+  BuildContext context,
+) {
   showCustomAlertDialog(
       context: context,
       title: 'هل أنت متأكد؟',
@@ -1022,9 +1015,21 @@ void logoutAlert(BuildContext context) {
       confirmText: 'تسجيل خروج',
       confirmColor: errorColor,
       cancelColor: Colors.black,
-      onConfirm: () {
+      onConfirm: () async {
+        //  final token = await TokenHelper.getToken();
+        await TokenHelper.removeToken();
+        await UserHelper.removeUser();
+        // await Provider.of<LoginProvider>(context, listen: false)
+        //     .logoutUser(context, token: token ?? '');
         Navigator.pop(context);
-        Navigator.pushNamed(context, SplashScreen.id);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                Text('تم تسجيل الخروج بنجاح', textDirection: TextDirection.rtl),
+            backgroundColor: errorColor,
+          ),
+        );
+        Navigator.pushReplacementNamed(context, SplashScreen.id);
       });
 }
 

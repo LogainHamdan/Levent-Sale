@@ -60,6 +60,16 @@ class SignUpProvider extends ChangeNotifier {
   bool get isDropdownOpened => _isDropdownOpened;
 
   String get selectedValue => _selectedValue;
+  void validatePasswordOnChange(String value) {
+    passwordError = validatePassword(value);
+    notifyListeners();
+  }
+
+  void validateConfirmPasswordOnChange(String value) {
+    confirmPasswordError =
+        validateConfirmPassword(value, passwordController.text);
+    notifyListeners();
+  }
 
   void markTriedSubmit() {
     hasTriedSubmit = true;
@@ -69,8 +79,17 @@ class SignUpProvider extends ChangeNotifier {
   void toggleAgreement(bool? value) {
     if (value != null) {
       _agreeToTerms = value;
+      checkboxError =
+          _agreeToTerms ? null : 'يجب الموافقة على الشروط والخصوصية';
       notifyListeners();
     }
+  }
+
+  String? get checkboxErrorText {
+    if (hasTriedSubmit && !_agreeToTerms) {
+      return 'يجب الموافقة على الشروط والخصوصية';
+    }
+    return null;
   }
 
   void setSelectedValue(String? value) {

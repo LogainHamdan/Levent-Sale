@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 import '../../../sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 
 class MainScreen extends StatelessWidget {
-  static const id = '/main';
+  static const id = '/';
 
   MainScreen({super.key});
 

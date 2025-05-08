@@ -1,5 +1,4 @@
 import 'package:Levant_Sale/src/config/constants.dart';
-import 'package:Levant_Sale/src/config/shared_data.dart';
 import 'package:Levant_Sale/src/modules/auth/models/user.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
@@ -66,7 +65,6 @@ class MyMaterialApp extends StatelessWidget {
             localizationsDelegates: const [
               FlutterQuillLocalizations.delegate,
             ],
-            navigatorKey: SharedData.navigationKey,
             debugShowCheckedModeBanner: false,
             title: 'Levent Sale',
             theme: ThemeData(
@@ -98,7 +96,7 @@ class MyMaterialApp extends StatelessWidget {
               MainScreen.id: (context) => MainScreen(),
               LoginScreen.id: (context) => LoginScreen(),
               SignUpScreen.id: (context) => SignUpScreen(),
-              VerificationScreen.id: (context) => VerificationScreen(),
+              //     VerificationScreen.id: (context) => VerificationScreen(),
               HomeScreen.id: (context) => HomeScreen(),
               AdsScreen.id: (context) => AdsScreen(),
               ReviewsScreen.id: (context) => ReviewsScreen(),
@@ -106,8 +104,11 @@ class MyMaterialApp extends StatelessWidget {
                     adId: 0,
                   ),
               ChatListScreen.id: (context) => ChatListScreen(),
-              ConversationScreen.id: (context) =>
-                  ConversationScreen(msgsAvailable: true),
+              ConversationScreen.id: (context) => ConversationScreen(
+                    adId: 0,
+                    userId: 0,
+                    receiverId: 0,
+                  ),
               Section.id: (context) => Section(),
               NotificationsScreen.id: (context) => NotificationsScreen(
                     noData: false,

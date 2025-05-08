@@ -110,16 +110,22 @@ class FavoriteProvider with ChangeNotifier {
     return null;
   }
 
-  Future<void> deleteFavorite(
-      {required String favid, required String token}) async {
-    notifyListeners();
-
+  Future<void> deleteFavorite({
+    required String favid,
+    required String token,
+  }) async {
     try {
       final response = await repo.deleteFavorite(token: token, favid: favid);
       print(response.statusCode);
+
       if (response.statusCode == 200) {
-        print(response.data);
         print('delete fav done: ${response.data}');
+
+        int adId = int.tryParse(favid) ?? 0;
+        if (favoriteStatus.containsKey(adId)) {
+          favoriteStatus.remove(adId);
+          notifyListeners();
+        }
       } else {
         print('delete fav failed: ${response.data}');
       }
@@ -160,27 +166,34 @@ class FavoriteProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addToTag({
+  Future<bool> addToTag(
+    BuildContext context, {
     required int adId,
     required String authorizationToken,
     required String tagId,
   }) async {
-    notifyListeners();
-
     try {
       final response = await repo.addFavoriteToTag(
         adId: adId,
         authorizationToken: authorizationToken,
         tagId: tagId,
       );
-      print('data:${response.data.toString()}');
+
       if (response.statusCode == 200) {
-        print(response.data['favoriteId'] ?? response.data['id']);
+        print('Favorite added to tag: ${response.data}');
+        favoriteStatus[adId] = true;
+        notifyListeners();
+        return true;
+      } else if (response.statusCode == 409) {
+        print('Add to tag failed: Already in favorites');
+        return false;
       } else {
         print('Add to tag failed: ${response.data}');
+        return false;
       }
     } on DioException catch (e) {
-      print(e.response?.statusCode);
+      print('DioException: ${e.response?.statusCode}');
+      rethrow;
     }
   }
 

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../main/ui/screens/main_screen.dart';
+import '../../../../sections/ui/screens/one-section/widgets/horizontal-categories.dart';
 import '../home/data.dart';
 import '../home/home.dart';
 import '../home/provider.dart';
@@ -37,7 +38,6 @@ class AdsScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 16.h,
                   horizontal: 16.0.w,
                 ),
                 child: SearchField(
@@ -45,6 +45,10 @@ class AdsScreen extends StatelessWidget {
                   hasFilterIcon: true,
                   controller: adController,
                 ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                child: HorizontalCategories(),
               ),
               ProductsDetails(
                 productList: homeProvider.allAds,

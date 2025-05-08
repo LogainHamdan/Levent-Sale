@@ -52,12 +52,14 @@ class AuthRepository {
     }
   }
 
-  Future<Response> googleLogin(String token) async {
+  Future<Response> googleLogin({required String token}) async {
     try {
-      print(" token: $token");
+      print("token: $token");
       final response = await dio.post(
         googleLoginUrl,
-        data: jsonEncode({'token': token}),
+        data: {
+          "token": token,
+        },
         options: Options(
           headers: {
             'Content-Type': 'application/json',
@@ -80,6 +82,69 @@ class AuthRepository {
       print(" ${e.toString()}");
       throw Exception(' ${e.toString()}');
     }
+  }
+
+  Future<User?> getUserById({required int id}) async {
+    try {
+      final response = await dio.get(
+        'http://37.148.208.169:8081/users/$id',
+        options: Options(
+          headers: {
+            'Accept': 'application/hal+json',
+          },
+        ),
+      );
+      print(response.data);
+      return User.fromJson(response.data);
+    } on DioException catch (e) {
+      print("Error: ${e.message}");
+      print("Error: ${e.response?.statusCode}");
+      print("Error: ${e.type}");
+      print("Raw response: ${e.response?.data}");
+      return null;
+    }
+  }
+
+  Future<Response> logoutUser({required String token}) async {
+    print('token: $token');
+
+    try {
+      final response = await dio.post(
+        logoutUrl,
+        options: Options(
+          headers: {
+            'Authorization': token,
+            'Accept': 'application/hal+json',
+          },
+        ),
+      );
+
+      await TokenHelper.removeToken();
+      return response;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        print('Response data: ${e.response?.data}');
+        throw Exception(e.response?.data ?? 'حدث خطأ أثناء تسجيل الخروج');
+      } else {
+        throw Exception('تعذر الاتصال بالخادم: ${e.message}');
+      }
+    }
+  }
+
+  Future<Response> verifyToken(String token) async {
+    dio.options.headers['Authorization'] = 'Bearer $token';
+
+    return await dio.post(
+      verifyUrl,
+      data: {'token': token},
+    );
+  }
+
+  Future<Response> resendVerificationCode(String email) async {
+    return await dio.post(
+      '$resendVerifyUrl/$email',
+      data: {'email': email},
+    );
   }
 
   Future<Map<String, dynamic>> loginUser({
@@ -118,70 +183,6 @@ class AuthRepository {
         'error': 'فشل تسجيل الدخول: الرد من السيرفر غير متوقع.',
       };
     }
-  }
-
-  Future<User?> getUserById({required int id}) async {
-    try {
-      final response = await dio.get(
-        'http://37.148.208.169:8081/users/$id',
-        options: Options(
-          headers: {
-            'Accept': 'application/hal+json',
-            //ما في توكن ب سويجر ومش زابطة ابداً حتى لو حطيتها
-          },
-        ),
-      );
-      print(response.data);
-      return User.fromJson(response.data);
-    } on DioException catch (e) {
-      print("Error: ${e.message}");
-      print("Error: ${e.response?.statusCode}");
-      print("Error: ${e.type}");
-      print("Raw response: ${e.response?.data}");
-      return null;
-    }
-  }
-
-  Future<Response> logoutUser() async {
-    final token = await TokenHelper.getToken();
-
-    if (token == null) throw Exception('قم بتسجيل الدخول أولاً');
-
-    try {
-      final response = await dio.post(
-        logoutUrl,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-      await TokenHelper.removeToken();
-      return response;
-    } on DioException catch (e) {
-      final responseData = e.response?.data;
-
-      print('$responseData');
-
-      throw Exception(responseData);
-    }
-  }
-
-  Future<Response> verifyToken(String token) async {
-    dio.options.headers['Authorization'] = 'Bearer $token';
-
-    return await dio.post(
-      verifyUrl,
-      data: {'token': token},
-    );
-  }
-
-  Future<Response> resendVerificationCode(String email) async {
-    return await dio.post(
-      '$resendVerifyUrl/$email',
-      data: {'email': email},
-    );
   }
 
   Future<void> setupAuthHeaderFromStorage() async {

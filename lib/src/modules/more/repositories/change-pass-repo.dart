@@ -17,20 +17,19 @@ class ChangePasswordRepository {
     required String newPassword,
     required String token,
   }) async {
-    final String url = updatePassUrl;
-
     try {
       final response = await _dio.post(
-        url,
-        data: {
+        updatePassUrl,
+        queryParameters: {
           "userId": userId,
           "oldPassword": oldPassword,
           "newPassword": newPassword,
         },
         options: Options(
           headers: {
-            'Authorization': 'Bearer $token',
+            'Authorization': token,
             'Content-Type': 'application/json',
+            'Accept': 'application/hal+json',
           },
         ),
       );

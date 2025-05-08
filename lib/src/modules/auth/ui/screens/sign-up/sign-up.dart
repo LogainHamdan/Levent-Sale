@@ -10,6 +10,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
 import '../../alerts/alert.dart';
@@ -68,20 +70,6 @@ class SignUpScreen extends StatelessWidget {
                               Expanded(
                                 child: CustomTextField(
                                   errorText: provider.hasTriedSubmit &&
-                                          provider.firstNameController.text
-                                              .trim()
-                                              .isEmpty
-                                      ? 'هذا الحقل مطلوب'
-                                      : null,
-                                  bgcolor: grey8,
-                                  controller: provider.firstNameController,
-                                  hint: "ادخل الاسم",
-                                ),
-                              ),
-                              SizedBox(width: 16.w),
-                              Expanded(
-                                child: CustomTextField(
-                                  errorText: provider.hasTriedSubmit &&
                                           provider.lastNameController.text
                                               .trim()
                                               .isEmpty
@@ -90,6 +78,20 @@ class SignUpScreen extends StatelessWidget {
                                   bgcolor: grey8,
                                   controller: provider.lastNameController,
                                   hint: "ادخل الكنية",
+                                ),
+                              ),
+                              SizedBox(width: 16.w),
+                              Expanded(
+                                child: CustomTextField(
+                                  errorText: provider.hasTriedSubmit &&
+                                          provider.firstNameController.text
+                                              .trim()
+                                              .isEmpty
+                                      ? 'هذا الحقل مطلوب'
+                                      : null,
+                                  bgcolor: grey8,
+                                  controller: provider.firstNameController,
+                                  hint: "ادخل الاسم",
                                 ),
                               ),
                             ],
@@ -203,6 +205,8 @@ class SignUpScreen extends StatelessWidget {
                           controller: provider.passwordController,
                           hint: "كلمة المرور",
                           errorText: provider.passwordError,
+                          onChanged: (value) =>
+                              provider.validatePasswordOnChange(value),
                         ),
                         SizedBox(height: 8.h),
                         CustomPasswordField(
@@ -210,6 +214,8 @@ class SignUpScreen extends StatelessWidget {
                           controller: provider.confirmPasswordController,
                           hint: "تأكيد كلمة المرور",
                           errorText: provider.confirmPasswordError,
+                          onChanged: (value) =>
+                              provider.validateConfirmPasswordOnChange(value),
                         ),
                         SizedBox(height: 8.h),
                         PhoneSection(
@@ -218,18 +224,21 @@ class SignUpScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         CustomCheckBox(
-                          errorText: 'يجب الموافقة على الشروط والخصوصية',
+                          errorText: provider.checkboxErrorText,
                           value: provider.agreeToTerms,
                           onChanged: provider.toggleAgreement,
                           title: Row(
                             children: [
-                              Text(
-                                "الشروط والخصوصية ",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              TextButton(
+                                onPressed: () {},
+                                child: Text("الشروط والخصوصية ",
+                                    style: GoogleFonts.tajawal(
+                                      textStyle: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )),
                               ),
                               Text(
                                 "موافق على",
@@ -317,8 +326,36 @@ class SignUpScreen extends StatelessWidget {
                           builder: (context, authProvider, child) {
                             return SocialButton(
                               facebook: false,
-                              onPressed: () =>
-                                  authProvider.googleLogin(context),
+                              onPressed: () async {
+                                print("Google login button pressed.");
+
+                                try {
+                                  final GoogleSignIn googleSignIn =
+                                      GoogleSignIn();
+                                  final GoogleSignInAccount? googleUser =
+                                      await googleSignIn.signIn();
+
+                                  if (googleUser == null) {
+                                    print('User canceled the sign-in');
+                                    return;
+                                  }
+
+                                  final GoogleSignInAuthentication googleAuth =
+                                      await googleUser.authentication;
+
+                                  final String? idToken = googleAuth.idToken;
+
+                                  if (idToken == null) {
+                                    print('Failed to get ID Token.');
+                                    return;
+                                  }
+
+                                  await authProvider.googleLoginUser(
+                                      token: idToken);
+                                } catch (e) {
+                                  print('Error during Google Sign-In: $e');
+                                }
+                              },
                               text: "الاستمرار بجوجل Google",
                               image: googlePath,
                             );

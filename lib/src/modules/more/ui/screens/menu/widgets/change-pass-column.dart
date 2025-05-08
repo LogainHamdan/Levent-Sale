@@ -16,134 +16,104 @@ import '../../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import '../provider.dart';
 
 class ChangePassColumn extends StatelessWidget {
-  TextEditingController? oldPassController;
-  TextEditingController? sentCodeController;
-  TextEditingController? newPassAlertController;
-  TextEditingController? confirmNewPassAlertController;
-  TextEditingController? newPassController;
-  TextEditingController? confirmNewPassController;
-  int? userId;
-
+  final int? userId;
   final bool alert;
 
-  ChangePassColumn(
-      {super.key,
-      this.sentCodeController,
-      this.oldPassController,
-      this.newPassAlertController,
-      this.confirmNewPassAlertController,
-      this.newPassController,
-      this.confirmNewPassController,
-      this.userId = 0,
-      required this.alert});
+  const ChangePassColumn({
+    super.key,
+    this.userId,
+    required this.alert,
+  });
 
   @override
   Widget build(BuildContext context) {
-    sentCodeController = TextEditingController(text: '');
-    oldPassController = TextEditingController(text: '');
+    final menuProvider = Provider.of<MenuProvider>(context);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        alert
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: SvgPicture.asset(
-                      cancelPath,
-                      height: 18.h,
-                      width: 18.w,
-                    ),
-                  ),
-                ],
-              )
-            : Column(
-                children: [
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  TitleRow(
-                    title: 'تغيير كلمة المرور',
-                  ),
-                ],
+        if (alert)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
+                child: SvgPicture.asset(
+                  cancelPath,
+                  height: 18.h,
+                  width: 18.w,
+                ),
               ),
-        alert
-            ? SizedBox(
-                height: 16.h,
-              )
-            : SizedBox(),
-        alert
-            ? Text(
-                'تعيين كلمة المرور',
-                style: GoogleFonts.tajawal(
-                    color: kprimaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.sp),
-              )
-            : SizedBox(),
-        alert ? SizedBox(height: 5.h) : SizedBox(),
-        alert
-            ? Text(
-                textAlign: TextAlign.center,
-                'قم بإدخال كلمة المرور الجديدة ومن ثم تأكيدها مرة أخرى',
-                style: GoogleFonts.tajawal(color: grey3, fontSize: 12.sp),
-              )
-            : SizedBox(),
-        SizedBox(
-          height: 16.h,
-        ),
+            ],
+          )
+        else
+          Column(
+            children: [
+              SizedBox(height: 20.h),
+              TitleRow(title: 'تغيير كلمة المرور'),
+            ],
+          ),
+        if (alert) ...[
+          SizedBox(height: 16.h),
+          Text('تعيين كلمة المرور',
+              style: GoogleFonts.tajawal(
+                  color: kprimaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.sp)),
+          SizedBox(height: 5.h),
+          Text(
+            textAlign: TextAlign.center,
+            'قم بإدخال كلمة المرور الجديدة ومن ثم تأكيدها مرة أخرى',
+            style: GoogleFonts.tajawal(color: grey3, fontSize: 12.sp),
+          ),
+        ],
+        SizedBox(height: 16.h),
         alert
             ? CustomTextField(
                 bgcolor: grey8,
-                controller: sentCodeController!,
+                controller: menuProvider.sentCodeController,
                 hint: 'أدخل الرمز المرسل')
             : CustomPasswordField(
-                controller: oldPassController!, hint: 'كلمة المرور الحالية'),
-        SizedBox(
-          height: 12.h,
-        ),
+                controller: menuProvider.oldPassController,
+                hint: 'كلمة المرور الحالية'),
+        SizedBox(height: 12.h),
         CustomPasswordField(
-            controller: alert ? newPassAlertController! : newPassController!,
-            hint: 'كلمة المرور الجديدة'),
-        SizedBox(
-          height: 12.h,
+          controller: alert
+              ? menuProvider.newPassAlertController
+              : menuProvider.newPassController,
+          hint: 'كلمة المرور الجديدة',
         ),
-        CustomPasswordField(
-            controller: alert
-                ? confirmNewPassAlertController!
-                : confirmNewPassController!,
-            hint: 'تأكيد كلمة المرور الجديدة'),
-        SizedBox(
-          height: 24.h,
-        ),
+      //  SizedBox(height: 12.h),
+        // CustomPasswordField(
+        //   controller: alert
+        //       ? menuProvider.confirmNewPassAlertController
+        //       : menuProvider.confirmNewPassController,
+        //   hint: 'تأكيد كلمة المرور الجديدة',
+        // ),
+        SizedBox(height: 24.h),
         CustomElevatedButton(
           text: 'تغيير كلمة المرور',
           onPressed: () async {
             final token = await TokenHelper.getToken();
 
-            final menuProvider =
-                Provider.of<MenuProvider>(context, listen: false);
             if (token == null || token.isEmpty) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('حدث خطأ: لم يتم العثور على التوكن')),
+                const SnackBar(
+                    content: Text('حدث خطأ: لم يتم العثور على التوكن')),
               );
               return;
             }
-            alert
-                ? menuProvider.changePasswordWithToken(
-                    newPass: newPassAlertController!.text.trim(),
-                    confirmPass: confirmNewPassAlertController!.text.trim(),
-                    token: token,
-                  )
-                : menuProvider.submitChangePassword(
-                    context: context,
-                    userId: userId!,
-                    oldPass: oldPassController!.text.trim(),
-                    newPass: newPassController!.text.trim(),
-                    confirmPass: confirmNewPassController!.text.trim(),
-                    token: token,
-                  );
+
+            if (alert) {
+              await menuProvider.changePasswordWithToken(token: token);
+            } else {
+              await menuProvider.submitChangePassword(
+                context: context,
+                userId: userId ?? 0,
+                token: token,
+              );
+            }
+
             Navigator.pop(context);
             showPasswordUpdated(context);
           },

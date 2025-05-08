@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 ///API
 const String baseUrl = "http://37.148.208.169";
-const String tokenTest =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtYWRtbWFuYWdlciIsImlhdCI6MTc0NDg5NTk2MCwiZXhwIjoxNzQ3MDQzNDQ0LCJpZCI6MSwidXNlcm5hbWUiOiJtYWRtbWFuYWdlciIsInBhc3N3b3JkIjoiJDJhJDEwJHFoMFZsd0hJeWdUMnlpZVZVRC9Iby5oNUJ1YnAxRlhZbU5DUndnajZhS0dkU2Fxd0cxd25hIiwicm9sZXMiOlsiQURNSU4iXSwiZmlyc3ROYW1lIjoiTWVyaGFiYSIsImxhc3ROYW1lIjoiUkFTTEVOIiwiZW1haWwiOiJtYWRtbWFuYWdlckBnbWFpbC5jb20iLCJwaG9uZU51bWJlciI6Ijk2MzI1ODUyMTQ1MyIsInByb2ZpbGVQaWN0dXJlIjoiaHR0cHM6Ly9sZXZlbnQtc2FsZS1zdG9yYWdlLnMzLmV1LW5vcnRoLTEuYW1hem9uYXdzLmNvbS9wcm9maWxlXzFfMTc0NDM4NzAwODA3NS5wbmciLCJpc1ZlcmlmaWVkIjpmYWxzZSwidG9rZW4iOiIiLCJwZXJtaXNzaW9ucyI6WyJ2aWV3X2FkcyIsInZpZXdfdXNlcl9wcm9maWxlcyIsInNlbmRfbm90aWZpY2F0aW9ucyIsImRlbGV0ZV91c2VyIiwidmlld19hZF9zdGF0aXN0aWNzIiwibWFuYWdlX2FkX3Jldmlld3MiLCJlZGl0X3VzZXJfcHJvZmlsZXMiLCJhY2Nlc3NfcmVwb3J0cyIsImRlbGV0ZV9hZCIsIm1hbmFnZV91c2VycyIsInBvc3RfYWQiLCJyZWZ1bmRfcGF5bWVudCIsImRlbGV0ZV9tZXNzYWdlIiwiYnVsa19lZGl0X2FkcyIsIm1hbmFnZV9jYXRlZ29yaWVzIiwiYmFuX3VzZXIiLCJyZXNwb25kX3RvX2NvbXBsYWludHMiLCJyZXZpZXdfYWRzIiwibWFuYWdlX3BheW1lbnRzIiwibWFuYWdlX21lc3NhZ2VzIiwibW9kZXJhdGVfY29tbWVudHMiLCJmZWF0dXJlX2FkIiwibWFuYWdlX2FkX3BvbGljaWVzIiwidmlld19wYXltZW50X2hpc3RvcnkiLCJlZGl0X3NldHRpbmdzIiwiYnVsa19kZWxldGVfYWRzIiwiZWRpdF9hZCJdfQ.1YP5KIMBrjHbPgYBo8dlaCtSYWOAzVmwLlDtnLchc7k8FtH8w3TNxSu5j0cKVFYBd5ghvjXHG7ax5UxJ9azYzg";
 const webClientId =
     '22344934998-c329k6om5herh9ngnie0280k8en1r5s3.apps.googleusercontent.com';
 
 ///endpoints
+///
 ///auth
 const String logoutUrl = "$baseUrl/users/logout";
 const String loginUrl = "$baseUrl/users/login";
@@ -38,6 +37,9 @@ const String adsUrl = "$baseUrl/search/ads/paged";
 const String getAdUrl = "$baseUrl/ads/get";
 const String searchAdsUrl =
     "http://37.148.208.169:8088/search/ads/search?query=";
+const String getConversationUrl = "http://37.148.208.169:8080/chat/between";
+const String getChatsUrl = "http://37.148.208.169:8080/chat/conversations";
+const String markAsReadUrl = "http://37.148.208.169:8080/chat/markAsRead";
 
 ///sections
 const String getCategoriesUrl = '$baseUrl/ads/get/all/roots';

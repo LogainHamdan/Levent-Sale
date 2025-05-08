@@ -4,29 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../auth/repos/token-helper.dart';
-import '../../../../home/ui/screens/ad-details/ad-details.dart';
-
 class EditScreen extends StatelessWidget {
   const EditScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final provider =
-        Provider.of<MyCollectionScreenProvider>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final token = await TokenHelper.getToken();
-      await provider.fetchMyAdsByStatus(token: token ?? '', status: 'PENDING');
+    return Consumer<MyCollectionScreenProvider>(
+        builder: (context, provider, child) {
+      print('published:${provider.publishedAds}');
+      return provider.currentTabLoading
+          ? const Center(child: CircularProgressIndicator())
+          : provider.publishedAds.isEmpty
+              ? const Center(child: Text('لا توجد إعلانات مقبولة'))
+              : ItemList(
+                  provider.currentTabTitle,
+                  provider.currentTabColor,
+                  buttonIcon: provider.currentTabIcon,
+                  buttonTextColor: provider.currentTabTextColor,
+                  ads: provider.publishedAds,
+                );
     });
-
-    return SizedBox(
-      height: 800.h,
-      child: ItemList(
-        provider.buttonText,
-        provider.buttonColor,
-        buttonIcon: provider.buttonIcon,
-        buttonTextColor: provider.buttonTextColor,
-      ),
-    );
   }
 }

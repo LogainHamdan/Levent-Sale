@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
@@ -15,6 +16,7 @@ class SplashScreen extends StatelessWidget {
   static const id = '/splash';
 
   const SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Future.delayed(Duration(seconds: 2), () {
@@ -70,8 +72,13 @@ class SplashScreen extends StatelessWidget {
                     SizedBox(height: 32.h),
                     CustomElevatedButton(
                       text: "تسجيل دخول",
-                      onPressed: () =>
-                          Navigator.pushNamed(context, LoginScreen.id),
+                      onPressed: () async {
+                        final isLoggedIn = await UserHelper.isLoggedIn();
+                        isLoggedIn
+                            ? Navigator.pushReplacementNamed(
+                                context, LoginScreen.id)
+                            : Navigator.pushNamed(context, LoginScreen.id);
+                      },
                       backgroundColor: kprimaryColor,
                       textColor: grey9,
                       date: false,
@@ -79,8 +86,13 @@ class SplashScreen extends StatelessWidget {
                     SizedBox(height: 16.h),
                     CustomElevatedButton(
                       text: "الاستمرار كضيف",
-                      onPressed: () =>
-                          Navigator.pushNamed(context, MainScreen.id),
+                      onPressed: () async {
+                        final isLoggedIn = await UserHelper.isLoggedIn();
+                        isLoggedIn
+                            ? Navigator.pushReplacementNamed(
+                                context, MainScreen.id)
+                            : Navigator.pushNamed(context, MainScreen.id);
+                      },
                       backgroundColor: grey8,
                       textColor: kprimaryColor,
                       date: false,

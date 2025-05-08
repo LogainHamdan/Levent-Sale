@@ -171,7 +171,6 @@ class AdRepository {
       );
 
       final List data = response.data;
-      print(response.data);
       return data.map((e) => AdModel.fromJson(e)).toList();
     } on DioException catch (e) {
       print('Error fetching ads by status: ${e.response?.statusCode}');

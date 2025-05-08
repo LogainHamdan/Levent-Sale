@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/models/user.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
@@ -16,8 +17,10 @@ import '../../home/widgets/product-item.dart';
 
 class CustomDraggableScrollableSheet extends StatefulWidget {
   final int userId;
+  final int adId;
 
-  const CustomDraggableScrollableSheet({super.key, required this.userId});
+  const CustomDraggableScrollableSheet(
+      {super.key, required this.userId, required this.adId});
 
   @override
   _CustomDraggableScrollableSheetState createState() =>
@@ -180,8 +183,19 @@ class _CustomDraggableScrollableSheetState
                             height: 20.h,
                           ),
                           text: 'محادثة',
-                          onPressed: () => Navigator.pushNamed(
-                              context, ConversationScreen.id),
+                          onPressed: () async {
+                            final user = await UserHelper.getUser();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ConversationScreen(
+                                  adId: widget.adId,
+                                  userId: user?.id ?? 0,
+                                  receiverId: widget.userId,
+                                ),
+                              ),
+                            );
+                          },
                           backgroundColor: kprimaryColor,
                           textColor: grey9,
                         ),

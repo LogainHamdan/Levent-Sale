@@ -14,6 +14,7 @@ class ItemList extends StatelessWidget {
   final Color buttonColor;
   final Color buttonTextColor;
   final Widget buttonIcon;
+  final List<AdModel?>? ads;
 
   const ItemList(
     this.buttonText,
@@ -21,17 +22,15 @@ class ItemList extends StatelessWidget {
     super.key,
     required this.buttonIcon,
     required this.buttonTextColor,
+    this.ads,
   });
 
   @override
   Widget build(BuildContext context) {
-    var adProvider =
-        Provider.of<MyCollectionScreenProvider>(context, listen: false);
-
     return ListView.builder(
-        itemCount: adProvider.myAdsByStatus.length,
+        itemCount: ads?.length,
         itemBuilder: (context, index) {
-          final ad = adProvider.myAdsByStatus[index];
+          final ad = ads?[index];
 
           return SizedBox(
             width: 307.w,
@@ -121,8 +120,13 @@ class ItemList extends StatelessWidget {
                       child: SizedBox(
                           height: 81.h,
                           width: 69.w,
-                          child: Image.network(ad?.imageUrls?.first ?? '',
-                              fit: BoxFit.cover)),
+                          child: Image.network(
+                            ad?.imageUrls?.first.trim() ?? '',
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(Icons.broken_image);
+                            },
+                          )),
                     ),
                   ],
                 ),

@@ -60,7 +60,6 @@ class AdDetailsScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              leadingWidth: 40.w,
               leading: Row(
                 children: [
                   if (user.id == ad?.userId)
@@ -68,9 +67,12 @@ class AdDetailsScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.pushNamed(context, UpdateAdScreen.id);
                       },
-                      child: SvgPicture.asset(
-                        editBlackIcon,
-                        height: 20.h,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 24.0.w),
+                        child: SvgPicture.asset(
+                          editBlackIcon,
+                          height: 20.h,
+                        ),
                       ),
                     ),
                 ],
@@ -214,6 +216,7 @@ class AdDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   CustomDraggableScrollableSheet(
+                    adId: ad?.id,
                     userId: ad?.userId ?? 0,
                   ),
                 ],

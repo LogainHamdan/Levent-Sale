@@ -8,7 +8,8 @@ import '../../../../../auth/ui/alerts/alert.dart';
 import '../provider.dart';
 
 class ImageSection extends StatelessWidget {
-  const ImageSection({super.key});
+  final String profileImg;
+  const ImageSection({super.key, required this.profileImg});
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +42,8 @@ class ImageSection extends StatelessWidget {
                           height: 100.h,
                           fit: BoxFit.cover,
                         )
-                      : Image.asset(
-                          'assets/imgs_icons/home/assets/imgs/منال.png',
+                      : Image.network(
+                          profileImg,
                           width: 100.w,
                           height: 100.h,
                           fit: BoxFit.cover,

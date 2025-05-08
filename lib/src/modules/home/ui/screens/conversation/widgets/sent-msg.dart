@@ -5,7 +5,8 @@ import '../../../../../../config/constants.dart';
 
 class ReceivedMsg extends StatelessWidget {
   final String text;
-  const ReceivedMsg({super.key, required this.text});
+  final DateTime time;
+  const ReceivedMsg({super.key, required this.text, required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class ReceivedMsg extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              "5:00م",
+              "${time.hour > 12 ? time.hour - 12 : time.hour}:${time.minute.toString().padLeft(2, '0')} ${time.hour >= 12 ? 'م' : 'ص'}",
               textDirection: TextDirection.rtl,
               style: TextStyle(color: Colors.black54, fontSize: 12),
             ),

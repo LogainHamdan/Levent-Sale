@@ -13,6 +13,7 @@ import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../config/constants.dart';
 import 'package:provider/provider.dart';
@@ -64,7 +65,7 @@ class LoginScreen extends StatelessWidget {
                       builder: (context, authProvider, child) {
                     return CustomPasswordField(
                       login: true,
-                      errorText: 'يرجى ادخال كلمة المرور',
+                      errorText: authProvider.passwordError,
                       isConfirmField: false,
                       controller: authProvider.passwordController,
                       hint: 'كلمة المرور',
@@ -109,18 +110,27 @@ class LoginScreen extends StatelessWidget {
                       text: 'متابعة',
                       onPressed: () async {
                         print("Login button pressed!");
-
                         loginProvider.markTriedSubmit();
+                        loginProvider.validateFields();
+                        if (!loginProvider.isFormValid) {
+                          print("Form is not valid. Please check your inputs.");
+                          return;
+                        }
 
                         await loginProvider.loginUser(
                           context: context,
-                          identifier: loginProvider.emailController.text,
-                          password: loginProvider.passwordController.text,
+                          identifier: loginProvider.emailController.text.trim(),
+                          password:
+                              loginProvider.passwordController.text.trim(),
                         );
+
                         String? token = await TokenHelper.getToken();
-                        print('$token');
+                        print('Token: $token');
                         if (token != null && token.isNotEmpty) {
-                          Navigator.pushNamed(context, MainScreen.id);
+                          Navigator.pushReplacementNamed(
+                            context,
+                            MainScreen.id,
+                          );
                         } else {
                           print("Login failed: token not available.");
                         }
@@ -137,9 +147,34 @@ class LoginScreen extends StatelessWidget {
                       builder: (context, authProvider, child) {
                     return SocialButton(
                       facebook: false,
-                      onPressed: () {
-                        print("Google login button pressed.");
-                        authProvider.googleLogin(context);
+                      onPressed: () async {
+                        final GoogleSignIn _googleSignIn = GoogleSignIn(
+                          scopes: ['email', 'profile'],
+                          serverClientId:
+                              '846139057206-h2t2convvg0hp11dasev7707pq6kro0m.apps.googleusercontent.com',
+                        );
+
+                        try {
+                          final GoogleSignInAccount? googleUser =
+                              await _googleSignIn.signIn();
+                          if (googleUser == null) {
+                            print('User cancelled sign-in');
+                            return;
+                          }
+
+                          final googleAuth = await googleUser.authentication;
+                          final idToken = googleAuth.idToken;
+
+                          if (idToken == null) {
+                            print('ID token is null!');
+                            return;
+                          }
+
+                          await authProvider.googleLoginUser(token: idToken);
+                          print('Signed in with token: $idToken');
+                        } catch (error) {
+                          print('Google Sign-In error: $error');
+                        }
                       },
                       text: "الاستمرار بجوجل Google",
                       image: googlePath,
