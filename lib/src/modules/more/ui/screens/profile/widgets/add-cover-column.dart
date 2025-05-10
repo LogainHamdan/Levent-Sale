@@ -10,6 +10,9 @@ class AddCoverColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(
+          height: 4.h,
+        ),
         Icon(
           Icons.arrow_downward_rounded,
           color: Colors.white,

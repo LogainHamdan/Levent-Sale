@@ -1,8 +1,8 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/following.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/profile/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,7 +34,7 @@ class _JoinFollowState extends State<JoinFollow> {
   @override
   Widget build(BuildContext context) {
     final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
+        Provider.of<EditProfileProvider>(context, listen: false);
 
     return FutureBuilder(
         future: profileProvider.getProfile(userId: widget.userId),

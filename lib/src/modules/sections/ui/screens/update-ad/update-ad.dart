@@ -12,25 +12,21 @@ import 'package:provider/provider.dart';
 import '../section-details/section-details1.dart';
 
 class UpdateAdScreen extends StatelessWidget {
+  final int adId;
   static const id = '/update_ad';
   final Widget lowerWidget;
   final Widget? bottomNavBar;
 
   const UpdateAdScreen(
-      {super.key, required this.lowerWidget, this.bottomNavBar});
+      {super.key,
+      required this.lowerWidget,
+      this.bottomNavBar,
+      required this.adId});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<UpdateAdProvider>(builder: (context, provider, child) {
       return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-          leading: SizedBox(),
-          title: TitleRow(
-            title: 'تعديل اعلان',
-          ),
-        ),
         backgroundColor: Colors.white,
         body: SafeArea(
             child: Column(
@@ -39,7 +35,7 @@ class UpdateAdScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.w),
               child: TitleRow(
-                  title: 'تعديل الاعلان',
+                  title: 'تعديل اعلان',
                   additionalBackFunction: () => provider.previousStep()),
             ),
             Padding(

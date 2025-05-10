@@ -12,7 +12,6 @@ class DetailsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      // Ensures full RTL layout
       textDirection: TextDirection.rtl,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,7 +22,9 @@ class DetailsSection extends StatelessWidget {
               DetailRow(
                   title: 'النوع', value: ad.adType ?? 'NA', bgColor: grey8),
               DetailRow(
-                  title: 'الحالة', value: ad.condition ?? 'NA', bgColor: grey6),
+                  title: 'الحالة',
+                  value: ad.condition?.first ?? 'NA',
+                  bgColor: grey6),
               DetailRow(
                 title: 'نوع السعر',
                 value: ad.negotiable != null
@@ -45,10 +46,12 @@ class DetailsSection extends StatelessWidget {
                   title: 'العملة', value: ad.currency ?? 'NA', bgColor: grey8),
               DetailRow(
                   title: 'المحافظة',
-                  value: ad.governorate ?? 'NA',
+                  value: ad.governorate?.name ?? 'NA',
                   bgColor: grey6),
               DetailRow(
-                  title: 'المدينة', value: ad.city ?? 'NA', bgColor: grey8),
+                  title: 'المدينة',
+                  value: ad.city?.name ?? 'NA',
+                  bgColor: grey8),
               DetailRow(
                   title: 'العنوان الكامل',
                   value: ad.fullAddress ?? 'NA',

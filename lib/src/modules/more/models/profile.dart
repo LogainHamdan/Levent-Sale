@@ -29,7 +29,6 @@ class Profile {
     this.isFollowing,
   });
 
-  // Factory method to create Profile from JSON
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
       username: json['username'],

@@ -22,7 +22,7 @@ class ProductCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AdDetailsScreen(adId: ad.id)));
+                builder: (context) => AdDetailsScreen(adId: ad.id ?? 0)));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -108,7 +108,7 @@ class ProductCard extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.symmetric(vertical: 8.0.h),
                         child: Image.network(
-                          ad.imageUrls?.first ?? '',
+                          ad.imageUrls?.first.url ?? '',
                           width: 130.w,
                           height: 100.h,
                           fit: BoxFit.cover,

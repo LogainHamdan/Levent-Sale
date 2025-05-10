@@ -1,7 +1,10 @@
 import 'package:Levant_Sale/src/modules/sections/models/attriburtes.dart';
 
+import '../../home/models/address.dart';
+import 'media-item.dart';
+
 class AdModel {
-  final dynamic id;
+  final int? id;
   final String? title;
   final String? categoryPath;
   final String? categoryNamePath;
@@ -13,17 +16,17 @@ class AdModel {
   final String? contactPhone;
   final String? contactEmail;
   final int? userId;
-  final double? price;
-  final String? governorate;
-  final String? city;
+  final int? price;
+  final Governorate? governorate;
+  final City? city;
   final String? fullAddress;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final String? adType;
   final String? preferredContactMethod;
-  final String? condition;
+  final List<String>? condition;
   final String? currency;
-  final List<String>? imageUrls;
+  final List<MediaItem>? imageUrls;
   final Map<String?, dynamic>? attributes;
   final String? tagId;
 
@@ -55,31 +58,6 @@ class AdModel {
     this.tagId,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      "title": title,
-      "categoryPath": categoryPath,
-      "categoryNamePath": categoryNamePath,
-      "description": description,
-      "longDescription": longDescription,
-      "tradePossible": tradePossible,
-      "negotiable": negotiable,
-      "contactPhone": contactPhone,
-      "contactEmail": contactEmail,
-      "userId": userId,
-      "price": price,
-      "governorate": governorate,
-      "city": city,
-      "fullAddress": fullAddress,
-      "adType": adType,
-      "preferredContactMethod": preferredContactMethod,
-      "condition": condition,
-      "currency": currency,
-      "attributes": attributes,
-      "tagId": tagId,
-    };
-  }
-
   factory AdModel.fromJson(Map<String, dynamic> json) {
     return AdModel(
       id: json['id'],
@@ -95,11 +73,12 @@ class AdModel {
       contactPhone: json['contactPhone'],
       contactEmail: json['contactEmail'],
       userId: json['userId'],
-      price: json['price'] != null
-          ? double.tryParse(json['price'].toString())
+      price:
+          json['price'] != null ? int.tryParse(json['price'].toString()) : null,
+      governorate: json['governorate'] != null
+          ? Governorate.fromJson(json['governorate'])
           : null,
-      governorate: json['governorate'],
-      city: json['city'],
+      city: json['city'] != null ? City.fromJson(json['city']) : null,
       fullAddress: json['fullAddress'],
       createdAt:
           json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
@@ -107,12 +86,47 @@ class AdModel {
           json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
       adType: json['adType'],
       preferredContactMethod: json['preferredContactMethod'],
-      condition: json['condition'],
+      condition:
+          (json['condition'] as List?)?.map((e) => e.toString()).toList(),
       currency: json['currency'],
-      imageUrls:
-          (json['imageUrls'] as List?)?.map((e) => e.toString()).toList(),
+      imageUrls: json['imageUrls'] is List
+          ? (json['imageUrls'] as List)
+              .where((e) => e is Map<String, dynamic>)
+              .map((e) => MediaItem.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : null,
       attributes: json['attributes'],
       tagId: json['tagId'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "title": title,
+      "categoryPath": categoryPath,
+      "categoryNamePath": categoryNamePath,
+      "adNo": adNo,
+      "description": description,
+      "longDescription": longDescription,
+      "tradePossible": tradePossible,
+      "negotiable": negotiable,
+      "contactPhone": contactPhone,
+      "contactEmail": contactEmail,
+      "userId": userId,
+      "price": price,
+      "governorate": governorate?.toJson(),
+      "city": city?.toJson(),
+      "fullAddress": fullAddress,
+      "createdAt": createdAt?.toIso8601String(),
+      "updatedAt": updatedAt?.toIso8601String(),
+      "adType": adType,
+      "preferredContactMethod": preferredContactMethod,
+      "condition": condition,
+      "currency": currency,
+      "imageUrls": imageUrls?.map((e) => e.toJson()).toList(),
+      "attributes": attributes,
+      "tagId": tagId,
+    };
   }
 }

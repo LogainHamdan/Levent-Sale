@@ -121,8 +121,9 @@ class MyMaterialApp extends StatelessWidget {
                     ),
                   ),
               UpdateAdScreen.id: (context) => UpdateAdScreen(
+                    adId: 0,
                     lowerWidget: SectionChoose(
-                      create: true,
+                      create: false,
                     ),
                   ),
               FilterScreen.id: (context) => FilterScreen(
@@ -132,9 +133,7 @@ class MyMaterialApp extends StatelessWidget {
               MenuScreen.id: (context) => MenuScreen(),
               EditProfileScreen.id: (context) => EditProfileScreen(),
               TechnicalSupportScreen.id: (context) => TechnicalSupportScreen(),
-              ProfileScreen.id: (context) => ProfileScreen(
-                    userId: 0,
-                  ),
+              ProfileScreen.id: (context) => const ProfileScreen(),
               FriendProfile.id: (context) {
                 return FriendProfile(
                   userId: 0,

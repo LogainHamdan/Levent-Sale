@@ -5,9 +5,9 @@ import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/friend-profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/profile/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -47,7 +47,7 @@ class _CustomDraggableScrollableSheetState
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
     final loginProvider = Provider.of<LoginProvider>(context, listen: false);
     final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
+        Provider.of<EditProfileProvider>(context, listen: false);
     print('user passed: ${widget.userId}');
 
     return FutureBuilder(
@@ -143,10 +143,11 @@ class _CustomDraggableScrollableSheetState
                                         await UserHelper.getUser();
                                     final user = await loginProvider
                                         .getUserById(id: widget.userId);
-                                    print(
-                                        'user beforei call: ${widget.userId}');
+                                    print('user before call: ${widget.userId}');
                                     if (user != null) {
-                                      user.id != currentUser?.id
+                                      print(
+                                          'currentUser: ${currentUser?.id}\nad user: ${widget.userId}');
+                                      widget.userId != currentUser?.id
                                           ? Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -159,11 +160,7 @@ class _CustomDraggableScrollableSheetState
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      ProfileScreen(
-                                                        userId:
-                                                            currentUser?.id ??
-                                                                0,
-                                                      )),
+                                                      const ProfileScreen()),
                                             );
                                     }
                                   },

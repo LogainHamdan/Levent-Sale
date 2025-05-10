@@ -2,6 +2,7 @@ import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/cutom-druggable-scrollable-sheet.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-item.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +11,7 @@ import '../../../../../config/constants.dart';
 import '../../../../auth/models/user.dart';
 import '../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import '../../../../sections/models/ad.dart';
+import '../../../../sections/ui/screens/choose-section/widgets/categories-display.dart';
 import '../../../../sections/ui/screens/update-ad/update-ad.dart';
 import '../ads/widgets/custom-rating.dart';
 import '../ads/widgets/title-row.dart';
@@ -26,10 +28,9 @@ import 'widgets/specifications.dart';
 
 class AdDetailsScreen extends StatelessWidget {
   final int adId;
-  final bool? toUpdate;
   static const id = '/ad-details';
 
-  const AdDetailsScreen({super.key, this.toUpdate = false, required this.adId});
+  const AdDetailsScreen({super.key, required this.adId});
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +65,16 @@ class AdDetailsScreen extends StatelessWidget {
                 children: [
                   if (user.id == ad?.userId)
                     InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, UpdateAdScreen.id);
-                      },
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UpdateAdScreen(
+                                    adId: adId,
+                                    lowerWidget: SectionChoose(
+                                      adId: adId,
+                                      create: false,
+                                    ),
+                                  ))),
                       child: Padding(
                         padding: EdgeInsets.only(left: 24.0.w),
                         child: SvgPicture.asset(
@@ -216,7 +224,7 @@ class AdDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   CustomDraggableScrollableSheet(
-                    adId: ad?.id,
+                    adId: ad?.id ?? 0,
                     userId: ad?.userId ?? 0,
                   ),
                 ],

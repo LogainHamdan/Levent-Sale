@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:provider/provider.dart';
 
-import '../../../../../more/ui/screens/profile/provider.dart';
+import '../../../../../more/ui/screens/edit-profile/provider.dart';
 
 class ChatItem extends StatelessWidget {
   final String message;
@@ -29,7 +29,7 @@ class ChatItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
+        Provider.of<EditProfileProvider>(context, listen: false);
 
     return FutureBuilder(
       future: Future.wait([

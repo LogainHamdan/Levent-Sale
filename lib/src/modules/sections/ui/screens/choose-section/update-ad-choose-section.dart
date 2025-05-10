@@ -23,9 +23,8 @@ class UpdateAdChooseSectionProvider extends ChangeNotifier {
 
   SubcategoryModel? get selectedSubcategory =>
       (_selectedSubcategoryIndex != null &&
-              _selectedSubcategoryIndex! >= 0 &&
-              _selectedSubcategoryIndex! < subcategories.length)
-          ? subcategories[_selectedSubcategoryIndex!]
+              (_selectedSubcategoryIndex ?? 0) < subcategories.length)
+          ? subcategories[_selectedSubcategoryIndex ?? 0]
           : null;
 
   void setSelectedCategory(int index) {
@@ -38,10 +37,20 @@ class UpdateAdChooseSectionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  RootCategoryModel? get selectedCategory => (selectedCategoryIndex! >= 0 &&
-          selectedCategoryIndex! < rootCategories.length)
-      ? rootCategories[selectedCategoryIndex!]
-      : null;
+  void mapCategoriesAndSet(String? namePath) {
+    for (int i = 0; i < rootCategories.length; i++) {
+      if (namePath?.startsWith(rootCategories[i].categoryPath ?? '') ?? false) {
+        setSelectedCategory(i);
+        break;
+      }
+    }
+  }
+
+  RootCategoryModel? get selectedCategory =>
+      ((selectedCategoryIndex ?? 0) >= 0 &&
+              (selectedCategoryIndex ?? 0) < rootCategories.length)
+          ? rootCategories[selectedCategoryIndex ?? 0]
+          : null;
 
   Future<void> fetchCategories() async {
     isLoading = true;

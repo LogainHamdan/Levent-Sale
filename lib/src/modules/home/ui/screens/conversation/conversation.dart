@@ -14,7 +14,7 @@ import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 import '../../../../auth/repos/token-helper.dart';
 import '../../../../auth/repos/user-helper.dart';
-import '../../../../more/ui/screens/profile/provider.dart';
+import '../../../../more/ui/screens/edit-profile/provider.dart';
 import '../chats/no-info-widget.dart';
 
 class ConversationScreen extends StatefulWidget {
@@ -131,7 +131,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   Widget build(BuildContext context) {
     final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
+        Provider.of<EditProfileProvider>(context, listen: false);
 
     return FutureBuilder(
       future: profileProvider.getProfile(userId: widget.receiverId),

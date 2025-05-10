@@ -148,18 +148,21 @@ class SectionTrack extends StatelessWidget {
                                                 ..removeWhere((key, value) =>
                                                     value == null);
                                           final address = Address(
-                                              governorate: createDetailsProvider
-                                                  .getSelectedValue('المحافظة'),
-                                              city: createDetailsProvider
-                                                  .getSelectedValue('المدينة'));
+                                              governorate: Governorate(
+                                                  name: createDetailsProvider
+                                                      .getSelectedValue(
+                                                          'المحافظة')),
+                                              city: City(
+                                                  name: createDetailsProvider
+                                                      .getSelectedValue(
+                                                          'المدينة')));
 
                                           final ad = AdModel(
                                               title: createDetailsProvider
                                                   .titleController.text,
-                                              categoryPath:
-                                                  createSectionChooseProvider
-                                                      .selectedCategory!
-                                                      .categoryPath,
+                                              categoryPath: createSectionChooseProvider
+                                                  .selectedCategory!
+                                                  .categoryPath,
                                               categoryNamePath:
                                                   createSectionChooseProvider
                                                       .selectedCategory!
@@ -168,20 +171,18 @@ class SectionTrack extends StatelessWidget {
                                                   .shortDescController.text,
                                               longDescription: createDetailsProvider
                                                   .contentController.text,
-                                              contactPhone:
-                                                  createDetailsProvider
-                                                      .phoneController.text,
+                                              contactPhone: createDetailsProvider
+                                                  .phoneController.text,
                                               contactEmail: user.email,
                                               userId: user.id,
-                                              price: double.tryParse(
-                                                      createDetailsProvider.priceController.text) ??
-                                                  0.0,
-                                              governorate: address.fullAddress ?? '',
-                                              city: address.city ?? '',
+                                              price: int.tryParse(createDetailsProvider
+                                                      .priceController.text) ??
+                                                  0,
+                                              governorate: address.governorate,
+                                              city: address.city,
                                               fullAddress: address.fullAddress ?? '',
                                               adType: "NEW",
                                               preferredContactMethod: "CALL",
-                                              condition: "PUBLISHED",
                                               currency: "SYP",
                                               attributes: filteredAttributes);
 
@@ -202,8 +203,8 @@ class SectionTrack extends StatelessWidget {
 
                                           create!
                                               ? await createAdProvider.createAd(
-                                                  ad: ad,
-                                                  images: createDetailsProvider
+                                                  adDTO: ad,
+                                                  files: createDetailsProvider
                                                       .selectedImages,
                                                   token: token,
                                                 )

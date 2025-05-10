@@ -54,25 +54,22 @@ class EditProfileScreen extends StatelessWidget {
                         SizedBox(height: 5.h),
                         UploadPhotoContainer(),
                         SizedBox(height: 20.h),
-                        CustomTextField(
-                          labelGrey: true,
-                          controller: profileProvider.nameController,
-                          label: 'الاسم',
-                          bgcolor: grey8,
-                        ),
-                        SizedBox(height: 16.h),
-                        CustomTextField(
-                          labelGrey: true,
-                          controller: profileProvider.emailController,
-                          label: 'البريد الإلكتروني',
-                          keyboardType: TextInputType.emailAddress,
-                          bgcolor: grey8,
-                        ),
-                        SizedBox(height: 16.h),
-                        PhoneSection(
-                          controller: profileProvider.phoneController,
-                        ),
-                        SizedBox(height: 16.h),
+                        if (!profileProvider.isCompanyAccount) ...[
+                          SizedBox(height: 16.h),
+                          CustomTextField(
+                            labelGrey: true,
+                            controller: profileProvider.firstNameController,
+                            label: 'الاسم الأول',
+                            bgcolor: grey8,
+                          ),
+                          SizedBox(height: 16.h),
+                          CustomTextField(
+                            labelGrey: true,
+                            controller: profileProvider.lastNameController,
+                            label: 'الكنية',
+                            bgcolor: grey8,
+                          ),
+                        ],
                         CustomTextField(
                           labelGrey: true,
                           prefix: GestureDetector(
@@ -101,18 +98,19 @@ class EditProfileScreen extends StatelessWidget {
                           SizedBox(height: 16.h),
                           CustomTextField(
                             labelGrey: true,
-                            controller: profileProvider.addressController,
-                            label: 'عنوان الشركة',
-                            bgcolor: grey8,
-                          ),
-                          SizedBox(height: 16.h),
-                          CustomTextField(
-                            labelGrey: true,
-                            controller: profileProvider.taxController,
+                            controller:
+                                profileProvider.businessLicenseController,
                             label: 'الرقم الضريبي',
                             bgcolor: grey8,
                           ),
                         ],
+                        SizedBox(height: 16.h),
+                        CustomTextField(
+                          labelGrey: true,
+                          controller: profileProvider.addressController,
+                          label: 'العنوان',
+                          bgcolor: grey8,
+                        ),
                         SizedBox(height: 20.h),
                         InkWell(
                           onTap: () => Navigator.pushNamed(

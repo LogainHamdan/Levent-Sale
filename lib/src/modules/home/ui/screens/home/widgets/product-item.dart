@@ -31,7 +31,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageUrl =
         (product.imageUrls != null && product.imageUrls!.isNotEmpty)
-            ? product.imageUrls!.first
+            ? product.imageUrls!.first.url
             : '';
     final provider = Provider.of<HomeProvider>(context, listen: false);
     return InkWell(
@@ -40,7 +40,7 @@ class ProductItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AdDetailsScreen(adId: product.id)));
+                builder: (context) => AdDetailsScreen(adId: product.id ?? 0)));
       },
       child: Container(
         height: height!.h,
@@ -60,7 +60,7 @@ class ProductItem extends StatelessWidget {
                   children: [
                     Positioned.fill(
                       child: Image.network(
-                        imageUrl,
+                        imageUrl ?? '',
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) =>
                             const Center(child: Icon(Icons.broken_image)),

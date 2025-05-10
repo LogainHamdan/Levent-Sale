@@ -39,7 +39,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String?> cityNames = (widget.create
+    final List<String?> cities = (widget.create
             ? createProvider.cities.map((city) => city.cityName)
             : updateProvider.cities.map((city) => city.cityName))
         .cast<String?>()
@@ -59,6 +59,11 @@ class _SectionDetails2State extends State<SectionDetails2> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomTextField(
+                onChanged: (value) {
+                  widget.create
+                      ? createProvider.titleController.text = value
+                      : updateProvider.titleController.text = value;
+                },
                 controller: widget.create
                     ? createProvider.titleController
                     : updateProvider.titleController,
@@ -69,6 +74,11 @@ class _SectionDetails2State extends State<SectionDetails2> {
               height: 16.h,
             ),
             CustomTextField(
+              onChanged: (value) {
+                widget.create
+                    ? createProvider.shortDescController.text = value
+                    : updateProvider.shortDescController.text = value;
+              },
               label: 'وصف صغير',
               controller: widget.create
                   ? createProvider.shortDescController
@@ -100,6 +110,11 @@ class _SectionDetails2State extends State<SectionDetails2> {
               create: widget.create,
             ),
             CustomTextField(
+                onChanged: (value) {
+                  widget.create
+                      ? createProvider.phoneController.text = value
+                      : updateProvider.phoneController.text = value;
+                },
                 label: 'رقم هاتف للتواصل',
                 controller: widget.create
                     ? createProvider.phoneController
@@ -111,6 +126,11 @@ class _SectionDetails2State extends State<SectionDetails2> {
             ),
             CustomTextField(
                 label: 'السعر',
+                onChanged: (value) {
+                  widget.create
+                      ? createProvider.priceController.text = value
+                      : updateProvider.priceController.text = value;
+                },
                 controller: widget.create
                     ? createProvider.priceController
                     : updateProvider.priceController,
@@ -121,6 +141,11 @@ class _SectionDetails2State extends State<SectionDetails2> {
             ),
             CustomTextField(
                 suffix: Icon(Icons.percent, color: grey4),
+                onChanged: (value) {
+                  widget.create
+                      ? createProvider.discountController.text = value
+                      : updateProvider.discountController.text = value;
+                },
                 label: 'خصم بنسبة',
                 controller: widget.create
                     ? createProvider.discountController
@@ -130,21 +155,31 @@ class _SectionDetails2State extends State<SectionDetails2> {
             SizedBox(
               height: 16.h,
             ),
-            CustomDropdownSection(
-                hint: 'ادخل اسم المدينة',
-                items: cityNames,
-                dropdownKey: 'المدينة',
-                create: widget.create,
-                title: 'المدينة'),
+            Consumer<CreateAdSectionDetailsProvider>(
+              builder: (context, provider, _) {
+                return CustomDropdownSection(
+                  hint: 'ادخل اسم المدينة',
+                  items: cities,
+                  dropdownKey: 'المدينة',
+                  create: widget.create,
+                  title: 'المدينة',
+                );
+              },
+            ),
             SizedBox(
               height: 16.h,
             ),
-            CustomDropdownSection(
-                hint: 'ادخل اسم المحافظة',
-                items: governorates,
-                dropdownKey: 'المحافظة',
-                create: widget.create,
-                title: 'المحافظة'),
+            Consumer<CreateAdSectionDetailsProvider>(
+              builder: (context, provider, _) {
+                return CustomDropdownSection(
+                  hint: 'ادخل اسم المحافظة',
+                  items: governorates,
+                  dropdownKey: 'المحافظة',
+                  create: widget.create,
+                  title: 'المحافظة',
+                );
+              },
+            ),
           ],
         ),
       ),

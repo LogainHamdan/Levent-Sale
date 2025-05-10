@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/update-ad-choose-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/widgets/categories-display.dart';
@@ -11,26 +12,30 @@ import '../create-ad/provider.dart';
 
 class SectionChoose extends StatelessWidget {
   final bool create;
+  final int? adId;
 
-  const SectionChoose({super.key, required this.create});
+  const SectionChoose({super.key, required this.create, this.adId});
 
   @override
   Widget build(BuildContext context) {
     final createProvider =
         Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
     final updateProvider =
-        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
+        Provider.of<UpdateAdChooseSectionProvider>(context, listen: false);
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
     return FutureBuilder(
-      future: create
-          ? createProvider.fetchCategories()
-          : updateProvider.fetchCategories(),
+      future: homeProvider.getAdById(adId ?? 0),
       builder: (context, snapshot) {
+        final ad = snapshot.data;
+        print('category name path for ad: ${ad?.categoryNamePath}');
+        print('category path for ad: ${ad?.categoryPath}');
+        updateProvider.mapCategoriesAndSet(ad?.categoryNamePath ?? '');
+        print('category selected: ${updateProvider.selectedCategory}');
+
         return Consumer<CreateAdProvider>(
           builder: (context, createAdProvider, _) {
-            if (create
-                ? createProvider.rootCategories.isEmpty
-                : updateProvider.rootCategories.isEmpty) {
+            if (createProvider.rootCategories.isEmpty) {
               return const Center(child: Text("No categories available"));
             }
 
@@ -48,7 +53,7 @@ class SectionChoose extends StatelessWidget {
 
                           if (create) {
                             await createProvider.fetchSubcategories(
-                              createProvider.selectedCategory!.id,
+                              createProvider.selectedCategory?.id ?? 0,
                             );
 
                             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -68,7 +73,7 @@ class SectionChoose extends StatelessWidget {
                           } else {
                             updateAdProvider.nextStep();
                             await updateProvider.fetchSubcategories(
-                              updateProvider.selectedCategory!.id,
+                              updateProvider.selectedCategory?.id ?? 0,
                             );
                             WidgetsBinding.instance.addPostFrameCallback((_) {
                               Navigator.push(

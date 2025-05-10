@@ -106,7 +106,7 @@ class ItemList extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          AdDetailsScreen(adId: ad?.id))),
+                                          AdDetailsScreen(adId: ad?.id ?? 0))),
                               backgroundColor: buttonColor,
                               textColor: buttonTextColor,
                             ),
@@ -121,7 +121,7 @@ class ItemList extends StatelessWidget {
                           height: 81.h,
                           width: 69.w,
                           child: Image.network(
-                            ad?.imageUrls?.first.trim() ?? '',
+                            ad?.imageUrls?.first.url?.trim() ?? '',
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
                               return const Icon(Icons.broken_image);

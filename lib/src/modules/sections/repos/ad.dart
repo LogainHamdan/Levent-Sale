@@ -15,21 +15,19 @@ class AdRepository {
   }
 
   factory AdRepository() => _instance;
-  Future<AdModel?> createAd({
-    required AdModel ad,
-    required List<File> images,
+
+  Future<Response> createAd({
+    required AdModel adDTO,
+    List<File>? files,
     required String token,
   }) async {
     try {
-      final formData = FormData();
-
-      formData.fields.add(MapEntry('adDTO', jsonEncode(ad.toJson())));
-
-      final imageFiles = await _prepareFiles(images);
-
-      for (var file in imageFiles) {
-        formData.files.add(MapEntry('files', file));
-      }
+      final formData = FormData.fromMap({
+        'adDTO': jsonEncode(adDTO.toJson()),
+        if (files != null && files.isNotEmpty)
+          'files':
+              files.map((file) => MultipartFile.fromFile(file.path)).toList(),
+      });
 
       final response = await dio.post(
         createAdUrl,
@@ -42,7 +40,8 @@ class AdRepository {
           },
         ),
       );
-      return AdModel.fromJson(response.data);
+
+      return response;
     } on DioException catch (e) {
       print('Dio error: ${e.message}');
       print('Status: ${e.response?.statusCode}');

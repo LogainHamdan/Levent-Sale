@@ -4,7 +4,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.da
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/more/models/profile.dart';
-import 'package:Levant_Sale/src/modules/more/ui/screens/profile/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/custom-small-button.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/follow-container.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/name-row.dart';
@@ -41,7 +41,7 @@ class _FriendProfileState extends State<FriendProfile> {
   void initState() {
     super.initState();
     final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
+        Provider.of<EditProfileProvider>(context, listen: false);
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
     _profileFuture = profileProvider.getProfile(userId: widget.userId);
@@ -223,6 +223,8 @@ class _FriendProfileState extends State<FriendProfile> {
                             return CircularProgressIndicator();
                           } else if (snapshot.hasError) {
                             return Text('فشل تحميل الاعلانات');
+                          } else if (!snapshot.hasData) {
+                            return Text('لا يوجد اعلانات لهذا المستخدم');
                           } else {
                             return Column(
                               children: homeProvider.userAds

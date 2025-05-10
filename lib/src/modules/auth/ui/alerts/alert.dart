@@ -920,7 +920,7 @@ void showNewCollectionAlert(
   );
 }
 
-void editDoneAlert(BuildContext context) {
+void editDoneAlert(BuildContext context) async {
   showCustomAlertDialog(
     context: context,
     title: 'تم التعديل',
@@ -928,46 +928,42 @@ void editDoneAlert(BuildContext context) {
     confirmText: 'تعديل',
     confirmColor: infoColor,
     onConfirm: () async {
-      final profileProvider =
-          Provider.of<EditProfileProvider>(context, listen: false);
-      final token = await TokenHelper.getToken();
-      if (token == null || token.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('حدث خطأ: لم يتم العثور على التوكن')),
+      try {
+        final profileProvider =
+            Provider.of<EditProfileProvider>(context, listen: false);
+        final token = await TokenHelper.getToken();
+
+        if (token == null || token.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'حدث خطأ: لم يتم العثور على التوكن',
+                textDirection: TextDirection.rtl,
+              ),
+              backgroundColor: errorColor,
+            ),
+          );
+          return;
+        }
+        await profileProvider.updateProfile(
+          token: token,
+          firstName: profileProvider.firstNameController.text,
+          lastName: profileProvider.lastNameController.text,
+          birthday: profileProvider.dateController.text,
+          profilePicture: profileProvider.profileImage,
+          businessLicense: profileProvider.businessLicenseController.text,
+          fullAddress: profileProvider.addressController.text,
         );
-        return;
+
+        Navigator.pop(context);
+        Navigator.pushNamed(context, ProfileScreen.id);
+      } catch (e, stack) {
+        print("Error during profile update: $e");
+        print("Stack trace: $stack");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('حدث خطأ أثناء التحديث: $e')),
+        );
       }
-      print("updateProfile called");
-
-      String firstName =
-          profileProvider.nameController.text.split(" ").isNotEmpty
-              ? profileProvider.nameController.text.split(" ").first
-              : '';
-      String lastName =
-          profileProvider.nameController.text.split(" ").length > 1
-              ? profileProvider.nameController.text.split(" ").last
-              : '';
-
-      final address = Address(
-        id: 0,
-        governorate: null,
-        city: null,
-        fullAddress: profileProvider.addressController.text,
-      );
-
-      await profileProvider.updateProfile(
-        token: token,
-        firstName: firstName,
-        lastName: lastName,
-        birthday: profileProvider.dateController.text,
-        businessName: profileProvider.businessNameController.text,
-        businessLicense: profileProvider.taxController.text,
-        address: address,
-        profilePicture: profileProvider.profileImage,
-      );
-
-      Navigator.pop(context);
-      // Navigator.pushNamed(context, ProfileScreen.id);
     },
   );
 }
@@ -1082,8 +1078,9 @@ void changePictureOptionAlert(
                           takePhotoIcon,
                           height: 20.h,
                         ),
-                        onTap: () => editProfileProvider
-                            .pickImage(ImageSource.camera, isProfile: true),
+                        onTap: () => editProfileProvider.pickImage(
+                            context, ImageSource.camera,
+                            isProfile: true),
                       ),
                       CustomDivider(),
                       OptionTile(
@@ -1093,8 +1090,9 @@ void changePictureOptionAlert(
                           fromGalleryIcon,
                           height: 20.h,
                         ),
-                        onTap: () => editProfileProvider
-                            .pickImage(ImageSource.gallery, isProfile: true),
+                        onTap: () => editProfileProvider.pickImage(
+                            context, ImageSource.gallery,
+                            isProfile: true),
                       ),
                       CustomDivider(),
                       OptionTile(

@@ -66,25 +66,31 @@ class HomeProvider extends ChangeNotifier {
 
     try {
       final response = await repo.getAds(page: page, size: size, ids: ids);
-      print('Raw response content: ${response.data['content']}');
+      print('Full response: ${response.data}');
 
       if (response.statusCode == 200) {
-        List<dynamic> content = response.data['content'];
-        print(response.statusCode);
-        print(response.data);
-        for (var item in content) {
+        if (response.data['content'] is! List) {
+          throw Exception('Content is not a list');
+        }
+
+        List<AdModel> parsedAds = [];
+        for (var item in response.data['content']) {
           try {
+            print('Processing item: $item');
             final ad = AdModel.fromJson(item);
-            print('Parsed ad: ${ad.title}');
-          } catch (e) {
+            parsedAds.add(ad);
+          } catch (e, stackTrace) {
             print('Failed to parse ad: $e');
+            print('Stack trace: $stackTrace');
+            print('Problematic item: $item');
           }
         }
 
-        allAds = content.map((e) => AdModel.fromJson(e)).toList();
+        allAds = parsedAds;
       }
     } catch (e) {
       error = 'Failed to load ads: $e';
+      print('Error loading ads: $e');
     }
 
     isLoading = false;
