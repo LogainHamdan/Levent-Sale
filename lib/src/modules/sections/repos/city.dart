@@ -12,22 +12,18 @@ class CityRepository {
   }
 
   factory CityRepository() => _instance;
-  Future<List<City>> getCities(
-      {int page = 0, int size = 20, List<String>? sort}) async {
+
+  Future<List<City>> getCities({required int governorateId}) async {
     try {
+      print('$getCitiesUrl/$governorateId');
       final response = await dio.get(
-        'http://37.148.208.169:8081/cities?page=0&size=20',
-        options: Options(headers: {'Accept': 'application/hal+json'}),
-        queryParameters: {
-          'page': page,
-          'size': size,
-          if (sort != null) 'sort': sort,
-        },
+        '$getCitiesUrl/$governorateId',
+        options: Options(headers: {'Accept': '*/*'}),
       );
 
-      if (response.statusCode == 200) {
-        final List<dynamic> data = response.data['_embedded']['cities'];
-        print(data);
+      if (response.statusCode == 200 && response.data is List) {
+        final List<dynamic> data = response.data;
+        print('cities loaded: ${response.data}');
         return data.map((e) => City.fromJson(e)).toList();
       } else {
         throw Exception('Failed to load cities: ${response.statusCode}');
@@ -37,24 +33,15 @@ class CityRepository {
     }
   }
 
-  Future<List<Governorate>> getGovernorates({
-    int page = 0,
-    int size = 20,
-    List<String>? sort,
-  }) async {
+  Future<List<Governorate>> getGovernorates() async {
     try {
       final response = await dio.get(
         getGovernoratesUrl,
-        options: Options(headers: {'Accept': 'application/hal+json'}),
-        queryParameters: {
-          'page': page,
-          'size': size,
-          if (sort != null) 'sort': sort,
-        },
+        options: Options(headers: {'Accept': '*/*'}),
       );
 
-      if (response.statusCode == 200) {
-        final List<dynamic> data = response.data['_embedded']['governorates'];
+      if (response.statusCode == 200 && response.data is List) {
+        final List<dynamic> data = response.data;
         print(data);
         return data.map((e) => Governorate.fromJson(e)).toList();
       } else {

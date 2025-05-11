@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
 import '../../../../../sections/ui/screens/collection/widgets/empty-widget.dart';
-import '../../../../models/address.dart';
 import '../provider.dart';
 
 import 'package:flutter/material.dart';

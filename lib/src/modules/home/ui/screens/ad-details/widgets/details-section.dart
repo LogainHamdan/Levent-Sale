@@ -46,11 +46,11 @@ class DetailsSection extends StatelessWidget {
                   title: 'العملة', value: ad.currency ?? 'NA', bgColor: grey8),
               DetailRow(
                   title: 'المحافظة',
-                  value: ad.governorate?.name ?? 'NA',
+                  value: ad.governorate?.governorateName ?? 'NA',
                   bgColor: grey6),
               DetailRow(
                   title: 'المدينة',
-                  value: ad.city?.name ?? 'NA',
+                  value: ad.city?.cityName ?? 'NA',
                   bgColor: grey8),
               DetailRow(
                   title: 'العنوان الكامل',
@@ -82,7 +82,6 @@ class DetailsSection extends StatelessWidget {
                   title: 'البريد الإلكتروني',
                   value: ad.contactEmail ?? 'NA',
                   bgColor: grey6),
-              // يمكنك إضافة مزيد بناءً على ما تريده من attributes مثلاً
             ],
           ),
         ],

@@ -90,7 +90,6 @@ class FavoriteRepository {
     );
     return response;
   }
-
   Future<Response> addFavoriteToTag({
     required int adId,
     required String authorizationToken,
@@ -106,10 +105,19 @@ class FavoriteRepository {
         ),
         queryParameters: {'adId': adId, 'tagId': tagId},
       );
+      print('API call successful: ${response.data}');
       return response;
     } on DioException catch (e) {
-      print('Error in API call: ${e.response?.statusCode}');
-      print('Error details: ${e.response?.data}');
+      if (e.response != null) {
+        print('Error in API call: ${e.response?.statusCode}');
+        print('Error details: ${e.response?.data}');
+      } else {
+        print('Request failed without response');
+        print('Error message: ${e.message}');
+      }
+      rethrow;
+    } catch (e) {
+      print('Unexpected error: $e');
       rethrow;
     }
   }

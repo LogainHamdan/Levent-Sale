@@ -4,7 +4,6 @@ import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
-import 'package:Levant_Sale/src/modules/home/models/address.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import 'package:Levant_Sale/src/modules/sections/models/subcategory.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
@@ -15,9 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../home/ui/screens/search-filter/widgets/card.dart';
+import '../../../../more/models/profile.dart';
 import '../../../models/ad.dart';
 import '../choose-section/create-ad-choose-section-provider.dart';
 import '../choose-section/update-ad-choose-section.dart';
@@ -147,44 +146,74 @@ class SectionTrack extends StatelessWidget {
                                                       MapEntry(key, value))
                                                 ..removeWhere((key, value) =>
                                                     value == null);
+                                          // final address = Address(
+                                          //     governorate: Governorate(
+                                          //         name: createDetailsProvider
+                                          //             .getSelectedValue(
+                                          //                 'المحافظة')),
+                                          //     city: City(
+                                          //         name: createDetailsProvider
+                                          //             .getSelectedValue(
+                                          //                 'المدينة')));
                                           final address = Address(
-                                              governorate: Governorate(
-                                                  name: createDetailsProvider
-                                                      .getSelectedValue(
-                                                          'المحافظة')),
-                                              city: City(
-                                                  name: createDetailsProvider
-                                                      .getSelectedValue(
-                                                          'المدينة')));
-
+                                              fullAddresse:
+                                                  ' المدينة: ${createDetailsProvider.selectedCity?.cityName} المحافظة: - ${createDetailsProvider.selectedGovernorate?.governorateName}',
+                                              city: createDetailsProvider
+                                                  .selectedCity,
+                                              governorate: createDetailsProvider
+                                                  .selectedGovernorate);
                                           final ad = AdModel(
-                                              title: createDetailsProvider
-                                                  .titleController.text,
-                                              categoryPath: createSectionChooseProvider
-                                                  .selectedCategory!
-                                                  .categoryPath,
-                                              categoryNamePath:
-                                                  createSectionChooseProvider
-                                                      .selectedCategory!
-                                                      .categoryNamePath,
-                                              description: createDetailsProvider
-                                                  .shortDescController.text,
-                                              longDescription: createDetailsProvider
-                                                  .contentController.text,
-                                              contactPhone: createDetailsProvider
-                                                  .phoneController.text,
-                                              contactEmail: user.email,
-                                              userId: user.id,
-                                              price: int.tryParse(createDetailsProvider
-                                                      .priceController.text) ??
-                                                  0,
-                                              governorate: address.governorate,
-                                              city: address.city,
-                                              fullAddress: address.fullAddress ?? '',
-                                              adType: "NEW",
-                                              preferredContactMethod: "CALL",
-                                              currency: "SYP",
-                                              attributes: filteredAttributes);
+                                            adNo: 'adNo',
+                                            createdAt: DateTime.now(),
+                                            updatedAt: DateTime.now(),
+                                            condition: [],
+                                            imageUrls: [],
+                                            title: createDetailsProvider
+                                                .titleController.text,
+                                            categoryPath:
+                                                createSectionChooseProvider
+                                                    .selectedCategory!
+                                                    .categoryPath,
+                                            categoryNamePath:
+                                                createSectionChooseProvider
+                                                    .selectedCategory!
+                                                    .categoryNamePath,
+                                            description: createDetailsProvider
+                                                .shortDescController.text,
+                                            longDescription:
+                                                createDetailsProvider
+                                                    .contentController.text,
+                                            contactPhone: createDetailsProvider
+                                                .phoneController.text,
+                                            contactEmail: user.email,
+                                            userId: user.id,
+                                            price: int.tryParse(
+                                                    createDetailsProvider
+                                                        .priceController
+                                                        .text) ??
+                                                0,
+                                            governorate: address.governorate,
+                                            city: address.city,
+                                            attributes: filteredAttributes,
+                                            fullAddress: address.fullAddresse,
+                                            adType: 'NEW',
+                                            // currency: createDetailsProvider
+                                            //         .currency ??
+                                            currency: 'USD', // SYP, USD, etc.
+                                            // negotiable: createDetailsProvider
+                                            //         .negotiable ?? false,
+                                            negotiable: false,
+
+                                            // preferredContactMethod:
+                                            //     createDetailsProvider
+                                            //             .preferredContactMethod ??
+                                            //         'EMAIL',
+                                            preferredContactMethod: 'EMAIL',
+                                            // tradePossible: createDetailsProvider
+                                            //         .tradePossible ??
+                                            //     false,
+                                            tradePossible: false,
+                                          );
 
                                           final token =
                                               await TokenHelper.getToken();
@@ -201,7 +230,7 @@ class SectionTrack extends StatelessWidget {
                                             return;
                                           }
 
-                                          create!
+                                          final response = create!
                                               ? await createAdProvider.createAd(
                                                   adDTO: ad,
                                                   files: createDetailsProvider
@@ -210,6 +239,7 @@ class SectionTrack extends StatelessWidget {
                                                 )
                                               : await updateAdProvider.updateAd(
                                                   adId: 0,
+                                                  //ان شاء الله..لا تنسي
                                                   //make a list of user's ads
                                                   //should be id of the selected ad from user's ads list
                                                   // make a function for the selected ads in general,
@@ -221,10 +251,14 @@ class SectionTrack extends StatelessWidget {
                                           create!
                                               ? createAdProvider.nextStep()
                                               : updateAdProvider.nextStep();
-                                          create!
-                                              ? showAdCreated(context)
-                                              : Navigator.pushNamed(context,
+                                          if (create!) {
+                                            if (response.statusCode == 200) {
+                                              showAdCreated(context);
+                                            } else {
+                                              Navigator.pushNamed(context,
                                                   MyCollectionScreen.id);
+                                            }
+                                          }
                                         }),
                                         lowerWidget: SectionDetails2(
                                             create: create!))))),

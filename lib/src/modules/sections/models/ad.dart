@@ -1,6 +1,4 @@
-import 'package:Levant_Sale/src/modules/sections/models/attriburtes.dart';
-
-import '../../home/models/address.dart';
+import '../../more/models/profile.dart';
 import 'media-item.dart';
 
 class AdModel {
@@ -28,7 +26,6 @@ class AdModel {
   final String? currency;
   final List<MediaItem>? imageUrls;
   final Map<String?, dynamic>? attributes;
-  final String? tagId;
 
   AdModel({
     this.id,
@@ -55,7 +52,6 @@ class AdModel {
     this.currency,
     this.imageUrls,
     this.attributes,
-    this.tagId,
   });
 
   factory AdModel.fromJson(Map<String, dynamic> json) {
@@ -96,7 +92,6 @@ class AdModel {
               .toList()
           : null,
       attributes: json['attributes'],
-      tagId: json['tagId'],
     );
   }
 
@@ -126,7 +121,6 @@ class AdModel {
       "currency": currency,
       "imageUrls": imageUrls?.map((e) => e.toJson()).toList(),
       "attributes": attributes,
-      "tagId": tagId,
     };
   }
 }

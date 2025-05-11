@@ -11,7 +11,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../auth/repos/user-helper.dart';
-import '../../../../home/models/address.dart';
 import '../../../models/profile.dart';
 import '../../../repositories/follow-repo.dart';
 

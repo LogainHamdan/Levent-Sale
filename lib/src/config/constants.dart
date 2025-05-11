@@ -37,6 +37,7 @@ const String adsUrl = "$baseUrl/search/ads/paged";
 const String getAdUrl = "$baseUrl/ads/get";
 const String searchAdsUrl =
     "http://37.148.208.169:8088/search/ads/search?query=";
+const String deleteAdUrl = "$baseUrl/search/ads/delete";
 const String getConversationUrl = "http://37.148.208.169:8080/chat/between";
 const String getChatsUrl = "http://37.148.208.169:8080/chat/conversations";
 const String markAsReadUrl = "http://37.148.208.169:8080/chat/markAsRead";
@@ -49,9 +50,10 @@ const String getCategoryChildrenUrl = '$baseUrl/ads/get/category/children';
 const String getAttributesById = '$baseUrl/ads/attributes/category';
 const String createAdUrl = '$baseUrl/ads/add';
 const String updateAdUrl = '$baseUrl/ads/update';
-const String getCitiesUrl = 'http://37.148.208.169:8081/cities?page=0&size=20';
+const String getCitiesUrl =
+    'http://37.148.208.169:8083/general/cities/governorate';
 const String getGovernoratesUrl =
-    'http://37.148.208.169:8081/governorates?page=0&size=20';
+    'http://37.148.208.169:8083/general/governorates/get/all';
 
 ///more
 const String getTagsUrl = '$baseUrl/favorites/tags';

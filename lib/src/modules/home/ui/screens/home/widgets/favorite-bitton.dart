@@ -68,8 +68,8 @@ class _CustomButtonState extends State<CustomButton> {
               } else {
                 await showAddToFavoriteAlert(
                   context,
-                  adId,
-                  widget.ad?.tagId ?? '',
+                  widget.ad?.id,
+                  favoriteProvider.selectedTag?.id ?? '',
                 );
               }
             },

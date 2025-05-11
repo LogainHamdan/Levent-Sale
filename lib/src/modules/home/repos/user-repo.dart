@@ -1,7 +1,6 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:dio/dio.dart';
 import '../../auth/models/user.dart';
-import '../models/address.dart';
 
 class UserRepository {
   final Dio _dio;

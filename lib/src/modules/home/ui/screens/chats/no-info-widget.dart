@@ -21,7 +21,8 @@ class NoInfoWidget extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          Expanded(
+          SizedBox(
+            height: 230.h,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

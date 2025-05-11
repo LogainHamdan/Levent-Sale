@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
+import '../../../../home/ui/screens/home/widgets/custom-indicator.dart';
 import 'create-ad-section-details.dart';
 
 class SectionDetails2 extends StatefulWidget {
@@ -23,35 +24,26 @@ class SectionDetails2 extends StatefulWidget {
 class _SectionDetails2State extends State<SectionDetails2> {
   late final createProvider;
   late final updateProvider;
-
-  @override
   void initState() {
     super.initState();
     createProvider =
         Provider.of<CreateAdSectionDetailsProvider>(context, listen: false);
     updateProvider =
         Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
-    Future.microtask(() => createProvider.loadCities());
-    Future.microtask(() => updateProvider.loadCities());
-    Future.microtask(() => createProvider.loadGovernorates());
-    Future.microtask(() => updateProvider.loadGovernorates());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.create) {
+        createProvider.loadGovernorates();
+        createProvider.loadCities(
+            governorateId: createProvider.selectedGovernorate.id ?? 2);
+      } else {
+        updateProvider.loadGovernorates();
+        updateProvider.loadCities();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<String?> cities = (widget.create
-            ? createProvider.cities.map((city) => city.cityName)
-            : updateProvider.cities.map((city) => city.cityName))
-        .cast<String?>()
-        .toList();
-    final List<String?> governorates = (widget.create
-            ? createProvider.governorates
-                .map((governorate) => governorate.governorateName)
-            : updateProvider.governorates
-                .map((governorate) => governorate.governorateName))
-        .cast<String?>()
-        .toList();
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.0.w),
       child: SingleChildScrollView(
@@ -157,12 +149,27 @@ class _SectionDetails2State extends State<SectionDetails2> {
             ),
             Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, provider, _) {
+                if (provider.isLoading) {
+                  return CustomCircularProgressIndicator();
+                }
                 return CustomDropdownSection(
-                  hint: 'ادخل اسم المدينة',
-                  items: cities,
-                  dropdownKey: 'المدينة',
+                  hint: 'ادخل اسم المحافظة',
+                  items: provider.governorates
+                      .map((governorate) => governorate.governorateName)
+                      .toList(),
+                  dropdownKey: 'المحافظة',
                   create: widget.create,
-                  title: 'المدينة',
+                  title: 'المحافظة',
+                  onItemSelected: (selectedName) {
+                    final selectedGovernorate =
+                        provider.governorates.firstWhere(
+                      (gov) => gov.governorateName == selectedName,
+                      orElse: () => provider.governorates.first,
+                    );
+                    provider.setSelectedGovernorate(selectedGovernorate);
+                    createProvider.loadCities(
+                        governorateId: createProvider.selectedGovernorate.id);
+                  },
                 );
               },
             ),
@@ -172,11 +179,18 @@ class _SectionDetails2State extends State<SectionDetails2> {
             Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, provider, _) {
                 return CustomDropdownSection(
-                  hint: 'ادخل اسم المحافظة',
-                  items: governorates,
-                  dropdownKey: 'المحافظة',
+                  hint: 'ادخل اسم المدينة',
+                  items: provider.cities.map((city) => city.cityName).toList(),
+                  dropdownKey: 'المدينة',
                   create: widget.create,
-                  title: 'المحافظة',
+                  title: 'المدينة',
+                  onItemSelected: (selectedName) {
+                    final selectedCity = provider.cities.firstWhere(
+                      (city) => city.cityName == selectedName,
+                      orElse: () => provider.cities.first,
+                    );
+                    provider.setSelectedCity(selectedCity);
+                  },
                 );
               },
             ),

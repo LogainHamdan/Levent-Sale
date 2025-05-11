@@ -4,7 +4,6 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import '../../../models/address.dart';
 import '../../../repos/user-repo.dart';
 
 class SearchProvider extends ChangeNotifier {

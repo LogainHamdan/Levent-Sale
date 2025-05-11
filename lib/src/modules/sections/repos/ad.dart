@@ -40,6 +40,30 @@ class AdRepository {
           },
         ),
       );
+      return response;
+    } on DioException catch (e) {
+      print('Dio error: ${e.message}');
+      print('Status: ${e.response?.statusCode}');
+      print('Response: ${e.response?.data}');
+      rethrow;
+    }
+  }
+
+  Future<Response> deleteAd({
+    required int id,
+    required String token,
+  }) async {
+    try {
+      final response = await dio.delete(
+        deleteAdUrl,
+        queryParameters: {'id': id},
+        options: Options(
+          headers: {
+            'Authorization': token,
+            'Accept': '*/*',
+          },
+        ),
+      );
 
       return response;
     } on DioException catch (e) {

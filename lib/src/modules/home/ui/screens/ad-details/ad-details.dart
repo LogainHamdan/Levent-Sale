@@ -1,4 +1,6 @@
+import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/cutom-druggable-scrollable-sheet.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-item.dart';
@@ -35,6 +37,7 @@ class AdDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    final adProvider = Provider.of<AdDetailsProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await homeProvider.loadAds();
@@ -64,23 +67,42 @@ class AdDetailsScreen extends StatelessWidget {
               leading: Row(
                 children: [
                   if (user.id == ad?.userId)
-                    InkWell(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UpdateAdScreen(
-                                    adId: adId,
-                                    lowerWidget: SectionChoose(
-                                      adId: adId,
-                                      create: false,
-                                    ),
-                                  ))),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 24.0.w),
-                        child: SvgPicture.asset(
-                          editBlackIcon,
-                          height: 20.h,
-                        ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 24.0.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          InkWell(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UpdateAdScreen(
+                                          adId: adId,
+                                          lowerWidget: SectionChoose(
+                                            adId: adId,
+                                            create: false,
+                                          ),
+                                        ))),
+                            child: SvgPicture.asset(
+                              editBlackIcon,
+                              height: 20.h,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              final token = await TokenHelper.getToken();
+                              await adProvider.deleteAd(
+                                  token: token ?? "", id: ad?.id ?? 0);
+                            },
+                            child: SvgPicture.asset(
+                              deleteCollectionIcon,
+                              height: 20.h,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                 ],

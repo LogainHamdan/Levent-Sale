@@ -9,7 +9,6 @@ import '../../../../more/models/profile.dart';
 import '../../../models/attriburtes.dart';
 import '../../../repos/city.dart';
 
-
 class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   Map<String, String?> selectedValues = {};
   final List<File> _selectedImages = [];
@@ -66,7 +65,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
 
   Future<void> pickImage() async {
     final pickedFile =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       _selectedImages.add(File(pickedFile.path));
       notifyListeners();
@@ -151,13 +150,12 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     return attributesMap;
   }
 
-  Future<void> loadCities(
-      {int page = 0, int size = 20, List<String>? sort}) async {
+  Future<void> loadCities({required int governorateId}) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      _cities = await cityRepo.getCities(page: page, size: size, sort: sort);
+      _cities = await cityRepo.getCities(governorateId: governorateId);
     } catch (e) {
       print('Error loading cities: $e');
     } finally {
@@ -165,20 +163,13 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  Future<void> loadGovernorates({
-    int page = 0,
-    int size = 20,
-    List<String>? sort,
-  }) async {
+
+  Future<void> loadGovernorates() async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      _governorates = await cityRepo.getGovernorates(
-        page: page,
-        size: size,
-        sort: sort,
-      );
+      _governorates = await cityRepo.getGovernorates();
     } catch (e) {
       print('Error loading governorates: $e');
     } finally {
@@ -186,5 +177,4 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 }

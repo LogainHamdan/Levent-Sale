@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-import '../../home/models/address.dart';
+import '../../more/models/profile.dart';
 
 class User {
   int? id;

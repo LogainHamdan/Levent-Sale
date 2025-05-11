@@ -59,14 +59,14 @@ class _ChatListScreenState extends State<ChatListScreen> {
             }
             return Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0.sp),
-                  child: SearchField(
-                    width: 327,
-                    hasFilterIcon: false,
-                    controller: chatsController,
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.all(8.0.sp),
+                //   child: SearchField(
+                //     width: 327,
+                //     hasFilterIcon: false,
+                //     controller: chatsController,
+                //   ),
+                // ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: chatProvider.chats?.length,

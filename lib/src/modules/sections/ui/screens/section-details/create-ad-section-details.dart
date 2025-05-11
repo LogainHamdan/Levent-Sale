@@ -16,6 +16,9 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   final Map<int, bool> _services = {};
   final AdAttributesRepository _repo = AdAttributesRepository();
   final CityRepository cityRepo = CityRepository();
+  City? _selectedCity;
+  Governorate? _selectedGovernorate;
+
   AdAttributesModel? attributesData;
   bool hasError = false;
   final TextEditingController titleController = TextEditingController();
@@ -35,8 +38,24 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   final quill.QuillController _controller = quill.QuillController.basic();
 
   quill.QuillController get controller => _controller;
-
+  City? get selectedCity => _selectedCity;
+  Governorate? get selectedGovernorate => _selectedGovernorate;
   Map<int, bool> get services => _services;
+  void setSelectedCity(City city) {
+    _selectedCity = city;
+    notifyListeners();
+  }
+
+  void setSelectedGovernorate(Governorate governorate) {
+    _selectedGovernorate = governorate;
+    notifyListeners();
+  }
+
+  void resetSelections() {
+    _selectedCity = null;
+    _selectedGovernorate = null;
+    notifyListeners();
+  }
 
   void toggleService(int id, bool value) {
     _services[id] = value;
@@ -116,7 +135,7 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
     } catch (e) {
       hasError = true;
       debugPrint('Error in fetchAttributes: $e');
-      notifyListeners(); // Ensure UI updates even on error
+      notifyListeners();
     }
   }
 
@@ -150,13 +169,12 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
     return attributesMap;
   }
 
-  Future<void> loadCities(
-      {int page = 0, int size = 20, List<String>? sort}) async {
+  Future<void> loadCities({required int governorateId}) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      _cities = await cityRepo.getCities(page: page, size: size, sort: sort);
+      _cities = await cityRepo.getCities(governorateId: governorateId);
     } catch (e) {
       print('Error loading cities: $e');
     } finally {
@@ -164,20 +182,13 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  Future<void> loadGovernorates({
-    int page = 0,
-    int size = 20,
-    List<String>? sort,
-  }) async {
+
+  Future<void> loadGovernorates() async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      _governorates = await cityRepo.getGovernorates(
-        page: page,
-        size: size,
-        sort: sort,
-      );
+      _governorates = await cityRepo.getGovernorates();
     } catch (e) {
       print('Error loading governorates: $e');
     } finally {
@@ -185,5 +196,4 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 }

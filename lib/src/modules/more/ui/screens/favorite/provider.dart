@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../auth/repos/token-helper.dart';
+import '../../../../home/models/favorite-ad.dart';
 import '../../../../sections/models/ad.dart';
 import '../../../models/tag.dart';
 
@@ -181,6 +182,10 @@ class FavoriteProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         print('Favorite added to tag: ${response.data}');
+
+        final favoriteAd = FavoriteAd.fromJson(response.data);
+        print('Favorite Ad Model: ${favoriteAd.toJson()}');
+
         favoriteStatus[adId] = true;
         notifyListeners();
         return true;

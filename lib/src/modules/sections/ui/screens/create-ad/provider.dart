@@ -41,7 +41,7 @@ class CreateAdProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createAd({
+  Future<Response> createAd({
     required AdModel adDTO,
     List<File>? files,
     required String token,
@@ -55,9 +55,16 @@ class CreateAdProvider extends ChangeNotifier {
       );
       if (response.statusCode == 200) {
         print('ad created successfully: ${response.data}');
+        return response;
+      } else {
+        print(
+            'Failed to create ad. Status code: ${response.statusCode}, Response: ${response.data}');
+        throw Exception('Failed to create ad');
       }
-    } catch (e) {
+    } catch (e, stacktrace) {
       print("Ad Create Failed: $e");
+      print("Stacktrace: $stacktrace");
+      rethrow;
     }
   }
 }

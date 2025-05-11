@@ -1,12 +1,9 @@
-import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/products-details.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-section.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/search-field.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search/widgets/users-results.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/search/widgets/ads-results.dart'; // تأكد من استيراده
-import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-widget.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/search/widgets/ads-results.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
 import '../chats/no-info-widget.dart';
 import '../home/data.dart';
+import '../home/provider.dart';
 
 class SearchScreen extends StatelessWidget {
   static const id = '/search';
@@ -23,6 +21,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<SearchProvider>();
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
     final isUsersSearch = users == true;
     final query = provider.searchController.text.trim();
 
@@ -82,29 +81,28 @@ class SearchScreen extends StatelessWidget {
                       ? const SearchUsersWidget()
                       : const SearchAdsWidget(),
 
-                SizedBox(height: 100.h),
+                SizedBox(height: 30.h),
 
-                // Static Product Sections
                 ProductSection(
                   hasDiscount: false,
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
                   category: "العروض والخصومات",
-                  products: [],
+                  products: homeProvider.allAds,
                 ),
                 ProductSection(
                   hasDiscount: false,
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
                   category: "الإعلانات الجديدة",
-                  products: [],
+                  products: homeProvider.allAds,
                 ),
                 ProductSection(
                   hasDiscount: false,
                   onMorePressed: () =>
                       Navigator.pushNamed(context, AdsScreen.id),
                   category: "الإعلانات المقترحة",
-                  products: [],
+                  products: homeProvider.allAds,
                 ),
               ],
             ),

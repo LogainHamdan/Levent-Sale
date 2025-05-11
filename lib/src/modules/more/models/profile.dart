@@ -65,10 +65,21 @@ class Address {
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
       id: json['id'],
-      governorate: Governorate.fromJson(json['governorate']),
-      city: City.fromJson(json['city']),
+      governorate: json['governorate'] != null
+          ? Governorate.fromJson(json['governorate'])
+          : null,
+      city: json['city'] != null ? City.fromJson(json['city']) : null,
       fullAddresse: json['fullAddresse'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'governorate': governorate?.toJson(),
+      'city': city?.toJson(),
+      'fullAddresse': fullAddresse,
+    };
   }
 }
 
@@ -83,34 +94,55 @@ class Governorate {
 
   factory Governorate.fromJson(Map<String, dynamic> json) {
     return Governorate(
-      id: json['id'],
-      governorateName: json['governorateName'],
+      id: json['id'] ?? 0,
+      governorateName: json['governorateName'] ?? '',
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'governorateName': governorateName,
+    };
   }
 }
 
 class City {
-  final int? id;
-  final String? cityName;
-  final String? latitude;
-  final String? longitude;
-  final int? sort;
+  final int id;
+  final String cityName;
+  final String latitude;
+  final String longitude;
+  final int sort;
+  final int governorateId;
 
   City({
-    this.id,
-    this.cityName,
-    this.latitude,
-    this.longitude,
-    this.sort,
+    required this.id,
+    required this.cityName,
+    required this.latitude,
+    required this.longitude,
+    required this.sort,
+    required this.governorateId,
   });
 
   factory City.fromJson(Map<String, dynamic> json) {
     return City(
-      id: json['id'],
-      cityName: json['cityName'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
-      sort: json['sort'],
+      id: json['id'] ?? 0,
+      cityName: json['cityName'] ?? '',
+      latitude: json['latitude'] ?? '',
+      longitude: json['longitude'] ?? '',
+      sort: json['sort'] ?? 0,
+      governorateId: json['governorateId'] ?? 0,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'cityName': cityName,
+      'latitude': latitude,
+      'longitude': longitude,
+      'sort': sort,
+      'governorateId': governorateId,
+    };
   }
 }

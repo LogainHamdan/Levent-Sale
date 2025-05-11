@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
+import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
 import '../../../repos/ad.dart';
@@ -33,7 +34,7 @@ class UpdateAdProvider extends ChangeNotifier {
 
   bool isLastStep() => _currentStep == _totalSteps - 1;
 
-  Future<void> updateAd({
+  Future<Response> updateAd({
     required int adId,
     required AdModel adModel,
     required String token,
@@ -45,14 +46,20 @@ class UpdateAdProvider extends ChangeNotifier {
         token: token,
       );
 
-      if (response.statusCode != 200 && response.statusCode != 201) {
-        throw Exception(
-            'Failed to create ad: ${response.statusCode} - ${response.data}');
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        notifyListeners();
+        print('Ad updated successfully: ${response.data}');
+        return response;
+      } else {
+        print(
+            'Failed to update ad. Status code: ${response.statusCode}, Response: ${response.data}');
+        throw Exception('Failed to update ad');
       }
+    } catch (e, stacktrace) {
+      print("Ad Update Failed: $e");
+      print("Stacktrace: $stacktrace");
       notifyListeners();
-    } catch (e) {
-      print(e.toString());
-      notifyListeners();
+      rethrow;
     }
   }
 }
