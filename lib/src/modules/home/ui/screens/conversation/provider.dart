@@ -31,7 +31,9 @@ class ConversationProvider extends ChangeNotifier {
   String _message = '';
 
   String get message => _message;
+
   File? get selectedImage1 => _selectedImage1;
+
   File? get selectedImage2 => _selectedImage2;
 
   void updateMessage(String newMessage) {
@@ -118,22 +120,15 @@ class ConversationProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> markAsRead({
+  Future<void> markAsRead(
+    List<String> msgIds, {
     required String token,
-    required String firstMsgId,
-    required String secondMsgId,
-    required String thirdMsgId,
   }) async {
     isLoading = true;
     notifyListeners();
 
     try {
-      isRead = await _repo.markAsRead(
-        token: token,
-        firstMsgId: firstMsgId,
-        secondMsgId: secondMsgId,
-        thirdMsgId: thirdMsgId,
-      );
+      isRead = await _repo.markAsRead(token: token, msgIds);
     } catch (e) {
       print(e.toString());
     } finally {

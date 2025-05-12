@@ -76,7 +76,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       final lastMessage = conversation?.lastMessage;
                       return ChatItem(
                         adId: lastMessage?.adId ?? 0,
-                        message: lastMessage?.content ?? '',
+                        message: lastMessage,
                         time:
                             '${lastMessage?.sentAt.hour}:${lastMessage?.sentAt.minute}',
                         isOnline: conversation?.unreadMessages != 0,

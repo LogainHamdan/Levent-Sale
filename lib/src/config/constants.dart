@@ -63,6 +63,11 @@ const String removeFromFavUrl = '$baseUrl/favorites/delete';
 const String checkFavUrl = '$baseUrl/favorites/check';
 const String addToTagUrl = '$baseUrl/favorites/add';
 const String deleteTagUrl = '$baseUrl/favorites/tags/delete';
+const String getFQAUrl = '$baseUrl/faqs/questions';
+const String getAnswerUrl = '$baseUrl/faqs/answer';
+const String addTicketUrl = '$baseUrl/tickets/add';
+const String getTicketsUrl = '$baseUrl/tickets/user';
+const String getTicketMsgsUrl = '$baseUrl/tickets/messages';
 
 ///collection
 const String getAdsByStatus = '$baseUrl/ads/my';

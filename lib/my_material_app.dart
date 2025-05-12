@@ -28,6 +28,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/follow/join-follow.dart'
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/friend-profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/tech-support-screen.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
@@ -96,6 +97,7 @@ class MyMaterialApp extends StatelessWidget {
               MainScreen.id: (context) => MainScreen(),
               LoginScreen.id: (context) => LoginScreen(),
               SignUpScreen.id: (context) => SignUpScreen(),
+              SupportScreen.id: (context) => SupportScreen(),
               //     VerificationScreen.id: (context) => VerificationScreen(),
               HomeScreen.id: (context) => HomeScreen(),
               AdsScreen.id: (context) => AdsScreen(),

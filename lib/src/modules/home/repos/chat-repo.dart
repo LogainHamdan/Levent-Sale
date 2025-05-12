@@ -77,29 +77,22 @@ class ChatRepository {
     }
   }
 
-  Future<bool> markAsRead({
+  Future<bool> markAsRead(
+    List<String> msgIds, {
     required String token,
-    required String firstMsgId,
-    required String secondMsgId,
-    required String thirdMsgId,
   }) async {
     try {
-      print(
-          'parameters sent: { firstMsgId: $firstMsgId, secondMsgId: $secondMsgId, thirdMsgId: $thirdMsgId }');
-      final response = await _dio.put(markAsReadUrl,
-          options: Options(
-            headers: {
-              'Authorization': token,
-              'Content-Type': 'application/json'
-            },
-          ),
-          queryParameters: {
-            'first msg id': firstMsgId,
-            'second msg id': secondMsgId,
-            'third msg id': thirdMsgId,
-          });
-
-      print(response.data);
+      print('parameters sent: { firstMsgId: ${msgIds.toString()} }');
+      final response = await _dio.put(
+        markAsReadUrl,
+        data: msgIds,
+        options: Options(
+          headers: {'Authorization': token, 'Content-Type': 'application/json'},
+        ),
+      );
+      if (response.statusCode == 200) {
+        print('marked as read successfully: ${response.data}');
+      }
 
       return true;
     } on DioException catch (e) {

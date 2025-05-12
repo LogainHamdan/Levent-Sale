@@ -139,7 +139,7 @@ class FavoriteProvider with ChangeNotifier {
     required int adId,
     required String authorizationToken,
   }) async {
-    print('Checking favorite status for ad $adId'); // Debug print
+    print('Checking favorite status for ad $adId');
     notifyListeners();
 
     try {

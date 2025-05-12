@@ -389,7 +389,7 @@ void showDatePickerDialog(
                   children: [
                     TableCalendar(
                       firstDay: DateTime(1900),
-                      lastDay: DateTime(2025),
+                      lastDay: DateTime(2026),
                       focusedDay: _selectedDay,
                       selectedDayPredicate: (day) {
                         return isSameDay(_selectedDay, day);
@@ -636,6 +636,83 @@ void showAdCreated(BuildContext context) {
                       textColor: grey9,
                       date: false,
                     )),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void showTicketCreated(BuildContext context) {
+  if (!context.mounted) return;
+
+  showDialog(
+    context: context,
+    barrierColor: Colors.black.withOpacity(0.2),
+    builder: (dialogContext) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+        child: AlertDialog(
+          backgroundColor: grey9,
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          content: SizedBox(
+            height: 360.h,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(dialogContext).pop();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(20.w),
+                        child: SvgPicture.asset(
+                          cancelPath,
+                          height: 18.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 12.h),
+                  child: SvgPicture.asset(
+                    adCreatedIcon,
+                    height: 120.h,
+                  ),
+                ),
+                SizedBox(height: 15.h),
+                Text(
+                  'تم ارسال الرسالة',
+                  textDirection: TextDirection.rtl,
+                  style: GoogleFonts.tajawal(
+                    color: kprimaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Text(
+                    maxLines: 2,
+                    'تم ارسالة رسالتك للجهة المختصة ويمكنك مراجعة التطورات خلال صفحة الدعم الفني مع جميع رسائلك',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                    style: GoogleFonts.tajawal(
+                      color: grey3,
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import '../../../../../more/ui/screens/edit-profile/provider.dart';
 
 class ChatItem extends StatelessWidget {
-  final String message;
+  final Message? message;
   final String time;
   final bool isOnline;
   final int senderId;
@@ -49,10 +49,7 @@ class ChatItem extends StatelessWidget {
             final provider =
                 Provider.of<ConversationProvider>(context, listen: false);
             final token = await TokenHelper.getToken();
-            // await provider.markAsRead(token: token ?? '',
-            //     firstMsgId: firstMsgId,
-            //     secondMsgId: secondMsgId,
-            //     thirdMsgId: thirdMsgId);
+            await provider.markAsRead([message?.id ?? ''], token: token ?? '');
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -101,7 +98,7 @@ class ChatItem extends StatelessWidget {
               ),
               subtitle: isOnline
                   ? Text(
-                      message,
+                      message?.content ?? '',
                       style: GoogleFonts.tajawal(
                         textStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
@@ -110,7 +107,7 @@ class ChatItem extends StatelessWidget {
                       ),
                     )
                   : Text(
-                      message,
+                      message?.content ?? '',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
               trailing: Text(

@@ -14,6 +14,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.da
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/update-ad-choose-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
@@ -81,6 +82,9 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (_) => UpdateAdSectionDetailsProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => TechSupportProvider(),
       ),
       ChangeNotifierProvider(
         create: (context) => MyCollectionScreenProvider(),

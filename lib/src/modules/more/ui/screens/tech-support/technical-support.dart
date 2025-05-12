@@ -1,6 +1,7 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/tech-support-screen.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/tickets-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,7 +27,13 @@ class TechnicalSupportScreen extends StatelessWidget {
             preferredSize: Size.fromHeight(40.h),
             child: Column(
               children: [
-                TitleRow(title: 'الدعم الفني'),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                  child: TitleRow(title: 'الدعم الفني'),
+                ),
+                SizedBox(
+                  height: 16.h,
+                ),
                 TabBar(
                   indicatorColor: kprimaryColor,
                   unselectedLabelColor: grey5,
@@ -51,7 +58,7 @@ class TechnicalSupportScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             FAQScreen(),
-            SupportScreen(),
+            TicketsScreen(),
           ],
         ),
       ),
