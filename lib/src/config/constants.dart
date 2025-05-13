@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 ///API
-const String baseUrl = "http://37.148.208.169";
+const String baseUrl = "http://aliyasstore.online:8080";
 const webClientId =
     '22344934998-c329k6om5herh9ngnie0280k8en1r5s3.apps.googleusercontent.com';
 

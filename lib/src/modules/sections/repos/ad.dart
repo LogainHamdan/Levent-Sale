@@ -23,20 +23,46 @@ class AdRepository {
   }) async {
     try {
       final formData = FormData.fromMap({
-        'adDTO': jsonEncode(adDTO.toJson()),
+        'adDTO': jsonEncode(     {
+          "city": {"id": "14"},
+          "governorate": {"id": "2"},
+          "adType": "NEW",
+          "contactEmail": "ahmed.developer99@gmail.com",
+          "contactPhone": "",
+          "currency": "SYP",
+          "description": "سشبيشينasda",
+          "longDescription": "<p><strong>سيشيشسي</strong></p>",
+          "fullAddress": "`zddadasd",
+          "negotiable": false,
+          "preferredContactMethod": "EMAIL",
+          "price": "2",
+          "title": "القدس ",
+          "tradePossible": false,
+          "categoryPath": "1/7/19/20",
+          "attributes": {
+            "gross_area": 5,
+            "net_area": 5,
+            "room_type": "1+1",
+            "floor_number": "7",
+            "furnishing": "مفروشة بالكامل",
+            "bathroom_count": "3",
+            "contract_type": "سنوي"
+          }
+        }),
+       
+
+
         if (files != null && files.isNotEmpty)
           'files':
               files.map((file) => MultipartFile.fromFile(file.path)).toList(),
       });
-
+print(createAdUrl);
       final response = await dio.post(
         createAdUrl,
         data: formData,
         options: Options(
           headers: {
             'Authorization': token,
-            'Accept': '*/*',
-            'Content-Type': 'multipart/form-data',
           },
         ),
       );
@@ -58,6 +84,7 @@ class AdRepository {
         deleteAdUrl,
         queryParameters: {'id': id},
         options: Options(
+          responseType: ResponseType.plain,
           headers: {
             'Authorization': token,
             'Accept': '*/*',

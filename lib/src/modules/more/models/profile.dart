@@ -102,7 +102,6 @@ class Governorate {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'governorateName': governorateName,
     };
   }
 }
@@ -138,11 +137,6 @@ class City {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'cityName': cityName,
-      'latitude': latitude,
-      'longitude': longitude,
-      'sort': sort,
-      'governorateId': governorateId,
     };
   }
 }

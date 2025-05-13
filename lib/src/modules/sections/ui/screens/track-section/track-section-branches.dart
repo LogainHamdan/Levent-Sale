@@ -163,6 +163,7 @@ class SectionTrack extends StatelessWidget {
                                               governorate: createDetailsProvider
                                                   .selectedGovernorate);
                                           final ad = AdModel(
+
                                             adNo: 'adNo',
                                             createdAt: DateTime.now(),
                                             updatedAt: DateTime.now(),

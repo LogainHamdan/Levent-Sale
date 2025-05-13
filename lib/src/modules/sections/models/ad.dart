@@ -56,7 +56,7 @@ class AdModel {
 
   factory AdModel.fromJson(Map<String, dynamic> json) {
     return AdModel(
-      id: json['id'],
+      // id: json['id'],
       title: json['title'],
       categoryPath: json['categoryPath'],
       categoryNamePath: json['categoryNamePath'],

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 
 import '../../../config/constants.dart';
@@ -16,7 +18,7 @@ class CategoriesRepository {
   Future<List<RootCategoryModel>> fetchCategories() async {
     try {
       final response = await _dio.get(getCategoriesUrl);
-
+log("url$getCategoriesUrl");
       List data = response.data;
 
       return data.map((json) => RootCategoryModel.fromJson(json)).toList();

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/provider.dart';
@@ -37,7 +39,7 @@ void main() async {
       systemNavigationBarDividerColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark,
       statusBarIconBrightness: Brightness.dark));
-
+  HttpOverrides.global = MyHttpOverrides();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
       overlays: [SystemUiOverlay.top]);
 
@@ -118,5 +120,13 @@ class MyApp extends StatelessWidget {
         create: (context) => FavoriteProvider(),
       ),
     ], child: MyMaterialApp());
+  }
+}
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
