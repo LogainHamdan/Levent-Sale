@@ -1,4 +1,4 @@
-package com.example.tajawal
+package com.levantsale.levantsale
 
 import io.flutter.embedding.android.FlutterActivity
 

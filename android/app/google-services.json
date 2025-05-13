@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "452221103090",
+    "project_id": "levant-sale-application",
+    "storage_bucket": "levant-sale-application.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452221103090:android:b7f1791561a8c69fef996b",
+        "android_client_info": {
+          "package_name": "com.levantsale.levantsale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452221103090-igc2pumhafripbhnvg67g1p6gaqksi9c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQKomriiw-7wy-Y3T_3mrIWuFKYdcpIRs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452221103090-igc2pumhafripbhnvg67g1p6gaqksi9c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "452221103090-99p45q6q4o0l1eamut8e8cbje9tqbb01.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.levantsale.levantsale"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
