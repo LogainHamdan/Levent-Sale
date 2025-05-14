@@ -20,7 +20,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? prefix;
   final double? paragraphBorderRadius;
   final bool? labelGrey;
-  final bool isRequired;
+  final bool? isRequired;
   final String? errorText;
 
   const CustomTextField({

@@ -18,20 +18,38 @@ class TicketMessage {
   });
 
   factory TicketMessage.fromJson(Map<String, dynamic> json) {
+    DateTime parseSentAt(dynamic sentAt) {
+      if (sentAt is String) {
+        return DateTime.parse(sentAt);
+      } else if (sentAt is List) {
+        return DateTime(
+          sentAt[0],
+          sentAt[1],
+          sentAt[2],
+          sentAt[3],
+          sentAt[4],
+          sentAt[5],
+          (sentAt[6] / 1000000).round(),
+        );
+      } else {
+        return DateTime.now();
+      }
+    }
+
     return TicketMessage(
-      id: json['id'] ?? '',
-      ticketId: json['ticketId'] ?? '',
-      senderId: json['senderId'] ?? 0,
+      id: json['id']?.toString() ?? '',
+      ticketId: json['ticketId']?.toString() ?? '',
+      senderId: json['senderId'] is int
+          ? json['senderId']
+          : int.tryParse(json['senderId'].toString()) ?? 0,
       senderType: SenderType.values.firstWhere(
         (e) => e.toString().split('.').last == json['senderType'],
         orElse: () => SenderType.USER,
       ),
-      message: json['message'] ?? '',
-      sentAt:
-          DateTime.parse(json['sentAt'] ?? DateTime.now().toIso8601String()),
+      message: json['message']?.toString() ?? '',
+      sentAt: parseSentAt(json['sentAt']),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,

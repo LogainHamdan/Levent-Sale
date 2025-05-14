@@ -2,6 +2,7 @@ import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/models/user.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/logo/logo.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/sign-up.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/splash.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/verify.dart';
@@ -91,8 +92,9 @@ class MyMaterialApp extends StatelessWidget {
                     fontSize: 20.sp, fontWeight: FontWeight.bold),
               ),
             ),
-            initialRoute: MainScreen.id,
+            initialRoute: LogoScreen.id,
             routes: {
+              LogoScreen.id: (context) => LogoScreen(),
               SplashScreen.id: (context) => SplashScreen(),
               MainScreen.id: (context) => MainScreen(),
               LoginScreen.id: (context) => LoginScreen(),
@@ -154,6 +156,9 @@ class MyMaterialApp extends StatelessWidget {
                   ),
               DeleteAccountScreen.id: (context) => DeleteAccountScreen(
                     phase1email: true,
+                  ),
+              ChangePassColumn.id: (context) => ChangePassColumn(
+                    alert: false,
                   ),
             },
             onUnknownRoute: (settings) {

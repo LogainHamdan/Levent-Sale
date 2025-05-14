@@ -65,21 +65,21 @@ class _TicketsScreenState extends State<TicketsScreen> {
                 tickets.isEmpty
                     ? NoInfoWidget(
                         img: emptyChatIcon, msg: 'لا يوجد لديك رسائل')
-                    : ListView.separated(
-                        separatorBuilder: (context, index) =>
-                            SizedBox(height: 16.h),
-                        itemCount: tickets.length,
-                        itemBuilder: (context, index) {
-                          final ticket = tickets[index];
-                          return GestureDetector(
-                            onTap: () {},
-                            child: CustomTicketCard(
-                              title: ticket.title,
-                              sentAt: ticket.createdAt,
-                              status: ticket.status,
-                            ),
-                          );
-                        },
+                    : Expanded(
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 10.h),
+                          itemCount: tickets.length,
+                          itemBuilder: (context, index) {
+                            final ticket = tickets[index];
+                            return GestureDetector(
+                              onTap: () {},
+                              child: CustomTicketCard(
+                                ticket: ticket,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                 SizedBox(
                   height: 24.h,

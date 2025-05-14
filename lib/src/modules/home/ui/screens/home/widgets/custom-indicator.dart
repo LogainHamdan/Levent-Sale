@@ -15,10 +15,10 @@ class CustomCircularProgressIndicator extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            width: 50.0.w,
-            height: 50.w,
+            width: 30.0.w,
+            height: 30.w,
             child: CircularProgressIndicator(
-              strokeWidth: 4.w,
+              strokeWidth: 3.w,
               color: kprimaryColor,
             ),
           ),

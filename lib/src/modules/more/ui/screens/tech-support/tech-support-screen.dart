@@ -28,7 +28,7 @@ class SupportScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-        title: TitleRow(title: 'ارسال تيكت'),
+        title: TitleRow(title: 'انشاء تيكت'),
       ),
       body: SafeArea(
         child: Padding(
@@ -56,19 +56,19 @@ class SupportScreen extends StatelessWidget {
                 label: 'الرسالة',
                 bgcolor: grey8,
                 paragraph: true,
-                paragraphBorderRadius: 2,
+                paragraphBorderRadius: 2.r,
               ),
               SizedBox(height: 10.h),
               CustomElevatedButton(
                 text: 'ارسال',
                 onPressed: () async {
                   final token = await TokenHelper.getToken();
-                  final ticket = TicketMessageDTO(
+                  final ticketMsg = TicketMessageDTO(
                       title: techSupportProvider.titleController.text,
                       message: techSupportProvider.msgController.text);
                   bottomNavProvider.setIndex(0);
                   await techSupportProvider.addTicket(
-                      token: token ?? '', ticket: ticket);
+                      token: token ?? '', ticket: ticketMsg);
                   if (techSupportProvider.isTicketCreated) {
                     showTicketCreated(context);
                   }

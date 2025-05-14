@@ -10,6 +10,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/empty-text-field.
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/widgets/option-tile.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/logo/logo.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/splash.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/verify.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/simple-title.dart';
@@ -19,6 +20,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/ticket-conversation.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
 import 'package:dio/dio.dart';
@@ -37,6 +39,7 @@ import '../../../main/ui/screens/provider.dart';
 import '../../../more/models/tag.dart';
 import '../../../more/ui/screens/edit-profile/provider.dart';
 import '../../../more/ui/screens/edit-profile/widgets/title-cancel.dart';
+import '../../../more/ui/screens/tech-support/technical-support.dart';
 import '../../../sections/ui/screens/section-details/widgets/custom-dropdown.dart';
 import '../screens/login/widgets/confrm-cancel-button.dart';
 import '../screens/sign-up/widgets/custom-dropdowm.dart';
@@ -713,6 +716,18 @@ void showTicketCreated(BuildContext context) {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 24.h,
+                ),
+                Padding(
+                  padding:  EdgeInsets.symmetric(horizontal:24.0.w),
+                  child: CustomElevatedButton(
+                      text: 'جميع الرسائل',
+                      onPressed: () => Navigator.pushReplacementNamed(
+                          context, TechnicalSupportScreen.id),
+                      backgroundColor: kprimaryColor,
+                      textColor: grey9),
+                )
               ],
             ),
           ),
@@ -1101,7 +1116,7 @@ void logoutAlert(
             backgroundColor: errorColor,
           ),
         );
-        Navigator.pushReplacementNamed(context, SplashScreen.id);
+        Navigator.pushReplacementNamed(context, LogoScreen.id);
       });
 }
 

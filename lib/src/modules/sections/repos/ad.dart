@@ -23,49 +23,49 @@ class AdRepository {
   }) async {
     try {
       final formData = FormData.fromMap({
-        'adDTO': jsonEncode(     {
-          "city": {"id": "14"},
-          "governorate": {"id": "2"},
-          "adType": "NEW",
-          "contactEmail": "ahmed.developer99@gmail.com",
-          "contactPhone": "",
-          "currency": "SYP",
-          "description": "سشبيشينasda",
-          "longDescription": "<p><strong>سيشيشسي</strong></p>",
-          "fullAddress": "`zddadasd",
-          "negotiable": false,
-          "preferredContactMethod": "EMAIL",
-          "price": "2",
-          "title": "القدس ",
-          "tradePossible": false,
-          "categoryPath": "1/7/19/20",
-          "attributes": {
-            "gross_area": 5,
-            "net_area": 5,
-            "room_type": "1+1",
-            "floor_number": "7",
-            "furnishing": "مفروشة بالكامل",
-            "bathroom_count": "3",
-            "contract_type": "سنوي"
-          }
-        }),
-       
-
-
+        // jsonEncode({
+        // "city": {"id": "14"},
+        // "governorate": {"id": "2"},
+        // "adType": "NEW",
+        // "contactEmail": "ahmed.developer99@gmail.com",
+        // "contactPhone": "",
+        // "currency": "SYP",
+        // "description": "سشبيشينasda",
+        // "longDescription": "<p><strong>سيشيشسي</strong></p>",
+        // "fullAddress": "`zddadasd",
+        // "negotiable": false,
+        // "preferredContactMethod": "EMAIL",
+        // "price": "2",
+        // "title": "القدس ",
+        // "tradePossible": false,
+        // "categoryPath": "1/7/19/20",
+        // "attributes": {
+        // "gross_area": 5,
+        // "net_area": 5,
+        // "room_type": "1+1",
+        // "floor_number": "7",
+        // "furnishing": "مفروشة بالكامل",
+        // "bathroom_count": "3",
+        // "contract_type": "سنوي"
+        // }
+        // }),
+        'adDTO': jsonEncode(adDTO),
         if (files != null && files.isNotEmpty)
           'files':
               files.map((file) => MultipartFile.fromFile(file.path)).toList(),
       });
-print(createAdUrl);
+      print(createAdUrl);
       final response = await dio.post(
         createAdUrl,
         data: formData,
         options: Options(
           headers: {
             'Authorization': token,
+            'Content-Type': 'multipart/form-data',
           },
         ),
       );
+      print('headers: ${response.headers}');
       return response;
     } on DioException catch (e) {
       print('Dio error: ${e.message}');
@@ -152,16 +152,18 @@ print(createAdUrl);
     return response;
   }
 
-  Future<Response> getAds({int page = 0, int size = 8, List<int>? ids}) async {
+  Future<Response> getAds(
+      {String? token, int page = 0, int size = 8, List<int>? ids}) async {
     try {
-      final response = await dio.get(
-        adsUrl,
-        queryParameters: {
-          'page': page,
-          'size': size,
-          if (ids != null) 'ids': ids,
-        },
-      );
+      final response = await dio.get(adsUrl,
+          queryParameters: {
+            'page': page,
+            'size': size,
+            if (ids != null) 'ids': ids,
+          },
+          options: Options(headers: {
+            'Authorization': token,
+          }));
       return response;
     } catch (e) {
       throw Exception('Repository API error: $e');

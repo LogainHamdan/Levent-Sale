@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../auth/repos/token-helper.dart';
 import '../../../sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 
 class MainScreen extends StatelessWidget {
@@ -56,7 +57,9 @@ class MainScreen extends StatelessWidget {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await homeProvider.loadAds();
+      final token = await TokenHelper.getToken();
+
+      await homeProvider.loadAds(token: token);
       await provider.fetchCategories();
     });
 

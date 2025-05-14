@@ -34,7 +34,7 @@ class _CustomButtonState extends State<CustomButton> {
     if (token != null && widget.favIcon) {
       final provider = Provider.of<FavoriteProvider>(context, listen: false);
       final adId = widget.ad?.id ?? 0;
-      await provider.checkFavoriteStatus(adId: adId, authorizationToken: token);
+      //    await provider.checkFavoriteStatus(adId: adId, authorizationToken: token);
     }
   }
 
@@ -43,7 +43,8 @@ class _CustomButtonState extends State<CustomButton> {
     return Consumer<FavoriteProvider>(
       builder: (context, favoriteProvider, _) {
         final adId = widget.ad?.id ?? 0;
-        final isFav = favoriteProvider.isFavorite(adId);
+        //   final isFav = favoriteProvider.isFavorite(adId);
+        final isFav = widget.ad?.inFavorite ?? false;
 
         return ClipRRect(
           borderRadius: BorderRadius.circular(18.r),
@@ -66,6 +67,7 @@ class _CustomButtonState extends State<CustomButton> {
                   favid: '$adId',
                 );
               } else {
+                print('ad selected: ${widget.ad?.id}');
                 await showAddToFavoriteAlert(
                   context,
                   widget.ad?.id,

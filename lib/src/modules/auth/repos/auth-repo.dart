@@ -18,6 +18,7 @@ class AuthRepository {
 
   AuthRepository._internal() {
     dio = Dio();
+    dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
   }
 
   Future<Response> signUp(User owner) async {
@@ -52,35 +53,27 @@ class AuthRepository {
     }
   }
 
-  Future<Response> googleLogin({required String token}) async {
+  Future<Response> googleLogin(String token) async {
     try {
-      print("token: $token");
       final response = await dio.post(
         googleLoginUrl,
         data: {
           "token": token,
         },
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/hal+json',
-          },
-        ),
+        options: Options(headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/hal+json',
+        }),
       );
-      print(" ${response.data}");
+      print('google login: ${response.statusCode}');
+      print('Response data: ${response.data}');
       return response;
     } on DioException catch (e) {
-      print("${e.message}");
-
-      if (e.response != null) {
-        print(" ${e.response?.data}");
-        throw Exception(' ${e.response?.data["error"] ?? "Unknown error"}');
-      } else {
-        throw Exception('${e.message}');
-      }
+      print('DioException occurred: ${e.response?.data}');
+      throw Exception('Dio error: ${e.response?.data ?? e.message}');
     } catch (e) {
-      print(" ${e.toString()}");
-      throw Exception(' ${e.toString()}');
+      print('Unexpected error occurred: ${e.toString()}');
+      throw Exception('Unexpected error: ${e.toString()}');
     }
   }
 

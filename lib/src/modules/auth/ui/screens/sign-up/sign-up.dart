@@ -63,12 +63,13 @@ class SignUpScreen extends StatelessWidget {
                             provider.setSelectedValue(value);
                           },
                         ),
-                        SizedBox(height: 4.h),
+                        SizedBox(height: 8.h),
                         if (provider.selectedValue == "شخصي") ...[
                           Row(
                             children: [
                               Expanded(
                                 child: CustomTextField(
+                                  isRequired: true,
                                   errorText: provider.hasTriedSubmit &&
                                           provider.lastNameController.text
                                               .trim()
@@ -83,6 +84,7 @@ class SignUpScreen extends StatelessWidget {
                               SizedBox(width: 16.w),
                               Expanded(
                                 child: CustomTextField(
+                                  isRequired: true,
                                   errorText: provider.hasTriedSubmit &&
                                           provider.firstNameController.text
                                               .trim()
@@ -96,6 +98,10 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ],
                           ),
+                          if (provider.selectedValue == "شخصي")
+                            SizedBox(
+                              height: 8.h,
+                            ),
                           CustomTextField(
                             isRequired: true,
                             errorText: provider.hasTriedSubmit &&
@@ -155,21 +161,21 @@ class SignUpScreen extends StatelessWidget {
                             bgcolor: grey8,
                             hint: 'تاريخ انشاء الشركة',
                           ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          CustomTextField(
-                            isRequired: true,
-                            errorText: provider.hasTriedSubmit &&
-                                    provider.companyAddressController.text
-                                        .trim()
-                                        .isEmpty
-                                ? 'هذا الحقل مطلوب'
-                                : null,
-                            bgcolor: grey8,
-                            controller: provider.companyAddressController,
-                            hint: "عنوان الشركة",
-                          ),
+                          // SizedBox(
+                          //   height: 8.h,
+                          // ),
+                          // CustomTextField(
+                          //   isRequired: true,
+                          //   errorText: provider.hasTriedSubmit &&
+                          //           provider.companyAddressController.text
+                          //               .trim()
+                          //               .isEmpty
+                          //       ? 'هذا الحقل مطلوب'
+                          //       : null,
+                          //   bgcolor: grey8,
+                          //   controller: provider.companyAddressController,
+                          //   hint: "عنوان الشركة",
+                          // ),
                           SizedBox(
                             height: 8.h,
                           ),
@@ -199,7 +205,7 @@ class SignUpScreen extends StatelessWidget {
                           hint: "البريد الإلكتروني",
                           keyboardType: TextInputType.emailAddress,
                         ),
-                        SizedBox(height: 8.h),
+                        SizedBox(height: 16.h),
                         CustomPasswordField(
                           isConfirmField: false,
                           controller: provider.passwordController,
@@ -208,7 +214,7 @@ class SignUpScreen extends StatelessWidget {
                           onChanged: (value) =>
                               provider.validatePasswordOnChange(value),
                         ),
-                        SizedBox(height: 8.h),
+                        SizedBox(height: 16.h),
                         CustomPasswordField(
                           isConfirmField: true,
                           controller: provider.confirmPasswordController,
@@ -217,26 +223,30 @@ class SignUpScreen extends StatelessWidget {
                           onChanged: (value) =>
                               provider.validateConfirmPasswordOnChange(value),
                         ),
-                        SizedBox(height: 8.h),
+                        SizedBox(height: 16.h),
                         PhoneSection(
                           controller: provider.phoneController,
                           errorText: provider.phoneError,
                         ),
-                        SizedBox(height: 8.h),
                         CustomCheckBox(
                           errorText: provider.checkboxErrorText,
                           value: provider.agreeToTerms,
                           onChanged: provider.toggleAgreement,
                           title: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               TextButton(
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size(0, 0),
+                                ),
                                 onPressed: () {},
                                 child: Text("الشروط والخصوصية ",
                                     style: GoogleFonts.tajawal(
                                       textStyle: TextStyle(
                                         fontSize: 14.sp,
                                         color: Colors.blue,
-                                        fontWeight: FontWeight.bold,
                                       ),
                                     )),
                               ),
@@ -286,26 +296,41 @@ class SignUpScreen extends StatelessWidget {
                                     provider.companyNameController.text.trim(),
                                 "company_date":
                                     provider.companyDateController.text.trim(),
-                                "company_address": provider
-                                    .companyAddressController.text
-                                    .trim(),
+                                // "company_address": provider
+                                //     .companyAddressController.text
+                                //     .trim(),
                                 "tax_number":
                                     provider.taxNumberController.text.trim(),
-                              },
+                              }
                             };
 
-                            final missingField = userData.entries.firstWhere(
-                              (entry) => entry.value.toString().isEmpty,
-                              orElse: () => const MapEntry('none', ''),
-                            );
+                            final requiredFields = [
+                              'email',
+                              'password',
+                              'phone',
+                              'role',
+                            ];
 
-                            if (missingField.key != 'none') {
-                              provider.customShowSnackBar(
-                                context,
-                                'يرجى تعبئة جميع الحقول المطلوبة',
-                                Colors.redAccent,
-                              );
-                              return;
+                            if (isCompany) {
+                              requiredFields.addAll([
+                                'company_name',
+                                'company_date',
+                                'tax_number'
+                              ]);
+                            } else {
+                              requiredFields.addAll(
+                                  ['first_name', 'last_name', 'birth_date']);
+                            }
+
+                            for (var field in requiredFields) {
+                              if (userData[field]?.isEmpty ?? true) {
+                                provider.customShowSnackBar(
+                                  context,
+                                  'يرجى تعبئة جميع الحقول المطلوبة',
+                                  errorColor,
+                                );
+                                return;
+                              }
                             }
 
                             final success =
@@ -342,18 +367,22 @@ class SignUpScreen extends StatelessWidget {
 
                                   final GoogleSignInAuthentication googleAuth =
                                       await googleUser.authentication;
-
                                   final String? idToken = googleAuth.idToken;
-
+                                  print(
+                                      'access token ${googleAuth.accessToken}');
+                                  print('id token ${googleAuth.idToken}');
                                   if (idToken == null) {
                                     print('Failed to get ID Token.');
                                     return;
                                   }
 
-                                  await authProvider.googleLoginUser(
-                                      token: idToken);
+                                  print(
+                                      'User signed in successfully with Google: ${googleUser.email}');
+                                  await authProvider.googleLogin(idToken);
                                 } catch (e) {
                                   print('Error during Google Sign-In: $e');
+
+                                  print('Google login error tracked.');
                                 }
                               },
                               text: "الاستمرار بجوجل Google",

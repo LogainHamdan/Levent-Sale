@@ -17,7 +17,6 @@ class CustomLogoutItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        print('button clicked');
         logoutAlert(context);
       },
       child: Container(

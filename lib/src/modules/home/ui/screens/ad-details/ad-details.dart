@@ -40,7 +40,8 @@ class AdDetailsScreen extends StatelessWidget {
     final adProvider = Provider.of<AdDetailsProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await homeProvider.loadAds();
+      final token = await TokenHelper.getToken();
+      await homeProvider.loadAds(token: token);
       await homeProvider.getAdById(adId);
     });
 

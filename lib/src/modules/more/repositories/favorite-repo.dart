@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:dio/dio.dart';
+import '../../home/models/favorite-ad.dart';
 import '../models/tag.dart';
 
 class FavoriteRepository {
@@ -90,7 +93,8 @@ class FavoriteRepository {
     );
     return response;
   }
-  Future<Response> addFavoriteToTag({
+
+  Future<FavoriteAd> addFavoriteToTag({
     required int adId,
     required String authorizationToken,
     required String tagId,
@@ -98,23 +102,29 @@ class FavoriteRepository {
     try {
       final response = await _dio.post(
         '$addToTagUrl/$adId',
-        options: Options(
-          headers: {
-            'Authorization': authorizationToken,
-          },
-        ),
+        options: Options(headers: {'Authorization': authorizationToken}),
         queryParameters: {'adId': adId, 'tagId': tagId},
       );
-      print('API call successful: ${response.data}');
-      return response;
-    } on DioException catch (e) {
-      if (e.response != null) {
-        print('Error in API call: ${e.response?.statusCode}');
-        print('Error details: ${e.response?.data}');
+
+      if (response.statusCode == 200) {
+        if (response.data is String) {
+          print('Success message received: ${response.data}');
+          return FavoriteAd(
+            id: null,
+            userId: null,
+            tagId: tagId,
+            adId: adId,
+          );
+        }
+
+        print('Favorite added successfully: ${response.data}');
+        return FavoriteAd.fromJson(response.data);
       } else {
-        print('Request failed without response');
-        print('Error message: ${e.message}');
+        print('Failed to add favorite. Status code: ${response.statusCode}');
+        throw Exception('Failed to add favorite');
       }
+    } on DioException catch (e) {
+      print('Dio error: ${e.response?.data}');
       rethrow;
     } catch (e) {
       print('Unexpected error: $e');

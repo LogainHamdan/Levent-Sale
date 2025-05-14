@@ -45,10 +45,10 @@ class TechnicalSupportScreen extends StatelessWidget {
                       textStyle: TextStyle(
                           fontSize: 18.sp, fontWeight: FontWeight.w600)),
                   tabs: [
+                    Tab(text: "الدعم الفني"),
                     Tab(
                       text: "الأسئلة الشائعة",
                     ),
-                    Tab(text: "الدعم الفني"),
                   ],
                 ),
               ],
@@ -57,8 +57,8 @@ class TechnicalSupportScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            FAQScreen(),
             TicketsScreen(),
+            FAQScreen(),
           ],
         ),
       ),

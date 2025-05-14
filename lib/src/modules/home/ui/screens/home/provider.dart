@@ -59,13 +59,15 @@ class HomeProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  Future<void> loadAds({int page = 0, int size = 8, List<int>? ids}) async {
+  Future<void> loadAds(
+      {String? token, int page = 0, int size = 8, List<int>? ids}) async {
     isLoading = true;
     error = null;
     notifyListeners();
 
     try {
-      final response = await repo.getAds(page: page, size: size, ids: ids);
+      final response =
+          await repo.getAds(token: token, page: page, size: size, ids: ids);
       print('Full response: ${response.data}');
 
       if (response.statusCode == 200) {
@@ -79,6 +81,11 @@ class HomeProvider extends ChangeNotifier {
             print('Processing item: $item');
             final ad = AdModel.fromJson(item);
             parsedAds.add(ad);
+            print('All ads content:');
+            parsedAds.forEach((ad) {
+              print(
+                  'Ad ID: ${ad.id}, Title: ${ad.title}, Description: ${ad.description}, ad fav: ${ad.inFavorite}');
+            });
           } catch (e, stackTrace) {
             print('Failed to parse ad: $e');
             print('Stack trace: $stackTrace');

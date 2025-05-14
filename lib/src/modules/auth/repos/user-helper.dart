@@ -5,6 +5,7 @@ import '../models/user.dart';
 
 class UserHelper {
   static const _userKey = 'user';
+  static const _rememberMeKey = 'rememberMe';
 
   static Future<void> saveUser(User user) async {
     final prefs = await SharedPreferences.getInstance();
@@ -31,5 +32,24 @@ class UserHelper {
     final prefs = await SharedPreferences.getInstance();
     final userJson = prefs.getString(_userKey);
     return userJson != null;
+  }
+
+  static Future<void> saveUserWithRememberMe(User user, bool rememberMe) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userJson = jsonEncode(user.toJson());
+    await prefs.setString(_userKey, userJson);
+    await prefs.setBool(_rememberMeKey, rememberMe);
+    print('User saved with rememberMe: $userJson');
+  }
+
+  static Future<bool> getRememberMeStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_rememberMeKey) ?? false;
+  }
+
+  static Future<void> removeRememberMeStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_rememberMeKey);
+    print('Remember Me status removed');
   }
 }

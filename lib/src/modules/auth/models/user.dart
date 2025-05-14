@@ -64,7 +64,7 @@ class User {
       firstName: json['firstName'],
       lastName: json['lastName'],
       birthday: json['birthday'] != null
-          ? DateFormat('dd-MM-yyyy').parse(json['birthday'])
+          ? DateFormat('yyyy-MM-dd').parse(json['birthday'])
           : null,
       profilePicture: json['profilePicture'],
       roles: List<String>.from(json['roles'] ?? []),

@@ -164,13 +164,14 @@ class LoginScreen extends StatelessWidget {
 
                           final googleAuth = await googleUser.authentication;
                           final idToken = googleAuth.idToken;
+                          print('ID token is $idToken');
 
                           if (idToken == null) {
                             print('ID token is null!');
                             return;
                           }
 
-                          await authProvider.googleLoginUser(token: idToken);
+                          await authProvider.googleLogin(idToken);
                           print('Signed in with token: $idToken');
                         } catch (error) {
                           print('Google Sign-In error: $error');

@@ -28,6 +28,8 @@ class ConversationProvider extends ChangeNotifier {
   File? _selectedImage1;
   File? _selectedImage2;
 
+  final TextEditingController messageController = TextEditingController();
+
   String _message = '';
 
   String get message => _message;
@@ -38,6 +40,12 @@ class ConversationProvider extends ChangeNotifier {
 
   void updateMessage(String newMessage) {
     _message = newMessage;
+    notifyListeners();
+  }
+
+  void clearMessage() {
+    _message = '';
+    messageController.clear();
     notifyListeners();
   }
 

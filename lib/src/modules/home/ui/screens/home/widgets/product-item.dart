@@ -29,6 +29,8 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     final imageUrl =
         (product.imageUrls != null && product.imageUrls!.isNotEmpty)
             ? product.imageUrls!.first.url

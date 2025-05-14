@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../auth/repos/token-helper.dart';
 import '../../../../main/ui/screens/main_screen.dart';
 import '../../../../sections/ui/screens/one-section/widgets/horizontal-categories.dart';
 import '../home/data.dart';
@@ -22,7 +23,9 @@ class AdsScreen extends StatelessWidget {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await homeProvider.loadAds();
+      final token = await TokenHelper.getToken();
+
+      await homeProvider.loadAds(token: token);
     });
     TextEditingController adController = TextEditingController();
     return Scaffold(

@@ -62,6 +62,14 @@ class MessageInput extends StatelessWidget {
                     color: grey8,
                   ),
                   child: TextField(
+                    onSubmitted: (value) {
+                      if (value.trim().isNotEmpty) {
+                        onSend(value.trim());
+                        context.read<ConversationProvider>().clearMessage();
+                      }
+                    },
+                    controller:
+                        context.read<ConversationProvider>().messageController,
                     textDirection: TextDirection.rtl,
                     onChanged: (value) => context
                         .read<ConversationProvider>()
@@ -94,19 +102,15 @@ class MessageInput extends StatelessWidget {
             Selector<ConversationProvider, String>(
               selector: (_, provider) => provider.message,
               builder: (context, message, child) {
-                // Always show the send button if the message is not empty
                 return message.trim().isNotEmpty
                     ? IconButton(
                         onPressed: () {
                           onSend(message.trim());
-                          context
-                              .read<ConversationProvider>()
-                              .updateMessage('');
+                          context.read<ConversationProvider>().clearMessage();
                         },
                         icon: SvgPicture.asset(sendIcon, height: 20.h),
                       )
-                    : SizedBox
-                        .shrink(); // Keep the space for the icon even if hidden
+                    : SizedBox.shrink();
               },
             ),
           ],

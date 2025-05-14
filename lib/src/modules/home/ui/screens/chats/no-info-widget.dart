@@ -4,16 +4,24 @@ import 'package:flutter_svg/svg.dart';
 
 import '../conversation/widgets/MsgInput.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../conversation/widgets/MsgInput.dart';
+
 class NoInfoWidget extends StatelessWidget {
   final String img;
   final String msg;
   final Widget? lowerWidget;
+  final bool? bottomWidget;
 
   const NoInfoWidget({
     super.key,
     required this.img,
     required this.msg,
     this.lowerWidget,
+    this.bottomWidget = false,
   });
 
   @override
@@ -21,8 +29,7 @@ class NoInfoWidget extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          SizedBox(
-            height: 230.h,
+          Expanded(
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +50,13 @@ class NoInfoWidget extends StatelessWidget {
               ),
             ),
           ),
-          lowerWidget ?? SizedBox(),
+          if (lowerWidget != null)
+            bottomWidget!
+                ? Align(
+                    alignment: Alignment.bottomCenter,
+                    child: lowerWidget,
+                  )
+                : lowerWidget ?? SizedBox()
         ],
       ),
     );

@@ -19,6 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       scrolledUnderElevation: 0,
       leading: IconButton(
         icon: leadingIcon,
@@ -41,6 +42,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               SizedBox(width: 10.w),
               CircleAvatar(
+                backgroundColor: Colors.transparent,
                 backgroundImage: NetworkImage(profileImageAsset),
               ),
               SizedBox(width: 10.w),

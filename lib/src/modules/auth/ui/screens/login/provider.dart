@@ -92,7 +92,7 @@ class LoginProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         await TokenHelper.removeToken();
         await UserHelper.removeUser();
-
+        await UserHelper.removeRememberMeStatus();
         _setLoading(false);
         print('Logout successful');
       } else {
@@ -200,6 +200,9 @@ class LoginProvider extends ChangeNotifier {
         }
 
         await TokenHelper.saveToken(token);
+        await UserHelper.saveUserWithRememberMe(
+            User.fromJson(userData), _rememberMe);
+
         await UserHelper.saveUser(User.fromJson(userData));
         print('Token saved: $token');
         print('Login result: $result');
@@ -222,46 +225,21 @@ class LoginProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> googleLoginUser({
-    required String token,
-  }) async {
-    _setLoading(true);
-
-    if (token.isEmpty) {
-      _setLoading(false);
-      _setErrorMessage('فشل تسجيل الدخول عبر جوجل. لم يتم الحصول على التوكن.');
-      await TokenHelper.removeToken();
-      return;
-    }
-
+  Future<void> googleLogin(String token) async {
     try {
-      final result = await _authRepository.googleLogin(token: token);
-
-      if (result.statusCode == 200) {
-        final tokenData = result.data['token'];
-        final userData = result.data['user'];
-
-        if (tokenData == null) {
-          print('التوكن غير موجود.');
-          await TokenHelper.removeToken();
-          return;
-        }
-
-        await TokenHelper.saveToken(tokenData);
-        await UserHelper.saveUser(User.fromJson(userData));
-
-        print('Google Token saved: $tokenData');
-        print('Google login result: $userData');
-        notifyListeners();
+      final response = await _authRepository.googleLogin(token);
+      if (response.statusCode == 200) {
+        await TokenHelper.saveToken(token);
+        print("Google login successful: ${response.data}");
       } else {
-        await TokenHelper.removeToken();
+        print("Failed to login: ${response.statusCode}");
+        throw Exception("Failed to login");
       }
     } catch (e) {
-      await TokenHelper.removeToken();
-      print('خطأ في تسجيل الدخول عبر جوجل: ${e.toString()}');
-    } finally {
-      _setLoading(false);
+      print("Error during Google login: $e");
+      throw Exception("Google login failed");
     }
+    notifyListeners();
   }
 
   void _setLoading(bool value) {
@@ -271,6 +249,12 @@ class LoginProvider extends ChangeNotifier {
 
   void _setErrorMessage(String? message) {
     _errorMessage = message;
+    notifyListeners();
+  }
+
+  Future<void> checkRememberMeStatus() async {
+    final rememberMeStatus = await UserHelper.getRememberMeStatus();
+    _rememberMe = rememberMeStatus;
     notifyListeners();
   }
 }

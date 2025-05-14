@@ -35,7 +35,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         await provider.fetchFavoritesByTag(
             token: token ?? '', tagId: tag.id ?? '');
       }
-      homeProvider.loadAds();
+      homeProvider.loadAds(token: token);
     } else {
       debugPrint('Token not found');
     }

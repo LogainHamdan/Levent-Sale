@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../home/ui/screens/home/widgets/custom-indicator.dart';
 import '../../../../home/ui/screens/home/widgets/search-field.dart';
 
 class FAQScreen extends StatefulWidget {
@@ -50,10 +51,7 @@ class _FAQScreenState extends State<FAQScreen> {
                         builder: (context, answerSnapshot) {
                           if (answerSnapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return CustomExpansionTile(
-                              title: faq.question ?? '',
-                              content: 'لا يوجد اجابة',
-                            );
+                            return CustomCircularProgressIndicator();
                           } else if (answerSnapshot.hasError) {
                             return CustomExpansionTile(
                               title: faq.question ?? '',
@@ -62,7 +60,8 @@ class _FAQScreenState extends State<FAQScreen> {
                           } else {
                             return CustomExpansionTile(
                               title: faq.question ?? '',
-                              content: answerSnapshot.data ?? 'لا يوجد اجابة',
+                              content:
+                                  answerSnapshot.data ?? 'No answer available',
                             );
                           }
                         },

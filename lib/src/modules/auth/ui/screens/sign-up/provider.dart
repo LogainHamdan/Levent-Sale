@@ -20,7 +20,7 @@ class SignUpProvider extends ChangeNotifier {
   final lastNameController = TextEditingController();
 
   final companyNameController = TextEditingController();
-  final companyAddressController = TextEditingController();
+  //final companyAddressController = TextEditingController();
   final taxNumberController = TextEditingController();
 
   final emailController = TextEditingController();
@@ -40,7 +40,7 @@ class SignUpProvider extends ChangeNotifier {
     birthDateController.dispose();
     companyNameController.dispose();
     companyDateController.dispose();
-    companyAddressController.dispose();
+    //   companyAddressController.dispose();
     taxNumberController.dispose();
     emailController.dispose();
     passwordController.dispose();
@@ -133,7 +133,8 @@ class SignUpProvider extends ChangeNotifier {
 
   String? validatePhone(String? value) {
     if (value == null || value.isEmpty) return 'يرجى إدخال رقم الهاتف';
-    final phoneRegex = RegExp(r'^\+963\d{9}$');
+    final phoneRegex = RegExp(r'^\d{8,15}$');
+
     return phoneRegex.hasMatch(value)
         ? null
         : 'رقم الهاتف هنا يجب أن يتكون من 9 أرقام';
@@ -155,13 +156,13 @@ class SignUpProvider extends ChangeNotifier {
         final owner = User(
           email: userData['email'],
           password: userData['password'],
-          phoneNumber: userData['phone'],
+          phoneNumber: '+963${userData['phone']}',
           firstName: userData['first_name'],
           lastName: userData['last_name'],
           businessName: userData['company_name'],
           businessLicense: userData['tax_number'],
           birthday: userData['birth_date'] != null
-              ? DateFormat('MMMM d, yyyy').parse(userData['birth_date'])
+              ? DateFormat('yyyy-MM-dd').parse(userData['birth_date'])
               : null,
           roles: ['business_owner'],
         );
@@ -173,7 +174,7 @@ class SignUpProvider extends ChangeNotifier {
         final account = User(
           email: userData['email'],
           password: userData['password'],
-          phoneNumber: userData['phone'],
+          phoneNumber: '+963${userData['phone']}',
           firstName: userData['first_name'],
           lastName: userData['last_name'],
           birthday: userData['birth_date'] != null

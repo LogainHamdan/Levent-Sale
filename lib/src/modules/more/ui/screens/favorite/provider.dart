@@ -120,7 +120,7 @@ class FavoriteProvider with ChangeNotifier {
       print(response.statusCode);
 
       if (response.statusCode == 200) {
-        print('delete fav done: ${response.data}');
+        print('delete fav done: $favid');
 
         int adId = int.tryParse(favid) ?? 0;
         if (favoriteStatus.containsKey(adId)) {
@@ -174,31 +174,23 @@ class FavoriteProvider with ChangeNotifier {
     required String tagId,
   }) async {
     try {
-      final response = await repo.addFavoriteToTag(
+      final favoriteAd = await repo.addFavoriteToTag(
         adId: adId,
         authorizationToken: authorizationToken,
         tagId: tagId,
       );
 
-      if (response.statusCode == 200) {
-        print('Favorite added to tag: ${response.data}');
+      print('Favorite added to tag: $favoriteAd');
 
-        final favoriteAd = FavoriteAd.fromJson(response.data);
-        print('Favorite Ad Model: ${favoriteAd.toJson()}');
-
-        favoriteStatus[adId] = true;
-        notifyListeners();
-        return true;
-      } else if (response.statusCode == 409) {
-        print('Add to tag failed: Already in favorites');
-        return false;
-      } else {
-        print('Add to tag failed: ${response.data}');
-        return false;
-      }
+      favoriteStatus[adId] = true;
+      notifyListeners();
+      return true;
     } on DioException catch (e) {
       print('DioException: ${e.response?.statusCode}');
       rethrow;
+    } catch (e) {
+      print('Unexpected error: $e');
+      return false;
     }
   }
 

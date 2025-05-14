@@ -26,6 +26,7 @@ class AdModel {
   final String? currency;
   final List<MediaItem>? imageUrls;
   final Map<String?, dynamic>? attributes;
+  final bool? inFavorite;
 
   AdModel({
     this.id,
@@ -52,11 +53,11 @@ class AdModel {
     this.currency,
     this.imageUrls,
     this.attributes,
+    this.inFavorite,
   });
-
   factory AdModel.fromJson(Map<String, dynamic> json) {
     return AdModel(
-      // id: json['id'],
+      id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
       title: json['title'],
       categoryPath: json['categoryPath'],
       categoryNamePath: json['categoryNamePath'],
@@ -92,16 +93,17 @@ class AdModel {
               .toList()
           : null,
       attributes: json['attributes'],
+      inFavorite: json['inFavorite'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
+      //   "id": id,
       "title": title,
       "categoryPath": categoryPath,
-      "categoryNamePath": categoryNamePath,
-      "adNo": adNo,
+      //    "categoryNamePath": categoryNamePath,
+      //   "adNo": adNo,
       "description": description,
       "longDescription": longDescription,
       "tradePossible": tradePossible,
@@ -121,6 +123,7 @@ class AdModel {
       "currency": currency,
       "imageUrls": imageUrls?.map((e) => e.toJson()).toList(),
       "attributes": attributes,
+      // "inFavorite": inFavorite,
     };
   }
 }

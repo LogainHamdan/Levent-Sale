@@ -127,6 +127,9 @@ class SectionTrack extends StatelessWidget {
                                           final selectedCategory =
                                               createSectionChooseProvider
                                                   .selectedCategory;
+                                          final selectedSubCategory =
+                                              createSectionChooseProvider
+                                                  .selectedSubcategory;
                                           if (selectedCategory == null) {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
@@ -162,23 +165,23 @@ class SectionTrack extends StatelessWidget {
                                                   .selectedCity,
                                               governorate: createDetailsProvider
                                                   .selectedGovernorate);
+                                          print(
+                                              'selected category to add: ${selectedCategory.name}');
+                                          print(
+                                              'selected subcategory to add: ${selectedSubCategory?.name}');
                                           final ad = AdModel(
-
-                                            adNo: 'adNo',
                                             createdAt: DateTime.now(),
                                             updatedAt: DateTime.now(),
                                             condition: [],
                                             imageUrls: [],
+                                            //      adNo: '',
                                             title: createDetailsProvider
                                                 .titleController.text,
                                             categoryPath:
-                                                createSectionChooseProvider
-                                                    .selectedCategory!
-                                                    .categoryPath,
-                                            categoryNamePath:
-                                                createSectionChooseProvider
-                                                    .selectedCategory!
-                                                    .categoryNamePath,
+                                                selectedCategory.categoryPath,
+                                            // categoryNamePath:
+                                            //    selectedCategory
+                                            //         .categoryNamePath,
                                             description: createDetailsProvider
                                                 .shortDescController.text,
                                             longDescription:
@@ -200,7 +203,7 @@ class SectionTrack extends StatelessWidget {
                                             adType: 'NEW',
                                             // currency: createDetailsProvider
                                             //         .currency ??
-                                            currency: 'USD', // SYP, USD, etc.
+                                            currency: 'SYP', // SYP, USD, etc.
                                             // negotiable: createDetailsProvider
                                             //         .negotiable ?? false,
                                             negotiable: false,
