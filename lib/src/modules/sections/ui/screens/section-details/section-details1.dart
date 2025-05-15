@@ -68,6 +68,7 @@ class SectionDetails1 extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             CustomTextField(
+                              isRequired: true,
                               label: field.label,
                               controller: create
                                   ? createDetailsProvider
@@ -85,6 +86,7 @@ class SectionDetails1 extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             CustomTextField(
+                              isRequired: true,
                               label: field.label,
                               controller: create
                                   ? createDetailsProvider

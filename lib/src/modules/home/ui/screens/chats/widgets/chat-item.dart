@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../more/ui/screens/edit-profile/provider.dart';
+import '../provider.dart';
 
 class ChatItem extends StatelessWidget {
   final Message? message;
@@ -59,7 +60,12 @@ class ChatItem extends StatelessWidget {
                   receiverId: senderId,
                 ),
               ),
-            );
+            ).then((_) {
+              Provider.of<ChatProvider>(context, listen: false).fetchChats(
+                token: token ?? '',
+                userId: currentUser?.id ?? 0,
+              );
+            });
           },
           child: Directionality(
             textDirection: TextDirection.rtl,

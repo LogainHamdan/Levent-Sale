@@ -7,18 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:image_picker/image_picker.dart';
 
+import '../../../models/adDTO.dart';
 import '../../../models/attriburtes.dart';
 
 class CreateAdSectionDetailsProvider extends ChangeNotifier {
   Map<String, String?> selectedValues = {};
   final List<File> _selectedImages = [];
   final Map<String, bool> _dropdownOpenedMap = {};
-  final Map<int, bool> _services = {};
+  final List<Detail> _selectedServices = [];
   final AdAttributesRepository _repo = AdAttributesRepository();
   final CityRepository cityRepo = CityRepository();
   City? _selectedCity;
   Governorate? _selectedGovernorate;
-
+  ContactMethod? _selectedContactMethod;
   AdAttributesModel? attributesData;
   bool hasError = false;
   final TextEditingController titleController = TextEditingController();
@@ -27,12 +28,18 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController discountController = TextEditingController();
+  final TextEditingController contactDetailController = TextEditingController();
   final Map<String, TextEditingController> dynamicFieldControllers = {};
   List<City> _cities = [];
+
   bool _isLoading = false;
   List<Governorate> _governorates = [];
+  Currency? _selectedCurrency;
+  Currency? get selectedCurrency => _selectedCurrency;
+
   List<Governorate> get governorates => _governorates;
   List<City> get cities => _cities;
+  ContactMethod? get selectedContactMethod => _selectedContactMethod;
   bool get isLoading => _isLoading;
   List<File> get selectedImages => _selectedImages;
   final quill.QuillController _controller = quill.QuillController.basic();
@@ -40,9 +47,20 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   quill.QuillController get controller => _controller;
   City? get selectedCity => _selectedCity;
   Governorate? get selectedGovernorate => _selectedGovernorate;
-  Map<int, bool> get services => _services;
+  List<Detail> get selectedServices => _selectedServices;
   void setSelectedCity(City city) {
     _selectedCity = city;
+    notifyListeners();
+  }
+
+  set selectedContactMethod(ContactMethod? method) {
+    _selectedContactMethod = method;
+    notifyListeners();
+  }
+
+  void setSelectedCurrency(String key, Currency? currency) {
+    _selectedCurrency = currency;
+    setSelectedValue(key, currency?.toString());
     notifyListeners();
   }
 
@@ -57,13 +75,29 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleService(int id, bool value) {
-    _services[id] = value;
+  void resetCity() {
+    _selectedCity = null;
+    _cities.clear();
+    selectedValues.remove("city");
+
+    dynamicFieldControllers.remove("city")?.clear();
+
     notifyListeners();
   }
 
-  bool getServiceValue(int id) {
-    return _services[id] ?? false;
+  void toggleService(Detail detail, bool isSelected) {
+    if (isSelected) {
+      if (!_selectedServices.any((s) => s.id == detail.id)) {
+        _selectedServices.add(detail);
+      }
+    } else {
+      _selectedServices.removeWhere((s) => s.id == detail.id);
+    }
+    notifyListeners();
+  }
+
+  bool isServiceSelected(Detail detail) {
+    return _selectedServices.any((s) => s.id == detail.id);
   }
 
   void setSelectedValue(String key, String? value) {
@@ -105,8 +139,7 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
     if (!dynamicFieldControllers.containsKey(key)) {
       dynamicFieldControllers[key] = TextEditingController();
     }
-    return dynamicFieldControllers[key] ??
-        TextEditingController(); // Safe fallback
+    return dynamicFieldControllers[key] ?? TextEditingController();
   }
 
   Future<void> fetchAttributes(int categoryId) async {
@@ -119,13 +152,7 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
       if (result != null) {
         attributesData = result;
         hasError = false;
-        _services.clear();
-
-        for (var detail in result.details ?? []) {
-          if (detail.id != null) {
-            _services[detail.id ?? 0] = false;
-          }
-        }
+        _selectedServices.clear();
       } else {
         hasError = true;
         debugPrint('No result for categoryId: $categoryId');
@@ -159,7 +186,12 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
           attributesMap[name] = getSelectedValue(name);
           break;
         case FieldType.checkbox:
-          attributesMap[name] = getSelectedValue(name) == 'false';
+          if (attributesData?.details != null) {
+            attributesMap[name] = _selectedServices.map((s) => s.id).toList();
+          }
+          break;
+        case FieldType.radio:
+          attributesMap[name] = getSelectedValue(name);
           break;
         default:
           attributesMap[name] = null;
@@ -167,6 +199,19 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
     }
 
     return attributesMap;
+  }
+
+  Currency? getSelectedCurrency(String key) {
+    if (_selectedCurrency != null) return _selectedCurrency;
+
+    final value = selectedValues[key];
+    if (value != null) {
+      return Currency.values.firstWhere(
+        (e) => e.toString() == value,
+        orElse: () => Currency.SYP,
+      );
+    }
+    return null;
   }
 
   Future<void> loadCities({required int governorateId}) async {

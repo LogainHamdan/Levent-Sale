@@ -26,11 +26,9 @@ class CheckingContainer extends StatelessWidget {
     final attributesData =
         create ? createProvider.attributesData : updateProvider.attributesData;
 
-    if (attributesData == null) {
+    if (attributesData == null || attributesData.details == null) {
       return const SizedBox.shrink();
     }
-
-    final services = create ? createProvider.services : updateProvider.services;
 
     return Container(
       decoration: BoxDecoration(
@@ -42,15 +40,9 @@ class CheckingContainer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // Removed CustomLabel widget that was rendering the text
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: services.entries.map((entry) {
-                final detail = (attributesData.details ?? []).firstWhere(
-                  (d) => d.id == entry.key,
-                  orElse: () => Detail(id: entry.key, name: 'خدمة غير معروفة'),
-                );
-
+              children: (attributesData.details ?? []).map((detail) {
                 final serviceTitle = detail.name?.isNotEmpty == true
                     ? detail.name
                     : 'خدمة غير معروفة';
@@ -60,13 +52,16 @@ class CheckingContainer extends StatelessWidget {
                   child: CustomCheckBox(
                     onChanged: (value) {
                       if (create) {
-                        createProvider.toggleService(entry.key, value);
+                        createProvider.toggleService(detail, value);
                       } else {
-                        updateProvider.toggleService(entry.key, value);
+                        updateProvider.toggleService(detail, value);
                       }
                     },
-                    value: entry.value,
+                    value: create
+                        ? createProvider.isServiceSelected(detail)
+                        : updateProvider.isServiceSelected(detail),
                     title: Text(
+                      textDirection: TextDirection.rtl,
                       serviceTitle!,
                       style: GoogleFonts.tajawal(
                           fontSize: 14, fontWeight: FontWeight.w500),

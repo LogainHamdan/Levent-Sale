@@ -42,6 +42,19 @@ class UserHelper {
     print('User saved with rememberMe: $userJson');
   }
 
+  static Future<User?> getRememberedUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final rememberMe = prefs.getBool(_rememberMeKey) ?? false;
+    if (!rememberMe) return null;
+
+    final userJson = prefs.getString(_userKey);
+    if (userJson != null) {
+      print('User retrieved: $userJson');
+      return User.fromJson(jsonDecode(userJson));
+    }
+    return null;
+  }
+
   static Future<bool> getRememberMeStatus() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(_rememberMeKey) ?? false;

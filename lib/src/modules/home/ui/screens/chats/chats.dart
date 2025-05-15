@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../../../auth/repos/token-helper.dart';
 import '../ads/widgets/title-row.dart';
+import '../home/widgets/custom-indicator.dart';
 import '../home/widgets/search-field.dart';
 import 'no-info-widget.dart';
 
@@ -19,16 +20,8 @@ class ChatListScreen extends StatefulWidget {
   State<ChatListScreen> createState() => _ChatListScreenState();
 }
 
-class _ChatListScreenState extends State<ChatListScreen> {
+class _ChatListScreenState extends State<ChatListScreen> with RouteAware {
   TextEditingController chatsController = TextEditingController();
-
-  Future<void> _loadChats() async {
-    final chatProvider = Provider.of<ChatProvider>(context, listen: false);
-    final token = await TokenHelper.getToken();
-    final user = await UserHelper.getUser();
-    final userId = user?.id ?? 0;
-    chatProvider.fetchChats(token: token ?? '', userId: userId);
-  }
 
   @override
   void initState() {
@@ -37,10 +30,40 @@ class _ChatListScreenState extends State<ChatListScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final routeObserver =
+        Provider.of<RouteObserver<ModalRoute>>(context, listen: false);
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void didPopNext() {
+    // Refresh chats when coming back from conversation
+    _loadChats();
+  }
+
+  Future<void> _loadChats() async {
+    final chatProvider = Provider.of<ChatProvider>(context, listen: false);
+    final token = await TokenHelper.getToken();
+    final user = await UserHelper.getUser();
+    final userId = user?.id ?? 0;
+    await chatProvider.fetchChats(token: token ?? '', userId: userId);
+  }
+
+  @override
+  void dispose() {
+    final routeObserver =
+        Provider.of<RouteObserver<ModalRoute>>(context, listen: false);
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const SizedBox(),
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         title: const TitleRow(title: 'المحادثات'),
@@ -49,7 +72,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
         child: Consumer<ChatProvider>(
           builder: (context, chatProvider, child) {
             if (chatProvider.isLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return Center(child: CustomCircularProgressIndicator());
             }
             if (chatProvider.errorMessage.isNotEmpty) {
               return Center(child: Text(chatProvider.errorMessage));
@@ -57,35 +80,20 @@ class _ChatListScreenState extends State<ChatListScreen> {
             if (chatProvider.chats?.isEmpty ?? true) {
               return NoInfoWidget(img: emptyChatIcon, msg: 'لا توجد محادثات !');
             }
-            return Column(
-              children: [
-                // Padding(
-                //   padding: EdgeInsets.all(8.0.sp),
-                //   child: SearchField(
-                //     width: 327,
-                //     hasFilterIcon: false,
-                //     controller: chatsController,
-                //   ),
-                // ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: chatProvider.chats?.length,
-                    itemBuilder: (context, index) {
-                      final conversation = chatProvider.chats?[index];
-                      final chatProfile = conversation?.chatProfile;
-                      final lastMessage = conversation?.lastMessage;
-                      return ChatItem(
-                        adId: lastMessage?.adId ?? 0,
-                        message: lastMessage,
-                        time:
-                            '${lastMessage?.sentAt.hour}:${lastMessage?.sentAt.minute}',
-                        isOnline: conversation?.unreadMessages != 0,
-                        senderId: lastMessage?.senderId ?? 0,
-                      );
-                    },
-                  ),
-                ),
-              ],
+            return ListView.builder(
+              itemCount: chatProvider.chats?.length,
+              itemBuilder: (context, index) {
+                final conversation = chatProvider.chats?[index];
+                final lastMessage = conversation?.lastMessage;
+                return ChatItem(
+                  adId: lastMessage?.adId ?? 0,
+                  message: lastMessage,
+                  time:
+                      '${lastMessage?.sentAt.hour}:${lastMessage?.sentAt.minute}',
+                  isOnline: conversation?.unreadMessages != 0,
+                  senderId: lastMessage?.senderId ?? 0,
+                );
+              },
             );
           },
         ),

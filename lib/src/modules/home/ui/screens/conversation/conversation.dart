@@ -124,6 +124,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
   @override
   void dispose() {
+    final provider = Provider.of<ConversationProvider>(context, listen: false);
+    provider.resetConversation();
     stompClient.deactivate();
     super.dispose();
   }
@@ -157,6 +159,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   chatProvider.chatMessages!.content == null ||
                   chatProvider.chatMessages!.content!.isEmpty) {
                 return NoInfoWidget(
+                  bottomWidget: true,
                   img: emptyChatIcon,
                   msg: 'لا يوجد محادثة !',
                   lowerWidget: MessageInput(

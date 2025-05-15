@@ -19,7 +19,6 @@ class MyCollectionScreenProvider extends ChangeNotifier {
   final PageController pageController = PageController();
   final AdRepository repo = AdRepository();
 
-  // Tab configuration
   final List<String> _tabTitles = ['مراجعة', 'تعديل', 'عرض'];
   final List<Color> _tabColors = [
     Color(0x1FF75555),
@@ -63,7 +62,6 @@ class MyCollectionScreenProvider extends ChangeNotifier {
   bool _isLoadingPending = false;
   bool _isLoadingPublished = false;
 
-  // Getters
   int get currentIndex => _currentIndex;
   String get currentTabTitle => _tabTitles[_currentIndex];
   Color get currentTabColor => _tabColors[_currentIndex];
@@ -112,12 +110,14 @@ class MyCollectionScreenProvider extends ChangeNotifier {
 
   Future<void> fetchPendingAds() async {
     _isLoadingPending = true;
+    notifyListeners();
     final token = await TokenHelper.getToken();
 
     try {
-      final ads =
+      final response =
           await repo.getMyAdsByStatus(token: token ?? '', status: 'PENDING');
-      _pendingAds = ads.whereType<AdModel>().toList();
+      debugPrint("Pending Ads API Response: ${response.toString()}");
+      _pendingAds = response.whereType<AdModel>().toList();
     } catch (e) {
       debugPrint("Failed to fetch pending ads: $e");
       _pendingAds = [];
@@ -129,12 +129,14 @@ class MyCollectionScreenProvider extends ChangeNotifier {
 
   Future<void> fetchPublishedAds() async {
     _isLoadingPublished = true;
+    notifyListeners();
     final token = await TokenHelper.getToken();
 
     try {
-      final ads =
+      final response =
           await repo.getMyAdsByStatus(token: token ?? '', status: 'PUBLISHED');
-      _publishedAds = ads.whereType<AdModel>().toList();
+      debugPrint("Published Ads API Response: ${response.toString()}");
+      _publishedAds = response.whereType<AdModel>().toList();
     } catch (e) {
       debugPrint("Failed to fetch published ads: $e");
       _publishedAds = [];

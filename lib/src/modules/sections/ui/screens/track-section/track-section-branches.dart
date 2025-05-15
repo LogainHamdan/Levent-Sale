@@ -16,8 +16,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../home/ui/screens/search-filter/widgets/card.dart';
+import '../../../../main/ui/screens/main_screen.dart';
 import '../../../../more/models/profile.dart';
 import '../../../models/ad.dart';
+import '../../../models/adDTO.dart';
 import '../choose-section/create-ad-choose-section-provider.dart';
 import '../choose-section/update-ad-choose-section.dart';
 import '../create-ad/create-ad.dart';
@@ -169,11 +171,11 @@ class SectionTrack extends StatelessWidget {
                                               'selected category to add: ${selectedCategory.name}');
                                           print(
                                               'selected subcategory to add: ${selectedSubCategory?.name}');
-                                          final ad = AdModel(
-                                            createdAt: DateTime.now(),
-                                            updatedAt: DateTime.now(),
-                                            condition: [],
-                                            imageUrls: [],
+                                          final ad = AdDTO(
+                                            // createdAt: DateTime.now(),
+                                            // updatedAt: DateTime.now(),
+                                            // condition: [],
+                                            // imageUrls: [],
                                             //      adNo: '',
                                             title: createDetailsProvider
                                                 .titleController.text,
@@ -190,12 +192,12 @@ class SectionTrack extends StatelessWidget {
                                             contactPhone: createDetailsProvider
                                                 .phoneController.text,
                                             contactEmail: user.email,
-                                            userId: user.id,
-                                            price: int.tryParse(
-                                                    createDetailsProvider
-                                                        .priceController
-                                                        .text) ??
-                                                0,
+                                            // userId: user.id,
+                                            // price: int.tryParse(
+                                            //         createDetailsProvider
+                                            //             .priceController
+                                            //             .text) ??
+                                            //     0,
                                             governorate: address.governorate,
                                             city: address.city,
                                             attributes: filteredAttributes,
@@ -203,7 +205,8 @@ class SectionTrack extends StatelessWidget {
                                             adType: 'NEW',
                                             // currency: createDetailsProvider
                                             //         .currency ??
-                                            currency: 'SYP', // SYP, USD, etc.
+                                            currency: createDetailsProvider
+                                                .selectedCurrency,
                                             // negotiable: createDetailsProvider
                                             //         .negotiable ?? false,
                                             negotiable: false,
@@ -233,34 +236,36 @@ class SectionTrack extends StatelessWidget {
                                             );
                                             return;
                                           }
-
-                                          final response = create!
-                                              ? await createAdProvider.createAd(
-                                                  adDTO: ad,
-                                                  files: createDetailsProvider
-                                                      .selectedImages,
-                                                  token: token,
-                                                )
-                                              : await updateAdProvider.updateAd(
-                                                  adId: 0,
-                                                  //ان شاء الله..لا تنسي
-                                                  //make a list of user's ads
-                                                  //should be id of the selected ad from user's ads list
-                                                  // make a function for the selected ads in general,
-                                                  // and a function for the selected user's ad
-                                                  adModel: ad,
-                                                  token: token,
-                                                );
+                                          final response =
+                                              await createAdProvider.createAd(
+                                            adDTO: ad,
+                                            files: createDetailsProvider
+                                                .selectedImages,
+                                            token: token,
+                                          );
+                                          // : await updateAdProvider.updateAd(
+                                          //     adId: 0,
+                                          //     //ان شاء الله..لا تنسي
+                                          //     //make a list of user's ads
+                                          //     //should be id of the selected ad from user's ads list
+                                          //     // make a function for the selected ads in general,
+                                          //     // and a function for the selected user's ad
+                                          //     adModel: ad,
+                                          //     token: token,
+                                          //   );
 
                                           create!
                                               ? createAdProvider.nextStep()
                                               : updateAdProvider.nextStep();
                                           if (create!) {
-                                            if (response.statusCode == 200) {
+                                            if (response?.statusCode == 200) {
+                                              Navigator.popUntil(context,
+                                                  (route) {
+                                                return route.settings.name ==
+                                                    MainScreen.id;
+                                              });
+
                                               showAdCreated(context);
-                                            } else {
-                                              Navigator.pushNamed(context,
-                                                  MyCollectionScreen.id);
                                             }
                                           }
                                         }),

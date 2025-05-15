@@ -720,7 +720,7 @@ void showTicketCreated(BuildContext context) {
                   height: 24.h,
                 ),
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal:24.0.w),
+                  padding: EdgeInsets.symmetric(horizontal: 24.0.w),
                   child: CustomElevatedButton(
                       text: 'جميع الرسائل',
                       onPressed: () => Navigator.pushReplacementNamed(
@@ -1082,12 +1082,19 @@ void deleteCollectionAlert(BuildContext context, String tagId) {
       cancelColor: Colors.black,
       onConfirm: () async {
         final token = await TokenHelper.getToken();
+        if (token == null || token.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("سجل دخول اولاً")),
+          );
+          return;
+        }
 
         final favoriteProvider =
             Provider.of<FavoriteProvider>(context, listen: false);
         Navigator.pop(context);
         await favoriteProvider.deleteFavoriteTag(
             tagId: tagId, authorizationToken: token ?? '');
+
         Navigator.pushNamed(context, FavoriteScreen.id);
       });
 }
@@ -1103,9 +1110,15 @@ void logoutAlert(
       confirmColor: errorColor,
       cancelColor: Colors.black,
       onConfirm: () async {
+        final rememberUser = await UserHelper.getRememberedUser();
+
+        print('remembered user: $rememberUser');
+
         //  final token = await TokenHelper.getToken();
         await TokenHelper.removeToken();
         await UserHelper.removeUser();
+        await UserHelper.removeRememberMeStatus();
+        print('remembered user: $rememberUser');
         // await Provider.of<LoginProvider>(context, listen: false)
         //     .logoutUser(context, token: token ?? '');
         Navigator.pop(context);

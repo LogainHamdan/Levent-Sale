@@ -9,13 +9,28 @@ import '../../../../more/models/profile.dart';
 import '../../../models/attriburtes.dart';
 import '../../../repos/city.dart';
 
+import 'dart:io';
+
+import 'package:Levant_Sale/src/modules/more/models/profile.dart';
+import 'package:Levant_Sale/src/modules/sections/repos/attributes.dart';
+import 'package:Levant_Sale/src/modules/sections/repos/city.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:image_picker/image_picker.dart';
+
+import '../../../models/attriburtes.dart';
+
 class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   Map<String, String?> selectedValues = {};
   final List<File> _selectedImages = [];
   final Map<String, bool> _dropdownOpenedMap = {};
-  final Map<int, bool> _services = {};
+  final List<Detail> _selectedServices =
+      []; // Changed from Map to List of Detail
   final AdAttributesRepository _repo = AdAttributesRepository();
   final CityRepository cityRepo = CityRepository();
+  City? _selectedCity;
+  Governorate? _selectedGovernorate;
+
   AdAttributesModel? attributesData;
   bool hasError = false;
   final TextEditingController titleController = TextEditingController();
@@ -35,16 +50,38 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   final quill.QuillController _controller = quill.QuillController.basic();
 
   quill.QuillController get controller => _controller;
-
-  Map<int, bool> get services => _services;
-
-  void toggleService(int id, bool value) {
-    _services[id] = value;
+  City? get selectedCity => _selectedCity;
+  Governorate? get selectedGovernorate => _selectedGovernorate;
+  List<Detail> get selectedServices => _selectedServices;
+  void setSelectedCity(City city) {
+    _selectedCity = city;
     notifyListeners();
   }
 
-  bool getServiceValue(int id) {
-    return _services[id] ?? false;
+  void setSelectedGovernorate(Governorate governorate) {
+    _selectedGovernorate = governorate;
+    notifyListeners();
+  }
+
+  void resetSelections() {
+    _selectedCity = null;
+    _selectedGovernorate = null;
+    notifyListeners();
+  }
+
+  void toggleService(Detail detail, bool isSelected) {
+    if (isSelected) {
+      if (!_selectedServices.any((s) => s.id == detail.id)) {
+        _selectedServices.add(detail);
+      }
+    } else {
+      _selectedServices.removeWhere((s) => s.id == detail.id);
+    }
+    notifyListeners();
+  }
+
+  bool isServiceSelected(Detail detail) {
+    return _selectedServices.any((s) => s.id == detail.id);
   }
 
   void setSelectedValue(String key, String? value) {
@@ -100,13 +137,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
       if (result != null) {
         attributesData = result;
         hasError = false;
-        _services.clear();
-
-        for (var detail in result.details ?? []) {
-          if (detail.id != null) {
-            _services[detail.id ?? 0] = false;
-          }
-        }
+        _selectedServices.clear();
       } else {
         hasError = true;
         debugPrint('No result for categoryId: $categoryId');
@@ -116,7 +147,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     } catch (e) {
       hasError = true;
       debugPrint('Error in fetchAttributes: $e');
-      notifyListeners(); // Ensure UI updates even on error
+      notifyListeners();
     }
   }
 
@@ -140,7 +171,13 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
           attributesMap[name] = getSelectedValue(name);
           break;
         case FieldType.checkbox:
-          attributesMap[name] = getSelectedValue(name) == 'false';
+          // For checkbox, we'll store the list of selected service IDs
+          if (attributesData?.details != null) {
+            attributesMap[name] = _selectedServices.map((s) => s.id).toList();
+          }
+          break;
+        case FieldType.radio:
+          attributesMap[name] = getSelectedValue(name);
           break;
         default:
           attributesMap[name] = null;

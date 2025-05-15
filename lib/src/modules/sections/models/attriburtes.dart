@@ -23,6 +23,15 @@ class AdAttributesModel {
           : [],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'categoryId': categoryId,
+      'attributes': attributes?.toJson(),
+      'details': details?.map((d) => d.toJson()).toList() ?? [],
+    };
+  }
 }
 
 class Attributes {
@@ -32,8 +41,16 @@ class Attributes {
 
   factory Attributes.fromJson(Map<String, dynamic> json) {
     return Attributes(
-      fields: List<Field>.from(json['fields'].map((x) => Field.fromJson(x))),
+      fields: json['fields'] != null
+          ? List<Field>.from(json['fields'].map((x) => Field.fromJson(x)))
+          : [],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'fields': fields?.map((f) => f.toJson()).toList() ?? [],
+    };
   }
 }
 
@@ -106,6 +123,19 @@ class Field {
       placeholder: json['placeholder'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'type': type != null ? fieldTypeToString(type!) : null,
+      'label': label,
+      'options': options,
+      'required': required,
+      'defaultValue': defaultValue,
+      'validation': validation?.toJson(),
+      'placeholder': placeholder,
+    };
+  }
 }
 
 class Validation {
@@ -122,6 +152,14 @@ class Validation {
       pattern: json['pattern'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'max': max,
+      'min': min,
+      'pattern': pattern,
+    };
+  }
 }
 
 class Detail {
@@ -135,5 +173,12 @@ class Detail {
       id: json['id'],
       name: json['name'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+    };
   }
 }

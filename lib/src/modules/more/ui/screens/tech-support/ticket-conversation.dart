@@ -73,6 +73,7 @@ class _TicketConversationScreenState extends State<TicketConversationScreen> {
 
           if (messages.isEmpty) {
             return NoInfoWidget(
+              bottomWidget: true,
               img: emptyChatIcon,
               msg: 'لا يوجد رسائل !',
               lowerWidget: MessageInput(

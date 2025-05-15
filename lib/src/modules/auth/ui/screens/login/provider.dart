@@ -24,7 +24,6 @@ class LoginProvider extends ChangeNotifier {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailRequestController = TextEditingController();
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final AuthRepository _authRepository = AuthRepository();
 
   bool get passwordVisible => _passwordVisible;
@@ -36,6 +35,30 @@ class LoginProvider extends ChangeNotifier {
   bool _isFormValid = false;
 
   bool get isFormValid => _isFormValid;
+  LoginProvider() {
+    initializeRememberedCredentials();
+  }
+
+  void initializeRememberedCredentials() async {
+    try {
+      final rememberedUser = await UserHelper.getRememberedUser();
+      print('Remembered user in login: $rememberedUser');
+
+      if (rememberedUser != null) {
+        emailController.text = rememberedUser.email ?? '';
+        passwordController.text = rememberedUser.password ?? '';
+        _rememberMe = await UserHelper.getRememberMeStatus();
+        print('Remember Me status: $_rememberMe');
+      } else {
+        print('No remembered user found.');
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print('Error retrieving remembered credentials: $e');
+    }
+  }
+
   void markTriedSubmit() {
     hasTriedSubmit = true;
     notifyListeners();
@@ -82,29 +105,31 @@ class LoginProvider extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
   }
-
-  Future<void> logoutUser(BuildContext context, {required String token}) async {
-    _setLoading(true);
-
-    try {
-      var response = await _authRepository.logoutUser(token: token);
-
-      if (response.statusCode == 200) {
-        await TokenHelper.removeToken();
-        await UserHelper.removeUser();
-        await UserHelper.removeRememberMeStatus();
-        _setLoading(false);
-        print('Logout successful');
-      } else {
-        _setLoading(false);
-        _setErrorMessage(' Logout failed: ${response.statusCode}');
-      }
-    } catch (e) {
-      _setLoading(false);
-      _setErrorMessage(e.toString());
-      print('$e');
-    }
-  }
+  //
+  // Future<void> logoutUser(BuildContext context, {required String token}) async {
+  //   _setLoading(true);
+  //
+  //   try {
+  //     var response = await _authRepository.logoutUser(token: token);
+  //
+  //     if (response.statusCode == 200) {
+  //       await TokenHelper.removeToken();
+  //
+  //       await UserHelper.removeUser();
+  //       // await UserHelper.removeRememberMeStatus();
+  //
+  //       _setLoading(false);
+  //       print('Logout successful');
+  //     } else {
+  //       _setLoading(false);
+  //       _setErrorMessage(' Logout failed: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     _setLoading(false);
+  //     _setErrorMessage(e.toString());
+  //     print('$e');
+  //   }
+  // }
 
   Future<void> checkIfLoggedIn(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
@@ -200,8 +225,11 @@ class LoginProvider extends ChangeNotifier {
         }
 
         await TokenHelper.saveToken(token);
-        await UserHelper.saveUserWithRememberMe(
-            User.fromJson(userData), _rememberMe);
+        if (_rememberMe)
+          await UserHelper.saveUserWithRememberMe(
+            User.fromJson(userData),
+            _rememberMe,
+          );
 
         await UserHelper.saveUser(User.fromJson(userData));
         print('Token saved: $token');

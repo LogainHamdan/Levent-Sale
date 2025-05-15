@@ -29,27 +29,50 @@ class NoInfoWidget extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    img,
-                    height: 180.h,
-                    width: 180.w,
+          !bottomWidget!
+              ? SizedBox(
+                  height: 250.h,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          img,
+                          height: 180.h,
+                          width: 180.w,
+                        ),
+                        SizedBox(height: 16.h),
+                        Text(
+                          msg,
+                          style: TextStyle(
+                              fontSize: 18.sp, color: Colors.grey.shade600),
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 16.h),
-                  Text(
-                    msg,
-                    style:
-                        TextStyle(fontSize: 18.sp, color: Colors.grey.shade600),
+                )
+              : Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          img,
+                          height: 180.h,
+                          width: 180.w,
+                        ),
+                        SizedBox(height: 16.h),
+                        Text(
+                          msg,
+                          style: TextStyle(
+                              fontSize: 18.sp, color: Colors.grey.shade600),
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
-          ),
+                ),
           if (lowerWidget != null)
             bottomWidget!
                 ? Align(

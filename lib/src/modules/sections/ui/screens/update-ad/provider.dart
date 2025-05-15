@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import '../../../../../config/constants.dart';
+import '../../../models/adDTO.dart';
 import '../../../repos/ad.dart';
 
 class UpdateAdProvider extends ChangeNotifier {
@@ -34,32 +38,60 @@ class UpdateAdProvider extends ChangeNotifier {
 
   bool isLastStep() => _currentStep == _totalSteps - 1;
 
-  Future<Response> updateAd({
-    required int adId,
-    required AdModel adModel,
+  void resetProgress() {
+    _currentStep = 0;
+    isLoading = false;
+    error = null;
+    notifyListeners();
+  }
+
+  //
+  // Future<Response> createAd({
+  //   required AdModel adDTO,
+  //   List<File>? files,
+  //   required String token,
+  // }) async {
+  //   try {
+  //     print('ad to create: ${adDTO.toJson()}');
+  //     final response = await _repo.createAd(
+  //       adDTO: adDTO,
+  //       files: files,
+  //       token: token,
+  //     );
+  //     if (response.statusCode == 200) {
+  //       print('ad created successfully: ${response.data}');
+  //       return response;
+  //     } else {
+  //       print(
+  //           'Failed to create ad. Status code: ${response.statusCode}, Response: ${response.data}');
+  //       throw Exception('Failed to create ad');
+  //     }
+  //   } catch (e, stacktrace) {
+  //     print("Ad Create Failed: $e");
+  //     print("Stacktrace: $stacktrace");
+  //     rethrow;
+  //   }
+  // }
+  Future<Response?> createAd({
+    required AdDTO adDTO,
+    List<File>? files,
     required String token,
   }) async {
-    try {
-      final response = await _repo.updateAd(
-        adId: adId,
-        adModel: adModel,
-        token: token,
-      );
+    isLoading = true;
+    error = null;
+    notifyListeners();
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        notifyListeners();
-        print('Ad updated successfully: ${response.data}');
-        return response;
-      } else {
-        print(
-            'Failed to update ad. Status code: ${response.statusCode}, Response: ${response.data}');
-        throw Exception('Failed to update ad');
-      }
-    } catch (e, stacktrace) {
-      print("Ad Update Failed: $e");
-      print("Stacktrace: $stacktrace");
+    try {
+      final response =
+          await _repo.createAd(adDTO: adDTO, files: files, token: token);
+      isLoading = false;
       notifyListeners();
-      rethrow;
+      return response;
+    } catch (e) {
+      isLoading = false;
+      error = e.toString();
+      notifyListeners();
+      return null;
     }
   }
 }

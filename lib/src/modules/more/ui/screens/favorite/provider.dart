@@ -99,9 +99,13 @@ class FavoriteProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         print(response.statusCode);
         final tag = TagModel.fromJson(response.data);
+
+        tags.add(tag);
+
         _currentTag = tag;
         selectedTag = tag;
-        print(selectedTag?.id ?? '');
+
+        print("New tag added: ${tag.id}");
         notifyListeners();
         return tag;
       }
@@ -198,17 +202,23 @@ class FavoriteProvider with ChangeNotifier {
     required String tagId,
     required String authorizationToken,
   }) async {
-    notifyListeners();
-
     try {
       final response = await repo.deleteFavoriteTag(
         tagId: tagId,
         authorizationToken: authorizationToken,
       );
-      print(response.statusCode);
 
       if (response.statusCode == 200) {
-        print('tag deleted successfully!');
+        tagFavorites.remove(tagId);
+
+        tags.removeWhere((tag) => tag.id == tagId);
+
+        if (selectedTag?.id == tagId) {
+          selectedTag = null;
+        }
+
+        notifyListeners();
+        print('Tag deleted successfully!');
       }
     } on DioException catch (e) {
       print(e.response?.statusCode);

@@ -48,12 +48,6 @@ class _FavoriteCollectionScreenState extends State<FavoriteCollectionScreen> {
       );
     }
 
-    if (favorites.isEmpty) {
-      return const Scaffold(
-        body: Center(child: Text('لا يوجد اعلانات مفضلة لهذه التشكيلة')),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -68,23 +62,25 @@ class _FavoriteCollectionScreenState extends State<FavoriteCollectionScreen> {
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         title: const TitleRow(title: 'المفضلة'),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                child: SearchField(
-                  width: 327.w,
-                  controller: TextEditingController(),
+      body: favorites.isEmpty
+          ? Center(child: Text('لا يوجد اعلانات مفضلة لهذه التشكيلة'))
+          : SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                      child: SearchField(
+                        width: 327.w,
+                        controller: TextEditingController(),
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    ProductsDetails(productList: favorites),
+                  ],
                 ),
               ),
-              SizedBox(height: 12.h),
-              ProductsDetails(productList: favorites),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

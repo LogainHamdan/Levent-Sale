@@ -64,6 +64,7 @@ class MyMaterialApp extends StatelessWidget {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: MaterialApp(
+            navigatorObservers: [RouteObserver<ModalRoute>()],
             localizationsDelegates: const [
               FlutterQuillLocalizations.delegate,
             ],

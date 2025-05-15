@@ -47,7 +47,7 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
       rootCategories = response;
     } catch (e) {
       print('Failed to load categories: ${e.toString()}');
-      print('Stack trace: ${e}'); // Add this for more details
+      print('Stack trace: ${e}');
       rootCategories = [];
     } finally {
       isLoading = false;
@@ -97,6 +97,4 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
       categoryChild = null;
     }
   }
-
-
 }

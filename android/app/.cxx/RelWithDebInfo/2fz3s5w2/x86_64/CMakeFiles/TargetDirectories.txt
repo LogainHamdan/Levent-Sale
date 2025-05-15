@@ -1,0 +1,2 @@
+D:/Logein/flutter/Levent-Sale/android/app/.cxx/RelWithDebInfo/2fz3s5w2/x86_64/CMakeFiles/edit_cache.dir
+D:/Logein/flutter/Levent-Sale/android/app/.cxx/RelWithDebInfo/2fz3s5w2/x86_64/CMakeFiles/rebuild_cache.dir

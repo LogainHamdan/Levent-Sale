@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import '../../../../home/ui/screens/home/widgets/custom-indicator.dart';
+import '../../../models/adDTO.dart';
 import 'create-ad-section-details.dart';
 
 class SectionDetails2 extends StatefulWidget {
@@ -24,6 +25,7 @@ class SectionDetails2 extends StatefulWidget {
 class _SectionDetails2State extends State<SectionDetails2> {
   late final createProvider;
   late final updateProvider;
+
   void initState() {
     super.initState();
     createProvider =
@@ -51,6 +53,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomTextField(
+                isRequired: true,
                 onChanged: (value) {
                   widget.create
                       ? createProvider.titleController.text = value
@@ -66,6 +69,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
               height: 16.h,
             ),
             CustomTextField(
+              isRequired: true,
               onChanged: (value) {
                 widget.create
                     ? createProvider.shortDescController.text = value
@@ -101,22 +105,51 @@ class _SectionDetails2State extends State<SectionDetails2> {
             SelectedImagesSection(
               create: widget.create,
             ),
-            CustomTextField(
-                onChanged: (value) {
-                  widget.create
-                      ? createProvider.phoneController.text = value
-                      : updateProvider.phoneController.text = value;
-                },
-                label: 'رقم هاتف للتواصل',
-                controller: widget.create
-                    ? createProvider.phoneController
-                    : updateProvider.phoneController,
-                hint: '',
-                bgcolor: grey8),
+            Consumer<CreateAdSectionDetailsProvider>(
+              builder: (context, createProvider, _) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomDropdownSection(
+                      hint: 'اختر طريقة التواصل',
+                      items: ContactMethod.values
+                          .map((e) => e.displayName)
+                          .toList(),
+                      dropdownKey: 'contactMethod',
+                      create: true,
+                      title: 'طريقة التواصل',
+                      onItemSelected: (selectedName) {
+                        createProvider.selectedContactMethod =
+                            ContactMethodExtension.fromDisplayName(
+                                selectedName);
+                        createProvider.setSelectedValue(
+                            'contactMethod', selectedName);
+                      },
+                    ),
+                    if (createProvider.selectedContactMethod != null) ...[
+                      const SizedBox(height: 16),
+                      CustomTextField(
+                        isRequired: true,
+                        controller: createProvider.contactDetailController,
+                        label:
+                            '${createProvider.selectedContactMethod!.displayName} تفاصيل',
+                        onChanged: (value) {
+                          createProvider.setSelectedValue(
+                              'contactDetail', value);
+                        },
+                        hint: '',
+                        bgcolor: grey8,
+                      ),
+                    ]
+                  ],
+                );
+              },
+            ),
             SizedBox(
               height: 16.h,
             ),
             CustomTextField(
+                isRequired: true,
                 label: 'السعر',
                 onChanged: (value) {
                   widget.create
@@ -131,7 +164,27 @@ class _SectionDetails2State extends State<SectionDetails2> {
             SizedBox(
               height: 16.h,
             ),
+            Consumer<CreateAdSectionDetailsProvider>(
+              builder: (context, provider, child) => CustomDropdownSection(
+                hint: 'اختر نوع العملة',
+                items: Currency.values.map((e) => e.arabicName).toList(),
+                dropdownKey: 'العملة',
+                create: widget.create,
+                title: 'نوع العملة',
+                onItemSelected: (selectedName) {
+                  final selectedCurrency =
+                      CurrencyExtension.fromArabicName(selectedName);
+                  if (selectedCurrency != null) {
+                    provider.setSelectedCurrency('currency', selectedCurrency);
+                  }
+                },
+              ),
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
             CustomTextField(
+                isRequired: true,
                 suffix: Icon(Icons.percent, color: grey4),
                 onChanged: (value) {
                   widget.create
@@ -161,6 +214,8 @@ class _SectionDetails2State extends State<SectionDetails2> {
                   create: widget.create,
                   title: 'المحافظة',
                   onItemSelected: (selectedName) {
+                    provider.resetCity();
+                    provider.setSelectedValue('المدينة', null);
                     final selectedGovernorate =
                         provider.governorates.firstWhere(
                       (gov) => gov.governorateName == selectedName,
@@ -178,19 +233,26 @@ class _SectionDetails2State extends State<SectionDetails2> {
             ),
             Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, provider, _) {
+                final isCityEnabled = provider.selectedGovernorate != null;
+
                 return CustomDropdownSection(
                   hint: 'ادخل اسم المدينة',
-                  items: provider.cities.map((city) => city.cityName).toList(),
+                  items: isCityEnabled
+                      ? provider.cities.map((city) => city.cityName).toList()
+                      : [],
                   dropdownKey: 'المدينة',
                   create: widget.create,
                   title: 'المدينة',
-                  onItemSelected: (selectedName) {
-                    final selectedCity = provider.cities.firstWhere(
-                      (city) => city.cityName == selectedName,
-                      orElse: () => provider.cities.first,
-                    );
-                    provider.setSelectedCity(selectedCity);
-                  },
+                  onItemSelected: isCityEnabled
+                      ? (selectedName) {
+                          final selectedCity = provider.cities.firstWhere(
+                            (city) => city.cityName == selectedName,
+                            orElse: () => provider.cities.first,
+                          );
+                          provider.setSelectedCity(selectedCity);
+                        }
+                      : null,
+                  enabled: isCityEnabled,
                 );
               },
             ),

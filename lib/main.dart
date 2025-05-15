@@ -110,6 +110,8 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(
         create: (context) => SearchProvider(),
       ),
+      Provider<RouteObserver<ModalRoute<dynamic>>>(
+          create: (_) => RouteObserver<ModalRoute<dynamic>>()),
       ChangeNotifierProvider(
         create: (context) => CreateAdChooseSectionProvider(),
       ),
@@ -122,6 +124,7 @@ class MyApp extends StatelessWidget {
     ], child: MyMaterialApp());
   }
 }
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {

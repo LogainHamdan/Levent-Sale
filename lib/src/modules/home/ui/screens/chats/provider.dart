@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../models/chats.dart';
+import '../../../models/conversation.dart';
 import '../../../repos/chat-repo.dart';
 import '../home/data.dart';
 
@@ -42,6 +43,13 @@ class ChatProvider extends ChangeNotifier {
     try {
       final response = await _repo.getChats(token: token, userId: userId);
       chats = response.content;
+      chats?.sort((a, b) {
+        final aTime =
+            a?.lastMessage.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+        final bTime =
+            b?.lastMessage.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+        return bTime.compareTo(aTime);
+      });
       errorMessage = '';
     } catch (e) {
       errorMessage = e.toString();

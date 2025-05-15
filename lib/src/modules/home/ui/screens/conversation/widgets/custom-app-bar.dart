@@ -8,12 +8,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget leadingIcon;
   final String name;
   final String profileImageAsset;
+  final Function()? additionalBackFunction;
 
   const CustomAppBar({
     required this.leadingIcon,
     required this.name,
     required this.profileImageAsset,
     super.key,
+    this.additionalBackFunction,
   });
 
   @override
@@ -56,6 +58,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                       onTap: () {
                         Navigator.pop(context);
+                        additionalBackFunction;
                       })),
             ],
           ),

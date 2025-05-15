@@ -9,6 +9,16 @@ import '../create-ad-section-details.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'custom-label.dart';
 
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/update-ad-section-details.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../../../../config/constants.dart';
+import '../create-ad-section-details.dart';
+import 'custom-label.dart';
+
 class CustomDropdownSection extends StatelessWidget {
   final String hint;
   final List<String?> items;
@@ -16,6 +26,7 @@ class CustomDropdownSection extends StatelessWidget {
   final bool create;
   final String? title;
   final Function(String selectedItem)? onItemSelected;
+  final bool enabled;
 
   const CustomDropdownSection({
     super.key,
@@ -25,6 +36,7 @@ class CustomDropdownSection extends StatelessWidget {
     required this.create,
     this.onItemSelected,
     this.title = '',
+    this.enabled = true,
   });
 
   @override
@@ -56,7 +68,7 @@ class CustomDropdownSection extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Container(
                   decoration: BoxDecoration(
-                    color: grey8,
+                    color: enabled ? grey8 : grey8.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -66,15 +78,17 @@ class CustomDropdownSection extends StatelessWidget {
                       SizedBox(
                         height: 50.h,
                         child: InkWell(
-                          onTap: () {
-                            if (create) {
-                              createProvider.setDropdownOpened(
-                                  dropdownKey, !isOpen);
-                            } else {
-                              updateProvider.setDropdownOpened(
-                                  dropdownKey, !isOpen);
-                            }
-                          },
+                          onTap: enabled
+                              ? () {
+                                  if (create) {
+                                    createProvider.setDropdownOpened(
+                                        dropdownKey, !isOpen);
+                                  } else {
+                                    updateProvider.setDropdownOpened(
+                                        dropdownKey, !isOpen);
+                                  }
+                                }
+                              : null,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -98,9 +112,11 @@ class CustomDropdownSection extends StatelessWidget {
                                 style: GoogleFonts.tajawal(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: selectedValue != null
-                                      ? Colors.black
-                                      : grey4,
+                                  color: enabled
+                                      ? (selectedValue != null
+                                          ? Colors.black
+                                          : grey4)
+                                      : grey4.withOpacity(0.7),
                                 ),
                               ),
                             ],
@@ -110,7 +126,7 @@ class CustomDropdownSection extends StatelessWidget {
                       AnimatedSize(
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
-                        child: isOpen
+                        child: isOpen && enabled
                             ? Column(
                                 children: shownItems.map((item) {
                                   return InkWell(
@@ -148,7 +164,7 @@ class CustomDropdownSection extends StatelessWidget {
                                   );
                                 }).toList(),
                               )
-                            : SizedBox.shrink(),
+                            : const SizedBox.shrink(),
                       ),
                     ],
                   ),

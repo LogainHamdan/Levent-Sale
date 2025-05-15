@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:path/path.dart';
 import '../../../config/constants.dart';
 import 'package:dio/dio.dart';
 import '../models/ad.dart';
 import 'package:http_parser/http_parser.dart';
+
+import '../models/adDTO.dart';
 
 class AdRepository {
   late final Dio dio;
@@ -15,46 +18,43 @@ class AdRepository {
   }
 
   factory AdRepository() => _instance;
-
   Future<Response> createAd({
-    required AdModel adDTO,
+    required AdDTO adDTO,
     List<File>? files,
     required String token,
   }) async {
     try {
-      final formData = FormData.fromMap({
-        // jsonEncode({
-        // "city": {"id": "14"},
-        // "governorate": {"id": "2"},
-        // "adType": "NEW",
-        // "contactEmail": "ahmed.developer99@gmail.com",
-        // "contactPhone": "",
-        // "currency": "SYP",
-        // "description": "سشبيشينasda",
-        // "longDescription": "<p><strong>سيشيشسي</strong></p>",
-        // "fullAddress": "`zddadasd",
-        // "negotiable": false,
-        // "preferredContactMethod": "EMAIL",
-        // "price": "2",
-        // "title": "القدس ",
-        // "tradePossible": false,
-        // "categoryPath": "1/7/19/20",
-        // "attributes": {
-        // "gross_area": 5,
-        // "net_area": 5,
-        // "room_type": "1+1",
-        // "floor_number": "7",
-        // "furnishing": "مفروشة بالكامل",
-        // "bathroom_count": "3",
-        // "contract_type": "سنوي"
-        // }
-        // }),
-        'adDTO': jsonEncode(adDTO),
-        if (files != null && files.isNotEmpty)
-          'files':
-              files.map((file) => MultipartFile.fromFile(file.path)).toList(),
-      });
-      print(createAdUrl);
+      print(adDTO.toJson());
+      final formData = FormData();
+      formData.files.add(MapEntry(
+        'adDTO',
+        MultipartFile.fromBytes(
+          utf8.encode(json.encode(adDTO)),
+          filename: 'ad.json',
+          contentType: MediaType('application', 'json'),
+        ),
+      ));
+
+      if (files != null && files.isNotEmpty) {
+        for (final file in files) {
+          if (await file.exists()) {
+            formData.files.add(MapEntry(
+              'files',
+              await MultipartFile.fromFile(
+                file.path,
+                filename: basename(file.path),
+              ),
+            ));
+          } else {
+            print('⚠️ الملف غير موجود: ${file.path}');
+          }
+        }
+      } else {
+        formData.files.add(MapEntry(
+          'files',
+          MultipartFile.fromBytes([], filename: ''),
+        ));
+      }
       final response = await dio.post(
         createAdUrl,
         data: formData,
@@ -65,7 +65,7 @@ class AdRepository {
           },
         ),
       );
-      print('headers: ${response.headers}');
+
       return response;
     } on DioException catch (e) {
       print('Dio error: ${e.message}');
@@ -221,7 +221,7 @@ class AdRepository {
           },
         ),
       );
-
+      print('ads by status fetched successfully');
       final List data = response.data;
       return data.map((e) => AdModel.fromJson(e)).toList();
     } on DioException catch (e) {

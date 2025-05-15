@@ -62,6 +62,13 @@ class ConversationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetConversation() {
+    chatMessages = null;
+    isLoading = false;
+    errorMessage = '';
+    notifyListeners();
+  }
+
   void receiveMessage(String rawMessage) {
     try {
       final decoded = jsonDecode(rawMessage);
