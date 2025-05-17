@@ -1,9 +1,11 @@
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/create-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import '../../../../../../config/constants.dart';
+
+import '../../../../../../../../config/constants.dart';
 
 class ImagePickerColumn extends StatelessWidget {
   const ImagePickerColumn({
@@ -12,11 +14,11 @@ class ImagePickerColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createProvider =
-        Provider.of<CreateAdSectionDetailsProvider>(context, listen: false);
+    final provider =
+        Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
 
     return GestureDetector(
-      onTap: createProvider.pickImage,
+      onTap: provider.pickImage,
       child: Container(
         height: 140.h,
         decoration: BoxDecoration(

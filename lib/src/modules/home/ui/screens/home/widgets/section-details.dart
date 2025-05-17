@@ -11,7 +11,7 @@ import '../../../../../sections/ui/screens/choose-section/create-ad-choose-secti
 import '../../../../../sections/ui/screens/one-section/one-section.dart';
 
 class SectionItem extends StatelessWidget {
-  final RootCategoryModel category;
+  final Category category;
   final String img;
 
   const SectionItem({

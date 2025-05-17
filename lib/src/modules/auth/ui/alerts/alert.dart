@@ -1110,17 +1110,17 @@ void logoutAlert(
       confirmColor: errorColor,
       cancelColor: Colors.black,
       onConfirm: () async {
+        final provider = Provider.of<LoginProvider>(context, listen: false);
         final rememberUser = await UserHelper.getRememberedUser();
-
-        print('remembered user: $rememberUser');
-
-        //  final token = await TokenHelper.getToken();
         await TokenHelper.removeToken();
         await UserHelper.removeUser();
-        await UserHelper.removeRememberMeStatus();
-        print('remembered user: $rememberUser');
-        // await Provider.of<LoginProvider>(context, listen: false)
-        //     .logoutUser(context, token: token ?? '');
+        if (rememberUser == null) {
+          await UserHelper.removeRememberMeStatus();
+          provider.emailController.clear();
+          provider.passwordController.clear();
+        }
+
+        print('remembered user after logout: $rememberUser');
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

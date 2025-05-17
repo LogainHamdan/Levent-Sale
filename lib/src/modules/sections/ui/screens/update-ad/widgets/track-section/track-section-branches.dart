@@ -1,27 +1,22 @@
-import 'dart:io';
-
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details2.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/choose-section/update-ad-choose-section-provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../home/ui/screens/search-filter/widgets/card.dart';
-import '../../../../main/ui/screens/main_screen.dart';
-import '../../../../more/models/profile.dart';
-import '../../../models/ad.dart';
-import '../../../models/adDTO.dart';
-import '../../../models/root-category.dart';
-import '../choose-section/create-ad-choose-section-provider.dart';
-import '../create-ad/create-ad.dart';
-import '../create-ad/provider.dart';
-import '../section-details/create-ad-section-details.dart';
+import '../../../../../../home/ui/screens/search-filter/widgets/card.dart';
+import '../../../../../../main/ui/screens/main_screen.dart';
+import '../../../../../../more/models/profile.dart';
+import '../../../../../models/adDTO.dart';
+import '../../../../../models/root-category.dart';
 import '../section-details/section-details1.dart';
 
 class SectionTrack extends StatelessWidget {
@@ -31,12 +26,12 @@ class SectionTrack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createAdProvider = Provider.of<CreateAdProvider>(context);
-    final createSectionChooseProvider =
-        Provider.of<CreateAdChooseSectionProvider>(context);
+    final updateProvider = Provider.of<UpdateAdProvider>(context);
+    final updateSectionChooseProvider =
+        Provider.of<UpdateAdChooseSectionProvider>(context);
 
-    final createDetailsProvider =
-        Provider.of<CreateAdSectionDetailsProvider>(context);
+    final updateDetailsProvider =
+        Provider.of<UpdateAdSectionDetailsProvider>(context);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.0.w),
@@ -48,51 +43,53 @@ class SectionTrack extends StatelessWidget {
               icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
               title: subcategories[index].name,
               onTap: () async {
-                createSectionChooseProvider.setSelectedSubcategory(index);
+                updateSectionChooseProvider.setSelectedSubcategory(index);
                 debugPrint(
-                    "Selected: ${createSectionChooseProvider.selectedSubcategory?.name}");
+                    "Selected: ${updateSectionChooseProvider.selectedSubcategory?.name}");
 
-                if (createSectionChooseProvider.selectedSubcategory != null) {
-                  await createSectionChooseProvider.fetchSubcategories(
-                    createSectionChooseProvider.selectedSubcategory!.id,
+                if (updateSectionChooseProvider.selectedSubcategory != null) {
+                  await updateSectionChooseProvider.fetchSubcategories(
+                    updateSectionChooseProvider.selectedSubcategory!.id,
                   );
                 } else {
                   print('selectd subcategory is null');
                 }
 
-                if (createSectionChooseProvider.subcategories.isEmpty) {
-                  createAdProvider.nextStep();
+                if (updateSectionChooseProvider.subcategories.isEmpty) {
+                  updateProvider.nextStep();
 
                   debugPrint("fetching attributes...");
 
-                  if (createSectionChooseProvider.selectedSubcategory != null) {
-                    await createDetailsProvider.fetchAttributes(
-                      createSectionChooseProvider.selectedSubcategory!.id,
+                  if (updateSectionChooseProvider.selectedSubcategory != null) {
+                    await updateDetailsProvider.fetchAttributes(
+                      updateSectionChooseProvider.selectedSubcategory!.id,
                     );
                   }
 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CreateAdScreen(
+                      builder: (context) => UpdateAdScreen(
+                        adId: 0,
                         lowerWidget: SectionDetails1(),
                         bottomNavBar: DraggableButton('متابعة', onPressed: () {
-                          if (createDetailsProvider.validateFields1()) {
+                          if (updateDetailsProvider.validateFields1()) {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CreateAdScreen(
+                                    builder: (context) => UpdateAdScreen(
+                                        adId: 0,
                                         bottomNavBar: DraggableButton('متابعة',
                                             onPressed: () async {
                                           print(
-                                              'validate 2: ${createDetailsProvider.validateFields2()}');
-                                          if (createDetailsProvider
+                                              'validate 2: ${updateDetailsProvider.validateFields2()}');
+                                          if (updateDetailsProvider
                                               .validateFields2()) {
                                             final selectedSubCategory =
-                                                createSectionChooseProvider
+                                                updateSectionChooseProvider
                                                     .selectedSubcategory;
                                             final selectedCategory =
-                                                createSectionChooseProvider
+                                                updateSectionChooseProvider
                                                     .selectedCategory;
 
                                             final user =
@@ -123,7 +120,7 @@ class SectionTrack extends StatelessWidget {
                                             }
                                             Map<String, dynamic>
                                                 filteredAttributes =
-                                                createDetailsProvider
+                                                updateDetailsProvider
                                                     .getAttributeFieldsMap()
                                                     .map((key, value) =>
                                                         MapEntry(key, value))
@@ -140,11 +137,11 @@ class SectionTrack extends StatelessWidget {
                                             //                 'المدينة')));
                                             final address = Address(
                                                 fullAddresse:
-                                                    ' المدينة: ${createDetailsProvider.selectedCity?.cityName} المحافظة: - ${createDetailsProvider.selectedGovernorate?.governorateName}',
-                                                city: createDetailsProvider
+                                                    ' المدينة: ${updateDetailsProvider.selectedCity?.cityName} المحافظة: - ${updateDetailsProvider.selectedGovernorate?.governorateName}',
+                                                city: updateDetailsProvider
                                                     .selectedCity,
                                                 governorate:
-                                                    createDetailsProvider
+                                                    updateDetailsProvider
                                                         .selectedGovernorate);
                                             print(
                                                 'selected category to add: ${selectedCategory.name}');
@@ -156,71 +153,63 @@ class SectionTrack extends StatelessWidget {
                                               // condition: [],
                                               // imageUrls: [],
                                               //      adNo: '',
-                                              title: createDetailsProvider
+                                              title: updateDetailsProvider
                                                   .titleController.text,
                                               categoryPath:
                                                   selectedCategory.categoryPath,
-                                              description: createDetailsProvider
+                                              description: updateDetailsProvider
                                                   .shortDescController.text,
                                               longDescription:
-                                                  createDetailsProvider
+                                                  updateDetailsProvider
                                                       .getQuillText(),
 
-                                              contactPhone: createDetailsProvider
+                                              contactPhone: updateDetailsProvider
                                                       .numberMethods
                                                       .contains(
-                                                          createDetailsProvider
+                                                          updateDetailsProvider
                                                               .selectedContactMethod)
-                                                  ? createDetailsProvider
+                                                  ? updateDetailsProvider
                                                       .contactDetailController
                                                       .text
                                                   : '',
-                                              contactEmail: (createDetailsProvider
+                                              contactEmail: (updateDetailsProvider
                                                           .emailMethods
                                                           .contains(
-                                                              createDetailsProvider
+                                                              updateDetailsProvider
                                                                   .selectedContactMethod) ||
-                                                      createDetailsProvider
+                                                      updateDetailsProvider
                                                           .detailMethods
                                                           .contains(
-                                                              createDetailsProvider
+                                                              updateDetailsProvider
                                                                   .selectedContactMethod))
-                                                  ? createDetailsProvider
+                                                  ? updateDetailsProvider
                                                       .contactDetailController
                                                       .text
                                                   : '',
-                                              // userId: user.id,
-                                              // price: int.tryParse(
-                                              //         createDetailsProvider
-                                              //             .priceController
-                                              //             .text) ??
-                                              //     0,
+
                                               governorate: address.governorate,
                                               city: address.city,
                                               attributes: filteredAttributes,
                                               fullAddress: address.fullAddresse,
-                                              adType: createDetailsProvider
+                                              adType: updateDetailsProvider
                                                       .selectedAdType?.name ??
                                                   AdType.UNKNOWN.name,
 
-                                              currency: createDetailsProvider
+                                              currency: updateDetailsProvider
                                                   .selectedCurrency,
 
-                                              negotiable: createDetailsProvider
+                                              negotiable: updateDetailsProvider
                                                   .negotiable,
                                               preferredContactMethod:
-                                                  createDetailsProvider
+                                                  updateDetailsProvider
                                                           .selectedContactMethod
                                                           ?.name ??
                                                       ContactMethod.EMAIL.name,
-                                              price: createDetailsProvider
+                                              price: updateDetailsProvider
                                                   .priceController.text,
 
-                                              // tradePossible: createDetailsProvider
-                                              //         .tradePossible ??
-                                              //     false,
                                               tradePossible:
-                                                  createDetailsProvider
+                                                  updateDetailsProvider
                                                       .tradePossible,
                                             );
 
@@ -242,9 +231,9 @@ class SectionTrack extends StatelessWidget {
                                             print('to create invoke');
 
                                             final response =
-                                                await createAdProvider.createAd(
+                                                await updateProvider.createAd(
                                               adDTO: ad,
-                                              files: createDetailsProvider
+                                              files: updateDetailsProvider
                                                   .selectedImages,
                                               token: token,
                                             );
@@ -259,7 +248,7 @@ class SectionTrack extends StatelessWidget {
                                             //     token: token,
                                             //   );
 
-                                            createAdProvider.nextStep();
+                                            updateProvider.nextStep();
 
                                             if (response?.statusCode == 200) {
                                               Navigator.popUntil(context,
@@ -284,11 +273,11 @@ class SectionTrack extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CreateAdScreen(
+                      builder: (context) => UpdateAdScreen(
+                        adId: 0,
                         lowerWidget: SectionTrack(
-                          subcategories:
-                              createSectionChooseProvider.subcategories,
-                        ),
+                            subcategories:
+                                updateSectionChooseProvider.subcategories),
                       ),
                     ),
                   );

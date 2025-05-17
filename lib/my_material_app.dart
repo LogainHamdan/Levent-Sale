@@ -121,16 +121,13 @@ class MyMaterialApp extends StatelessWidget {
               MyCollectionScreen.id: (context) => MyCollectionScreen(),
               FavoriteScreen.id: (context) => FavoriteScreen(),
               CreateAdScreen.id: (context) => CreateAdScreen(
-                    lowerWidget: SectionChoose(
-                      create: true,
-                    ),
+                    lowerWidget: SectionChoose(),
                   ),
               UpdateAdScreen.id: (context) => UpdateAdScreen(
                     adId: 0,
-                    lowerWidget: SectionChoose(
-                      create: false,
-                    ),
+                    lowerWidget: SectionChoose(),
                   ),
+
               FilterScreen.id: (context) => FilterScreen(
                     cardListIndex: 0,
                   ),

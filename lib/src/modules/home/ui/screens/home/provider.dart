@@ -8,7 +8,7 @@ class HomeProvider extends ChangeNotifier {
   final Map<String, bool> _favorites = {};
   int _currentIndex = 0;
   final ScrollController scrollController = ScrollController();
-  RootCategoryModel? _selectedCategory;
+  Category? _selectedCategory;
   AdRepository repo = AdRepository();
   List<AdModel> allAds = [];
   List<AdModel> userAds = [];
@@ -20,7 +20,7 @@ class HomeProvider extends ChangeNotifier {
   int get currentIndex => _currentIndex;
   AdModel? get selectedAd => _selectedAd;
 
-  RootCategoryModel? get selectedCategory => _selectedCategory;
+  Category? get selectedCategory => _selectedCategory;
 
   bool isFavorite(String productKey) => _favorites[productKey] ?? false;
 
@@ -48,7 +48,7 @@ class HomeProvider extends ChangeNotifier {
     });
   }
 
-  void selectCategory(RootCategoryModel category) {
+  void selectCategory(Category category) {
     _selectedCategory = category;
     notifyListeners();
   }

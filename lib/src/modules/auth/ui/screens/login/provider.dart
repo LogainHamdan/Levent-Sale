@@ -48,11 +48,9 @@ class LoginProvider extends ChangeNotifier {
         emailController.text = rememberedUser.email ?? '';
         passwordController.text = rememberedUser.password ?? '';
         _rememberMe = await UserHelper.getRememberMeStatus();
+        print('remember me status: $_rememberMe');
         print('Remember Me status: $_rememberMe');
-      } else {
-        print('No remembered user found.');
       }
-
       notifyListeners();
     } catch (e) {
       print('Error retrieving remembered credentials: $e');

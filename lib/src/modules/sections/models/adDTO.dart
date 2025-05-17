@@ -142,3 +142,44 @@ extension ContactMethodExtension on ContactMethod {
         orElse: () => ContactMethod.OTHER);
   }
 }
+
+enum AdType {
+  NEW,
+  USED,
+  EXCELLENT,
+  GOOD,
+  REFURBISHED,
+  NEEDS_REPAIR,
+  PARTS,
+  UNKNOWN,
+}
+
+extension AdTypeExtension on AdType {
+  String get displayName {
+    switch (this) {
+      case AdType.NEW:
+        return 'جديد';
+      case AdType.USED:
+        return 'مستعمل';
+      case AdType.EXCELLENT:
+        return 'ممتاز';
+      case AdType.GOOD:
+        return 'جيد';
+      case AdType.REFURBISHED:
+        return 'مجدّد';
+      case AdType.NEEDS_REPAIR:
+        return 'يحتاج إلى إصلاح';
+      case AdType.PARTS:
+        return 'قطع غيار';
+      case AdType.UNKNOWN:
+        return 'غير معروف';
+    }
+  }
+
+  static AdType fromDisplayName(String displayName) {
+    return AdType.values.firstWhere(
+      (e) => e.displayName == displayName,
+      orElse: () => AdType.UNKNOWN,
+    );
+  }
+}

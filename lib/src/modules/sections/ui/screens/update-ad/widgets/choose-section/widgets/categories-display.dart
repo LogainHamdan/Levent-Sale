@@ -1,8 +1,10 @@
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/choose-section/update-ad-choose-section-provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../../../../../../config/constants.dart';
+
+import '../../../../../../../../config/constants.dart';
 
 class CategoriesDisplay extends StatelessWidget {
   final bool? selectable;
@@ -16,19 +18,19 @@ class CategoriesDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createProvider = Provider.of<CreateAdChooseSectionProvider>(context);
+    final provider = Provider.of<UpdateAdChooseSectionProvider>(context);
 
-    if (createProvider.isLoading) {
+    if (provider.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    final categories = createProvider.rootCategories;
+    final categories = provider.rootCategories;
 
     if (categories.isEmpty) {
       return const Center(child: Text("No categories found"));
     }
 
-    final createSelectedIndex = createProvider.selectedCategoryIndex;
+    final createSelectedIndex = provider.selectedCategoryIndex;
 
     return LayoutBuilder(builder: (context, constraints) {
       return GridView.builder(
@@ -49,7 +51,7 @@ class CategoriesDisplay extends StatelessWidget {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
-              createProvider.setSelectedCategory(index);
+              provider.setSelectedCategory(index);
 
               Future.microtask(() => onSectionClicked());
             },

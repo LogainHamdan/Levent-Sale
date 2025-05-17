@@ -26,6 +26,7 @@ class AdRepository {
     try {
       print(adDTO.toJson());
       final formData = FormData();
+
       formData.files.add(MapEntry(
         'adDTO',
         MultipartFile.fromBytes(
@@ -55,6 +56,9 @@ class AdRepository {
           MultipartFile.fromBytes([], filename: ''),
         ));
       }
+      print(formData);
+      print('to create before request');
+
       final response = await dio.post(
         createAdUrl,
         data: formData,

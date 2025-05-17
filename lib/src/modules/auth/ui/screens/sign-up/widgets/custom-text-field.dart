@@ -9,7 +9,6 @@ import '../provider.dart';
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String? hint;
-  final TextInputType keyboardType;
   final bool isPassword;
   final ValueChanged<String>? onChanged;
   final TextDirection textDirection;
@@ -27,7 +26,6 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.controller,
     this.hint = '',
-    this.keyboardType = TextInputType.text,
     this.isPassword = false,
     this.onChanged,
     this.textDirection = TextDirection.rtl,
@@ -35,7 +33,7 @@ class CustomTextField extends StatelessWidget {
     this.paragraph = false,
     this.label = '',
     this.suffix,
-    this.paragraphBorderRadius,
+    this.paragraphBorderRadius = 10,
     this.prefix,
     this.labelGrey = false,
     this.isRequired = false,
@@ -44,19 +42,21 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool showError = errorText != null && errorText!.isNotEmpty;
-    final provider = Provider.of<SignUpProvider>(context);
-    return !paragraph!
+    final bool showError =
+        errorText != null && errorText!.isNotEmpty && controller.text.isEmpty ||
+            controller.text == '' ||
+            controller.text == ' ';
+    return (paragraph == false)
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (label!.isNotEmpty)
                 Text(
                   textAlign: TextAlign.right,
-                  label!,
+                  label ?? '',
                   style: TextStyle(
                       fontSize: 14.sp,
-                      color: labelGrey! ? grey5 : Colors.black,
+                      color: labelGrey ?? false ? grey5 : Colors.black,
                       fontWeight: FontWeight.w500),
                 ),
               SizedBox(
@@ -64,7 +64,6 @@ class CustomTextField extends StatelessWidget {
               ),
               TextField(
                 controller: controller,
-                keyboardType: keyboardType,
                 obscureText: isPassword,
                 textDirection: textDirection,
                 cursorColor: Colors.black,
@@ -120,10 +119,10 @@ class CustomTextField extends StatelessWidget {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: Text(
-                      errorText!,
+                      errorText ?? '',
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: Color(0xffF75555),
+                        color: errorColor,
                       ),
                       textAlign: TextAlign.right,
                     ),
@@ -134,18 +133,17 @@ class CustomTextField extends StatelessWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              if (label!.isNotEmpty)
+              if (label != null)
                 Text(
                   textAlign: TextAlign.right,
-                  label!,
+                  label ?? '',
                   style: TextStyle(
                     fontSize: 14.sp,
-                    color: labelGrey! ? grey5 : Colors.black,
+                    color: labelGrey ?? false ? grey5 : Colors.black,
                   ),
                 ),
               TextField(
                 controller: controller,
-                keyboardType: keyboardType,
                 obscureText: isPassword,
                 textDirection: textDirection,
                 cursorColor: Colors.black,
@@ -153,29 +151,22 @@ class CustomTextField extends StatelessWidget {
                 decoration: InputDecoration(
                   fillColor: bgcolor,
                   filled: true,
-                  hintText: hint!,
+                  hintText: hint ?? '',
                   hintStyle: TextStyle(color: grey3, fontSize: 16.sp),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.r),
-                    borderSide: showError
-                        ? const BorderSide(color: Color(0xffF75555), width: 2.0)
-                        : BorderSide.none,
+                    borderSide: BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius:
-                        BorderRadius.circular(paragraphBorderRadius!.r),
-                    borderSide: showError
-                        ? const BorderSide(color: Color(0xffF75555), width: 2.0)
-                        : BorderSide.none,
+                        BorderRadius.circular(paragraphBorderRadius ?? 10.r),
+                    borderSide: BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius:
-                        BorderRadius.circular(paragraphBorderRadius!.r),
-                    borderSide: showError
-                        ? const BorderSide(color: Color(0xffF75555), width: 2.0)
-                        : BorderSide.none,
+                        BorderRadius.circular(paragraphBorderRadius ?? 10.r),
+                    borderSide: BorderSide.none,
                   ),
-                  errorText: errorText,
                 ),
                 style: TextStyle(
                   fontSize: 16.0.sp,
@@ -189,10 +180,10 @@ class CustomTextField extends StatelessWidget {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: Text(
-                      errorText!,
+                      errorText ?? '',
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: Color(0xffF75555),
+                        color: errorColor,
                       ),
                       textAlign: TextAlign.right,
                     ),

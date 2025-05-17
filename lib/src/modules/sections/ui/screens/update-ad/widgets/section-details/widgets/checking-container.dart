@@ -3,10 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../../config/constants.dart';
-import '../../../../../auth/ui/screens/login/widgets/checkbox.dart';
-import '../../../../models/attriburtes.dart';
-import '../create-ad-section-details.dart';
+import '../../../../../../../../config/constants.dart';
+import '../../../../../../../auth/ui/screens/login/widgets/checkbox.dart';
+import '../update-ad-section-details.dart';
 import 'custom-label.dart';
 
 class CheckingContainer extends StatelessWidget {
@@ -16,9 +15,9 @@ class CheckingContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createProvider = Provider.of<CreateAdSectionDetailsProvider>(context);
+    final provider = Provider.of<UpdateAdSectionDetailsProvider>(context);
 
-    final attributesData = createProvider.attributesData;
+    final attributesData = provider.attributesData;
 
     if (attributesData == null || attributesData.details == null) {
       return const SizedBox.shrink();
@@ -42,9 +41,9 @@ class CheckingContainer extends StatelessWidget {
 
                 return CustomCheckBox(
                   onChanged: (value) {
-                    createProvider.toggleService(detail, value);
+                    provider.toggleService(detail, value);
                   },
-                  value: createProvider.isServiceSelected(detail),
+                  value: provider.isServiceSelected(detail),
                   title: Text(
                     textDirection: TextDirection.rtl,
                     serviceTitle!,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../models/root-category.dart';
-import '../../../repos/category-repo.dart';
 
-class CreateAdChooseSectionProvider extends ChangeNotifier {
+import '../../../../../models/root-category.dart';
+import '../../../../../repos/category-repo.dart';
+
+class UpdateAdChooseSectionProvider extends ChangeNotifier {
   int? _selectedCategoryIndex;
   int? _selectedSubcategoryIndex;
 

@@ -36,6 +36,7 @@ class _TicketsScreenState extends State<TicketsScreen> {
       final token = await TokenHelper.getToken();
       final user = await UserHelper.getUser();
       final provider = Provider.of<TechSupportProvider>(context, listen: false);
+
       await provider.getTickets(token: token ?? '', userId: user?.id ?? 0);
     } catch (e) {
       print("Error fetching tickets: $e");
@@ -71,12 +72,12 @@ class _TicketsScreenState extends State<TicketsScreen> {
                               SizedBox(height: 10.h),
                           itemCount: tickets.length,
                           itemBuilder: (context, index) {
+                            print(tickets.length);
                             final ticket = tickets[index];
-                            return GestureDetector(
-                              onTap: () {},
-                              child: CustomTicketCard(
-                                ticket: ticket,
-                              ),
+                            print('ticket: ${ticket.toJson()}');
+                            print('ticket id: ${ticket.id}');
+                            return CustomTicketCard(
+                              ticket: ticket,
                             );
                           },
                         ),

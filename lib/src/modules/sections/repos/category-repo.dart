@@ -15,13 +15,13 @@ class CategoriesRepository {
 
   final Dio _dio = Dio();
 
-  Future<List<RootCategoryModel>> fetchCategories() async {
+  Future<List<Category>> fetchCategories() async {
     try {
       final response = await _dio.get(getCategoriesUrl);
-log("url$getCategoriesUrl");
+      log("url$getCategoriesUrl");
       List data = response.data;
 
-      return data.map((json) => RootCategoryModel.fromJson(json)).toList();
+      return data.map((json) => Category.fromJson(json)).toList();
     } catch (e) {
       throw Exception('Failed to fetch categories: $e');
     }

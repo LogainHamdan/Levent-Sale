@@ -89,7 +89,7 @@ class TechSupportRepository {
   }) async {
     try {
       final response = await _dio.get(
-        '$getTicketsUrl/$userId',
+        getTicketsUrl,
         options: Options(
           headers: {
             'Accept': '*/*',
@@ -99,6 +99,7 @@ class TechSupportRepository {
       );
 
       final data = response.data;
+
       if (data == null) {
         throw Exception('No data received from server');
       }
@@ -108,6 +109,7 @@ class TechSupportRepository {
       }
 
       return data.map<Ticket>((ticketJson) {
+        print(ticketJson);
         final ticket = Ticket.fromJson(ticketJson);
         print('ticket: ${ticket.id}');
 
@@ -137,9 +139,17 @@ class TechSupportRepository {
         ),
       );
 
-      if (response.data is List) {
-        final data = response.data as List;
-        return data.map((json) => TicketMessage.fromJson(json)).toList();
+      if (response.data is Map<String, dynamic>) {
+        final data = response.data as Map<String, dynamic>;
+        if (data.containsKey('messages') && data['messages'] is List) {
+          final messagesList = data['messages'] as List;
+          return messagesList
+              .map((json) => TicketMessage.fromJson(json))
+              .toList();
+        } else {
+          print('No messages found in response: $data');
+          return [];
+        }
       } else {
         print('Unexpected response format: ${response.data}');
         return [];

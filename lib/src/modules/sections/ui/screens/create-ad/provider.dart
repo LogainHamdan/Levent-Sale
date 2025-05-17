@@ -82,6 +82,8 @@ class CreateAdProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      print('to create provider');
+
       final response =
           await _repo.createAd(adDTO: adDTO, files: files, token: token);
       isLoading = false;

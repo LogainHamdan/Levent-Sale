@@ -26,6 +26,9 @@ class Ticket {
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) {
+    final ticketJson =
+        json['ticket'] ?? json; // Use the nested ticket map if available
+
     String safeString(dynamic value) {
       if (value == null) return '';
       if (value is String) return value;
@@ -59,19 +62,19 @@ class Ticket {
     }
 
     return Ticket(
-      id: safeString(json['id']),
-      userId: json['userId'] is int
-          ? json['userId']
-          : int.tryParse(json['userId'].toString()) ?? 0,
-      title: safeString(json['title']),
+      id: safeString(ticketJson['id']),
+      userId: ticketJson['userId'] is int
+          ? ticketJson['userId']
+          : int.tryParse(ticketJson['userId'].toString()) ?? 0,
+      title: safeString(ticketJson['title']),
       status: TicketStatus.values.firstWhere(
         (e) =>
             e.toString().split('.').last ==
-            safeString(json['status']).toUpperCase(),
+            safeString(ticketJson['status']).toUpperCase(),
         orElse: () => TicketStatus.OPEN,
       ),
-      createdAt: safeParseDate(json['createdAt']),
-      updatedAt: safeParseDate(json['updatedAt']),
+      createdAt: safeParseDate(ticketJson['createdAt']),
+      updatedAt: safeParseDate(ticketJson['updatedAt']),
     );
   }
   Map<String, dynamic> toJson() {

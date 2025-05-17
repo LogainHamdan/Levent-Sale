@@ -1,4 +1,4 @@
-class RootCategoryModel {
+class Category {
   final int id;
   final String name;
   final String? parentCategory;
@@ -13,7 +13,7 @@ class RootCategoryModel {
   final String? categoryNamePath;
   final bool active;
 
-  RootCategoryModel({
+  Category({
     required this.id,
     required this.name,
     this.parentCategory,
@@ -29,8 +29,8 @@ class RootCategoryModel {
     required this.active,
   });
 
-  factory RootCategoryModel.fromJson(Map<String, dynamic> json) {
-    return RootCategoryModel(
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
       id: (json['id'] as int?) ?? 0,
       name: (json['name'] as String?) ?? '',
       parentCategory: json['parentCategory']?.toString(),

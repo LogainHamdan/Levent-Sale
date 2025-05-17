@@ -14,7 +14,7 @@ import '../../../../../sections/ui/screens/section-details/section-details1.dart
 import '../../../../../sections/ui/screens/sections/sections.dart';
 
 class CategoriesList extends StatelessWidget {
-  final List<RootCategoryModel> categories;
+  final List<Category> categories;
 
   const CategoriesList({
     super.key,

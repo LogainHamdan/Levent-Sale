@@ -81,7 +81,6 @@ class AdDetailsScreen extends StatelessWidget {
                                           adId: adId,
                                           lowerWidget: SectionChoose(
                                             adId: adId,
-                                            create: false,
                                           ),
                                         ))),
                             child: SvgPicture.asset(

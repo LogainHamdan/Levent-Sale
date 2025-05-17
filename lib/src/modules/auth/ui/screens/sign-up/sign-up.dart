@@ -99,31 +99,27 @@ class SignUpScreen extends StatelessWidget {
                             ],
                           ),
                           if (provider.selectedValue == "شخصي")
-                            SizedBox(
-                              height: 8.h,
-                            ),
-                          CustomTextField(
-                            isRequired: true,
-                            errorText: provider.hasTriedSubmit &&
-                                    provider.birthDateController.text
-                                        .trim()
-                                        .isEmpty
-                                ? 'يجب عليك ادخال تاريخ ميلاد صحيح'
-                                : null,
-                            prefix: GestureDetector(
-                              onTap: () => showDatePickerDialog(
-                                  context, provider.birthDateController),
-                              child: SvgPicture.asset(
-                                calendarIcon,
-                                height: 20.h,
-                                width: 20.w,
+                            CustomTextField(
+                              isRequired: true,
+                              errorText: provider.hasTriedSubmit &&
+                                      provider.birthDateController.text
+                                          .trim()
+                                          .isEmpty
+                                  ? 'يجب عليك ادخال تاريخ ميلاد صحيح'
+                                  : null,
+                              prefix: GestureDetector(
+                                onTap: () => showDatePickerDialog(
+                                    context, provider.birthDateController),
+                                child: SvgPicture.asset(
+                                  calendarIcon,
+                                  height: 20.h,
+                                  width: 20.w,
+                                ),
                               ),
+                              controller: provider.birthDateController,
+                              bgcolor: grey8,
+                              hint: 'تاريخ الميلاد',
                             ),
-                            controller: provider.birthDateController,
-                            bgcolor: grey8,
-                            hint: 'تاريخ الميلاد',
-                          ),
-                          SizedBox(height: 8.h),
                         ] else if (provider.selectedValue == "شركة") ...[
                           CustomTextField(
                             isRequired: true,
@@ -137,9 +133,7 @@ class SignUpScreen extends StatelessWidget {
                             controller: provider.companyNameController,
                             hint: "اسم الشركة",
                           ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
+
                           CustomTextField(
                             isRequired: true,
                             errorText: provider.hasTriedSubmit &&
@@ -191,21 +185,17 @@ class SignUpScreen extends StatelessWidget {
                             controller: provider.taxNumberController,
                             hint: "الرقم الضريبي",
                           ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
                         ] else ...[
                           SizedBox.shrink()
                         ],
+                        SizedBox(height: 8.h),
                         CustomTextField(
                           isRequired: true,
                           errorText: provider.emailError,
                           bgcolor: grey8,
                           controller: provider.emailController,
                           hint: "البريد الإلكتروني",
-                          keyboardType: TextInputType.emailAddress,
                         ),
-                        SizedBox(height: 16.h),
                         CustomPasswordField(
                           isConfirmField: false,
                           controller: provider.passwordController,

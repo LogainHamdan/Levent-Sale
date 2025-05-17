@@ -3,18 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../../../config/constants.dart';
-import '../create-ad-section-details.dart';
+import '../../../../../../../../config/constants.dart';
+import '../update-ad-section-details.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'custom-label.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../../../../../config/constants.dart';
-import '../create-ad-section-details.dart';
 import 'custom-label.dart';
 
 class CustomDropdownSection extends StatelessWidget {
@@ -39,19 +30,14 @@ class CustomDropdownSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateAdSectionDetailsProvider>(
-      builder: (context, createProvider, child) {
-        List<String?> createUniqueItems = items.toSet().toList();
+    return Consumer<UpdateAdSectionDetailsProvider>(
+      builder: (context, provider, child) {
+        List<String?> uniqueItems = items.toSet().toList();
 
-        String? createSelectedValue =
-            createProvider.getSelectedValue(dropdownKey);
-        bool createIsOpen = createProvider.isDropdownOpened(dropdownKey);
+        String? selectedValue = provider.getSelectedValue(dropdownKey);
+        bool isOpen = provider.isDropdownOpened(dropdownKey);
 
-        List<String?> updateUniqueItems = items.toSet().toList();
-
-        bool isOpen = createIsOpen;
-        List<String?> shownItems = createUniqueItems;
-        String? selectedValue = createSelectedValue;
+        List<String?> shownItems = uniqueItems;
         final bool showError =
             (selectedValue == null || selectedValue.isEmpty) &&
                 (errorText != null && errorText!.isNotEmpty);
@@ -75,8 +61,7 @@ class CustomDropdownSection extends StatelessWidget {
                     child: InkWell(
                       onTap: enabled
                           ? () {
-                              createProvider.setDropdownOpened(
-                                  dropdownKey, !isOpen);
+                              provider.setDropdownOpened(dropdownKey, !isOpen);
                             }
                           : null,
                       child: Row(
@@ -120,9 +105,8 @@ class CustomDropdownSection extends StatelessWidget {
                             children: shownItems.map((item) {
                               return InkWell(
                                 onTap: () {
-                                  createProvider.setSelectedValue(
-                                      dropdownKey, item);
-                                  createProvider.setDropdownOpened(
+                                  provider.setSelectedValue(dropdownKey, item);
+                                  provider.setDropdownOpened(
                                       dropdownKey, false);
 
                                   if (onItemSelected != null) {

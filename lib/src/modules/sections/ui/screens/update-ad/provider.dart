@@ -45,33 +45,6 @@ class UpdateAdProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //
-  // Future<Response> createAd({
-  //   required AdModel adDTO,
-  //   List<File>? files,
-  //   required String token,
-  // }) async {
-  //   try {
-  //     print('ad to create: ${adDTO.toJson()}');
-  //     final response = await _repo.createAd(
-  //       adDTO: adDTO,
-  //       files: files,
-  //       token: token,
-  //     );
-  //     if (response.statusCode == 200) {
-  //       print('ad created successfully: ${response.data}');
-  //       return response;
-  //     } else {
-  //       print(
-  //           'Failed to create ad. Status code: ${response.statusCode}, Response: ${response.data}');
-  //       throw Exception('Failed to create ad');
-  //     }
-  //   } catch (e, stacktrace) {
-  //     print("Ad Create Failed: $e");
-  //     print("Stacktrace: $stacktrace");
-  //     rethrow;
-  //   }
-  // }
   Future<Response?> createAd({
     required AdDTO adDTO,
     List<File>? files,
@@ -82,6 +55,8 @@ class UpdateAdProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      print('to create provider');
+
       final response =
           await _repo.createAd(adDTO: adDTO, files: files, token: token);
       isLoading = false;

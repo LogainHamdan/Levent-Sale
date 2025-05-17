@@ -12,9 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../config/constants.dart';
-import '../../../models/attriburtes.dart';
-import '../choose-section/create-ad-choose-section-provider.dart';
+import '../../../../../../../config/constants.dart';
+
+import '../../../../../models/attriburtes.dart';
+import '../choose-section/update-ad-choose-section-provider.dart';
 
 class SectionDetails1 extends StatelessWidget {
   const SectionDetails1({
@@ -23,10 +24,9 @@ class SectionDetails1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createAdProvider =
-        Provider.of<CreateAdChooseSectionProvider>(context);
+    final provider = Provider.of<UpdateAdChooseSectionProvider>(context);
 
-    final subcategory = createAdProvider.selectedSubcategory;
+    final subcategory = provider.selectedSubcategory;
 
     if (subcategory == null) {
       return const Center(child: Text('يرجى اختيار قسم فرعي أولًا'));

@@ -1,16 +1,5 @@
 import 'dart:io';
 
-import 'package:Levant_Sale/src/modules/sections/repos/attributes.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:image_picker/image_picker.dart';
-
-import '../../../../more/models/profile.dart';
-import '../../../models/attriburtes.dart';
-import '../../../repos/city.dart';
-
-import 'dart:io';
-
 import 'package:Levant_Sale/src/modules/more/models/profile.dart';
 import 'package:Levant_Sale/src/modules/sections/repos/attributes.dart';
 import 'package:Levant_Sale/src/modules/sections/repos/city.dart';
@@ -18,43 +7,108 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:image_picker/image_picker.dart';
 
-import '../../../models/attriburtes.dart';
+import '../../../../../models/adDTO.dart';
+import '../../../../../models/attriburtes.dart';
 
 class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   Map<String, String?> selectedValues = {};
   final List<File> _selectedImages = [];
   final Map<String, bool> _dropdownOpenedMap = {};
-  final List<Detail> _selectedServices =
-      []; // Changed from Map to List of Detail
+  final List<Detail> _selectedServices = [];
   final AdAttributesRepository _repo = AdAttributesRepository();
   final CityRepository cityRepo = CityRepository();
+  bool _negotiable = false;
+  bool _tradePossible = false;
   City? _selectedCity;
   Governorate? _selectedGovernorate;
-
+  ContactMethod? _selectedContactMethod;
   AdAttributesModel? attributesData;
   bool hasError = false;
   final TextEditingController titleController = TextEditingController();
   final TextEditingController shortDescController = TextEditingController();
-  final TextEditingController contentController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController discountController = TextEditingController();
+  final TextEditingController contactDetailController = TextEditingController();
   final Map<String, TextEditingController> dynamicFieldControllers = {};
   List<City> _cities = [];
+  AdType? _selectedAdType;
   bool _isLoading = false;
   List<Governorate> _governorates = [];
+  bool get negotiable => _negotiable;
+  bool get tradePossible => _tradePossible;
+  Currency? _selectedCurrency;
+
+  Currency? get selectedCurrency => _selectedCurrency;
+
+  AdType? get selectedAdType => _selectedAdType;
+
   List<Governorate> get governorates => _governorates;
+
   List<City> get cities => _cities;
+
+  ContactMethod? get selectedContactMethod => _selectedContactMethod;
+
   bool get isLoading => _isLoading;
+
   List<File> get selectedImages => _selectedImages;
   final quill.QuillController _controller = quill.QuillController.basic();
 
   quill.QuillController get controller => _controller;
+
   City? get selectedCity => _selectedCity;
+
   Governorate? get selectedGovernorate => _selectedGovernorate;
+
   List<Detail> get selectedServices => _selectedServices;
+
+  List<ContactMethod> numberMethods = [
+    ContactMethod.CALL,
+    ContactMethod.WHATSAPP,
+    ContactMethod.SMS,
+    ContactMethod.TELEGRAM,
+  ];
+
+  List<ContactMethod> emailMethods = [
+    ContactMethod.EMAIL,
+  ];
+
+  List<ContactMethod> detailMethods = [
+    ContactMethod.SITE_MESSAGES,
+    ContactMethod.OTHER,
+  ];
+  void setNegotiable(bool value) {
+    _negotiable = value;
+    notifyListeners();
+  }
+
+  void setTradePossible(bool value) {
+    _tradePossible = value;
+    notifyListeners();
+  }
+
+  String getQuillText() {
+    return _controller.document.toPlainText().trim();
+  }
+
+  void setSelectedAdType(AdType? type) {
+    _selectedAdType = type;
+    notifyListeners();
+  }
+
   void setSelectedCity(City city) {
     _selectedCity = city;
+    notifyListeners();
+  }
+
+  void setSelectedContactMethod(ContactMethod? method) {
+    _selectedContactMethod = method;
+    notifyListeners();
+  }
+
+  void setSelectedCurrency(String key, Currency? currency) {
+    _selectedCurrency = currency;
+    setSelectedValue(key, currency?.toString());
     notifyListeners();
   }
 
@@ -66,6 +120,16 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   void resetSelections() {
     _selectedCity = null;
     _selectedGovernorate = null;
+    notifyListeners();
+  }
+
+  void resetCity() {
+    _selectedCity = null;
+    _cities.clear();
+    selectedValues.remove("city");
+
+    dynamicFieldControllers.remove("city")?.clear();
+
     notifyListeners();
   }
 
@@ -123,8 +187,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     if (!dynamicFieldControllers.containsKey(key)) {
       dynamicFieldControllers[key] = TextEditingController();
     }
-    return dynamicFieldControllers[key] ??
-        TextEditingController(); // Safe fallback
+    return dynamicFieldControllers[key] ?? TextEditingController();
   }
 
   Future<void> fetchAttributes(int categoryId) async {
@@ -171,7 +234,6 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
           attributesMap[name] = getSelectedValue(name);
           break;
         case FieldType.checkbox:
-          // For checkbox, we'll store the list of selected service IDs
           if (attributesData?.details != null) {
             attributesMap[name] = _selectedServices.map((s) => s.id).toList();
           }
@@ -185,6 +247,19 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     }
 
     return attributesMap;
+  }
+
+  Currency? getSelectedCurrency(String key) {
+    if (_selectedCurrency != null) return _selectedCurrency;
+
+    final value = selectedValues[key];
+    if (value != null) {
+      return Currency.values.firstWhere(
+        (e) => e.toString() == value,
+        orElse: () => Currency.SYP,
+      );
+    }
+    return null;
   }
 
   Future<void> loadCities({required int governorateId}) async {
@@ -213,5 +288,35 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  bool validateFields1() {
+    for (var controller in dynamicFieldControllers.values) {
+      if (controller.text.trim().isEmpty) return false;
+    }
+
+    if (selectedValues.containsValue(null) ||
+        selectedValues.containsValue("")) {
+      return false;
+    }
+    return true;
+  }
+
+  bool validateFields2() {
+    if (titleController.text.trim().isEmpty ||
+        shortDescController.text.trim().isEmpty ||
+        getQuillText().isEmpty ||
+        priceController.text.trim().isEmpty ||
+        contactDetailController.text.trim().isEmpty ||
+        _selectedCity == null ||
+        _selectedGovernorate == null ||
+        _selectedAdType == null ||
+        _selectedCurrency == null) {
+      return false;
+    }
+
+    if (_selectedImages.isEmpty) return false;
+
+    return true;
   }
 }

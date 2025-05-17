@@ -27,9 +27,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => LoginProvider(),
-      child: Scaffold(
+    return Consumer<LoginProvider>(
+      builder: (context, provider, child) => Scaffold(
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.0.w),
@@ -47,30 +46,24 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 28.h),
-                  Consumer<LoginProvider>(
-                      builder: (context, authProvider, child) {
-                    return CustomTextField(
-                      isRequired: true,
-                      errorText: authProvider.hasTriedSubmit &&
-                              authProvider.emailController.text.trim().isEmpty
-                          ? 'يجب عليك ادخال بريد الكتروني صحيح'
-                          : null,
-                      bgcolor: grey8,
-                      controller: authProvider.emailController,
-                      hint: 'البريد الالكتروني / رقم الجوال',
-                    );
-                  }),
+                  CustomTextField(
+                    isRequired: true,
+                    errorText: provider.hasTriedSubmit &&
+                            provider.emailController.text.trim().isEmpty
+                        ? 'يجب عليك ادخال بريد الكتروني صحيح'
+                        : null,
+                    bgcolor: grey8,
+                    controller: provider.emailController,
+                    hint: 'البريد الالكتروني / رقم الجوال',
+                  ),
                   SizedBox(height: 16.h),
-                  Consumer<LoginProvider>(
-                      builder: (context, authProvider, child) {
-                    return CustomPasswordField(
-                      login: true,
-                      errorText: authProvider.passwordError,
-                      isConfirmField: false,
-                      controller: authProvider.passwordController,
-                      hint: 'كلمة المرور',
-                    );
-                  }),
+                  CustomPasswordField(
+                    login: true,
+                    errorText: provider.passwordError,
+                    isConfirmField: false,
+                    controller: provider.passwordController,
+                    hint: 'كلمة المرور',
+                  ),
                   SizedBox(height: 8.h),
                   Row(
                     children: [
@@ -86,101 +79,90 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       Spacer(),
-                      Consumer<LoginProvider>(
-                          builder: (context, loginProvider, child) {
-                        return CustomCheckBox(
-                          title: Text(
-                            'تذكرني',
-                            style: GoogleFonts.tajawal(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w500,
-                            ),
+                      CustomCheckBox(
+                        title: Text(
+                          'تذكرني',
+                          style: GoogleFonts.tajawal(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
                           ),
-                          value: loginProvider.rememberMe,
-                          onChanged: (value) =>
-                              loginProvider.toggleRememberMe(value),
-                        );
-                      }),
+                        ),
+                        value: provider.rememberMe,
+                        onChanged: (value) => provider.toggleRememberMe(value),
+                      ),
                     ],
                   ),
                   SizedBox(height: 16.h),
-                  Consumer<LoginProvider>(
-                      builder: (context, loginProvider, child) {
-                    return CustomElevatedButton(
-                      text: 'متابعة',
-                      onPressed: () async {
-                        print("Login button pressed!");
-                        loginProvider.markTriedSubmit();
-                        loginProvider.validateFields();
-                        if (!loginProvider.isFormValid) {
-                          print("Form is not valid. Please check your inputs.");
-                          return;
-                        }
+                  CustomElevatedButton(
+                    text: 'متابعة',
+                    onPressed: () async {
+                      print("Login button pressed!");
+                      provider.markTriedSubmit();
+                      provider.validateFields();
+                      if (!provider.isFormValid) {
+                        print("Form is not valid. Please check your inputs.");
+                        return;
+                      }
 
-                        await loginProvider.loginUser(
-                          context: context,
-                          identifier: loginProvider.emailController.text.trim(),
-                          password:
-                              loginProvider.passwordController.text.trim(),
+                      await provider.loginUser(
+                        context: context,
+                        identifier: provider.emailController.text.trim(),
+                        password: provider.passwordController.text.trim(),
+                      );
+
+                      String? token = await TokenHelper.getToken();
+                      print('Token: $token');
+                      if (token != null && token.isNotEmpty) {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          MainScreen.id,
                         );
-
-                        String? token = await TokenHelper.getToken();
-                        print('Token: $token');
-                        if (token != null && token.isNotEmpty) {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            MainScreen.id,
-                          );
-                        } else {
-                          print("Login failed: token not available.");
-                        }
-                      },
-                      backgroundColor: kprimaryColor,
-                      textColor: grey9,
-                      date: false,
-                    );
-                  }),
+                      } else {
+                        print("Login failed: token not available.");
+                      }
+                    },
+                    backgroundColor: kprimaryColor,
+                    textColor: grey9,
+                    date: false,
+                  ),
                   SizedBox(height: 8.h),
                   OrRow(),
                   SizedBox(height: 8.h),
-                  Consumer<LoginProvider>(
-                      builder: (context, authProvider, child) {
-                    return SocialButton(
-                      facebook: false,
-                      onPressed: () async {
-                        final GoogleSignIn _googleSignIn = GoogleSignIn(
-                          scopes: ['email', 'profile'],
-                          serverClientId:
-                              '846139057206-h2t2convvg0hp11dasev7707pq6kro0m.apps.googleusercontent.com',
-                        );
+                  SocialButton(
+                    facebook: false,
+                    onPressed: () async {
+                      final GoogleSignIn _googleSignIn = GoogleSignIn(
+                        scopes: ['email', 'profile'],
+                        serverClientId:
+                            '846139057206-h2t2convvg0hp11dasev7707pq6kro0m.apps.googleusercontent.com',
+                      );
 
-                        try {
-                          final GoogleSignInAccount? googleUser =
-                              await _googleSignIn.signIn();
-                          if (googleUser == null) {
-                            print('User cancelled sign-in');
-                            return;
-                          }
-
-                          final googleAuth = await googleUser.authentication;
-                          final idToken = googleAuth.idToken;
-                          print('ID token is $idToken');
-
-                          if (idToken == null) {
-                            print('ID token is null!');
-                            return;
-                          }
-
-                          await authProvider.googleLogin(idToken);
-                          print('Signed in with token: $idToken');
-                        } catch (error) {
-                          print('Google Sign-In error: $error');
+                      try {
+                        final GoogleSignInAccount? googleUser =
+                            await _googleSignIn.signIn();
+                        if (googleUser == null) {
+                          print('User cancelled sign-in');
+                          return;
                         }
-                      },
-                      text: "الاستمرار بجوجل Google",
-                      image: googlePath,
-                    );
-                  }),
+
+                        final googleAuth = await googleUser.authentication;
+                        final idToken = googleAuth.idToken;
+                        print('ID token is $idToken');
+
+                        if (idToken == null) {
+                          print('ID token is null!');
+                          return;
+                        }
+
+                        await provider.googleLogin(idToken);
+                        print('Signed in with token: $idToken');
+                      } catch (error) {
+                        print('Google Sign-In error: $error');
+                      }
+                    },
+                    text: "الاستمرار بجوجل Google",
+                    image: googlePath,
+                  ),
                   SizedBox(height: 8.h),
                   SocialButton(
                     facebook: true,
