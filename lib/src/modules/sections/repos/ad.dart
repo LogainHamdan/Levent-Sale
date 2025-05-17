@@ -139,14 +139,15 @@ class AdRepository {
     }
   }
 
-  Future<Response> updateAd({
-    required int adId,
-    required AdModel adModel,
+  Future<Response> updateAd(
+    List<File>? files,
+    AdDTO adDTO, {
+    required int id,
     required String token,
   }) async {
     final response = await dio.put(
-      '$updateAdUrl/$adId',
-      data: adModel.toJson(),
+      '$updateAdUrl/$id',
+      data: adDTO.toJson(),
       options: Options(headers: {
         'Authorization': token,
         'Content-Type': 'application/json',

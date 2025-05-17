@@ -43,9 +43,11 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool showError =
-        errorText != null && errorText!.isNotEmpty && controller.text.isEmpty ||
-            controller.text == '' ||
-            controller.text == ' ';
+        errorText != null && errorText!.isNotEmpty && controller.text.isEmpty
+        //||
+        // controller.text == '' ||
+        // controller.text == ' '
+        ;
     return (paragraph == false)
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.end,
