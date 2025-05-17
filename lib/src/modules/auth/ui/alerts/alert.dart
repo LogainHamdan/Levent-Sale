@@ -832,7 +832,6 @@ Future<void> showAddToFavoriteAlert(
                           hint: "اختر التشكيلة",
                           items: tagNames,
                           dropdownKey: "tagDropdown",
-                          create: true,
                           onItemSelected: (selectedItem) {
                             final tag = favoriteProvider.tags
                                 .firstWhere((tag) => tag.name == selectedItem);
