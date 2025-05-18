@@ -24,8 +24,8 @@ class SectionChoose extends StatelessWidget {
       future: homeProvider.getAdById(adId ?? 0),
       builder: (context, snapshot) {
         final ad = snapshot.data;
-        print('category name path for ad: ${ad?.categoryNamePath}');
-        print('category path for ad: ${ad?.categoryPath}');
+        print('category name path for ad: ${ad?.category?.categoryNamePath}');
+        print('category name for ad: ${ad?.category?.name}');
 
         return Consumer<CreateAdProvider>(
           builder: (context, createAdProvider, _) {

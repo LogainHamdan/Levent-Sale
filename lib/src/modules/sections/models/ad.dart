@@ -1,11 +1,12 @@
+import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
+
 import '../../more/models/profile.dart';
 import 'media-item.dart';
 
 class AdModel {
   final int? id;
   final String? title;
-  final String? categoryPath;
-  final String? categoryNamePath;
+  final Category? category;
   final String? adNo;
   final String? description;
   final String? longDescription;
@@ -18,6 +19,7 @@ class AdModel {
   final Governorate? governorate;
   final City? city;
   final String? fullAddress;
+  final Address? address;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final String? adType;
@@ -27,12 +29,13 @@ class AdModel {
   final List<MediaItem>? imageUrls;
   final Map<String?, dynamic>? attributes;
   final bool? inFavorite;
+  final int? viewCount;
+  final Profile? userProfile;
 
   AdModel({
     this.id,
     this.title,
-    this.categoryPath,
-    this.categoryNamePath,
+    this.category,
     this.adNo,
     this.description,
     this.longDescription,
@@ -45,6 +48,7 @@ class AdModel {
     this.governorate,
     this.city,
     this.fullAddress,
+    this.address,
     this.createdAt,
     this.updatedAt,
     this.adType,
@@ -54,14 +58,17 @@ class AdModel {
     this.imageUrls,
     this.attributes,
     this.inFavorite,
+    this.viewCount,
+    this.userProfile,
   });
+
   factory AdModel.fromJson(Map<String, dynamic> json) {
     return AdModel(
       id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
       title: json['title'],
-      categoryPath: json['categoryPath'],
-      categoryNamePath: json['categoryNamePath'],
       adNo: json['adNo'],
+      category:
+          json['category'] != null ? Category.fromJson(json['category']) : null,
       description: json['description'],
       longDescription: json['longDescription'],
       tradePossible:
@@ -77,6 +84,8 @@ class AdModel {
           : null,
       city: json['city'] != null ? City.fromJson(json['city']) : null,
       fullAddress: json['fullAddress'],
+      address:
+          json['address'] != null ? Address.fromJson(json['address']) : null,
       createdAt:
           json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
       updatedAt:
@@ -94,36 +103,44 @@ class AdModel {
           : null,
       attributes: json['attributes'],
       inFavorite: json['inFavorite'],
+      viewCount: json['viewCount'] != null
+          ? int.tryParse(json['viewCount'].toString())
+          : null,
+      userProfile: json['userProfile'] != null
+          ? Profile.fromJson(json['userProfile'])
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      //   "id": id,
-      "title": title,
-      "categoryPath": categoryPath,
-      //    "categoryNamePath": categoryNamePath,
-      //   "adNo": adNo,
-      "description": description,
-      "longDescription": longDescription,
-      "tradePossible": tradePossible,
-      "negotiable": negotiable,
-      "contactPhone": contactPhone,
-      "contactEmail": contactEmail,
-      "userId": userId,
-      "price": price,
-      "governorate": governorate?.toJson(),
-      "city": city?.toJson(),
-      "fullAddress": fullAddress,
-      "createdAt": createdAt?.toIso8601String(),
-      "updatedAt": updatedAt?.toIso8601String(),
-      "adType": adType,
-      "preferredContactMethod": preferredContactMethod,
-      "condition": condition,
-      "currency": currency,
-      "imageUrls": imageUrls?.map((e) => e.toJson()).toList(),
-      "attributes": attributes,
-      // "inFavorite": inFavorite,
+      'id': id,
+      'title': title,
+      'category': category?.toJson(),
+      'adNo': adNo,
+      'description': description,
+      'longDescription': longDescription,
+      'tradePossible': tradePossible,
+      'negotiable': negotiable,
+      'contactPhone': contactPhone,
+      'contactEmail': contactEmail,
+      'userId': userId,
+      'price': price,
+      'governorate': governorate?.toJson(),
+      'city': city?.toJson(),
+      'fullAddress': fullAddress,
+      'address': address?.toJson(),
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
+      'adType': adType,
+      'preferredContactMethod': preferredContactMethod,
+      'condition': condition,
+      'currency': currency,
+      'imageUrls': imageUrls?.map((e) => e.toJson()).toList(),
+      'attributes': attributes,
+      'viewCount': viewCount,
+      'userProfile': userProfile?.toJson(),
+      'inFavorite': inFavorite,
     };
   }
 }

@@ -46,9 +46,8 @@ class _SectionDetails2State extends State<SectionDetails2> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             CustomTextField(
-                errorText: createProvider.titleController.text.isEmpty
-                    ? 'هذا الحقل مطلوب'
-                    : '',
+                errorText:
+                    createProvider.titleController.text.isEmpty ? 'مطلوب' : '',
                 onChanged: (value) {
                   createProvider.titleController.text = value;
                 },
@@ -61,7 +60,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
             ),
             CustomTextField(
               errorText: createProvider.shortDescController.text.isEmpty
-                  ? 'هذا الحقل مطلوب'
+                  ? 'مطلوب'
                   : '',
               onChanged: (value) {
                 createProvider.shortDescController.text = value;
@@ -91,7 +90,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     CustomDropdownSection(
-                      errorText: 'هذا الحقل مطلوب',
+                      errorText: 'مطلوب',
                       hint: 'اختر طريقة التواصل',
                       items: ContactMethod.values
                           .map((e) => e.displayName)
@@ -114,7 +113,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
                         CustomTextField(
                           errorText: createProvider
                                   .contactDetailController.text.isEmpty
-                              ? 'هذا الحقل مطلوب'
+                              ? 'مطلوب'
                               : '',
                           controller: createProvider.contactDetailController,
                           label:
@@ -131,7 +130,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
                         CustomTextField(
                           errorText: createProvider
                                   .contactDetailController.text.isEmpty
-                              ? 'هذا الحقل مطلوب'
+                              ? 'مطلوب'
                               : '',
                           controller: createProvider.contactDetailController,
                           label:
@@ -148,7 +147,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
                         CustomTextField(
                           errorText: createProvider
                                   .contactDetailController.text.isEmpty
-                              ? 'هذا الحقل مطلوب'
+                              ? 'مطلوب'
                               : '',
                           controller: createProvider.contactDetailController,
                           label:
@@ -170,7 +169,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
               height: 16.h,
             ),
             CustomDropdownSection(
-              errorText: 'هذا الحقل مطلوب',
+              errorText: 'مطلوب',
               hint: 'اختر نوع الإعلان',
               items: AdType.values.map((e) => e.displayName).toList(),
               dropdownKey: 'adType',
@@ -186,9 +185,8 @@ class _SectionDetails2State extends State<SectionDetails2> {
               height: 16.h,
             ),
             CustomTextField(
-                errorText: createProvider.priceController.text.isEmpty
-                    ? 'هذا الحقل مطلوب'
-                    : '',
+                errorText:
+                    createProvider.priceController.text.isEmpty ? 'مطلوب' : '',
                 label: 'السعر',
                 onChanged: (value) {
                   createProvider.priceController.text = value;
@@ -201,7 +199,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
             ),
             Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, provider, child) => CustomDropdownSection(
-                errorText: 'هذا الحقل مطلوب',
+                errorText: 'مطلوب',
                 hint: 'اختر نوع العملة',
                 items: Currency.values.map((e) => e.arabicName).toList(),
                 dropdownKey: 'العملة',
@@ -231,9 +229,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
             //         : updateProvider.discountController,
             //     hint: '',
             //     bgcolor: grey8),
-            SizedBox(
-              height: 16.h,
-            ),
+
             Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, provider, child) => CustomCheckBox(
                 value: provider.negotiable,
@@ -268,7 +264,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
                   return CustomCircularProgressIndicator();
                 }
                 return CustomDropdownSection(
-                  errorText: 'هذا الحقل مطلوب',
+                  errorText: 'مطلوب',
                   hint: 'ادخل اسم المحافظة',
                   items: provider.governorates
                       .map((governorate) => governorate.governorateName)
@@ -298,7 +294,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
                 final isCityEnabled = provider.selectedGovernorate != null;
 
                 return CustomDropdownSection(
-                  errorText: 'هذا الحقل مطلوب',
+                  errorText: 'مطلوب',
                   hint: 'ادخل اسم المدينة',
                   items: isCityEnabled
                       ? provider.cities.map((city) => city.cityName).toList()

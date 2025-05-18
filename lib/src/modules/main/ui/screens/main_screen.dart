@@ -14,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../auth/repos/token-helper.dart';
+import '../../../auth/repos/user-helper.dart';
 import '../../../sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 
 class MainScreen extends StatelessWidget {
@@ -74,7 +75,23 @@ class MainScreen extends StatelessWidget {
         child: FloatingActionButton(
           backgroundColor: kprimaryColor,
           shape: const CircleBorder(),
-          onPressed: () => Navigator.pushNamed(context, CreateAdScreen.id),
+          onPressed: () async {
+            final user = await UserHelper.getUser();
+
+            if (user == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                      textDirection: TextDirection.rtl,
+                      "قم بتسجيل الدخول أولاً"),
+                  backgroundColor: Colors.red,
+                ),
+              );
+              return;
+            }
+
+            Navigator.pushNamed(context, CreateAdScreen.id);
+          },
           child: SvgPicture.asset(
             addIcon,
             height: 20.h,

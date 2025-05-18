@@ -2,28 +2,32 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.da
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/widgets/stepper-progress.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/stepper-progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+
+import '../../../models/ad.dart';
 
 class UpdateAdScreen extends StatelessWidget {
   static const id = '/update_ad';
   final Widget lowerWidget;
   final Widget? bottomNavBar;
-  final int adId;
+  final AdModel ad;
 
   const UpdateAdScreen(
       {super.key,
       required this.lowerWidget,
       this.bottomNavBar,
-      required this.adId});
+      required this.ad});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Consumer<CreateAdProvider>(
+        child: Consumer<UpdateAdProvider>(
           builder: (context, provider, child) {
             return Column(
               children: [
@@ -31,13 +35,13 @@ class UpdateAdScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: TitleRow(
-                      title: 'انشاء اعلان',
+                      title: 'تعديل اعلان',
                       additionalBackFunction: () => provider.previousStep()),
                 ),
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-                  child: StepperProgress(
+                  child: StepperProgressUpdate(
                       currentStep: provider.currentStep,
                       totalSteps: provider.totalSteps),
                 ),

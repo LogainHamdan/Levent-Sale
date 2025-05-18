@@ -3,6 +3,9 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widg
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-dropdown.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-quill.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/selected-img-section.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/column-img-pick.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/custom-dropdown.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/custom-quill.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -10,21 +13,22 @@ import 'package:provider/provider.dart';
 import '../../../../../../../config/constants.dart';
 import '../../../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import '../../../../../../home/ui/screens/home/widgets/custom-indicator.dart';
+import '../../../../../models/ad.dart';
 import '../../../../../models/adDTO.dart';
 
 import '../../../section-details/create-ad-section-details.dart';
 import 'update-ad-section-details.dart';
 
-class SectionDetails2 extends StatefulWidget {
-  const SectionDetails2({
+class SectionDetails2Update extends StatefulWidget {
+  const SectionDetails2Update({
     super.key,
   });
 
   @override
-  State<SectionDetails2> createState() => _SectionDetails2State();
+  State<SectionDetails2Update> createState() => SectionDetails2UpdateState();
 }
 
-class _SectionDetails2State extends State<SectionDetails2> {
+class SectionDetails2UpdateState extends State<SectionDetails2Update> {
   late final provider;
 
   void initState() {
@@ -78,10 +82,10 @@ class _SectionDetails2State extends State<SectionDetails2> {
               height: 16.h,
             ),
             Align(alignment: Alignment.centerRight, child: Text('محتوى')),
-            SizedBox(height: 300.h, child: RichTextEditor()),
+            SizedBox(height: 300.h, child: RichTextEditorUpdate()),
             SizedBox(height: 24.h),
             Align(alignment: Alignment.centerRight, child: Text('صور')),
-            ImagePickerColumn(),
+            ImagePickerColumnUpdate(),
             SizedBox(
               height: 10.h,
             ),
@@ -89,7 +93,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                CustomDropdownSection(
+                CustomDropdownSectionUpdate(
                   errorText: 'هذا الحقل مطلوب',
                   hint: 'اختر طريقة التواصل',
                   items:
@@ -157,7 +161,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
             SizedBox(
               height: 16.h,
             ),
-            CustomDropdownSection(
+            CustomDropdownSectionUpdate(
               errorText: 'هذا الحقل مطلوب',
               hint: 'اختر نوع الإعلان',
               items: AdType.values.map((e) => e.displayName).toList(),
@@ -187,7 +191,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
             SizedBox(
               height: 16.h,
             ),
-            CustomDropdownSection(
+            CustomDropdownSectionUpdate(
               errorText: 'هذا الحقل مطلوب',
               hint: 'اختر نوع العملة',
               items: Currency.values.map((e) => e.arabicName).toList(),
@@ -249,7 +253,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
                 if (provider.isLoading) {
                   return CustomCircularProgressIndicator();
                 }
-                return CustomDropdownSection(
+                return CustomDropdownSectionUpdate(
                   errorText: 'هذا الحقل مطلوب',
                   hint: 'ادخل اسم المحافظة',
                   items: provider.governorates
@@ -279,7 +283,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
               builder: (context, provider, _) {
                 final isCityEnabled = provider.selectedGovernorate != null;
 
-                return CustomDropdownSection(
+                return CustomDropdownSectionUpdate(
                   errorText: 'هذا الحقل مطلوب',
                   hint: 'ادخل اسم المدينة',
                   items: isCityEnabled

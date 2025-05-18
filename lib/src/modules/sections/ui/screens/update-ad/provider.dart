@@ -12,15 +12,21 @@ import '../../../repos/ad.dart';
 
 class UpdateAdProvider extends ChangeNotifier {
   final AdRepository _repo = AdRepository();
+  AdModel? _selectedAdToUpdate;
 
-  int _currentStep = 0;
+  int _currentStep = 3;
   final int _totalSteps = 4;
   bool isLoading = false;
   String? error;
+  AdModel? get selectedAdToUpdate => _selectedAdToUpdate;
 
   int get currentStep => _currentStep;
 
   int get totalSteps => _totalSteps;
+  void selectAdToUpdate(AdModel ad) {
+    _selectedAdToUpdate = ad;
+    notifyListeners();
+  }
 
   void nextStep() {
     if (_currentStep < _totalSteps - 1) {
@@ -45,9 +51,10 @@ class UpdateAdProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Response?> createAd({
-    required AdDTO adDTO,
-    List<File>? files,
+  Future<Response?> updateAd(
+    AdDTO adDTO,
+    List<dynamic>? files, {
+    required int id,
     required String token,
   }) async {
     isLoading = true;
@@ -55,10 +62,10 @@ class UpdateAdProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      print('to create provider');
-
-      final response =
-          await _repo.createAd(adDTO: adDTO, files: files, token: token);
+      final response = await _repo.updateAd(adDTO, files, token: token, id: id);
+      if (response.statusCode == 200) {
+        print('update successfully 200 : ${adDTO.toJson()}');
+      }
       isLoading = false;
       notifyListeners();
       return response;

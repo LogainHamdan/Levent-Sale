@@ -47,6 +47,7 @@ const String getCategoriesUrl = '$baseUrl/ads/get/all/roots';
 const String getCategoryByIdUrl = '$baseUrl/ads/get/category';
 const String getSubcategoryUrl = '$baseUrl/ads/get/subcategories';
 const String getCategoryChildrenUrl = '$baseUrl/ads/get/category/children';
+const String getAdsByCategoryUrl = '$baseUrl/search/ads/category';
 const String getAttributesById = '$baseUrl/ads/attributes/category';
 const String createAdUrl = '$baseUrl/ads/add';
 const String updateAdUrl = '$baseUrl/ads/update';

@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../../../config/constants.dart';
 
-class ImagePickerColumn extends StatelessWidget {
-  const ImagePickerColumn({
+class ImagePickerColumnUpdate extends StatelessWidget {
+  const ImagePickerColumnUpdate({
     super.key,
   });
 

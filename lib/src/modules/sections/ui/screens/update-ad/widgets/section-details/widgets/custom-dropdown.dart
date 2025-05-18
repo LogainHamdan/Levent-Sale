@@ -4,11 +4,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../../../config/constants.dart';
+import '../../../../section-details/widgets/custom-label.dart';
 import '../update-ad-section-details.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'custom-label.dart';
 
-class CustomDropdownSection extends StatelessWidget {
+class CustomDropdownSectionUpdate extends StatelessWidget {
   final String hint;
   final List<String?> items;
   final String dropdownKey;
@@ -17,7 +17,7 @@ class CustomDropdownSection extends StatelessWidget {
   final bool enabled;
   final String? errorText;
 
-  const CustomDropdownSection({
+  const CustomDropdownSectionUpdate({
     super.key,
     required this.hint,
     required this.items,

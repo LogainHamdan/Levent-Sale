@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomSwitchTile extends StatelessWidget {
-  const CustomSwitchTile({
+class CustomSwitchTileUpdate extends StatelessWidget {
+  const CustomSwitchTileUpdate({
     super.key,
     required this.value,
     required this.onChanged,

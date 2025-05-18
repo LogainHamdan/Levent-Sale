@@ -1,40 +1,24 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/create-ad-section-details.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/checking-container.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/column-img-pick.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-dropdown.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-label.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-quill.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-switch.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/selected-img-section.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/checking-container.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/custom-switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../../../config/constants.dart';
-
 import '../../../../../models/attriburtes.dart';
-import '../choose-section/update-ad-choose-section-provider.dart';
 
-class SectionDetails1 extends StatelessWidget {
-  const SectionDetails1({
+class SectionDetails1Update extends StatelessWidget {
+  const SectionDetails1Update({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<UpdateAdChooseSectionProvider>(context);
-
-    final subcategory = provider.selectedSubcategory;
-
-    if (subcategory == null) {
-      return const Center(child: Text('يرجى اختيار قسم فرعي أولًا'));
-    }
-
-    return Consumer<CreateAdSectionDetailsProvider>(
-      builder: (context, createDetailsProvider, _) {
-        final attributesData = createDetailsProvider.attributesData;
+    return Consumer<UpdateAdSectionDetailsProvider>(
+      builder: (context, provider, _) {
+        final attributesData = provider.attributesData;
 
         if (attributesData == null || attributesData.attributes == null) {
           return const Center(child: CircularProgressIndicator());
@@ -60,11 +44,11 @@ class SectionDetails1 extends StatelessWidget {
                           children: [
                             CustomTextField(
                               label: field.label,
-                              controller: createDetailsProvider
-                                  .getController(field.name ?? ''),
+                              controller:
+                                  provider.getController(field.name ?? ''),
                               hint: field.placeholder,
                               bgcolor: grey8,
-                              errorText: createDetailsProvider
+                              errorText: provider
                                       .getController(field.name ?? '')
                                       .text
                                       .isEmpty
@@ -79,15 +63,15 @@ class SectionDetails1 extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             CustomTextField(
-                              errorText: createDetailsProvider
+                              errorText: provider
                                       .getController(field.name ?? '')
                                       .text
                                       .isEmpty
                                   ? 'هذا الحقل مطلوب'
                                   : '',
                               label: field.label,
-                              controller: createDetailsProvider
-                                  .getController(field.name ?? ''),
+                              controller:
+                                  provider.getController(field.name ?? ''),
                               hint: field.placeholder,
                               bgcolor: grey8,
                             ),
@@ -115,18 +99,18 @@ class SectionDetails1 extends StatelessWidget {
                         final onValue =
                             options.isNotEmpty ? options.first : 'نعم';
                         final offValue = options.length > 1 ? options[1] : 'لا';
-                        final currentValue = createDetailsProvider
-                            .getSelectedValue(field.name ?? '');
+                        final currentValue =
+                            provider.getSelectedValue(field.name ?? '');
 
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            CustomSwitchTile(
+                            CustomSwitchTileUpdate(
                               title: field.label ?? '',
                               value: currentValue == onValue,
                               onChanged: (val) {
                                 final newValue = val ? onValue : offValue;
-                                (createDetailsProvider.setSelectedValue(
+                                (provider.setSelectedValue(
                                     field.name ?? '', newValue));
                               },
                               activeColor: kprimaryColor,
@@ -141,7 +125,7 @@ class SectionDetails1 extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              CheckingContainer(),
+                              CheckingContainerUpdate(),
                               SizedBox(height: 16.h),
                             ],
                           ),

@@ -209,7 +209,7 @@ class _CustomDraggableScrollableSheetState
                                     height: 120.h,
                                     hasDiscount: false,
                                     product: product,
-                                    category: product.categoryNamePath ?? '',
+                                    category: product.category?.name ?? '',
                                   ),
                                 ),
                               )

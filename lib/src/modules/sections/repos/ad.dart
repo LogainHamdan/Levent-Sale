@@ -8,6 +8,7 @@ import '../models/ad.dart';
 import 'package:http_parser/http_parser.dart';
 
 import '../models/adDTO.dart';
+import '../models/filterDTO.dart';
 
 class AdRepository {
   late final Dio dio;
@@ -140,21 +141,66 @@ class AdRepository {
   }
 
   Future<Response> updateAd(
-    List<File>? files,
-    AdDTO adDTO, {
+    AdDTO adDTO,
+    List<dynamic>? files, {
     required int id,
     required String token,
   }) async {
-    final response = await dio.put(
-      '$updateAdUrl/$id',
-      data: adDTO.toJson(),
-      options: Options(headers: {
-        'Authorization': token,
-        'Content-Type': 'application/json',
-      }),
-    );
+    try {
+      print(adDTO.toJson());
+      final formData = FormData();
 
-    return response;
+      formData.files.add(MapEntry(
+        'adDTO',
+        MultipartFile.fromBytes(
+          utf8.encode(json.encode(adDTO)),
+          filename: 'ad.json',
+          contentType: MediaType('application', 'json'),
+        ),
+      ));
+
+      if (files != null && files.isNotEmpty) {
+        for (final file in files) {
+          if (await file.exists() && file is File) {
+            formData.files.add(MapEntry(
+              'files',
+              await MultipartFile.fromFile(
+                file.path,
+                filename: basename(file.path),
+              ),
+            ));
+          } else {
+            print('⚠️ الملف غير موجود: ${file.path}');
+          }
+        }
+      } else {
+        formData.files.add(MapEntry(
+          'files',
+          MultipartFile.fromBytes([], filename: ''),
+        ));
+      }
+      print(formData);
+      print('to update before request');
+
+      final response = await dio.put(
+        '$updateAdUrl/$id',
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': token,
+            'Content-Type': 'multipart/form-data',
+            'Accept': '*/*',
+          },
+        ),
+      );
+
+      return response;
+    } on DioException catch (e) {
+      print('Dio error: ${e.message}');
+      print('Status: ${e.response?.statusCode}');
+      print('Response: ${e.response?.data}');
+      rethrow;
+    }
   }
 
   Future<Response> getAds(
@@ -223,6 +269,35 @@ class AdRepository {
         options: Options(
           headers: {
             'Authorization': token,
+          },
+        ),
+      );
+      print('ads by status fetched successfully');
+      final List data = response.data;
+      return data.map((e) => AdModel.fromJson(e)).toList();
+    } on DioException catch (e) {
+      print('Error fetching ads by status: ${e.response?.statusCode}');
+      print('Message: ${e.response?.data}');
+      rethrow;
+    }
+  }
+
+  Future<List<AdModel?>> getMyAdsByCategory(
+    FilterRequestDTO filterDTO, {
+    required String categoryId,
+    String? token,
+    int page = 0,
+    int size = 8,
+  }) async {
+    try {
+      final response = await dio.post(
+        '$getAdsByCategoryUrl/$categoryId',
+        queryParameters: {'page': page, 'size': size},
+        options: Options(
+          headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json',
+            'Accept': '*/*',
           },
         ),
       );

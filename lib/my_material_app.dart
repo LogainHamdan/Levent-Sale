@@ -1,5 +1,7 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/models/user.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/logo/logo.dart';
@@ -12,10 +14,13 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/chats/chats.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notifications.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search-filter/search-filter.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search/search.dart';
 import 'package:Levant_Sale/src/modules/main/ui/screens/main_screen.dart';
+import 'package:Levant_Sale/src/modules/more/models/profile.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
@@ -32,13 +37,19 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/tech-support-screen.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
+import 'package:Levant_Sale/src/modules/sections/models/adDTO.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details1.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/choose-section/choose-section-update.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/section-details1-update.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/section-details2-update.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -123,9 +134,145 @@ class MyMaterialApp extends StatelessWidget {
               CreateAdScreen.id: (context) => CreateAdScreen(
                     lowerWidget: SectionChoose(),
                   ),
-              UpdateAdScreen.id: (context) => UpdateAdScreen(
-                    adId: 0,
-                    lowerWidget: SectionChoose(),
+              UpdateAdScreen.id: (context) => Consumer<UpdateAdProvider>(
+                    builder: (context, provider, child) {
+                      final adToUpdate =
+                          provider.selectedAdToUpdate ?? AdModel();
+                      return UpdateAdScreen(
+                          ad: adToUpdate,
+                          bottomNavBar:
+                              DraggableButton('متابعة', onPressed: () {
+                            final detailsProvider =
+                                Provider.of<UpdateAdSectionDetailsProvider>(
+                                    context,
+                                    listen: false);
+                            if (detailsProvider.validateFields1()) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UpdateAdScreen(
+                                          ad: adToUpdate,
+                                          bottomNavBar: DraggableButton(
+                                              'متابعة', onPressed: () async {
+                                            print(
+                                                'validate 2: ${detailsProvider.validateFields2()}');
+                                            if (detailsProvider
+                                                .validateFields2()) {
+                                              final user =
+                                                  await UserHelper.getUser();
+
+                                              if (user == null) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                        "تعذر الحصول على معلومات المستخدم. قم بتسجيل الدخول أولاً."),
+                                                    backgroundColor: Colors.red,
+                                                  ),
+                                                );
+                                                return;
+                                              }
+                                              Map<String, dynamic>
+                                                  filteredAttributes =
+                                                  detailsProvider
+                                                      .getAttributeFieldsMap()
+                                                      .map((key, value) =>
+                                                          MapEntry(key, value))
+                                                    ..removeWhere(
+                                                        (key, value) =>
+                                                            value == null);
+
+                                              final address = Address(
+                                                  fullAddresse:
+                                                      ' المدينة: ${detailsProvider.selectedCity?.cityName} المحافظة: - ${detailsProvider.selectedGovernorate?.governorateName}',
+                                                  city: detailsProvider
+                                                      .selectedCity,
+                                                  governorate: detailsProvider
+                                                      .selectedGovernorate);
+                                              final ad = AdDTO(
+                                                title: detailsProvider
+                                                    .titleController.text,
+                                                description: detailsProvider
+                                                    .shortDescController.text,
+                                                longDescription: detailsProvider
+                                                    .getQuillText(),
+                                                contactPhone: detailsProvider
+                                                        .numberMethods
+                                                        .contains(detailsProvider
+                                                            .selectedContactMethod)
+                                                    ? detailsProvider
+                                                        .contactDetailController
+                                                        .text
+                                                    : '',
+                                                contactEmail: (detailsProvider
+                                                            .emailMethods
+                                                            .contains(
+                                                                detailsProvider
+                                                                    .selectedContactMethod) ||
+                                                        detailsProvider
+                                                            .detailMethods
+                                                            .contains(
+                                                                detailsProvider
+                                                                    .selectedContactMethod))
+                                                    ? detailsProvider
+                                                        .contactDetailController
+                                                        .text
+                                                    : '',
+                                                governorate:
+                                                    address.governorate,
+                                                city: address.city,
+                                                attributes: filteredAttributes,
+                                                fullAddress:
+                                                    address.fullAddresse,
+                                                adType: detailsProvider
+                                                        .selectedAdType?.name ??
+                                                    AdType.UNKNOWN.name,
+                                                currency: detailsProvider
+                                                    .selectedCurrency,
+                                                negotiable:
+                                                    detailsProvider.negotiable,
+                                                preferredContactMethod:
+                                                    detailsProvider
+                                                            .selectedContactMethod
+                                                            ?.name ??
+                                                        ContactMethod
+                                                            .EMAIL.name,
+                                                price: detailsProvider
+                                                    .priceController.text,
+                                                tradePossible: detailsProvider
+                                                    .tradePossible,
+                                              );
+
+                                              final token =
+                                                  await TokenHelper.getToken();
+
+                                              final response =
+                                                  await provider.updateAd(
+                                                      ad,
+                                                      detailsProvider
+                                                          .selectedImages,
+                                                      token: token ?? '',
+                                                      id: adToUpdate.id ?? 0);
+
+                                              provider.nextStep();
+
+                                              if (response?.statusCode == 200) {
+                                                Navigator.popUntil(context,
+                                                    (route) {
+                                                  return route.settings.name ==
+                                                      MainScreen.id;
+                                                });
+
+                                                showAdCreated(context);
+                                              }
+                                            }
+                                          }),
+                                          lowerWidget:
+                                              SectionDetails2Update())));
+                            }
+                          }),
+                          lowerWidget: SectionDetails1Update());
+                    },
                   ),
 
               FilterScreen.id: (context) => FilterScreen(

@@ -114,7 +114,7 @@ enum ContactMethod {
   EMAIL,
   SITE_MESSAGES,
   TELEGRAM,
-  OTHER
+  OTHER,
 }
 
 extension ContactMethodExtension on ContactMethod {

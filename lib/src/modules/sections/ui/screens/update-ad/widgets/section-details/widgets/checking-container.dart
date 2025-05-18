@@ -6,10 +6,9 @@ import 'package:provider/provider.dart';
 import '../../../../../../../../config/constants.dart';
 import '../../../../../../../auth/ui/screens/login/widgets/checkbox.dart';
 import '../update-ad-section-details.dart';
-import 'custom-label.dart';
 
-class CheckingContainer extends StatelessWidget {
-  const CheckingContainer({
+class CheckingContainerUpdate extends StatelessWidget {
+  const CheckingContainerUpdate({
     super.key,
   });
 

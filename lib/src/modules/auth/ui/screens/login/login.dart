@@ -132,8 +132,8 @@ class LoginScreen extends StatelessWidget {
                     facebook: false,
                     onPressed: () async {
                       final GoogleSignIn _googleSignIn = GoogleSignIn(
-                        scopes: ['email', 'profile'],
-                        serverClientId:
+                        scopes: ['openid' 'email', 'profile'],
+                        clientId:
                             '846139057206-h2t2convvg0hp11dasev7707pq6kro0m.apps.googleusercontent.com',
                       );
 

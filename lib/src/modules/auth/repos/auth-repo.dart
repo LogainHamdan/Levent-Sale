@@ -57,9 +57,7 @@ class AuthRepository {
     try {
       final response = await dio.post(
         googleLoginUrl,
-        data: {
-          "token": token,
-        },
+        data: jsonEncode({'token': token}),
         options: Options(headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/hal+json',

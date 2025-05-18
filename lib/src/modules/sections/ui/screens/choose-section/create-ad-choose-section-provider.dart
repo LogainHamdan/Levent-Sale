@@ -15,20 +15,30 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
   bool isLoading = false;
   Category? category;
   Category? categoryChild;
+  String _categoryPath = '';
 
   int? get selectedCategoryIndex => _selectedCategoryIndex;
 
   int? get selectedSubcategoryIndex => _selectedSubcategoryIndex;
-
+  String get categoryPath => _categoryPath;
   Category? get selectedSubcategory => _selectedSubcategory;
 
   void setSelectedCategory(int index) {
     _selectedCategoryIndex = index;
+    var selectedId = rootCategories[index].id;
+    _categoryPath = selectedId.toString();
+    print('current path: $_categoryPath');
+    notifyListeners();
   }
 
   void setSelectedSubcategory(int index) {
     _selectedSubcategoryIndex = index;
     _selectedSubcategory = subcategories[index];
+    if (_selectedSubcategory != null) {
+      _categoryPath += '/${_selectedSubcategory!.id}';
+    }
+    print('current path: $_categoryPath');
+
     notifyListeners();
   }
 
@@ -70,9 +80,13 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
       print('Subcategories response: ${response.data}');
 
       if (response.statusCode == 200) {
-        subcategories = (response.data as List)
-            .map((json) => Category.fromJson(json))
-            .toList();
+        final data = response.data['categoryNameDTO'];
+        if (data is List) {
+          subcategories = data.map((json) => Category.fromJson(json)).toList();
+        } else {
+          subcategories = [];
+          print('Unexpected response format: ${response.data}');
+        }
       } else {
         subcategories = [];
       }

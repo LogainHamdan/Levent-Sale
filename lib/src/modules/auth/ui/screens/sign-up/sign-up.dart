@@ -74,7 +74,7 @@ class SignUpScreen extends StatelessWidget {
                                           provider.lastNameController.text
                                               .trim()
                                               .isEmpty
-                                      ? 'هذا الحقل مطلوب'
+                                      ? 'مطلوب'
                                       : null,
                                   bgcolor: grey8,
                                   controller: provider.lastNameController,
@@ -89,7 +89,7 @@ class SignUpScreen extends StatelessWidget {
                                           provider.firstNameController.text
                                               .trim()
                                               .isEmpty
-                                      ? 'هذا الحقل مطلوب'
+                                      ? 'مطلوب'
                                       : null,
                                   bgcolor: grey8,
                                   controller: provider.firstNameController,
@@ -127,7 +127,7 @@ class SignUpScreen extends StatelessWidget {
                                     provider.companyNameController.text
                                         .trim()
                                         .isEmpty
-                                ? 'هذا الحقل مطلوب'
+                                ? 'مطلوب'
                                 : null,
                             bgcolor: grey8,
                             controller: provider.companyNameController,
@@ -140,7 +140,7 @@ class SignUpScreen extends StatelessWidget {
                                     provider.companyDateController.text
                                         .trim()
                                         .isEmpty
-                                ? 'هذا الحقل مطلوب'
+                                ? 'مطلوب'
                                 : null,
                             prefix: GestureDetector(
                               onTap: () => showDatePickerDialog(
@@ -179,7 +179,7 @@ class SignUpScreen extends StatelessWidget {
                                     provider.taxNumberController.text
                                         .trim()
                                         .isEmpty
-                                ? 'هذا الحقل مطلوب'
+                                ? 'مطلوب'
                                 : null,
                             bgcolor: grey8,
                             controller: provider.taxNumberController,

@@ -12,24 +12,33 @@ class UpdateAdChooseSectionProvider extends ChangeNotifier {
   List<Category> subcategories = [];
   List<Category> categoryChildren = [];
   Category? _selectedSubcategory;
-
   bool isLoading = false;
   Category? category;
   Category? categoryChild;
+  String _categoryPath = '';
 
   int? get selectedCategoryIndex => _selectedCategoryIndex;
 
   int? get selectedSubcategoryIndex => _selectedSubcategoryIndex;
-
+  String get categoryPath => _categoryPath;
   Category? get selectedSubcategory => _selectedSubcategory;
 
   void setSelectedCategory(int index) {
     _selectedCategoryIndex = index;
+    var selectedId = rootCategories[index].id;
+    _categoryPath = selectedId.toString();
+    print('current path: $_categoryPath');
+    notifyListeners();
   }
 
   void setSelectedSubcategory(int index) {
     _selectedSubcategoryIndex = index;
     _selectedSubcategory = subcategories[index];
+    if (_selectedSubcategory != null) {
+      _categoryPath += '/${_selectedSubcategory!.id}';
+    }
+    print('current path: $_categoryPath');
+
     notifyListeners();
   }
 

@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
         create: (_) => CreateAdSectionDetailsProvider(),
       ),
       ChangeNotifierProvider(
-        create: (_) => UpdateAdSectionDetailsProvider(),
+        create: (_) => UpdateAdSectionDetailsProvider(context),
       ),
       ChangeNotifierProvider(
         create: (_) => TechSupportProvider(),
@@ -113,6 +113,12 @@ class MyApp extends StatelessWidget {
           create: (_) => RouteObserver<ModalRoute<dynamic>>()),
       ChangeNotifierProvider(
         create: (context) => CreateAdChooseSectionProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => UpdateAdProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => UpdateAdSectionDetailsProvider(context),
       ),
       ChangeNotifierProvider(
         create: (context) => FavoriteProvider(),

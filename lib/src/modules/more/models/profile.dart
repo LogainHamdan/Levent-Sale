@@ -47,6 +47,23 @@ class Profile {
       isFollowing: json['following'] ?? false,
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'username': username,
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'birthday': birthday,
+      'phoneNumber': phoneNumber,
+      'profilePicture': profilePicture,
+      'businessName': businessName,
+      'businessLicense': businessLicense,
+      'address': address?.toJson(),
+      'followersCount': followersCount,
+      'followingCount': followingCount,
+      'following': isFollowing,
+    };
+  }
 }
 
 class Address {
@@ -107,20 +124,20 @@ class Governorate {
 }
 
 class City {
-  final int id;
-  final String cityName;
-  final String latitude;
-  final String longitude;
-  final int sort;
-  final int governorateId;
+  final int? id;
+  final String? cityName;
+  final String? latitude;
+  final String? longitude;
+  final int? sort;
+  final int? governorateId;
 
   City({
-    required this.id,
-    required this.cityName,
-    required this.latitude,
-    required this.longitude,
-    required this.sort,
-    required this.governorateId,
+    this.id,
+    this.cityName,
+    this.latitude,
+    this.longitude,
+    this.sort,
+    this.governorateId,
   });
 
   factory City.fromJson(Map<String, dynamic> json) {

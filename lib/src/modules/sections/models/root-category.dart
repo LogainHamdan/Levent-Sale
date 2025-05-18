@@ -53,4 +53,21 @@ class Category {
       active: (json['active'] as bool?) ?? false,
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'parentCategory': parentCategory,
+      'subCategories': subCategories,
+      'description': description,
+      'imageUrl': imageUrl,
+      'productCount': productCount,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
+      'isActive': isActive,
+      'categoryPath': categoryPath,
+      'categoryNamePath': categoryNamePath,
+      'active': active,
+    };
+  }
 }

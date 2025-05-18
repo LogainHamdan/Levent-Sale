@@ -13,13 +13,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
+import '../../../models/ad.dart';
 import '../../../models/attriburtes.dart';
 import '../choose-section/create-ad-choose-section-provider.dart';
 
 class SectionDetails1 extends StatelessWidget {
-  const SectionDetails1({
-    super.key,
-  });
+  const SectionDetails1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +67,7 @@ class SectionDetails1 extends StatelessWidget {
                                       .getController(field.name ?? '')
                                       .text
                                       .isEmpty
-                                  ? 'هذا الحقل مطلوب'
+                                  ? 'مطلوب'
                                   : '',
                             ),
                             SizedBox(height: 16.h),
@@ -83,7 +82,7 @@ class SectionDetails1 extends StatelessWidget {
                                       .getController(field.name ?? '')
                                       .text
                                       .isEmpty
-                                  ? 'هذا الحقل مطلوب'
+                                  ? 'مطلوب'
                                   : '',
                               label: field.label,
                               controller: createDetailsProvider
@@ -105,7 +104,7 @@ class SectionDetails1 extends StatelessWidget {
                                   dropdownKey: field.name ?? '',
                                   hint: field.placeholder ?? 'اختر',
                                   items: field.options ?? [],
-                                  errorText: "هذا الحقل مطلوب", // Error message
+                                  errorText: "مطلوب", // Error message
                                 ),
                                 SizedBox(height: 16.h),
                               ],

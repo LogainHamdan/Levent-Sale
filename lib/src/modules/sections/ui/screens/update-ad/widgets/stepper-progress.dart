@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class StepperProgress extends StatelessWidget {
+class StepperProgressUpdate extends StatelessWidget {
   final int currentStep, totalSteps;
 
-  const StepperProgress({
+  const StepperProgressUpdate({
     super.key,
     required this.currentStep,
     required this.totalSteps,

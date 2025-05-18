@@ -1,21 +1,16 @@
-import 'dart:io';
-
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../home/ui/screens/search-filter/widgets/card.dart';
 import '../../../../main/ui/screens/main_screen.dart';
 import '../../../../more/models/profile.dart';
-import '../../../models/ad.dart';
 import '../../../models/adDTO.dart';
 import '../../../models/root-category.dart';
 import '../choose-section/create-ad-choose-section-provider.dart';
@@ -129,15 +124,7 @@ class SectionTrack extends StatelessWidget {
                                                         MapEntry(key, value))
                                                   ..removeWhere((key, value) =>
                                                       value == null);
-                                            // final address = Address(
-                                            //     governorate: Governorate(
-                                            //         name: createDetailsProvider
-                                            //             .getSelectedValue(
-                                            //                 'المحافظة')),
-                                            //     city: City(
-                                            //         name: createDetailsProvider
-                                            //             .getSelectedValue(
-                                            //                 'المدينة')));
+
                                             final address = Address(
                                                 fullAddresse:
                                                     ' المدينة: ${createDetailsProvider.selectedCity?.cityName} المحافظة: - ${createDetailsProvider.selectedGovernorate?.governorateName}',
@@ -151,21 +138,16 @@ class SectionTrack extends StatelessWidget {
                                             print(
                                                 'selected subcategory to add: ${selectedSubCategory?.name}');
                                             final ad = AdDTO(
-                                              // createdAt: DateTime.now(),
-                                              // updatedAt: DateTime.now(),
-                                              // condition: [],
-                                              // imageUrls: [],
-                                              //      adNo: '',
                                               title: createDetailsProvider
                                                   .titleController.text,
                                               categoryPath:
-                                                  selectedCategory.categoryPath,
+                                                  createSectionChooseProvider
+                                                      .categoryPath,
                                               description: createDetailsProvider
                                                   .shortDescController.text,
                                               longDescription:
                                                   createDetailsProvider
                                                       .getQuillText(),
-
                                               contactPhone: createDetailsProvider
                                                       .numberMethods
                                                       .contains(
@@ -189,12 +171,6 @@ class SectionTrack extends StatelessWidget {
                                                       .contactDetailController
                                                       .text
                                                   : '',
-                                              // userId: user.id,
-                                              // price: int.tryParse(
-                                              //         createDetailsProvider
-                                              //             .priceController
-                                              //             .text) ??
-                                              //     0,
                                               governorate: address.governorate,
                                               city: address.city,
                                               attributes: filteredAttributes,
@@ -202,10 +178,8 @@ class SectionTrack extends StatelessWidget {
                                               adType: createDetailsProvider
                                                       .selectedAdType?.name ??
                                                   AdType.UNKNOWN.name,
-
                                               currency: createDetailsProvider
                                                   .selectedCurrency,
-
                                               negotiable: createDetailsProvider
                                                   .negotiable,
                                               preferredContactMethod:
@@ -215,10 +189,6 @@ class SectionTrack extends StatelessWidget {
                                                       ContactMethod.EMAIL.name,
                                               price: createDetailsProvider
                                                   .priceController.text,
-
-                                              // tradePossible: createDetailsProvider
-                                              //         .tradePossible ??
-                                              //     false,
                                               tradePossible:
                                                   createDetailsProvider
                                                       .tradePossible,
@@ -248,16 +218,6 @@ class SectionTrack extends StatelessWidget {
                                                   .selectedImages,
                                               token: token,
                                             );
-                                            // : await updateAdProvider.updateAd(
-                                            //     adId: 0,
-                                            //     //ان شاء الله..لا تنسي
-                                            //     //make a list of user's ads
-                                            //     //should be id of the selected ad from user's ads list
-                                            //     // make a function for the selected ads in general,
-                                            //     // and a function for the selected user's ad
-                                            //     adModel: ad,
-                                            //     token: token,
-                                            //   );
 
                                             createAdProvider.nextStep();
 

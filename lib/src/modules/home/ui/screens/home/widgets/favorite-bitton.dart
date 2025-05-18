@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +8,7 @@ import '../../../../../../config/constants.dart';
 import '../../../../../auth/repos/token-helper.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
 import '../../../../../sections/models/ad.dart';
+import '../../../../../sections/ui/screens/update-ad/update-ad.dart';
 
 class CustomButton extends StatefulWidget {
   final bool favIcon;
@@ -49,32 +51,41 @@ class _CustomButtonState extends State<CustomButton> {
         return ClipRRect(
           borderRadius: BorderRadius.circular(18.r),
           child: InkWell(
-            onTap: () async {
-              final token = await TokenHelper.getToken();
-              if (token == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('يجب تسجيل الدخول أولاً'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-                return;
-              }
+            onTap: widget.favIcon
+                ? () async {
+                    final token = await TokenHelper.getToken();
+                    if (token == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('يجب تسجيل الدخول أولاً'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
 
-              if (isFav) {
-                await favoriteProvider.deleteFavorite(
-                  token: token,
-                  favid: '$adId',
-                );
-              } else {
-                print('ad selected: ${widget.ad?.id}');
-                await showAddToFavoriteAlert(
-                  context,
-                  widget.ad?.id,
-                  favoriteProvider.selectedTag?.id ?? '',
-                );
-              }
-            },
+                    if (isFav) {
+                      await favoriteProvider.deleteFavorite(
+                        token: token,
+                        favid: '$adId',
+                      );
+                    } else {
+                      print('ad selected: ${widget.ad?.id}');
+                      await showAddToFavoriteAlert(
+                        context,
+                        widget.ad?.id,
+                        favoriteProvider.selectedTag?.id ?? '',
+                      );
+                    }
+                  }
+                : () {
+                    final provider =
+                        Provider.of<UpdateAdProvider>(context, listen: false);
+                    provider.selectAdToUpdate(widget.ad ?? AdModel());
+                    print(
+                        'selected ad: ${provider.selectedAdToUpdate?.toJson()}');
+                    Navigator.pushNamed(context, UpdateAdScreen.id);
+                  },
             customBorder: const CircleBorder(),
             child: CircleAvatar(
               radius: 14.w,

@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import '../../../../../../../../config/constants.dart';
 import '../update-ad-section-details.dart';
 
-class RichTextEditor extends StatelessWidget {
-  const RichTextEditor({
+class RichTextEditorUpdate extends StatelessWidget {
+  const RichTextEditorUpdate({
     super.key,
   });
 
