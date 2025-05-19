@@ -104,6 +104,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               final tag = provider.tags[index];
                               final favorites =
                                   provider.tagFavorites[tag.id ?? ''] ?? [];
+                              print(
+                                  'favs: $favorites, tag: $tag, token: $token');
+
                               return CustomGridView(
                                 favorites: favorites,
                                 tag: tag,

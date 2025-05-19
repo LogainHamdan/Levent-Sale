@@ -121,7 +121,7 @@ class ItemList extends StatelessWidget {
                           height: 81.h,
                           width: 69.w,
                           child: Image.network(
-                            ad?.imageUrls?.first.url?.trim() ?? '',
+                            ad?.imageUrls?.first.trim() ?? '',
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
                               return const Icon(Icons.broken_image);

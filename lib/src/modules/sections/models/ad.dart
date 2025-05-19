@@ -1,7 +1,5 @@
 import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
-
 import '../../more/models/profile.dart';
-import 'media-item.dart';
 
 class AdModel {
   final int? id;
@@ -24,13 +22,13 @@ class AdModel {
   final DateTime? updatedAt;
   final String? adType;
   final String? preferredContactMethod;
-  final List<String>? condition;
+  final List<String?>? condition;
   final String? currency;
-  final List<MediaItem>? imageUrls;
+  final List<String>? imageUrls;
   final Map<String?, dynamic>? attributes;
-  final bool? inFavorite;
   final int? viewCount;
   final Profile? userProfile;
+  final String? tagId;
 
   AdModel({
     this.id,
@@ -57,9 +55,9 @@ class AdModel {
     this.currency,
     this.imageUrls,
     this.attributes,
-    this.inFavorite,
     this.viewCount,
     this.userProfile,
+    this.tagId,
   });
 
   factory AdModel.fromJson(Map<String, dynamic> json) {
@@ -77,38 +75,41 @@ class AdModel {
       contactPhone: json['contactPhone'],
       contactEmail: json['contactEmail'],
       userId: json['userId'],
-      price:
-          json['price'] != null ? int.tryParse(json['price'].toString()) : null,
-      governorate: json['governorate'] != null
-          ? Governorate.fromJson(json['governorate'])
+      price: json['price'] != null
+          ? double.tryParse(json['price'].toString())?.toInt()
           : null,
-      city: json['city'] != null ? City.fromJson(json['city']) : null,
+      governorate: json.containsKey('governorate')
+          ? Governorate.fromJson(json['governorate'])
+          : Governorate(governorateName: json['governorateName']),
+      city: json.containsKey('city')
+          ? City.fromJson(json['city'])
+          : City(cityName: json['cityName']),
       fullAddress: json['fullAddress'],
-      address:
-          json['address'] != null ? Address.fromJson(json['address']) : null,
+      address: json.containsKey('address')
+          ? Address.fromJson(json['address'])
+          : null,
       createdAt:
           json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
       updatedAt:
           json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
       adType: json['adType'],
       preferredContactMethod: json['preferredContactMethod'],
-      condition:
-          (json['condition'] as List?)?.map((e) => e.toString()).toList(),
+      condition: json['condition'] is List
+          ? (json['condition'] as List).map((e) => e.toString()).toList()
+          : [json['condition']],
       currency: json['currency'],
       imageUrls: json['imageUrls'] is List
           ? (json['imageUrls'] as List)
-              .where((e) => e is Map<String, dynamic>)
-              .map((e) => MediaItem.fromJson(e as Map<String, dynamic>))
+              .map((e) => e is Map<String, dynamic>
+                  ? e['url'].toString()
+                  : e.toString())
               .toList()
           : null,
-      attributes: json['attributes'],
-      inFavorite: json['inFavorite'],
-      viewCount: json['viewCount'] != null
-          ? int.tryParse(json['viewCount'].toString())
-          : null,
+      attributes: json['attributes'] is Map ? json['attributes'] : null,
       userProfile: json['userProfile'] != null
           ? Profile.fromJson(json['userProfile'])
           : null,
+      tagId: json['tagId'],
     );
   }
 
@@ -136,11 +137,11 @@ class AdModel {
       'preferredContactMethod': preferredContactMethod,
       'condition': condition,
       'currency': currency,
-      'imageUrls': imageUrls?.map((e) => e.toJson()).toList(),
+      'imageUrls': imageUrls?.map((e) => {'url': e}).toList(),
       'attributes': attributes,
       'viewCount': viewCount,
       'userProfile': userProfile?.toJson(),
-      'inFavorite': inFavorite,
+      'tagId': tagId,
     };
   }
 }

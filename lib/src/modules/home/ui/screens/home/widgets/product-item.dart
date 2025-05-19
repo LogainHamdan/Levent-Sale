@@ -29,11 +29,9 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     final imageUrl =
         (product.imageUrls != null && product.imageUrls!.isNotEmpty)
-            ? product.imageUrls!.first.url
+            ? product.imageUrls!.first
             : '';
     final provider = Provider.of<HomeProvider>(context, listen: false);
     return InkWell(

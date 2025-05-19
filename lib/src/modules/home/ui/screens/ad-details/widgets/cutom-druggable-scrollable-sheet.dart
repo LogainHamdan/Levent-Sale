@@ -121,7 +121,7 @@ class _CustomDraggableScrollableSheetState
                                       width: 120.w,
                                       child: Text(
                                         textDirection: TextDirection.rtl,
-                                        '${profile?.username}',
+                                        '${profile?.username ?? ''}',
                                         style: TextStyle(
                                             overflow: TextOverflow.ellipsis,
                                             fontSize: 18.sp,
@@ -165,6 +165,7 @@ class _CustomDraggableScrollableSheetState
                                     }
                                   },
                                   child: CircleAvatar(
+                                      backgroundColor: Colors.transparent,
                                       radius: 30.r,
                                       backgroundImage: NetworkImage(
                                           profile?.profilePicture ?? '')),

@@ -39,16 +39,13 @@ class ProductCard extends StatelessWidget {
           ],
         ),
         child: IntrinsicHeight(
-          // Add this to handle height properly
           child: Row(
-            crossAxisAlignment:
-                CrossAxisAlignment.stretch, // Changed from start to stretch
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment
-                      .spaceBetween, // Add this for better spacing
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -103,18 +100,19 @@ class ProductCard extends StatelessWidget {
                 width: 130.w,
                 child: Stack(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4.r),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8.0.h),
-                        child: Image.network(
-                          ad.imageUrls?.first.url ?? '',
-                          width: 130.w,
-                          height: 100.h,
-                          fit: BoxFit.cover,
+                    if (ad.imageUrls != null && ad.imageUrls!.isNotEmpty)
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4.r),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0.h),
+                          child: Image.network(
+                            ad.imageUrls?.first ?? '',
+                            width: 130.w,
+                            height: 100.h,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
                     Positioned(
                       left: 5.w,
                       top: 5.h,

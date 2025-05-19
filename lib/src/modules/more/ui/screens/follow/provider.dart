@@ -46,6 +46,7 @@ class FollowProvider extends ChangeNotifier {
     notifyListeners();
     try {
       _followers = await followRepository.getFollowers(userId: userId);
+      print('response: $_followers');
     } catch (e) {
       _followers = [];
       print('Error fetching followers: $e');

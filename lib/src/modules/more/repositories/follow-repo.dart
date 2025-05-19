@@ -78,11 +78,10 @@ class FollowRepository {
   }
 
   Future<List<FollowProfileModel>> getFollowingUsers(
-      {required int userId}) async {
+      {required int userId, int? myId, int? page, int? size}) async {
     try {
-      final response = await _dio.get(
-        "$followingUrl/$userId",
-      );
+      final response = await _dio.get("$followingUrl/$userId",
+          queryParameters: {'myId': myId, 'page': page, 'size': size});
       final data = response.data;
       if (data is List) {
         return data.map((json) => FollowProfileModel.fromJson(json)).toList();
@@ -94,9 +93,11 @@ class FollowRepository {
     }
   }
 
-  Future<List<FollowProfileModel>> getFollowers({required int userId}) async {
+  Future<List<FollowProfileModel>> getFollowers(
+      {required int userId, int? myId, int? page, int? size}) async {
     try {
-      final response = await _dio.get('$followersUrl/$userId');
+      final response = await _dio.get('$followersUrl/$userId',
+          queryParameters: {'myId': myId, 'page': page, 'size': size});
       List data = response.data;
       print(data);
 

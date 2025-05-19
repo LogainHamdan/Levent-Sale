@@ -46,7 +46,7 @@ class _CustomButtonState extends State<CustomButton> {
       builder: (context, favoriteProvider, _) {
         final adId = widget.ad?.id ?? 0;
         //   final isFav = favoriteProvider.isFavorite(adId);
-        final isFav = widget.ad?.inFavorite ?? false;
+        final isFav = widget.ad?.tagId != null ?? false;
 
         return ClipRRect(
           borderRadius: BorderRadius.circular(18.r),

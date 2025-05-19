@@ -223,7 +223,7 @@ class _FriendProfileState extends State<FriendProfile> {
                             return CircularProgressIndicator();
                           } else if (snapshot.hasError) {
                             return Text('فشل تحميل الاعلانات');
-                          } else if (!snapshot.hasData) {
+                          } else if (homeProvider.userAds.isEmpty) {
                             return Text('لا يوجد اعلانات لهذا المستخدم');
                           } else {
                             return Column(
