@@ -1,0 +1,2 @@
+/Users/developersplus/Levent-Sale/android/app/.cxx/Debug/v3d594g4/x86_64/CMakeFiles/edit_cache.dir
+/Users/developersplus/Levent-Sale/android/app/.cxx/Debug/v3d594g4/x86_64/CMakeFiles/rebuild_cache.dir

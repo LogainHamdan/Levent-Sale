@@ -56,18 +56,17 @@ class AuthRepository {
   Future<Response> googleLogin(String token) async {
     try {
       final response = await dio.post(
-        googleLoginUrl,
-        data: jsonEncode({'token': token}),
-        options: Options(headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/hal+json',
-        }),
-      );
-      print('google login: ${response.statusCode}');
-      print('Response data: ${response.data}');
+          googleLoginUrl,
+          data: jsonEncode({'token': token}),
+          options: Options(headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/hal+json',
+          }));
+          print('Response data: ${response.data}');
       return response;
     } on DioException catch (e) {
-      print('DioException occurred: ${e.response?.data}');
+      print('DioException occurred: ${e.error}');
+      print('DioException occurred: ${e.response?.statusCode}');
       throw Exception('Dio error: ${e.response?.data ?? e.message}');
     } catch (e) {
       print('Unexpected error occurred: ${e.toString()}');
