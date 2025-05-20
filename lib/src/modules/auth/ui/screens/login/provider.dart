@@ -250,9 +250,28 @@ class LoginProvider extends ChangeNotifier {
       _setLoading(false);
     }
   }
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'profile',"openid"],
 
-  Future<void> googleLogin(String token) async {
+  );
+
+  Future<void> handleGoogleSignIn() async {
     try {
+      final account = await _googleSignIn.signIn();
+      final auth = await account?.authentication;
+
+      print('Access Token: ${auth?.accessToken}');
+      print('ID Token: ${auth?.idToken}');
+      googleLogin(auth?.idToken??"");
+
+    } catch (error) {
+      print('Google sign-in failed: $error');
+    }
+  }
+  Future<void> googleLogin(String token) async {
+
+    try {
+
       final response = await _authRepository.googleLogin(token);
       if (response.statusCode == 200) {
         await TokenHelper.saveToken(token);

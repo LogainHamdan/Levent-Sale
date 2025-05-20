@@ -13,7 +13,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
 }
 android {
-    namespace = "com.levantsale.levantsale"
+    namespace = "com.app.levantsale"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -28,7 +28,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.levantsale.levantsale"
+        applicationId = "com.app.levantsale"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 23
