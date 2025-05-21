@@ -131,34 +131,35 @@ class LoginScreen extends StatelessWidget {
                   SocialButton(
                     facebook: false,
                     onPressed: () async {
-                      final GoogleSignIn _googleSignIn = GoogleSignIn(
-                        scopes: ['openid' 'email', 'profile'],
-                        clientId:
-                            '846139057206-h2t2convvg0hp11dasev7707pq6kro0m.apps.googleusercontent.com',
-                      );
+                      provider.handleGoogleSignIn();
+                      // final GoogleSignIn _googleSignIn = GoogleSignIn(
+                      //   scopes: ['openid' 'email', 'profile'],
+                      //   clientId:
+                      //       '846139057206-h2t2convvg0hp11dasev7707pq6kro0m.apps.googleusercontent.com',
+                      // );
 
-                      try {
-                        final GoogleSignInAccount? googleUser =
-                            await _googleSignIn.signIn();
-                        if (googleUser == null) {
-                          print('User cancelled sign-in');
-                          return;
-                        }
-
-                        final googleAuth = await googleUser.authentication;
-                        final idToken = googleAuth.idToken;
-                        print('ID token is $idToken');
-
-                        if (idToken == null) {
-                          print('ID token is null!');
-                          return;
-                        }
-
-                        await provider.googleLogin(idToken);
-                        print('Signed in with token: $idToken');
-                      } catch (error) {
-                        print('Google Sign-In error: $error');
-                      }
+                      // try {
+                      //   final GoogleSignInAccount? googleUser =
+                      //       await _googleSignIn.signIn();
+                      //   if (googleUser == null) {
+                      //     print('User cancelled sign-in');
+                      //     return;
+                      //   }
+                      //
+                      //   final googleAuth = await googleUser.authentication;
+                      //   final idToken = googleAuth.idToken;
+                      //   print('ID token is $idToken');
+                      //
+                      //   if (idToken == null) {
+                      //     print('ID token is null!');
+                      //     return;
+                      //   }
+                      //
+                      //   await provider.googleLogin(idToken);
+                      //   print('Signed in with token: $idToken');
+                      // } catch (error) {
+                      //   print('Google Sign-In error: $error');
+                      // }
                     },
                     text: "الاستمرار بجوجل Google",
                     image: googlePath,

@@ -1,0 +1,2 @@
+/Users/developersplus/Levent-Sale/android/app/.cxx/RelWithDebInfo/6i5g1648/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/developersplus/Levent-Sale/android/app/.cxx/RelWithDebInfo/6i5g1648/armeabi-v7a/CMakeFiles/rebuild_cache.dir

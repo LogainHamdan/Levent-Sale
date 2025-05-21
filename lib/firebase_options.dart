@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDQKomriiw-7wy-Y3T_3mrIWuFKYdcpIRs',
-    appId: '1:452221103090:android:b7f1791561a8c69fef996b',
+    appId: '1:452221103090:android:9e44e83571f21b72ef996b',
     messagingSenderId: '452221103090',
     projectId: 'levant-sale-application',
     storageBucket: 'levant-sale-application.firebasestorage.app',
@@ -64,6 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '452221103090',
     projectId: 'levant-sale-application',
     storageBucket: 'levant-sale-application.firebasestorage.app',
+    androidClientId: '452221103090-a4205rtopekbudhqg1n3gf7ebsh75dc5.apps.googleusercontent.com',
     iosClientId: '452221103090-99p45q6q4o0l1eamut8e8cbje9tqbb01.apps.googleusercontent.com',
     iosBundleId: 'com.levantsale.levantsale',
   );
