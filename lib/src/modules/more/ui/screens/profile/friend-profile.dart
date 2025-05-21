@@ -1,8 +1,10 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/more/models/profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/custom-small-button.dart';
@@ -60,7 +62,7 @@ class _FriendProfileState extends State<FriendProfile> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
-                body: const Center(child: CircularProgressIndicator()));
+                body: const Center(child: CustomCircularProgressIndicator()));
           }
           if (!snapshot.hasData || snapshot.data == null) {
             return Scaffold(
@@ -130,8 +132,17 @@ class _FriendProfileState extends State<FriendProfile> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomSmallButton(
-                            onPressed: () => Navigator.pushNamed(
-                                context, ConversationScreen.id),
+                            onPressed: () async {
+                              final currentUser = await UserHelper.getUser();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ConversationScreen(
+                                          adId:
+                                              homeProvider.selectedAd?.id ?? 0,
+                                          userId: currentUser?.id ?? 0,
+                                          receiverId: widget.userId)));
+                            },
                             isOutlined: true,
                             icon: SvgPicture.asset(
                               chatGreenIcon,
@@ -148,7 +159,7 @@ class _FriendProfileState extends State<FriendProfile> {
                                     final token = await TokenHelper.getToken();
                                     print(
                                         'to invoke toggle: id: ${widget.userId} and token: $token}');
-                                    followProvider.followProfile(context,
+                                    followProvider.followProfile(
                                         followingId: widget.userId,
                                         token: token ?? "");
                                   },
@@ -165,7 +176,7 @@ class _FriendProfileState extends State<FriendProfile> {
                                   onPressed: () async {
                                     final token = await TokenHelper.getToken();
                                     print('to invoke toggle');
-                                    followProvider.unfollowProfile(context,
+                                    followProvider.unfollowProfile(
                                         followingId: widget.userId,
                                         token: token ?? "");
                                   },

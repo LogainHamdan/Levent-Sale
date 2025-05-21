@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/following.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
@@ -40,43 +41,41 @@ class _JoinFollowState extends State<JoinFollow> {
         future: profileProvider.getProfile(userId: widget.userId),
         builder: (context, snapshot) {
           final user = snapshot.data;
-          return DefaultTabController(
-            length: 2,
-            child: SafeArea(
-              child: Scaffold(
-                appBar: AppBar(
-                  backgroundColor: Colors.white,
-                  titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-                  leading: SizedBox(),
-                  title: TitleRow(title: user?.firstName ?? ""),
-                  bottom: TabBar(
-                    dividerHeight: 0,
-                    indicator: BoxDecoration(),
-                    labelColor: kprimaryColor,
-                    unselectedLabelColor: grey5,
-                    labelStyle: GoogleFonts.tajawal(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.sp,
+          return Consumer<FollowProvider>(
+            builder: (context, provider, child) => DefaultTabController(
+              length: 2,
+              child: SafeArea(
+                child: Scaffold(
+                  appBar: AppBar(
+                    backgroundColor: Colors.white,
+                    titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+                    leading: SizedBox(),
+                    title: TitleRow(title: user?.firstName ?? ""),
+                    bottom: TabBar(
+                      dividerHeight: 0,
+                      indicator: BoxDecoration(),
+                      labelColor: kprimaryColor,
+                      unselectedLabelColor: grey5,
+                      labelStyle: GoogleFonts.tajawal(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.sp,
+                        ),
                       ),
-                    ),
-                    unselectedLabelStyle: GoogleFonts.tajawal(
-                      textStyle: TextStyle(
-                        fontSize: 18.sp,
+                      unselectedLabelStyle: GoogleFonts.tajawal(
+                        textStyle: TextStyle(
+                          fontSize: 18.sp,
+                        ),
                       ),
+                      tabs: <Widget>[
+                        Tab(text: "متابِع (${provider.followersCount})"),
+                        Tab(text: "متابَع (${provider.followingCount})"),
+                      ],
                     ),
-                    tabs: <Widget>[
-                      Tab(
-                          text:
-                              "متابِع (${context.watch<FollowProvider>().followersCount})"),
-                      Tab(
-                          text:
-                              "متابَع (${context.watch<FollowProvider>().followingCount})"),
-                    ],
                   ),
-                ),
-                body: const TabBarView(
-                  children: [FollowersScreen(), FollowingScreen()],
+                  body: const TabBarView(
+                    children: [FollowersScreen(), FollowingScreen()],
+                  ),
                 ),
               ),
             ),

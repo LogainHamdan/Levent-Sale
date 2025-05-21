@@ -45,9 +45,9 @@ class ChatProvider extends ChangeNotifier {
       chats = response.content;
       chats?.sort((a, b) {
         final aTime =
-            a?.lastMessage.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+            a?.lastMessage?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
         final bTime =
-            b?.lastMessage.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+            b?.lastMessage?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
         return bTime.compareTo(aTime);
       });
       errorMessage = '';

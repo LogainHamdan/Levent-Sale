@@ -36,7 +36,8 @@ class ChatRepository {
         '$getConversationUrl?senderId=$senderId&receiverId=$receiverId&adId=$adId&page=$page&limit=$limit',
         options: Options(headers: {'Authorization': token}),
       );
-      print('conversation loaded successfully: ${response.data}');
+      print(
+          'conversation loaded successfully: ${response.statusCode} ${response.data}');
 
       return ChatMessageResponse.fromJson(response.data);
     } on DioException catch (e) {
@@ -77,12 +78,9 @@ class ChatRepository {
     }
   }
 
-  Future<bool> markAsRead(
-    List<String> msgIds, {
-    required String token,
-  }) async {
+  Future<bool> markAsRead(List<String> msgIds, {required String token}) async {
     try {
-      print('parameters sent: { firstMsgId: ${msgIds.toString()} }');
+      print('parameters sent: { MsgIds: ${msgIds.toString()} }');
       final response = await _dio.put(
         markAsReadUrl,
         data: msgIds,

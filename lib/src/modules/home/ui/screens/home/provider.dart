@@ -107,11 +107,10 @@ class HomeProvider extends ChangeNotifier {
   Future<void> loadUserAds({required int userId}) async {
     isLoading = true;
     error = null;
-    notifyListeners();
 
     try {
       userAds = await repo.getUserAds(userId: userId);
-      print('userAds: $userAds');
+      print('user Ads after repo: $userAds');
       for (var ad in userAds) {
         print('Loaded ad: ${ad.title}');
       }

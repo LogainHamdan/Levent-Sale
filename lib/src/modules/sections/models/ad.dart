@@ -4,7 +4,6 @@ import '../../more/models/profile.dart';
 class AdModel {
   final int? id;
   final String? title;
-  final Category? category;
   final String? adNo;
   final String? description;
   final String? longDescription;
@@ -29,44 +28,46 @@ class AdModel {
   final int? viewCount;
   final Profile? userProfile;
   final String? tagId;
+  final String? categoryPath;
+  final String? categoryNamePath;
 
-  AdModel({
-    this.id,
-    this.title,
-    this.category,
-    this.adNo,
-    this.description,
-    this.longDescription,
-    this.tradePossible,
-    this.negotiable,
-    this.contactPhone,
-    this.contactEmail,
-    this.userId,
-    this.price,
-    this.governorate,
-    this.city,
-    this.fullAddress,
-    this.address,
-    this.createdAt,
-    this.updatedAt,
-    this.adType,
-    this.preferredContactMethod,
-    this.condition,
-    this.currency,
-    this.imageUrls,
-    this.attributes,
-    this.viewCount,
-    this.userProfile,
-    this.tagId,
-  });
+  AdModel(
+      {this.id,
+      this.title,
+      this.adNo,
+      this.description,
+      this.longDescription,
+      this.tradePossible,
+      this.negotiable,
+      this.contactPhone,
+      this.contactEmail,
+      this.userId,
+      this.price,
+      this.governorate,
+      this.city,
+      this.fullAddress,
+      this.address,
+      this.createdAt,
+      this.updatedAt,
+      this.adType,
+      this.preferredContactMethod,
+      this.condition,
+      this.currency,
+      this.imageUrls,
+      this.attributes,
+      this.viewCount,
+      this.userProfile,
+      this.tagId,
+      this.categoryNamePath,
+      this.categoryPath});
 
   factory AdModel.fromJson(Map<String, dynamic> json) {
     return AdModel(
       id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
       title: json['title'],
       adNo: json['adNo'],
-      category:
-          json['category'] != null ? Category.fromJson(json['category']) : null,
+      categoryNamePath: json['categoryNamePath'],
+      categoryPath: json['categoryPath'],
       description: json['description'],
       longDescription: json['longDescription'],
       tradePossible:
@@ -98,13 +99,24 @@ class AdModel {
           ? (json['condition'] as List).map((e) => e.toString()).toList()
           : [json['condition']],
       currency: json['currency'],
-      imageUrls: json['imageUrls'] is List
-          ? (json['imageUrls'] as List)
-              .map((e) => e is Map<String, dynamic>
-                  ? e['url'].toString()
-                  : e.toString())
-              .toList()
-          : null,
+      imageUrls: (() {
+        final raw = json['imageUrls'];
+        if (raw == null) return null;
+
+        if (raw is String) {
+          return [raw];
+        } else if (raw is List) {
+          return raw.map((e) {
+            if (e is Map && e.containsKey('url')) {
+              return e['url'].toString();
+            } else {
+              return e.toString();
+            }
+          }).toList();
+        } else {
+          return null;
+        }
+      })(),
       attributes: json['attributes'] is Map ? json['attributes'] : null,
       userProfile: json['userProfile'] != null
           ? Profile.fromJson(json['userProfile'])
@@ -117,7 +129,6 @@ class AdModel {
     return {
       'id': id,
       'title': title,
-      'category': category?.toJson(),
       'adNo': adNo,
       'description': description,
       'longDescription': longDescription,
@@ -142,6 +153,8 @@ class AdModel {
       'viewCount': viewCount,
       'userProfile': userProfile?.toJson(),
       'tagId': tagId,
+      'categoryNamePath': categoryNamePath,
+      'categoryPath': categoryPath,
     };
   }
 }

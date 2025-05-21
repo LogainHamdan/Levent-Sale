@@ -88,91 +88,89 @@ class _CustomDraggableScrollableSheetState
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                  width: 50.w,
-                                  height: 50.h,
-                                  decoration: BoxDecoration(
-                                    color: greySplash,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.call,
-                                      color: kprimaryColor,
-                                      size: 18.sp,
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    SizedBox(
-                                      width: 120.w,
-                                      child: Text(
-                                        textDirection: TextDirection.rtl,
-                                        '${profile?.username ?? ''}',
-                                        style: TextStyle(
-                                            overflow: TextOverflow.ellipsis,
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
+                        GestureDetector(
+                          onTap: () async {
+                            final currentUser = await UserHelper.getUser();
+                            final user = await loginProvider.getUserById(
+                                id: widget.userId);
+                            print('user before call: ${widget.userId}');
+                            if (user != null) {
+                              print(
+                                  'currentUser: ${currentUser?.id}\nad user: ${widget.userId}');
+                              widget.userId != currentUser?.id
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FriendProfile(
+                                            userId: widget.userId),
                                       ),
+                                    )
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ProfileScreen()),
+                                    );
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    width: 50.w,
+                                    height: 50.h,
+                                    decoration: BoxDecoration(
+                                      color: greySplash,
+                                      shape: BoxShape.circle,
                                     ),
-                                    Text(
-                                      " عضو منذ${profile?.birthday ?? ''}",
-                                      style: TextStyle(
-                                          fontSize: 14.sp, color: grey4),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.call,
+                                        color: kprimaryColor,
+                                        size: 18.sp,
+                                      ),
+                                      onPressed: () {},
                                     ),
-                                  ],
-                                ),
-                                SizedBox(width: 10.w),
-                                GestureDetector(
-                                  onTap: () async {
-                                    final currentUser =
-                                        await UserHelper.getUser();
-                                    final user = await loginProvider
-                                        .getUserById(id: widget.userId);
-                                    print('user before call: ${widget.userId}');
-                                    if (user != null) {
-                                      print(
-                                          'currentUser: ${currentUser?.id}\nad user: ${widget.userId}');
-                                      widget.userId != currentUser?.id
-                                          ? Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    FriendProfile(
-                                                        userId: widget.userId),
-                                              ),
-                                            )
-                                          : Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const ProfileScreen()),
-                                            );
-                                    }
-                                  },
-                                  child: CircleAvatar(
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      SizedBox(
+                                        width: 120.w,
+                                        child: Text(
+                                          textDirection: TextDirection.rtl,
+                                          '${profile?.username ?? ''}',
+                                          style: TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                      Text(
+                                        "عضو منذ ${profile?.birthday ?? ''}",
+                                        style: TextStyle(
+                                            fontSize: 14.sp, color: grey4),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 10.w),
+                                  CircleAvatar(
                                       backgroundColor: Colors.transparent,
                                       radius: 30.r,
                                       backgroundImage: NetworkImage(
                                           profile?.profilePicture ?? '')),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(height: 20.h),
                         CustomElevatedButton(
@@ -210,7 +208,7 @@ class _CustomDraggableScrollableSheetState
                                     height: 120.h,
                                     hasDiscount: false,
                                     product: product,
-                                    category: product.category?.name ?? '',
+                                    category: '',
                                   ),
                                 ),
                               )

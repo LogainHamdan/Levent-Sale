@@ -38,7 +38,6 @@ class CustomPasswordField extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Container(
-              height: 48.h,
               decoration: BoxDecoration(
                 color: grey8,
                 borderRadius: BorderRadius.circular(6.r),

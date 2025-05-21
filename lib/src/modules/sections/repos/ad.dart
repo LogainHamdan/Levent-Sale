@@ -19,6 +19,7 @@ class AdRepository {
   }
 
   factory AdRepository() => _instance;
+
   Future<Response> createAd({
     required AdDTO adDTO,
     List<File>? files,
@@ -142,7 +143,7 @@ class AdRepository {
 
   Future<Response> updateAd(
     AdDTO adDTO,
-    List<dynamic>? files, {
+    List<File>? files, {
     required int id,
     required String token,
   }) async {
@@ -193,6 +194,7 @@ class AdRepository {
           },
         ),
       );
+      print('update response: ${response.statusCode}');
 
       return response;
     } on DioException catch (e) {
@@ -262,19 +264,33 @@ class AdRepository {
   Future<List<AdModel?>> getMyAdsByStatus({
     required String token,
     required String status,
+    int? page,
+    int? size,
   }) async {
     try {
       final response = await dio.get(
-        '$getAdsByStatus/$status/ads',
+        '$getAdsByStatus',
+        queryParameters: {'status': status, 'page': page, 'size': size},
         options: Options(
           headers: {
             'Authorization': token,
           },
         ),
       );
-      print('ads by status fetched successfully');
-      final List data = response.data;
-      return data.map((e) => AdModel.fromJson(e)).toList();
+
+      print('$status ads fetched successfully : ${response.data}');
+
+      final content = response.data['content'];
+
+      if (content == null || content is! List) {
+        print('No ads found or invalid format');
+        return [];
+      }
+
+      final ads = content.map<AdModel>((e) => AdModel.fromJson(e)).toList();
+      print('$status Ads API Response: $ads');
+
+      return ads;
     } on DioException catch (e) {
       print('Error fetching ads by status: ${e.response?.statusCode}');
       print('Message: ${e.response?.data}');

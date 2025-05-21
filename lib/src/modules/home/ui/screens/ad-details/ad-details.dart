@@ -74,8 +74,9 @@ class AdDetailsScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           InkWell(
-                            onTap: () =>
-                                Navigator.pushNamed(context, UpdateAdScreen.id),
+                            onTap: () {
+                              Navigator.pushNamed(context, UpdateAdScreen.id);
+                            },
                             child: SvgPicture.asset(
                               editBlackIcon,
                               height: 20.h,

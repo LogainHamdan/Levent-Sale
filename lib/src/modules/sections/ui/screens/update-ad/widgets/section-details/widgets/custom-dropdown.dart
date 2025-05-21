@@ -36,6 +36,7 @@ class CustomDropdownSectionUpdate extends StatelessWidget {
 
         String? selectedValue = provider.getSelectedValue(dropdownKey);
         bool isOpen = provider.isDropdownOpened(dropdownKey);
+        print('👀 dropdownKey: $dropdownKey, selected: $selectedValue');
 
         List<String?> shownItems = uniqueItems;
         final bool showError =

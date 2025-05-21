@@ -11,8 +11,6 @@ class ViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyCollectionScreenProvider>(
         builder: (context, provider, child) {
-      print('pending:${provider.pendingAds}');
-
       return provider.currentTabLoading
           ? const Center(child: CircularProgressIndicator())
           : provider.pendingAds.isEmpty

@@ -46,7 +46,6 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.da
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/choose-section/choose-section-update.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/section-details1-update.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/section-details2-update.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
@@ -138,6 +137,8 @@ class MyMaterialApp extends StatelessWidget {
                     builder: (context, provider, child) {
                       final adToUpdate =
                           provider.selectedAdToUpdate ?? AdModel();
+                      print(
+                          'ad attributes: ${provider.selectedAdToUpdate?.attributes}');
                       return UpdateAdScreen(
                           ad: adToUpdate,
                           bottomNavBar:
@@ -228,7 +229,7 @@ class MyMaterialApp extends StatelessWidget {
                                                         .selectedAdType?.name ??
                                                     AdType.UNKNOWN.name,
                                                 currency: detailsProvider
-                                                    .selectedCurrency,
+                                                    .selectedCurrency?.name,
                                                 negotiable:
                                                     detailsProvider.negotiable,
                                                 preferredContactMethod:
@@ -263,7 +264,7 @@ class MyMaterialApp extends StatelessWidget {
                                                       MainScreen.id;
                                                 });
 
-                                                showAdCreated(context);
+                                                showAdUpdated(context);
                                               }
                                             }
                                           }),

@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/home/models/chats.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/provider.dart';
@@ -9,20 +10,20 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../../../../auth/models/user.dart';
+import '../../../../../more/models/profile.dart';
 import '../../../../../more/ui/screens/edit-profile/provider.dart';
 import '../provider.dart';
 
 class ChatItem extends StatelessWidget {
   final Message? message;
   final String time;
-  final bool isOnline;
   final int senderId;
   final int adId;
 
   ChatItem({
     required this.message,
     required this.time,
-    required this.isOnline,
     required this.senderId,
     required this.adId,
   });
@@ -31,26 +32,29 @@ class ChatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileProvider =
         Provider.of<EditProfileProvider>(context, listen: false);
+    final provider = Provider.of<LoginProvider>(context, listen: false);
 
     return FutureBuilder(
       future: Future.wait([
         UserHelper.getUser(),
-        profileProvider.getProfile(userId: senderId),
+        //    profileProvider.getProfile(userId: senderId),
+        provider.getUserById(id: senderId)
       ]),
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final currentUser = snapshot.data![0];
-        final senderUser = snapshot.data![1];
+        final User? currentUser = snapshot.data![0];
+        final User? senderUser = snapshot.data![1];
 
         return GestureDetector(
           onTap: () async {
             final provider =
                 Provider.of<ConversationProvider>(context, listen: false);
             final token = await TokenHelper.getToken();
-            await provider.markAsRead([message?.id ?? ''], token: token ?? '');
+            print('message ud: ${message?.id}');
+            await provider.markAsRead(token: token ?? "", [message?.id ?? '']);
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -77,7 +81,7 @@ class ChatItem extends StatelessWidget {
                         NetworkImage(senderUser?.profilePicture ?? ""),
                     radius: 25.r,
                   ),
-                  if (isOnline)
+                  if (senderUser?.active ?? false)
                     Positioned(
                       bottom: 2,
                       left: 2,
@@ -102,7 +106,7 @@ class ChatItem extends StatelessWidget {
                   ),
                 ),
               ),
-              subtitle: isOnline
+              subtitle: message?.readAt == null
                   ? Text(
                       message?.content ?? '',
                       style: GoogleFonts.tajawal(

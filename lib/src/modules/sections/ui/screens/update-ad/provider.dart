@@ -53,7 +53,7 @@ class UpdateAdProvider extends ChangeNotifier {
 
   Future<Response?> updateAd(
     AdDTO adDTO,
-    List<dynamic>? files, {
+    List<File>? files, {
     required int id,
     required String token,
   }) async {

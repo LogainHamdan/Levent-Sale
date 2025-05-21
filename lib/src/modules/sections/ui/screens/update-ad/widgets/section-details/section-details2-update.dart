@@ -39,6 +39,9 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       provider.loadGovernorates();
       provider.loadCities(governorateId: provider.selectedGovernorate?.id ?? 2);
+
+        provider.initializeControllers(context);
+
     });
   }
 
@@ -117,7 +120,7 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
                           : '',
                       controller: provider.contactDetailController,
                       label:
-                          'رقم ${provider.selectedContactMethod!.displayName}',
+                          'رقم ${ContactMethodExtension(provider.selectedContactMethod!).displayName}',
                       onChanged: (value) {
                         provider.setSelectedValue('contactDetail', value);
                       },
@@ -132,7 +135,7 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
                           : '',
                       controller: provider.contactDetailController,
                       label:
-                          'بريد ${provider.selectedContactMethod!.displayName}',
+                          'بريد ${ContactMethodExtension(provider.selectedContactMethod!).displayName}}',
                       onChanged: (value) {
                         provider.setSelectedValue('contactDetail', value);
                       },
@@ -147,7 +150,7 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
                           : '',
                       controller: provider.contactDetailController,
                       label:
-                          'تفاصيل ${provider.selectedContactMethod!.displayName}',
+                          'تفاصيل ${ContactMethodExtension(provider.selectedContactMethod!).displayName}',
                       onChanged: (value) {
                         provider.setSelectedValue('contactDetail', value);
                       },
@@ -279,10 +282,10 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
             SizedBox(
               height: 16.h,
             ),
-            Consumer<CreateAdSectionDetailsProvider>(
+            Consumer<UpdateAdSectionDetailsProvider>(
               builder: (context, provider, _) {
                 final isCityEnabled = provider.selectedGovernorate != null;
-
+                print('enabled city: $isCityEnabled');
                 return CustomDropdownSectionUpdate(
                   errorText: 'هذا الحقل مطلوب',
                   hint: 'ادخل اسم المدينة',

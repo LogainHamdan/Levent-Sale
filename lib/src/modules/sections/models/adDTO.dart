@@ -7,7 +7,7 @@ class AdDTO {
   final String? adType;
   final String? contactEmail;
   final String? contactPhone;
-  final Currency? currency;
+  final String? currency;
   final String? description;
   final String? longDescription;
   final String? fullAddress;

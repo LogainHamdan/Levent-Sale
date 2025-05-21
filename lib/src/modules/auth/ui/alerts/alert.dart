@@ -633,6 +633,104 @@ void showAdCreated(BuildContext context) {
                       onPressed: () {
                         bottomNavProvider.setIndex(1);
                         createAdProvider.resetProgress();
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, MainScreen.id);
+                      },
+                      backgroundColor: kprimaryColor,
+                      textColor: grey9,
+                      date: false,
+                    )),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void showAdUpdated(BuildContext context) {
+  final bottomNavProvider =
+      Provider.of<BottomNavProvider>(context, listen: false);
+  final createAdProvider =
+      Provider.of<CreateAdProvider>(context, listen: false);
+
+  if (!context.mounted) return;
+
+  showDialog(
+    context: context,
+    barrierColor: Colors.black.withOpacity(0.2),
+    builder: (dialogContext) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+        child: AlertDialog(
+          backgroundColor: grey9,
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          content: SizedBox(
+            height: 360.h,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(dialogContext).pop();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(20.w),
+                        child: SvgPicture.asset(
+                          cancelPath,
+                          height: 18.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 12.h),
+                  child: SvgPicture.asset(
+                    adCreatedIcon,
+                    height: 120.h,
+                  ),
+                ),
+                SizedBox(height: 15.h),
+                Text(
+                  'تم تحديث إعلانك',
+                  textDirection: TextDirection.rtl,
+                  style: GoogleFonts.tajawal(
+                    color: kprimaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Text(
+                    maxLines: 2,
+                    'تم نحديث إعلانك يمكنك عرض اخر التعديلات خلال الذهاب إلى تشكيلتك.',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                    style: GoogleFonts.tajawal(
+                      color: grey3,
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: CustomElevatedButton(
+                      text: 'عرض تشكيلتي',
+                      onPressed: () {
+                        bottomNavProvider.setIndex(1);
+                        createAdProvider.resetProgress();
+                        Navigator.pop(context);
                         Navigator.pushNamed(context, MainScreen.id);
                       },
                       backgroundColor: kprimaryColor,

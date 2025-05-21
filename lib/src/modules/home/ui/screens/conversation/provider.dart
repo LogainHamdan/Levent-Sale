@@ -135,15 +135,12 @@ class ConversationProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> markAsRead(
-    List<String> msgIds, {
-    required String token,
-  }) async {
+  Future<void> markAsRead(List<String> msgIds, {required String token}) async {
     isLoading = true;
     notifyListeners();
 
     try {
-      isRead = await _repo.markAsRead(token: token, msgIds);
+      isRead = await _repo.markAsRead(msgIds, token: token);
     } catch (e) {
       print(e.toString());
     } finally {

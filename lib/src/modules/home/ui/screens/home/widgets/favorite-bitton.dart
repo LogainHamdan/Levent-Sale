@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,11 +34,11 @@ class _CustomButtonState extends State<CustomButton> {
 
   Future<void> _loadFavoriteStatus() async {
     final token = await TokenHelper.getToken();
-    if (token != null && widget.favIcon) {
-      final provider = Provider.of<FavoriteProvider>(context, listen: false);
-      final adId = widget.ad?.id ?? 0;
-      //    await provider.checkFavoriteStatus(adId: adId, authorizationToken: token);
-    }
+    // if (token != null && widget.favIcon) {
+    //   final provider = Provider.of<FavoriteProvider>(context, listen: false);
+    //   final adId = widget.ad?.id ?? 0;
+    //   //    await provider.checkFavoriteStatus(adId: adId, authorizationToken: token);
+    // }
   }
 
   @override
@@ -82,8 +83,13 @@ class _CustomButtonState extends State<CustomButton> {
                     final provider =
                         Provider.of<UpdateAdProvider>(context, listen: false);
                     provider.selectAdToUpdate(widget.ad ?? AdModel());
+                    // final sectionProvider =
+                    //     Provider.of<CreateAdChooseSectionProvider>(context,
+                    //         listen: false);
+                    // sectionProvider.setSelectedSubcategoryById(
+                    //     widget.ad?.category?.id ?? 0);
                     print(
-                        'selected ad: ${provider.selectedAdToUpdate?.toJson()}');
+                        'selected ad to update: ${provider.selectedAdToUpdate?.toJson()}');
                     Navigator.pushNamed(context, UpdateAdScreen.id);
                   },
             customBorder: const CircleBorder(),

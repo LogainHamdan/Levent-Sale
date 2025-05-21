@@ -3,6 +3,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widg
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-dropdown.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-quill.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/selected-img-section.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -84,7 +85,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
               height: 10.h,
             ),
             SelectedImagesSection(),
-            Consumer<CreateAdSectionDetailsProvider>(
+            Consumer<UpdateAdSectionDetailsProvider>(
               builder: (context, createProvider, _) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.end,

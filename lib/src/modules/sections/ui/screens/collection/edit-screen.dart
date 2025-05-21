@@ -11,7 +11,6 @@ class EditScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyCollectionScreenProvider>(
         builder: (context, provider, child) {
-      print('published:${provider.publishedAds}');
       return provider.currentTabLoading
           ? const Center(child: CircularProgressIndicator())
           : provider.publishedAds.isEmpty

@@ -1,4 +1,3 @@
-import 'package:Levant_Sale/src/modules/more/repositories/get-follow-repo.dart';
 import 'package:Levant_Sale/src/modules/more/repositories/follow-repo.dart';
 import 'package:flutter/material.dart';
 
@@ -12,24 +11,22 @@ class FollowProvider extends ChangeNotifier {
   final FollowRepository followRepository = FollowRepository();
   final String authToken = '';
 
-  List<FollowProfileModel> _followers = [];
+  List<User> _followers = [];
 
-  List<FollowProfileModel> get followers => _followers;
+  List<User> get followers => _followers;
   bool _isFollowersLoading = false;
 
   bool get isFollowersLoading => _isFollowersLoading;
 
-  List<FollowProfileModel> _followingUsers = [];
+  List<User> _followingUsers = [];
 
-  List<FollowProfileModel> get followingUsers => _followingUsers;
+  List<User> get followingUsers => _followingUsers;
   bool _isFollowingLoading = false;
 
   bool get isFollowingLoading => _isFollowingLoading;
 
   Future<void> fetchFollowingUsers({required int userId}) async {
     _isFollowingLoading = true;
-    notifyListeners();
-
     try {
       _followingUsers =
           await followRepository.getFollowingUsers(userId: userId);
@@ -43,10 +40,9 @@ class FollowProvider extends ChangeNotifier {
 
   Future<void> fetchFollowers({required int userId}) async {
     _isFollowersLoading = true;
-    notifyListeners();
     try {
       _followers = await followRepository.getFollowers(userId: userId);
-      print('response: $_followers');
+      print('Fetched followers: $_followers');
     } catch (e) {
       _followers = [];
       print('Error fetching followers: $e');
@@ -56,22 +52,15 @@ class FollowProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> followProfile(BuildContext context,
+  Future<void> followProfile(
       {required int followingId, required String token}) async {
     try {
       final response = await followRepository.followUser(
           token: token, followingId: followingId);
       if (response.statusCode == 200) {
         print('followed successfully');
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Unfollowed successfully!')));
       } else {
         print('Failed to unfollow. Please try again.');
-
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Failed to unfollow. Please try again.'),
-          backgroundColor: errorColor,
-        ));
       }
     } catch (e) {
       debugPrint('$e');
@@ -79,22 +68,15 @@ class FollowProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> unfollowProfile(BuildContext context,
+  Future<void> unfollowProfile(
       {required int followingId, required String token}) async {
     try {
       final response = await followRepository.unfollowUser(
           token: token, followingId: followingId);
       if (response.statusCode == 200) {
         print('followed successfully');
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Unfollowed successfully!')));
       } else {
         print('Failed to unfollow. Please try again.');
-
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Failed to unfollow. Please try again.'),
-          backgroundColor: errorColor,
-        ));
       }
     } catch (e) {
       debugPrint('$e');

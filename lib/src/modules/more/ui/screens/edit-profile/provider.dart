@@ -139,10 +139,12 @@ class EditProfileProvider extends ChangeNotifier {
     }
   }
 
-  Future<Profile?> getProfile({required int userId}) async {
+  Future<Profile?> getProfile({required int userId, int? myid}) async {
+    print('user passed: $userId');
     try {
-      final profile = await followRepository.getProfile(userId: userId);
-      print('Profile loaded successfully: ${profile?.username}');
+      final profile =
+          await followRepository.getProfile(userId: userId, myid: myid);
+
       error = null;
       return profile;
     } catch (e) {

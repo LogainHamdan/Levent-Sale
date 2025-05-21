@@ -196,6 +196,7 @@ class SignUpScreen extends StatelessWidget {
                           controller: provider.emailController,
                           hint: "البريد الإلكتروني",
                         ),
+                        SizedBox(height: 8.h),
                         CustomPasswordField(
                           isConfirmField: false,
                           controller: provider.passwordController,

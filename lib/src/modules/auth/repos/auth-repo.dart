@@ -78,14 +78,14 @@ class AuthRepository {
   Future<User?> getUserById({required int id}) async {
     try {
       final response = await dio.get(
-        'http://37.148.208.169:8081/users/$id',
+        '$getUserUrl/$id',
         options: Options(
           headers: {
             'Accept': 'application/hal+json',
           },
         ),
       );
-      print(response.data);
+      print('user loaded: ${response.data}');
       return User.fromJson(response.data);
     } on DioException catch (e) {
       print("Error: ${e.message}");

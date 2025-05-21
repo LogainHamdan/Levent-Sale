@@ -42,6 +42,14 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setSelectedSubcategoryById(int? subcategoryId) {
+    if (subcategoryId == null) return;
+    int index = subcategories.indexWhere((sub) => sub.id == subcategoryId);
+    if (index != -1) {
+      setSelectedSubcategory(index);
+    }
+  }
+
   Category? get selectedCategory => (selectedCategoryIndex! >= 0 &&
           selectedCategoryIndex! < rootCategories.length)
       ? rootCategories[selectedCategoryIndex!]

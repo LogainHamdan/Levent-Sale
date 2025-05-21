@@ -179,7 +179,7 @@ class SectionTrack extends StatelessWidget {
                                                       .selectedAdType?.name ??
                                                   AdType.UNKNOWN.name,
                                               currency: createDetailsProvider
-                                                  .selectedCurrency,
+                                                  .selectedCurrency?.name,
                                               negotiable: createDetailsProvider
                                                   .negotiable,
                                               preferredContactMethod:

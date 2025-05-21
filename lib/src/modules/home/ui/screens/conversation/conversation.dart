@@ -134,79 +134,81 @@ class _ConversationScreenState extends State<ConversationScreen> {
   Widget build(BuildContext context) {
     final profileProvider =
         Provider.of<EditProfileProvider>(context, listen: false);
-
+    print('receiver: ${widget.receiverId}');
     return FutureBuilder(
       future: profileProvider.getProfile(userId: widget.receiverId),
-      builder: (context, snapshot) => SafeArea(
-        child: Scaffold(
-          appBar: CustomAppBar(
-            leadingIcon: SvgPicture.asset(moreIcon, height: 22.h),
-            name: snapshot.data?.username ?? '',
-            profileImageAsset: snapshot.data?.profilePicture ?? '',
-          ),
-          body: Consumer<ConversationProvider>(
-            builder: (context, chatProvider, child) {
-              if (chatProvider.isLoading) {
-                return Center(child: CircularProgressIndicator());
-              }
+      builder: (context, snapshot) {
+        return SafeArea(
+          child: Scaffold(
+            appBar: CustomAppBar(
+              leadingIcon: SvgPicture.asset(moreIcon, height: 22.h),
+              name: snapshot.data?.username ?? '',
+              profileImageAsset: snapshot.data?.profilePicture ?? '',
+            ),
+            body: Consumer<ConversationProvider>(
+              builder: (context, chatProvider, child) {
+                if (chatProvider.isLoading) {
+                  return Center(child: CircularProgressIndicator());
+                }
 
-              if (chatProvider.errorMessage.isNotEmpty) {
-                return Center(
-                    child: Text('Error: ${chatProvider.errorMessage}'));
-              }
+                if (chatProvider.errorMessage.isNotEmpty) {
+                  return Center(
+                      child: Text('Error: ${chatProvider.errorMessage}'));
+                }
 
-              if (chatProvider.chatMessages == null ||
-                  chatProvider.chatMessages!.content == null ||
-                  chatProvider.chatMessages!.content!.isEmpty) {
-                return NoInfoWidget(
-                  bottomWidget: true,
-                  img: emptyChatIcon,
-                  msg: 'لا يوجد محادثة !',
-                  lowerWidget: MessageInput(
-                    onSend: sendMessage,
-                  ),
-                );
-              }
-              final sortedMessages =
-                  List.of(chatProvider.chatMessages!.content!)
-                    ..sort((a, b) {
-                      final aTime =
-                          a?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
-                      final bTime =
-                          b?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
-                      return aTime.compareTo(bTime);
-                    });
-
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.all(10.sp),
-                      itemCount: sortedMessages.length,
-                      itemBuilder: (context, index) {
-                        final message = sortedMessages[index];
-
-                        if (message?.senderId == widget.userId) {
-                          return SentMsg(
-                            text: message?.content ?? '',
-                            time: message?.sentAt ?? DateTime.now(),
-                          );
-                        } else {
-                          return ReceivedMsg(
-                            text: message?.content ?? '',
-                            time: message?.sentAt ?? DateTime.now(),
-                          );
-                        }
-                      },
+                if (chatProvider.chatMessages == null ||
+                    chatProvider.chatMessages!.content == null ||
+                    chatProvider.chatMessages!.content!.isEmpty) {
+                  return NoInfoWidget(
+                    bottomWidget: true,
+                    img: emptyChatIcon,
+                    msg: 'لا يوجد محادثة !',
+                    lowerWidget: MessageInput(
+                      onSend: sendMessage,
                     ),
-                  ),
-                  MessageInput(onSend: sendMessage),
-                ],
-              );
-            },
+                  );
+                }
+                final sortedMessages =
+                    List.of(chatProvider.chatMessages!.content!)
+                      ..sort((a, b) {
+                        final aTime =
+                            a?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+                        final bTime =
+                            b?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+                        return aTime.compareTo(bTime);
+                      });
+
+                return Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        padding: EdgeInsets.all(10.sp),
+                        itemCount: sortedMessages.length,
+                        itemBuilder: (context, index) {
+                          final message = sortedMessages[index];
+
+                          if (message?.senderId == widget.userId) {
+                            return SentMsg(
+                              text: message?.content ?? '',
+                              time: message?.sentAt ?? DateTime.now(),
+                            );
+                          } else {
+                            return ReceivedMsg(
+                              text: message?.content ?? '',
+                              time: message?.sentAt ?? DateTime.now(),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    MessageInput(onSend: sendMessage),
+                  ],
+                );
+              },
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

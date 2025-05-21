@@ -63,13 +63,25 @@ class User {
       password: json['password'],
       firstName: json['firstName'],
       lastName: json['lastName'],
-      birthday: json['birthday'] != null
-          ? DateFormat('yyyy-MM-dd').parse(json['birthday'])
-          : null,
       profilePicture: json['profilePicture'],
-      roles: List<String>.from(json['roles'] ?? []),
+      isVerified: json['isVerified'],
       businessName: json['businessName'],
       businessLicense: json['businessLicense'],
+      birthday: json['birthday'] != null
+          ? DateFormat('dd-MM-yyyy').parse(json['birthday'])
+          : null,
+      createdAt:
+          json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+      updatedAt:
+          json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+      lastLogin:
+          json['lastLogin'] != null ? DateTime.parse(json['lastLogin']) : null,
+      verificationToken: json['verificationToken'],
+      active: json['active'],
+      oauth2Provider: json['oauth2Provider'],
+      status: json['status'],
+      roles: List<String>.from(json['roles'] ?? []),
+      isFollowing: json['isFollowing'],
     );
   }
 

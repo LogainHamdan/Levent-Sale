@@ -52,49 +52,50 @@ class _MyCollectionScreenState extends State<MyCollectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final homeProvider = Provider.of<HomeProvider>(context);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      extendBody: true,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-        leading: SizedBox(),
-        title: const TitleRow(
-          noBack: true,
-          title: 'تشكيلتي',
+    return Consumer<HomeProvider>(
+      builder: (context, homeProvider, child) => Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+          leading: SizedBox(),
+          title: const TitleRow(
+            noBack: true,
+            title: 'تشكيلتي',
+          ),
         ),
-      ),
-      body: SafeArea(
-        bottom: false,
-        child: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : homeProvider.userAds.isEmpty
-                ? SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(height: 16.h),
-                        EmptyWidget(
-                          msg: 'إعلاناتي فارغة',
-                          img: emptyAdsIcon,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 12.0.w),
-                            child: CustomElevatedButton(
-                              text: 'ابدأ في انشاء إعلانك',
-                              onPressed: () => Navigator.pushNamed(
-                                  context, CreateAdScreen.id),
-                              backgroundColor: kprimaryColor,
-                              textColor: grey9,
-                              date: false,
+        body: SafeArea(
+          bottom: false,
+          child: _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : homeProvider.userAds.isEmpty
+                  ? SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(height: 16.h),
+                          EmptyWidget(
+                            msg: 'إعلاناتي فارغة',
+                            img: emptyAdsIcon,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+                              child: CustomElevatedButton(
+                                text: 'ابدأ في انشاء إعلانك',
+                                onPressed: () => Navigator.pushNamed(
+                                    context, CreateAdScreen.id),
+                                backgroundColor: kprimaryColor,
+                                textColor: grey9,
+                                date: false,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
-                : JoinMyCollection(),
+                        ],
+                      ),
+                    )
+                  : JoinMyCollection(),
+        ),
       ),
     );
   }

@@ -12,8 +12,6 @@ class ReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyCollectionScreenProvider>(
         builder: (context, provider, child) {
-      print('rejected:${provider.rejectedAds}');
-
       return provider.currentTabLoading
           ? const Center(child: CircularProgressIndicator())
           : provider.rejectedAds.isEmpty

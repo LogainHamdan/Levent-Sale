@@ -1,6 +1,7 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/widgets/follow-tile.dart';
 import 'package:flutter/material.dart';
@@ -14,21 +15,21 @@ class FollowersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<FollowProvider>(context, listen: false);
-
     return Scaffold(
-      body: SafeArea(
-        child: provider.isFollowersLoading
-            ? Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: provider.followersCount,
-                itemBuilder: (context, index) {
-                  final follower = provider.followers[index];
-                  return FollowTile(
-                    profile: follower,
-                  );
-                },
-              ),
+      body: Consumer<FollowProvider>(
+        builder: (context, provider, child) => SafeArea(
+          child: provider.isFollowersLoading
+              ? Center(child: CustomCircularProgressIndicator())
+              : ListView.builder(
+                  itemCount: provider.followersCount,
+                  itemBuilder: (context, index) {
+                    final follower = provider.followers[index];
+                    return FollowTile(
+                      userId: follower.id ?? 0,
+                    );
+                  },
+                ),
+        ),
       ),
     );
   }

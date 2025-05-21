@@ -44,7 +44,9 @@ class FollowRepository {
       final response = await _dio.post(
         "$followUrl/$followingId",
         options: Options(
-          headers: {'Authorization': token, 'Accept': 'application/hal+json'},
+          headers: {
+            'Authorization': token,
+          },
         ),
       );
       print("Followed successfully: ${response.data}");
@@ -55,15 +57,18 @@ class FollowRepository {
     }
   }
 
-  Future<Profile?> getProfile({required int userId}) async {
+  Future<Profile?> getProfile({required int userId, int? myid}) async {
     try {
       print('$profileUrl/$userId');
+
       final response = await _dio.get(
         '$profileUrl/$userId',
+        queryParameters: {'myid': myid},
         options: Options(headers: {'Accept': 'application/hal+json'}),
       );
 
       if (response.data != null) {
+        print('Profile loaded successfully: ${response.data}');
         return Profile.fromJson(response.data);
       } else {
         throw Exception('Failed to load user profile.');
@@ -77,31 +82,53 @@ class FollowRepository {
     }
   }
 
-  Future<List<FollowProfileModel>> getFollowingUsers(
-      {required int userId, int? myId, int? page, int? size}) async {
+  Future<List<User>> getFollowingUsers({
+    required int userId,
+    int? myId,
+    int? page,
+    int? size,
+  }) async {
     try {
-      final response = await _dio.get("$followingUrl/$userId",
-          queryParameters: {'myId': myId, 'page': page, 'size': size});
-      final data = response.data;
-      if (data is List) {
-        return data.map((json) => FollowProfileModel.fromJson(json)).toList();
+      final response = await _dio.get(
+        "$followingUrl/$userId",
+        queryParameters: {'myId': myId, 'page': page, 'size': size},
+      );
+
+      final responseData = response.data;
+      print('following: ${responseData}');
+      if (responseData is Map<String, dynamic> &&
+          responseData['content'] is List) {
+        final List<dynamic> contentList = responseData['content'];
+        return contentList.map((json) => User.fromJson(json)).toList();
       } else {
-        throw Exception("Unexpected data format: not a List");
+        throw Exception("Unexpected data format: $responseData");
       }
     } catch (e) {
       throw Exception("Error fetching following users: $e");
     }
   }
 
-  Future<List<FollowProfileModel>> getFollowers(
-      {required int userId, int? myId, int? page, int? size}) async {
+  Future<List<User>> getFollowers({
+    required int userId,
+    int? myId,
+    int? page,
+    int? size,
+  }) async {
     try {
-      final response = await _dio.get('$followersUrl/$userId',
-          queryParameters: {'myId': myId, 'page': page, 'size': size});
-      List data = response.data;
-      print(data);
+      final response = await _dio.get(
+        '$followersUrl/$userId',
+        queryParameters: {'myId': myId, 'page': page, 'size': size},
+      );
 
-      return data.map((json) => FollowProfileModel.fromJson(json)).toList();
+      final responseData = response.data;
+      print('followers: ${responseData}');
+      if (responseData is Map<String, dynamic> &&
+          responseData['content'] is List) {
+        final List<dynamic> contentList = responseData['content'];
+        return contentList.map((json) => User.fromJson(json)).toList();
+      } else {
+        throw Exception("Unexpected data format: $responseData");
+      }
     } catch (e) {
       throw Exception("Error fetching followers: $e");
     }

@@ -68,7 +68,7 @@ class StepperProgressUpdate extends StatelessWidget {
                               ),
                           ],
                         ),
-                        SizedBox(height: 0.h), // Adjusted for middle alignment
+                        SizedBox(height: 0.h)
                       ],
                     );
             }),

@@ -87,7 +87,7 @@ class ItemList extends StatelessWidget {
                           SizedBox(height: 4.h),
                           Text(
                             overflow: TextOverflow.ellipsis,
-                            ad?.category?.name ?? '',
+                            ad?.categoryNamePath ?? '',
                             textDirection: TextDirection.rtl,
                             textAlign: TextAlign.right,
                             style: TextStyle(

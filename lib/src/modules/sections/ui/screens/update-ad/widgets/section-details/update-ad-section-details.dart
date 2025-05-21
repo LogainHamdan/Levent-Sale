@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/more/models/profile.dart';
 import 'package:Levant_Sale/src/modules/sections/repos/attributes.dart';
 import 'package:Levant_Sale/src/modules/sections/repos/city.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
@@ -34,7 +36,9 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   AdType? _selectedAdType;
   bool _isLoading = false;
   List<Governorate> _governorates = [];
+  bool _isInitialized = false;
 
+  bool get isInitialized => _isInitialized;
   bool get negotiable => _negotiable;
 
   bool get tradePossible => _tradePossible;
@@ -52,7 +56,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
-  List<dynamic> get selectedImages => _selectedImages;
+  List<File> get selectedImages => _selectedImages;
   final quill.QuillController _controller = quill.QuillController.basic();
 
   String get text => _controller.document.toPlainText().trim();
@@ -69,15 +73,13 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     initializeControllers(context);
   }
 
-  void initializeControllers(BuildContext context) {
+  void initializeControllers(BuildContext context) async {
     final provider = Provider.of<UpdateAdProvider>(context, listen: false);
-    final adType = provider.selectedAdToUpdate?.adType;
-    final currency = provider.selectedAdToUpdate?.currency;
-    final preferredMethod = provider.selectedAdToUpdate?.preferredContactMethod;
-    final governorate =
-        provider.selectedAdToUpdate?.governorate ?? Governorate();
-    final city = provider.selectedAdToUpdate?.city ?? City();
-
+    final detailsProvider =
+        Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
+    await fetchAttributes(detailsProvider
+        .extractLastCategoryId(provider.selectedAdToUpdate?.categoryPath));
+    // باقي التهيئة
     titleController.text = provider.selectedAdToUpdate?.title ?? '';
     shortDescController.text = provider.selectedAdToUpdate?.description ?? '';
     priceController.text = '${provider.selectedAdToUpdate?.price}' ?? '';
@@ -87,37 +89,16 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
 
     setNegotiable(provider.selectedAdToUpdate?.negotiable ?? false);
     setTradePossible(provider.selectedAdToUpdate?.tradePossible ?? false);
-    if (preferredMethod != null && preferredMethod.isNotEmpty) {
-      setSelectedContactMethod(ContactMethod.values.byName(preferredMethod));
-    } else {
-      setSelectedContactMethod(ContactMethod.OTHER);
-    }
+    setSelectedAdType(
+        AdType.values.byName(provider.selectedAdToUpdate?.adType ?? 'UNKNOWN'));
+    setSelectedCurrency('currency',
+        Currency.values.byName(provider.selectedAdToUpdate?.currency ?? 'USD'));
+    setSelectedContactMethod(ContactMethod.values.byName(
+        provider.selectedAdToUpdate?.preferredContactMethod ?? 'OTHER'));
+    setSelectedGovernorate(
+        provider.selectedAdToUpdate?.governorate ?? Governorate());
+    setSelectedCity(provider.selectedAdToUpdate?.city ?? City());
 
-    if (adType != null && adType.isNotEmpty) {
-      setSelectedAdType(AdType.values.byName(adType));
-    } else {
-      setSelectedAdType(AdType.UNKNOWN);
-    }
-
-    if (currency != null && currency.isNotEmpty) {
-      setSelectedCurrency('currency', Currency.values.byName(currency));
-    } else {
-      setSelectedCurrency('currency', Currency.USD);
-    }
-
-    if (preferredMethod != null) {
-      if (numberMethods.map((m) => m.name).contains(preferredMethod)) {
-        contactDetailController.text =
-            provider.selectedAdToUpdate?.contactPhone ?? '';
-      } else if (emailMethods.map((m) => m.name).contains(preferredMethod)) {
-        contactDetailController.text =
-            provider.selectedAdToUpdate?.contactEmail ?? '';
-      } else {
-        contactDetailController.text = '';
-      }
-    }
-    setSelectedGovernorate(governorate);
-    setSelectedCity(city);
     final attributes = provider.selectedAdToUpdate?.attributes;
     if (attributes != null && attributesData?.attributes?.fields != null) {
       for (final key in attributes.keys) {
@@ -156,44 +137,38 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
         }
       }
     }
-    // final attributes = provider.selectedAdToUpdate?.attributes;
-    // if (attributes != null) {
-    //   attributes.forEach((key, value) {
-    //     if (value == null) return;
-    //
-    //     final field = attributesData?.attributes?.fields?.firstWhere(
-    //       (f) => f.name == key,
-    //       orElse: () => Field(name: key, type: FieldType.text),
-    //     );
-    //
-    //     switch (field?.type) {
-    //       case FieldType.text:
-    //       case FieldType.number:
-    //         final controller = getController(key ?? "");
-    //         controller.text = value.toString();
-    //         break;
-    //
-    //       case FieldType.dropdown:
-    //       case FieldType.radio:
-    //         setSelectedValue(key ?? "", value.toString());
-    //         break;
-    //
-    //       case FieldType.checkbox:
-    //         if (value is List) {
-    //           _selectedServices.clear();
-    //           for (final id in value) {
-    //             _selectedServices.add(Detail(id: int.tryParse(id.toString())));
-    //           }
-    //         }
-    //         break;
-    //
-    //       default:
-    //         print("Unknown field type for $key: ${field?.type}");
-    //     }
-    //   });
-    // }
+    _isInitialized = true;
 
     notifyListeners();
+  }
+
+  // void setInitialValuesFromAdAttributes(Map<String?, dynamic>? attributes) {
+  //   if (attributes == null) return;
+  //
+  //   for (var entry in attributes.entries) {
+  //     if (entry.key != null) {
+  //       selectedValues[entry.key!] = entry.value?.toString();
+  //     }
+  //   }
+  //   notifyListeners();
+  // }
+
+  void initializeSelectedValuesFromAd(Map<String?, dynamic>? adAttributes) {
+    if (adAttributes == null) return;
+
+    adAttributes.forEach((key, value) {
+      if (value is String) {
+        setSelectedValue(key ?? '', value);
+      }
+      if (value is String || value is num) {
+        getController(key ?? '').text = value.toString();
+      }
+    });
+  }
+
+  int extractLastCategoryId(String? categoryPath) {
+    final parts = categoryPath?.split('/');
+    return int.parse(parts?.last ?? '');
   }
 
   List<ContactMethod> numberMethods = [
@@ -412,6 +387,9 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
 
     try {
       _cities = await cityRepo.getCities(governorateId: governorateId);
+      notifyListeners();
+
+      print('current cities: $_cities');
     } catch (e) {
       print('Error loading cities: $e');
     } finally {
@@ -452,7 +430,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
         getQuillText().isEmpty ||
         priceController.text.trim().isEmpty ||
         contactDetailController.text.trim().isEmpty ||
-        _selectedCity == null ||
+        // _selectedCity == null ||
         _selectedGovernorate == null ||
         _selectedAdType == null ||
         _selectedCurrency == null) {
@@ -464,3 +442,39 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     return true;
   }
 }
+// final attributes = provider.selectedAdToUpdate?.attributes;
+// if (attributes != null) {
+//   attributes.forEach((key, value) {
+//     if (value == null) return;
+//
+//     final field = attributesData?.attributes?.fields?.firstWhere(
+//       (f) => f.name == key,
+//       orElse: () => Field(name: key, type: FieldType.text),
+//     );
+//
+//     switch (field?.type) {
+//       case FieldType.text:
+//       case FieldType.number:
+//         final controller = getController(key ?? "");
+//         controller.text = value.toString();
+//         break;
+//
+//       case FieldType.dropdown:
+//       case FieldType.radio:
+//         setSelectedValue(key ?? "", value.toString());
+//         break;
+//
+//       case FieldType.checkbox:
+//         if (value is List) {
+//           _selectedServices.clear();
+//           for (final id in value) {
+//             _selectedServices.add(Detail(id: int.tryParse(id.toString())));
+//           }
+//         }
+//         break;
+//
+//       default:
+//         print("Unknown field type for $key: ${field?.type}");
+//     }
+//   });
+// }

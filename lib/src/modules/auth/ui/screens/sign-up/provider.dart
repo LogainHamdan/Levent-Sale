@@ -162,7 +162,7 @@ class SignUpProvider extends ChangeNotifier {
           businessName: userData['company_name'],
           businessLicense: userData['tax_number'],
           birthday: userData['birth_date'] != null
-              ? DateFormat('yyyy-MM-dd').parse(userData['birth_date'])
+              ? DateFormat('MMMM dd, yyyy').parse(userData['birth_date'])
               : null,
           roles: ['business_owner'],
         );

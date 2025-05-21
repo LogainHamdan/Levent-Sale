@@ -39,7 +39,6 @@ class _ChatListScreenState extends State<ChatListScreen> with RouteAware {
 
   @override
   void didPopNext() {
-    // Refresh chats when coming back from conversation
     _loadChats();
   }
 
@@ -89,9 +88,8 @@ class _ChatListScreenState extends State<ChatListScreen> with RouteAware {
                   adId: lastMessage?.adId ?? 0,
                   message: lastMessage,
                   time:
-                      '${lastMessage?.sentAt.hour}:${lastMessage?.sentAt.minute}',
-                  isOnline: conversation?.unreadMessages != 0,
-                  senderId: lastMessage?.senderId ?? 0,
+                      '${lastMessage?.sentAt?.hour}:${lastMessage?.sentAt?.minute}',
+                  senderId: lastMessage?.receiverId ?? 0,
                 );
               },
             );

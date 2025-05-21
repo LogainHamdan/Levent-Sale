@@ -15,7 +15,7 @@ const String requestUpdatePassUrl = "$baseUrl/users/request-password-reset";
 const String signUpUrl = "$baseUrl/users/register";
 const String verifyUrl = "$baseUrl/users/verify";
 const String resendVerifyUrl = "$baseUrl/users/resend-verification-code";
-const String getUserUrl = "$baseUrl/users";
+const String getUserUrl = "http://37.148.208.169:8081/users";
 
 ///follow
 const String unfollowUrl = "$baseUrl/users/unfollow";
@@ -40,7 +40,7 @@ const String searchAdsUrl =
 const String deleteAdUrl = "$baseUrl/search/ads/delete";
 const String getConversationUrl = "http://37.148.208.169:8080/chat/between";
 const String getChatsUrl = "http://37.148.208.169:8080/chat/conversations";
-const String markAsReadUrl = "http://37.148.208.169:8080/chat/markAsRead";
+const String markAsReadUrl = "$baseUrl/chat/markAsRead";
 
 ///sections
 const String getCategoriesUrl = '$baseUrl/ads/get/all/roots';

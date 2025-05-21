@@ -1,7 +1,9 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/products-details.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/banner.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/category-list.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-header.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-section.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/top-search.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
@@ -35,34 +37,33 @@ class HomeScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.only(top: 12.0.h, right: 10.w, left: 10.w),
-                child: SizedBox(
-                  height: 1300,
-                  child: Column(
-                    children: [
-                      TopSearchBar(),
-                      TopBanner(),
-                      CategoriesList(categories: createProvider.rootCategories),
-                      SizedBox(height: 10.h),
-                      ProductSection(
-                        onMorePressed: () =>
-                            Navigator.pushNamed(context, AdsScreen.id),
-                        category: "العروض والخصومات",
-                        products: provider.allAds,
-                      ),
-                      ProductSection(
-                        onMorePressed: () =>
-                            Navigator.pushNamed(context, AdsScreen.id),
-                        category: "الإعلانات الجديدة",
-                        products: provider.allAds,
-                      ),
-                      ProductSection(
-                        onMorePressed: () =>
-                            Navigator.pushNamed(context, AdsScreen.id),
-                        category: "الإعلانات المقترحة",
-                        products: provider.allAds,
-                      ),
-                    ],
-                  ),
+                child: Column(
+                  children: [
+                    TopSearchBar(),
+                    TopBanner(),
+                    CategoriesList(categories: createProvider.rootCategories),
+                    SizedBox(height: 10.h),
+                    ProductSection(
+                      onMorePressed: () =>
+                          Navigator.pushNamed(context, AdsScreen.id),
+                      category: "العروض والخصومات",
+                      products: provider.allAds,
+                    ),
+                    ProductSection(
+                      onMorePressed: () =>
+                          Navigator.pushNamed(context, AdsScreen.id),
+                      category: "الإعلانات الجديدة",
+                      products: provider.allAds,
+                    ),
+                    CustomHeader(
+                        title: 'الاعلانات المقترحة',
+                        onPressed: () =>
+                            Navigator.pushNamed(context, AdsScreen.id)),
+                    ProductsDetails(productList: provider.allAds),
+                    SizedBox(
+                      height: 40.h,
+                    )
+                  ],
                 ),
               ),
             ),
