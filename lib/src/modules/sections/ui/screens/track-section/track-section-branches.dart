@@ -16,7 +16,7 @@ import '../../../models/root-category.dart';
 import '../choose-section/create-ad-choose-section-provider.dart';
 import '../create-ad/create-ad.dart';
 import '../create-ad/provider.dart';
-import '../section-details/create-ad-section-details.dart';
+import '../section-details/provider.dart';
 import '../section-details/section-details1.dart';
 
 class SectionTrack extends StatelessWidget {
@@ -79,8 +79,6 @@ class SectionTrack extends StatelessWidget {
                                     builder: (context) => CreateAdScreen(
                                         bottomNavBar: DraggableButton('متابعة',
                                             onPressed: () async {
-                                          print(
-                                              'validate 2: ${createDetailsProvider.validateFields2()}');
                                           if (createDetailsProvider
                                               .validateFields2()) {
                                             final selectedSubCategory =
@@ -209,8 +207,9 @@ class SectionTrack extends StatelessWidget {
                                               );
                                               return;
                                             }
-                                            print('to create invoke');
 
+                                            print(
+                                                'validate 2: ${createDetailsProvider.validateFields2()}');
                                             final response =
                                                 await createAdProvider.createAd(
                                               adDTO: ad,

@@ -4,17 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../config/constants.dart';
-import '../create-ad-section-details.dart';
+import '../provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'custom-label.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../../../../../config/constants.dart';
-import '../create-ad-section-details.dart';
 import 'custom-label.dart';
 
 class CustomDropdownSection extends StatelessWidget {
@@ -46,8 +39,6 @@ class CustomDropdownSection extends StatelessWidget {
         String? createSelectedValue =
             createProvider.getSelectedValue(dropdownKey);
         bool createIsOpen = createProvider.isDropdownOpened(dropdownKey);
-
-        List<String?> updateUniqueItems = items.toSet().toList();
 
         bool isOpen = createIsOpen;
         List<String?> shownItems = createUniqueItems;

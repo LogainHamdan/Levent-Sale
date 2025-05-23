@@ -227,8 +227,8 @@ class LoginProvider extends ChangeNotifier {
         await TokenHelper.saveToken(token);
         if (_rememberMe)
           await UserHelper.saveUserWithRememberMe(
-            User.fromJson(userData),
             _rememberMe,
+            context,
           );
 
         await UserHelper.saveUser(User.fromJson(userData));
@@ -252,9 +252,9 @@ class LoginProvider extends ChangeNotifier {
       _setLoading(false);
     }
   }
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: ['email', 'profile',"openid"],
 
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'profile', "openid"],
   );
 
   Future<void> handleGoogleSignIn() async {
@@ -264,16 +264,14 @@ class LoginProvider extends ChangeNotifier {
 
       print('Access Token: ${auth?.accessToken}');
       print('ID Token: ${auth?.idToken}');
-      googleLogin(auth?.idToken??"");
-
+      googleLogin(auth?.idToken ?? "");
     } catch (error) {
       print('Google sign-in failed: $error');
     }
   }
+
   Future<void> googleLogin(String token) async {
-
     try {
-
       final response = await _authRepository.googleLogin(token);
       if (response.statusCode == 200) {
         await TokenHelper.saveToken(token);

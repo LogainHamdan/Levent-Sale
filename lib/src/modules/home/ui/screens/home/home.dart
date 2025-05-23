@@ -9,7 +9,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/top-search.
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/create-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../../../../config/constants.dart';
 import '../../../../../../../auth/ui/screens/login/widgets/checkbox.dart';
-import '../update-ad-section-details.dart';
+import '../provider.dart';
 
 class CheckingContainerUpdate extends StatelessWidget {
   const CheckingContainerUpdate({

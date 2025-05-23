@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-section.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/search-field.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search/provider.dart';
@@ -76,6 +77,8 @@ class SearchScreen extends StatelessWidget {
                     msg: 'لا يوجد نتائج بحث مطابقة',
                     img: searchNoResultIcon,
                   )
+                else if (provider.isLoadingSearch)
+                  CustomCircularProgressIndicator()
                 else
                   isUsersSearch
                       ? const SearchUsersWidget()

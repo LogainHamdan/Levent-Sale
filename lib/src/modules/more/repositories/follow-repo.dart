@@ -44,9 +44,7 @@ class FollowRepository {
       final response = await _dio.post(
         "$followUrl/$followingId",
         options: Options(
-          headers: {
-            'Authorization': token,
-          },
+          headers: {'Authorization': token, 'Accept': 'application/hal+json'},
         ),
       );
       print("Followed successfully: ${response.data}");

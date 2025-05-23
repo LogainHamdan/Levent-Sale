@@ -60,7 +60,7 @@ class UpdateAdProvider extends ChangeNotifier {
     isLoading = true;
     error = null;
     notifyListeners();
-
+    print(adDTO.toJson());
     try {
       final response = await _repo.updateAd(adDTO, files, token: token, id: id);
       if (response.statusCode == 200) {

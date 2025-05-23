@@ -207,7 +207,6 @@ void showForgotPassword(BuildContext context) {
                         bgcolor: grey8,
                         controller: authProvider.emailRequestController,
                         hint: 'البريد الإلكتروني'),
-                    SizedBox(height: 24.h),
                     CustomElevatedButton(
                         text: 'ارسال',
                         onPressed: () async {

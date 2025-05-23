@@ -49,7 +49,7 @@ class ProductsDetails extends StatelessWidget {
                 child: Text(
                   'لا يوجد اعلانات هنا',
                   style: TextStyle(
-                    fontSize: 20.sp,
+                    fontSize: 16.sp,
                   ),
                 ),
               ),

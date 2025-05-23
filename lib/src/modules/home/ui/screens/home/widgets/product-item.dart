@@ -74,12 +74,12 @@ class ProductItem extends StatelessWidget {
                         ad: product,
                       ),
                     ),
-                    if (hasDiscount ?? false)
-                      Positioned(
-                        top: 10.h,
-                        right: 0.w,
-                        child: const DiscountBadge(),
-                      ),
+                    // if (hasDiscount ?? false)
+                    //   Positioned(
+                    //     top: 10.h,
+                    //     right: 0.w,
+                    //     child: const DiscountBadge(),
+                    //   ),
                   ],
                 ),
               ),

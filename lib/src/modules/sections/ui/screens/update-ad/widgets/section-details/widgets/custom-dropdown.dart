@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../../../config/constants.dart';
 import '../../../../section-details/widgets/custom-label.dart';
-import '../update-ad-section-details.dart';
+import '../provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomDropdownSectionUpdate extends StatelessWidget {

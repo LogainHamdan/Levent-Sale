@@ -35,23 +35,23 @@ class MessageInput extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AttachSection(
-                  oneOrTwo: 1,
-                  icon: SvgPicture.asset(photoAttachIcon,
-                      height: 24.h, width: 24.w),
-                ),
-                SizedBox(width: 16.w),
-                AttachSection(
-                  oneOrTwo: 2,
-                  icon: SvgPicture.asset(linkAttachIcon,
-                      height: 24.h, width: 24.w),
-                ),
-              ],
-            ),
-            SizedBox(width: 16.w),
+            // Row(
+            //   mainAxisSize: MainAxisSize.min,
+            //   children: [
+            //     AttachSection(
+            //       oneOrTwo: 1,
+            //       icon: SvgPicture.asset(photoAttachIcon,
+            //           height: 24.h, width: 24.w),
+            //     ),
+            //     SizedBox(width: 16.w),
+            //     AttachSection(
+            //       oneOrTwo: 2,
+            //       icon: SvgPicture.asset(linkAttachIcon,
+            //           height: 24.h, width: 24.w),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(width: 16.w),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.0.w),
