@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../config/constants.dart';
+import '../../../../../auth/ui/alerts/alert.dart';
 
 class ImagePickerColumn extends StatelessWidget {
   const ImagePickerColumn({
@@ -12,11 +13,8 @@ class ImagePickerColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createProvider =
-        Provider.of<CreateAdSectionDetailsProvider>(context, listen: false);
-
     return GestureDetector(
-      onTap: createProvider.pickImage,
+      onTap: () => showMediaSelection(context, true),
       child: Container(
         height: 140.h,
         decoration: BoxDecoration(

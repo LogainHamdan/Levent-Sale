@@ -100,7 +100,7 @@ class ProductItem extends StatelessWidget {
                       maxLines: 2,
                     ),
                     Text(
-                      product.description ?? '',
+                      product.cleanDescription ?? '',
                       overflow: TextOverflow.ellipsis,
                       textDirection: TextDirection.rtl,
                       maxLines: 2,
@@ -117,7 +117,8 @@ class ProductItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const CustomRating(
+                         CustomRating(
+                          adId: product.id??0,
                           flexible: false,
                           rateNum: true,
                           small: true,

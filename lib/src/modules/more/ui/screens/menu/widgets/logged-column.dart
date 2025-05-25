@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/change-pass-column.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/profile-menu-item.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../config/constants.dart';
+import '../../../../../home/ui/screens/evaluation/my-reviews.dart';
 import 'info-row.dart';
 import 'logout-item.dart';
 
@@ -33,6 +35,15 @@ class LoggedInColumn extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, FavoriteScreen.id),
             color: kprimary4Color,
             "المفضلة",
+            SvgPicture.asset(
+              myFavIcon,
+              height: 16.h,
+            )),
+        SizedBox(height: 8.h),
+        MenuItem(
+            onTap: () => Navigator.pushNamed(context, MyReviewsScreen.id),
+            color: kprimary4Color,
+            "تقييماتي",
             SvgPicture.asset(
               myFavIcon,
               height: 16.h,

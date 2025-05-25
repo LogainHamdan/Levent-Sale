@@ -16,6 +16,8 @@ import '../../../../../models/attriburtes.dart';
 class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   Map<String, String?> selectedValues = {};
   final List<File> _selectedImages = [];
+  String _mediaType = '';
+
   final Map<String, bool> _dropdownOpenedMap = {};
   final List<Detail> _selectedServices = [];
   final AdAttributesRepository _repo = AdAttributesRepository();
@@ -37,6 +39,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   bool _isLoading = false;
   List<Governorate> _governorates = [];
   bool _isInitialized = false;
+  String get mediaType => _mediaType;
 
   bool get isInitialized => _isInitialized;
   bool get negotiable => _negotiable;
@@ -80,7 +83,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     await fetchAttributes(detailsProvider
         .extractLastCategoryId(provider.selectedAdToUpdate?.categoryPath));
     titleController.text = provider.selectedAdToUpdate?.title ?? '';
-    shortDescController.text = provider.selectedAdToUpdate?.description ?? '';
+    shortDescController.text = provider.selectedAdToUpdate?.cleanDescription ?? '';
     priceController.text = '${provider.selectedAdToUpdate?.price}' ?? '';
     contactDetailController.text =
         provider.selectedAdToUpdate?.contactEmail ?? '';
@@ -309,10 +312,22 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   }
 
   bool isDropdownOpened(String key) => _dropdownOpenedMap[key] ?? false;
+  set mediaType(String type) {
+    _mediaType = type;
+    notifyListeners();
+  }
 
   Future<void> pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final picker = ImagePicker();
+
+    XFile? pickedFile;
+
+    if (_mediaType == 'image') {
+      pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    } else if (_mediaType == 'video') {
+      pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+    }
+
     if (pickedFile != null) {
       _selectedImages.add(File(pickedFile.path));
       notifyListeners();
@@ -464,7 +479,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
       return false;
     }
 
-    if (_selectedImages.isEmpty) return false;
+    // if (_selectedImages.isEmpty) return false;
 
     return true;
   }

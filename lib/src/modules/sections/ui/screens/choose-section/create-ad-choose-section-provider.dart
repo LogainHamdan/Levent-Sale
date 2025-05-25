@@ -59,7 +59,7 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
     try {
       print('Fetching categories...');
       final response = await _repo.fetchCategories();
-      print('Raw response: $response'); // Add this
+      print('Raw response: $response');
       rootCategories = response;
     } catch (e) {
       print('Failed to load categories: ${e.toString()}');
@@ -106,7 +106,12 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
+  void resetCategorySelection() {
+    _selectedCategoryIndex = null;
+    category = null;
+    _categoryPath = '';
+    notifyListeners();
+  }
   Future<void> fetchCategoryChildren(int id) async {
     final response = await _repo.getCategoryChildren(id);
 

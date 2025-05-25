@@ -85,6 +85,9 @@ class _SectionDetails2State extends State<SectionDetails2> {
               height: 10.h,
             ),
             SelectedImagesSection(),
+            SizedBox(
+              height: 16.h,
+            ),
             Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, createProvider, _) {
                 return Column(

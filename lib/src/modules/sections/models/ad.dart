@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
 import '../../more/models/profile.dart';
+import 'package:html_unescape/html_unescape.dart';
 
 class AdModel {
   final int? id;
@@ -31,35 +32,43 @@ class AdModel {
   final String? categoryPath;
   final String? categoryNamePath;
 
-  AdModel(
-      {this.id,
-      this.title,
-      this.adNo,
-      this.description,
-      this.longDescription,
-      this.tradePossible,
-      this.negotiable,
-      this.contactPhone,
-      this.contactEmail,
-      this.userId,
-      this.price,
-      this.governorate,
-      this.city,
-      this.fullAddress,
-      this.address,
-      this.createdAt,
-      this.updatedAt,
-      this.adType,
-      this.preferredContactMethod,
-      this.condition,
-      this.currency,
-      this.imageUrls,
-      this.attributes,
-      this.viewCount,
-      this.userProfile,
-      this.tagId,
-      this.categoryNamePath,
-      this.categoryPath});
+  AdModel({
+    this.id,
+    this.title,
+    this.adNo,
+    this.description,
+    this.longDescription,
+    this.tradePossible,
+    this.negotiable,
+    this.contactPhone,
+    this.contactEmail,
+    this.userId,
+    this.price,
+    this.governorate,
+    this.city,
+    this.fullAddress,
+    this.address,
+    this.createdAt,
+    this.updatedAt,
+    this.adType,
+    this.preferredContactMethod,
+    this.condition,
+    this.currency,
+    this.imageUrls,
+    this.attributes,
+    this.viewCount,
+    this.userProfile,
+    this.tagId,
+    this.categoryNamePath,
+    this.categoryPath,
+  });
+
+  String get cleanDescription {
+    final unescape = HtmlUnescape();
+    final rawHtml = description ?? '';
+    final noTags = rawHtml.replaceAll(RegExp(r'<[^>]*>'), '');
+    return unescape.convert(noTags);
+  }
 
   factory AdModel.fromJson(Map<String, dynamic> json) {
     return AdModel(

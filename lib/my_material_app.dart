@@ -13,6 +13,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/chats/chats.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/my-reviews.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notifications.dart';
@@ -39,6 +40,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-s
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:Levant_Sale/src/modules/sections/models/adDTO.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details1.dart';
@@ -58,6 +60,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'src/modules/sections/ui/screens/collection/my-collection.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class MyMaterialApp extends StatelessWidget {
   const MyMaterialApp({super.key});
@@ -74,10 +77,13 @@ class MyMaterialApp extends StatelessWidget {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: MaterialApp(
-            navigatorObservers: [RouteObserver<ModalRoute>()],
-            localizationsDelegates: const [
+            localizationsDelegates: [
+              //        GlobalMaterialLocalizations.delegates,
               FlutterQuillLocalizations.delegate,
             ],
+            // supportedLocales: [Locale('ar'), Locale('en')],
+            // locale: Locale('ar'),
+            navigatorObservers: [RouteObserver<ModalRoute>()],
             debugShowCheckedModeBanner: false,
             title: 'Levent Sale',
             theme: ThemeData(
@@ -114,7 +120,10 @@ class MyMaterialApp extends StatelessWidget {
               //     VerificationScreen.id: (context) => VerificationScreen(),
               HomeScreen.id: (context) => HomeScreen(),
               AdsScreen.id: (context) => AdsScreen(),
-              ReviewsScreen.id: (context) => ReviewsScreen(),
+              ReviewsScreen.id: (context) => ReviewsScreen(
+                    adId: 0,
+                  ),
+              MyReviewsScreen.id: (context) => MyReviewsScreen(),
               AdDetailsScreen.id: (context) => AdDetailsScreen(
                     adId: 0,
                   ),
@@ -131,10 +140,159 @@ class MyMaterialApp extends StatelessWidget {
               MyCollectionScreen.id: (context) => MyCollectionScreen(),
               FavoriteScreen.id: (context) => FavoriteScreen(),
               CreateAdScreen.id: (context) => CreateAdScreen(
+                    additionalBackFunction: () {
+                      final provider =
+                          Provider.of<CreateAdChooseSectionProvider>(context,
+                              listen: false);
+                      print('category before: ${provider.selectedCategory}');
+                      provider.resetCategorySelection();
+                      print('category after: ${provider.selectedCategory}');
+                    },
                     lowerWidget: SectionChoose(),
                   ),
-              UpdateAdScreen.id: (context) =>
-                  UpdateAdScreen(lowerWidget: SizedBox(), ad: AdModel()),
+              UpdateAdScreen.id: (context) => Consumer<UpdateAdProvider>(
+                    builder: (context, provider, child) {
+                      final adToUpdate =
+                          provider.selectedAdToUpdate ?? AdModel();
+
+                      print(
+                          'selected ad to update: ${provider.selectedAdToUpdate?.toJson()}');
+                      return UpdateAdScreen(
+                          ad: adToUpdate,
+                          bottomNavBar:
+                              DraggableButton('متابعة', onPressed: () {
+                            final detailsProvider =
+                                Provider.of<UpdateAdSectionDetailsProvider>(
+                                    context,
+                                    listen: false);
+                            if (detailsProvider.validateFields1()) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UpdateAdScreen(
+                                          ad: adToUpdate,
+                                          bottomNavBar: DraggableButton(
+                                              'متابعة', onPressed: () async {
+                                            print(
+                                                'validate 2: ${detailsProvider.validateFields2()}');
+                                            if (detailsProvider
+                                                .validateFields2()) {
+                                              final user =
+                                                  await UserHelper.getUser();
+
+                                              if (user == null) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                        "تعذر الحصول على معلومات المستخدم. قم بتسجيل الدخول أولاً."),
+                                                    backgroundColor: Colors.red,
+                                                  ),
+                                                );
+                                                return;
+                                              }
+                                              Map<String, dynamic>
+                                                  filteredAttributes =
+                                                  detailsProvider
+                                                      .getAttributeFieldsMap()
+                                                      .map((key, value) =>
+                                                          MapEntry(key, value))
+                                                    ..removeWhere(
+                                                        (key, value) =>
+                                                            value == null);
+
+                                              final address = Address(
+                                                  fullAddresse:
+                                                      ' المدينة: ${detailsProvider.selectedCity?.cityName} المحافظة: - ${detailsProvider.selectedGovernorate?.governorateName}',
+                                                  city: detailsProvider
+                                                      .selectedCity,
+                                                  governorate: detailsProvider
+                                                      .selectedGovernorate);
+                                              final ad = AdDTO(
+                                                title: detailsProvider
+                                                    .titleController.text,
+                                                description: detailsProvider
+                                                    .shortDescController.text,
+                                                longDescription: detailsProvider
+                                                    .getQuillText(),
+                                                contactPhone: detailsProvider
+                                                        .numberMethods
+                                                        .contains(detailsProvider
+                                                            .selectedContactMethod)
+                                                    ? detailsProvider
+                                                        .contactDetailController
+                                                        .text
+                                                    : '',
+                                                contactEmail: (detailsProvider
+                                                            .emailMethods
+                                                            .contains(
+                                                                detailsProvider
+                                                                    .selectedContactMethod) ||
+                                                        detailsProvider
+                                                            .detailMethods
+                                                            .contains(
+                                                                detailsProvider
+                                                                    .selectedContactMethod))
+                                                    ? detailsProvider
+                                                        .contactDetailController
+                                                        .text
+                                                    : '',
+                                                governorate:
+                                                    address.governorate,
+                                                city: address.city,
+                                                attributes: filteredAttributes,
+                                                fullAddress:
+                                                    address.fullAddresse,
+                                                adType: detailsProvider
+                                                        .selectedAdType?.name ??
+                                                    AdType.UNKNOWN.name,
+                                                currency: detailsProvider
+                                                    .selectedCurrency?.name,
+                                                negotiable:
+                                                    detailsProvider.negotiable,
+                                                preferredContactMethod:
+                                                    detailsProvider
+                                                            .selectedContactMethod
+                                                            ?.name ??
+                                                        ContactMethod
+                                                            .EMAIL.name,
+                                                price: detailsProvider
+                                                    .priceController.text,
+                                                tradePossible: detailsProvider
+                                                    .tradePossible,
+                                              );
+
+                                              final token =
+                                                  await TokenHelper.getToken();
+
+                                              final response =
+                                                  await provider.updateAd(
+                                                      ad,
+                                                      detailsProvider
+                                                          .selectedImages,
+                                                      token: token ?? '',
+                                                      id: adToUpdate.id ?? 0);
+
+                                              provider.nextStep();
+
+                                              if (response?.statusCode == 200) {
+                                                Navigator.popUntil(context,
+                                                    (route) {
+                                                  return route.settings.name ==
+                                                      MainScreen.id;
+                                                });
+
+                                                showAdUpdated(context);
+                                              }
+                                            }
+                                          }),
+                                          lowerWidget:
+                                              SectionDetails2Update())));
+                            }
+                          }),
+                          lowerWidget: SectionDetails1Update());
+                    },
+                  ),
 
               FilterScreen.id: (context) => FilterScreen(
                     cardListIndex: 0,

@@ -36,7 +36,7 @@ class DetailsSection extends StatelessWidget {
                   title: 'رقم الإعلان', value: ad.adNo ?? 'NA', bgColor: grey6),
               DetailRow(
                   title: 'الوصف',
-                  value: ad.description ?? 'NA',
+                  value: ad.cleanDescription ?? 'NA',
                   bgColor: grey8),
               DetailRow(
                   title: 'السعر',

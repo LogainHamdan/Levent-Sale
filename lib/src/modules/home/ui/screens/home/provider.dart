@@ -84,7 +84,7 @@ class HomeProvider extends ChangeNotifier {
             print('All ads content:');
             parsedAds.forEach((ad) {
               print(
-                  'Ad ID: ${ad.id}, Title: ${ad.title}, Description: ${ad.description}, ad fav: ${ad.tagId}');
+                  'Ad ID: ${ad.id}, Title: ${ad.title}, Description: ${ad.cleanDescription}, ad fav: ${ad.tagId}');
             });
           } catch (e, stackTrace) {
             print('Failed to parse ad: $e');

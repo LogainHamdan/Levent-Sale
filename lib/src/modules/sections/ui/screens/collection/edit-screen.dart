@@ -12,7 +12,7 @@ class EditScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyCollectionScreenProvider>(
         builder: (context, provider, child) {
-      return provider.currentTabLoading
+      return provider.currentTabLoading || provider.isLoadingPublished
           ? const Center(child: CustomCircularProgressIndicator())
           : provider.publishedAds.isEmpty
               ? const Center(child: Text('لا توجد إعلانات مقبولة'))

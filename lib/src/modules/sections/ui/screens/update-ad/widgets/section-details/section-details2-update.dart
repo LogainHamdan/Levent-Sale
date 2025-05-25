@@ -93,6 +93,9 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
               height: 10.h,
             ),
             SelectedImagesSectionUpdate(),
+            SizedBox(
+              height: 16.h,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

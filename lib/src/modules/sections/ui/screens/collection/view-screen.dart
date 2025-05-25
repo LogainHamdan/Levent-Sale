@@ -13,7 +13,7 @@ class ViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyCollectionScreenProvider>(
         builder: (context, provider, child) {
-      return provider.currentTabLoading
+      return provider.currentTabLoading || provider.isLoadingPending
           ? const Center(child: CustomCircularProgressIndicator())
           : provider.pendingAds.isEmpty
               ? const Center(child: Text('لا توجد إعلانات قيد المراجعة'))

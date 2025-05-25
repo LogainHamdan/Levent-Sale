@@ -1,14 +1,19 @@
+import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/rating-row.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/custom-rating.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
+import '../../evaluation/provider.dart';
 
 class RatingSection extends StatelessWidget {
-  const RatingSection({super.key});
+  final int adId;
+  const RatingSection({super.key, required this.adId});
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +51,15 @@ class RatingSection extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               fontSize: 20.sp),
                         )),
-                    CustomRating(
-                      rateNum: false,
-                      flexible: false,
-                    ),
+                   CustomRating(
+                          adId:adId,
+                          rateNum: false,
+                          flexible: false,
+                        ),
                     SizedBox(
                       width: 12.w,
                     ),
-                    Text('(900 تقييم)',
+                    Text('(التقييمات)',
                         textDirection: TextDirection.rtl,
                         style: TextStyle(color: grey2, fontSize: 14.sp)),
                   ],

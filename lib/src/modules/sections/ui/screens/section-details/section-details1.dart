@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/checking-container.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/column-img-pick.dart';
@@ -35,10 +36,16 @@ class SectionDetails1 extends StatelessWidget {
       builder: (context, createDetailsProvider, _) {
         final attributesData = createDetailsProvider.attributesData;
 
-        if (attributesData == null || attributesData.attributes == null) {
-          return const Center(child: CircularProgressIndicator());
+        if (createAdProvider.isLoading) {
+          return const Center(child: CustomCircularProgressIndicator());
+        } else if (attributesData == null ||
+            attributesData.attributes == null) {
+          return Center(
+              child: Text(
+            'لا يوجد بيانات',
+            style: TextStyle(fontSize: 16.sp),
+          ));
         }
-
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: SingleChildScrollView(

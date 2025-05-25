@@ -15,6 +15,8 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/splash.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/verify.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/simple-title.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/custom-rating.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/my-reviews.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/change-pass-column.dart';
@@ -23,7 +25,9 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/ticket-conversation.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,6 +37,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../../config/constants.dart';
+import '../../../home/models/rating.dart';
 import '../../../home/ui/screens/evaluation/widgets/img-picker.dart';
 import '../../../main/ui/screens/main_screen.dart';
 import '../../../main/ui/screens/provider.dart';
@@ -41,6 +46,7 @@ import '../../../more/ui/screens/edit-profile/provider.dart';
 import '../../../more/ui/screens/edit-profile/widgets/title-cancel.dart';
 import '../../../more/ui/screens/tech-support/technical-support.dart';
 import '../../../sections/ui/screens/section-details/widgets/custom-dropdown.dart';
+import '../../../sections/ui/screens/update-ad/widgets/section-details/provider.dart';
 import '../screens/login/widgets/confrm-cancel-button.dart';
 import '../screens/sign-up/widgets/custom-dropdowm.dart';
 import '../screens/sign-up/widgets/custom-pass-field.dart';
@@ -454,10 +460,8 @@ void showDatePickerDialog(
   );
 }
 
-void showRatingDialog(BuildContext context) {
-  double rating = 4.0;
-  TextEditingController commentController = TextEditingController();
-  File? selectedImage;
+void showRatingDialog(BuildContext context, int adId) {
+  final provider = Provider.of<EvaluationProvider>(context, listen: false);
 
   showDialog(
     context: context,
@@ -486,7 +490,7 @@ void showRatingDialog(BuildContext context) {
                       onTap: () {},
                       child: Container(
                         width: double.infinity,
-                        height: 2.2 * MediaQuery.of(context).size.height / 4,
+                        height: 2.2 * MediaQuery.of(context).size.height / 3.5,
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -505,13 +509,17 @@ void showRatingDialog(BuildContext context) {
                             SizedBox(height: 20.h),
                             Text("تقييمك حول هذا الإعلان"),
                             SizedBox(height: 5.h),
-                            CustomRating(rateNum: false, flexible: true),
+                            CustomRating(adId:adId,rateNum: false, flexible: true),
                             SizedBox(height: 20.h),
                             CustomTextField(
                                 bgcolor: grey8,
-                                controller: commentController,
+                                controller: provider.ratingController,
+                                hint: 'التقييم من 10'),
+                            SizedBox(height: 12.h),
+                            CustomTextField(
+                                bgcolor: grey8,
+                                controller: provider.commentController,
                                 hint: 'اكتب تعليقك'),
-                            SizedBox(height: 20.h),
                             Text("إضافة صورة"),
                             SizedBox(height: 10.h),
                             ImagePickerWidget(
@@ -532,7 +540,21 @@ void showRatingDialog(BuildContext context) {
                             SizedBox(height: 25.h),
                             ConfirmCancelButton(
                               text: 'نشر',
-                              onPressed: () => Navigator.pop(context),
+                              onPressed: () async {
+                                final user = await UserHelper.getUser();
+                                final token = await TokenHelper.getToken();
+                                final rating = RatingRequest(
+                                    userId: user?.id,
+                                    adId: adId,
+                                    rating: int.parse(
+                                        provider.ratingController.text),
+                                    comment: provider.commentController.text);
+                                await provider.addRating(rating,
+                                    token: token ?? '');
+                                showReviewAdded(context);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
                               backgroundColor: kprimaryColor,
                               textColor: Colors.white,
                             ),
@@ -635,6 +657,94 @@ void showAdCreated(BuildContext context) {
                         Navigator.pop(context);
                         Navigator.pushNamed(context, MainScreen.id);
                       },
+                      backgroundColor: kprimaryColor,
+                      textColor: grey9,
+                      date: false,
+                    )),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void showReviewAdded(BuildContext context) {
+  if (!context.mounted) return;
+
+  showDialog(
+    context: context,
+    barrierColor: Colors.black.withOpacity(0.2),
+    builder: (dialogContext) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+        child: AlertDialog(
+          backgroundColor: grey9,
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          content: SizedBox(
+            height: 360.h,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(dialogContext).pop();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(20.w),
+                        child: SvgPicture.asset(
+                          cancelPath,
+                          height: 18.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 12.h),
+                  child: SvgPicture.asset(
+                    adCreatedIcon,
+                    height: 120.h,
+                  ),
+                ),
+                SizedBox(height: 15.h),
+                Text(
+                  'تم اضافة تقييمك',
+                  textDirection: TextDirection.rtl,
+                  style: GoogleFonts.tajawal(
+                    color: kprimaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Text(
+                    maxLines: 2,
+                    'تم اضافة تقييمك للاعلان، يمكنك عرضه خلال صفحة تقييماتك',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                    style: GoogleFonts.tajawal(
+                      color: grey3,
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: CustomElevatedButton(
+                      text: 'عرض تقييماتي',
+                      onPressed: () =>
+                          Navigator.pushNamed(context, MyReviewsScreen.id),
                       backgroundColor: kprimaryColor,
                       textColor: grey9,
                       date: false,
@@ -1304,6 +1414,98 @@ void changePictureOptionAlert(
                         ),
                         onTap: deleteImage,
                       ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void showMediaSelection(BuildContext context, bool create) {
+  final createProvider =
+      Provider.of<CreateAdSectionDetailsProvider>(context, listen: false);
+  final updateProvider =
+      Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
+
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (context) {
+      return GestureDetector(
+        onTap: () => Navigator.of(context).pop(),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+                child: Container(
+                  color: Colors.white.withOpacity(0.2),
+                ),
+              ),
+            ),
+            Center(
+              child: Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                backgroundColor: grey9,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16.r),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 12.h, right: 20.w),
+                        child: SimpleTitle(title: 'اضافة الصورة'),
+                      ),
+                      CustomDivider(),
+                      OptionTile(
+                          color: grey0,
+                          title: "صورة",
+                          icon: SvgPicture.asset(
+                            takePhotoIcon,
+                            height: 20.h,
+                          ),
+                          onTap: create
+                              ? () {
+                                  Navigator.of(context).pop();
+
+                                  createProvider.mediaType = 'image';
+                                  createProvider.pickImage();
+                                }
+                              : () {
+                                  Navigator.of(context).pop();
+
+                                  updateProvider.mediaType = 'image';
+                                  updateProvider.pickImage();
+                                }),
+                      CustomDivider(),
+                      OptionTile(
+                          color: grey0,
+                          title: "فيديو",
+                          icon: Icon(
+                            CupertinoIcons.video_camera,
+                            color: grey2,
+                            size: 30.sp,
+                          ),
+                          onTap: create
+                              ? () {
+                                  Navigator.of(context).pop();
+
+                                  createProvider.mediaType = 'video';
+                                  createProvider.pickImage();
+                                }
+                              : () {
+                                  Navigator.of(context).pop();
+
+                                  updateProvider.mediaType = 'video';
+                                  updateProvider.pickImage();
+                                }),
                     ],
                   ),
                 ),

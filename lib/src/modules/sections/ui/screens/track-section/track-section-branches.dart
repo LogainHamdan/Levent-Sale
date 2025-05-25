@@ -70,6 +70,7 @@ class SectionTrack extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => CreateAdScreen(
+                        additionalBackFunction: () {},
                         lowerWidget: SectionDetails1(),
                         bottomNavBar: DraggableButton('متابعة', onPressed: () {
                           if (createDetailsProvider.validateFields1()) {
@@ -77,6 +78,7 @@ class SectionTrack extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => CreateAdScreen(
+                                        additionalBackFunction: () {},
                                         bottomNavBar: DraggableButton('متابعة',
                                             onPressed: () async {
                                           if (createDetailsProvider
@@ -217,7 +219,6 @@ class SectionTrack extends StatelessWidget {
                                                   .selectedImages,
                                               token: token,
                                             );
-
                                             createAdProvider.nextStep();
 
                                             if (response?.statusCode == 200) {
@@ -244,6 +245,7 @@ class SectionTrack extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => CreateAdScreen(
+                        additionalBackFunction: () {},
                         lowerWidget: SectionTrack(
                           subcategories:
                               createSectionChooseProvider.subcategories,

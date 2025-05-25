@@ -1,17 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
 import '../../../models/adDTO.dart';
 import '../../../repos/ad.dart';
 
 class UpdateAdProvider extends ChangeNotifier {
   final AdRepository _repo = AdRepository();
+  int? _selectedAdId;
   AdModel? _selectedAdToUpdate;
 
   int _currentStep = 3;
@@ -21,10 +24,12 @@ class UpdateAdProvider extends ChangeNotifier {
   AdModel? get selectedAdToUpdate => _selectedAdToUpdate;
 
   int get currentStep => _currentStep;
+  int? get selectedAdId => _selectedAdId;
 
   int get totalSteps => _totalSteps;
-  void selectAdToUpdate(AdModel ad) {
-    _selectedAdToUpdate = ad;
+  void selectAdToUpdate(int adId, BuildContext context) async {
+    final provider = Provider.of<HomeProvider>(context, listen: false);
+    _selectedAdToUpdate = await provider.getAdById(adId);
     notifyListeners();
   }
 
