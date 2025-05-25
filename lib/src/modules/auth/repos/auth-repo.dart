@@ -55,14 +55,13 @@ class AuthRepository {
 
   Future<Response> googleLogin(String token) async {
     try {
-      final response = await dio.post(
-          googleLoginUrl,
+      final response = await dio.post(googleLoginUrl,
           data: jsonEncode({'token': token}),
           options: Options(headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/hal+json',
           }));
-          print('Response data: ${response.data}');
+      print('Response data: ${response.data}');
       return response;
     } on DioException catch (e) {
       print('DioException occurred: ${e.error}');
@@ -127,6 +126,14 @@ class AuthRepository {
     return await dio.post(
       verifyUrl,
       data: {'token': token},
+    );
+  }
+
+  Future<Response> saveFcmToken(String fcmToken, int userId, String token) async {
+     dio.options.headers['Authorization'] = token;
+    return await dio.post(
+      saveToken,
+      data: {'token': fcmToken, "userId": userId},
     );
   }
 

@@ -1,5 +1,7 @@
+import 'package:Levant_Sale/src/managers/firebase_messaging_manager.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -36,6 +38,12 @@ class LoginProvider extends ChangeNotifier {
 
   bool get isFormValid => _isFormValid;
   LoginProvider() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'screen_view',
+      parameters: {
+        'screen_name': 'LoginScreen',
+      },
+    );
     initializeRememberedCredentials();
   }
 
@@ -218,6 +226,8 @@ class LoginProvider extends ChangeNotifier {
       if (result['statusCode'] == 200) {
         final token = result['token'];
         final userData = result['user'];
+        final user = User.fromJson(userData);
+      await  saveFcmToken(user,token);
         if (token == null) {
           print('التوكن غير موجود.');
           await TokenHelper.removeToken();
@@ -225,11 +235,15 @@ class LoginProvider extends ChangeNotifier {
         }
 
         await TokenHelper.saveToken(token);
-        if (_rememberMe)
+        if (_rememberMe) {
           await UserHelper.saveUserWithRememberMe(
+
+            user,
+
             _rememberMe,
             context,
           );
+        }
 
         await UserHelper.saveUser(User.fromJson(userData));
         print('Token saved: $token');
@@ -301,5 +315,12 @@ class LoginProvider extends ChangeNotifier {
     final rememberMeStatus = await UserHelper.getRememberMeStatus();
     _rememberMe = rememberMeStatus;
     notifyListeners();
+  }
+
+  saveFcmToken(user,token)async{
+    String? fcmToken = await FirebaseMessagingManager.instance.getToken();
+    final resultToken =
+        await _authRepository.saveFcmToken(fcmToken!, user.id!, token!);
+    print(resultToken.data);
   }
 }

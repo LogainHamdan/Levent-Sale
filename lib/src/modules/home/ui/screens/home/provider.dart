@@ -1,10 +1,20 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
 import 'package:Levant_Sale/src/modules/sections/repos/ad.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../sections/models/ad.dart';
 
 class HomeProvider extends ChangeNotifier {
+  HomeProvider(){
+    FirebaseAnalytics.instance.logEvent(
+      name: 'screen_view',
+      parameters: {
+        'screen_name': 'HomeScreen',
+      },
+    );
+  }
   final Map<String, bool> _favorites = {};
   int _currentIndex = 0;
   final ScrollController scrollController = ScrollController();
