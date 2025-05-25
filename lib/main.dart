@@ -11,6 +11,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/chats/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/search/provider.dart';
 import 'package:Levant_Sale/src/modules/main/ui/screens/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/provider.dart';
@@ -24,7 +25,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -57,8 +58,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
+    return MultiProvider(providers: [
       ChangeNotifierProvider(
         create: (_) => LoginProvider(),
       ),
@@ -130,6 +130,9 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (context) => FavoriteProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => NotificationProvider(),
       ),
     ], child: MyMaterialApp());
   }

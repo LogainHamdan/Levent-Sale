@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import '../../../auth/repos/token-helper.dart';
 import '../../../auth/repos/user-helper.dart';
 import '../../../auth/ui/alerts/alert.dart';
+import '../../../home/ui/screens/notifications/provider.dart';
 import '../../../sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 
 class MainScreen extends StatelessWidget {
@@ -63,6 +64,9 @@ class MainScreen extends StatelessWidget {
 
       await homeProvider.loadAds(token: token);
       await provider.fetchCategories();
+      final notificationsProvider =
+          Provider.of<NotificationProvider>(context, listen: false);
+      await notificationsProvider.getNotificationStats(token: token ?? '');
     });
 
     return Scaffold(

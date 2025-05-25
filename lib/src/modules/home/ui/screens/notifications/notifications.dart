@@ -1,113 +1,227 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../../../models/notifications.dart';
 import '../ads/widgets/title-row.dart';
 import '../chats/no-info-widget.dart';
 import '../home/home.dart';
-import 'data.dart';
+import 'provider.dart';
 
-class NotificationsScreen extends StatelessWidget {
+class NotificationsScreen extends StatefulWidget {
   static const id = '/notification';
-  final bool noData;
-  const NotificationsScreen({
-    super.key,
-    required this.noData,
-  });
+
+  const NotificationsScreen({super.key});
+
+  @override
+  State<NotificationsScreen> createState() => _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends State<NotificationsScreen> {
+  late Future<void> _loadNotificationsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNotificationsFuture = _fetchNotifications();
+  }
+
+  Future<void> _fetchNotifications() async {
+    final provider = Provider.of<NotificationProvider>(context, listen: false);
+    final token = await TokenHelper.getToken();
+    final user = await UserHelper.getUser();
+    await provider.getNotifications(
+        token: token ?? '', recipientId: user?.id ?? 0);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: SizedBox(),
+        leading: const SizedBox(),
         backgroundColor: Colors.white,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-        title: TitleRow(title: 'الاشعارات'),
+        title: const TitleRow(title: 'الاشعارات'),
       ),
       body: SafeArea(
-          child: noData
-              ? Column(
-                  children: [
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    NoInfoWidget(
-                      msg: 'لا يوجد إشعارات',
-                      img: emptyNotificationsIcon,
-                    ),
-                  ],
-                )
-              : Column(
-                  children: [
-                    Expanded(
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Consumer<NotificationProvider>(
+            builder: (context, provider, child) => FutureBuilder(
+              future: _loadNotificationsFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CustomCircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text('حدث خطأ: ${snapshot.error}'));
+                }
+
+                final notifications = provider.notifications;
+
+                if (notifications.isEmpty) {
+                  return Column(
+                    children: [
+                      SizedBox(height: 30.h),
+                      NoInfoWidget(
+                        msg: 'لا يوجد إشعارات',
+                        img: emptyNotificationsIcon,
+                      ),
+                    ],
+                  );
+                }
+                return Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 8.h,
+                      ),
+                      GestureDetector(
+                          onTap: () async {
+                            await provider.markAllRead();
+                          },
+                          child: Text('تحديد الكل كمقروءة',
+                              style: GoogleFonts.tajawal(
+                                textStyle: TextStyle(
+                                    color: kprimaryColor,
+                                    fontWeight: !provider.allRead
+                                        ? FontWeight.bold
+                                        : FontWeight.normal),
+                              ))),
+                      SizedBox(
+                        height: 16.h,
+                      ),
+                      Expanded(
                         child: ListView.builder(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                      itemCount: notifications.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 8.h),
-                          padding: EdgeInsets.all(12.w),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(Icons.circle,
-                                  color: Colors.green, size: 10.w),
-                              SizedBox(width: 8.w),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                          itemCount: notifications.length,
+                          itemBuilder: (context, index) {
+                            final notif = notifications[index];
+                            final messageWords = notif.body.split(' ');
+                            final firstTwoWords =
+                                messageWords.take(2).join(' ');
+                            final remainingWords =
+                                messageWords.skip(2).join(' ');
+
+                            return GestureDetector(
+                              onTap: () async {
+                                final token = await TokenHelper.getToken();
+                                provider.selectedNotification = notif;
+                                await provider.markRead(token: token ?? '');
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: 8.h),
+                                padding: EdgeInsets.all(12.w),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    RichText(
-                                      textDirection: TextDirection.rtl,
-                                      text: TextSpan(
+                                    SizedBox(width: 8.w),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          TextSpan(
-                                            text:
-                                                '${notifications[index]['message']!.split(' ').take(2).join(' ')} ',
-                                            style: GoogleFonts.tajawal(
-                                              // Apply Tajawal font
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16.sp,
-                                              color: Colors.black,
+                                          Text(notif.title,
+                                              style: GoogleFonts.tajawal(
+                                                  textStyle: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20.sp,
+                                              ))),
+                                          RichText(
+                                            textAlign: TextAlign.right,
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: '$firstTwoWords ',
+                                                  style: GoogleFonts.tajawal(
+                                                    //  fontWeight: FontWeight.bold,
+                                                    fontSize: 16.sp,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: remainingWords,
+                                                  style: GoogleFonts.tajawal(
+                                                    fontSize: 16.sp,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          TextSpan(
-                                            text: notifications[index]
-                                                    ['message']!
-                                                .split(' ')
-                                                .skip(2)
-                                                .join(' '), // Remaining message
-                                            style: GoogleFonts.tajawal(
-                                              fontSize: 16.sp,
-                                              color: Colors.black,
+                                          SizedBox(height: 4.h),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 50.h,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              if (notif.read)
+                                                SvgPicture.asset(greenSeenIcon),
+                                              SizedBox(width: 8.w),
+                                              GestureDetector(
+                                                child: SvgPicture.asset(
+                                                  deleteCollectionIcon,
+                                                  height: 14.h,
+                                                ),
+                                                onTap: () async {
+                                                  provider.selectedNotification =
+                                                      notif;
+                                                  await provider
+                                                      .deleteNotification();
+                                                  _loadNotificationsFuture;
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            provider
+                                                .formatDate(notif.createdAt),
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12.sp,
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    SizedBox(height: 4.h),
-                                    Text(
-                                      '5 ساعات',
-                                      textDirection: TextDirection.rtl,
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 12.sp),
-                                    ),
+                                    )
+                                    // : Icon(Icons.circle,
+                                    //     color: kprimaryColor, size: 10.sp)
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        );
-                      },
-                    )),
-                  ],
-                )),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

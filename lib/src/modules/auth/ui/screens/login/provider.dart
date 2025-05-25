@@ -227,7 +227,7 @@ class LoginProvider extends ChangeNotifier {
         final token = result['token'];
         final userData = result['user'];
         final user = User.fromJson(userData);
-      await  saveFcmToken(user,token);
+        await saveFcmToken(user, token);
         if (token == null) {
           print('التوكن غير موجود.');
           await TokenHelper.removeToken();
@@ -237,9 +237,6 @@ class LoginProvider extends ChangeNotifier {
         await TokenHelper.saveToken(token);
         if (_rememberMe) {
           await UserHelper.saveUserWithRememberMe(
-
-            user,
-
             _rememberMe,
             context,
           );
@@ -317,7 +314,7 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  saveFcmToken(user,token)async{
+  saveFcmToken(user, token) async {
     String? fcmToken = await FirebaseMessagingManager.instance.getToken();
     final resultToken =
         await _authRepository.saveFcmToken(fcmToken!, user.id!, token!);

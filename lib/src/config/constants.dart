@@ -46,6 +46,11 @@ const String getMyRatingsUrl = "$baseUrl/ratings/user";
 const String addRatingsUrl = "$baseUrl/ratings/add";
 const String getAdRatingsUrl = "$baseUrl/ratings/ad";
 const String getAdAvgUrl = "$baseUrl/ratings/ad/average";
+const String getNotificationsUrl = "$baseUrl/notifications/user/filtered";
+const String getStatsNotificationUrl = "$baseUrl/notifications/user/stats";
+const String markReadUrl = "$baseUrl/notifications/mark-read";
+const String markAllReadUrl = "$baseUrl/notifications/user/mark-all-read";
+const String deleteNotfUrl = "$baseUrl/notifications/delete";
 
 ///sections
 const String getCategoriesUrl = '$baseUrl/ads/get/all/roots';
