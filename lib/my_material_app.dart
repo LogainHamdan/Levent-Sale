@@ -49,6 +49,8 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/section-details1-update.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/section-details2-update.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -60,7 +62,9 @@ import 'package:provider/provider.dart';
 import 'src/modules/sections/ui/screens/collection/my-collection.dart';
 
 class MyMaterialApp extends StatelessWidget {
-  const MyMaterialApp({super.key});
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+   MyMaterialApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +78,11 @@ class MyMaterialApp extends StatelessWidget {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: MaterialApp(
-            navigatorObservers: [RouteObserver<ModalRoute>()],
+
+            navigatorObservers: [
+
+              FirebaseAnalyticsObserver(analytics: analytics),
+            ],
             localizationsDelegates: const [
               FlutterQuillLocalizations.delegate,
             ],

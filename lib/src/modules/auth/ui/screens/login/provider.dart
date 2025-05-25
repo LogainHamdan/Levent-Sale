@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -36,6 +37,12 @@ class LoginProvider extends ChangeNotifier {
 
   bool get isFormValid => _isFormValid;
   LoginProvider() {
+    FirebaseAnalytics.instance.logEvent(
+      name: 'screen_view',
+      parameters: {
+        'screen_name': 'LoginScreen',
+      },
+    );
     initializeRememberedCredentials();
   }
 
