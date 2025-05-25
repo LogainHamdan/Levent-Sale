@@ -15,9 +15,7 @@ class Sections extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-
       extendBody: true,
-
       backgroundColor: Colors.white,
       appBar: AppBar(
         scrolledUnderElevation: 0,

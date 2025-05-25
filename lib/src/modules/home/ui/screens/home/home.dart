@@ -23,9 +23,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createProvider =
-        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
-
     return Consumer<HomeProvider>(
       builder: (context, provider, _) {
         return Scaffold(
@@ -41,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     TopSearchBar(),
                     TopBanner(),
-                    CategoriesList(categories: createProvider.rootCategories),
+                    CategoriesList(),
                     SizedBox(height: 10.h),
                     ProductSection(
                       onMorePressed: () =>
