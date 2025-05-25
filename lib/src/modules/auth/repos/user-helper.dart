@@ -41,7 +41,7 @@ class UserHelper {
       bool rememberMe, BuildContext context) async {
     final provider = Provider.of<LoginProvider>(context, listen: false);
     final prefs = await SharedPreferences.getInstance();
-    // final userJson = jsonEncode(user.toJson());
+
     final userJson = jsonEncode(User(
         email: provider.emailController.text,
         password: provider.passwordController.text));

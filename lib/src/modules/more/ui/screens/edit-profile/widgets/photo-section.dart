@@ -57,17 +57,6 @@ class ImageSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 20.h),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            textDirection: TextDirection.rtl,
-            'صورة غلاف الملف الشخصي',
-            style: TextStyle(
-              color: grey5,
-            ),
-          ),
-        ),
       ],
     );
   }

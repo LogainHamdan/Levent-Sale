@@ -38,6 +38,10 @@ class EditProfileProvider extends ChangeNotifier {
   File? get profileImage => _profileImage;
 
   File? get coverImage => _coverImage;
+  set profileImage(File? image) {
+    _profileImage = image;
+    notifyListeners();
+  }
 
   Future<void> init() async {
     final user = await UserHelper.getUser();

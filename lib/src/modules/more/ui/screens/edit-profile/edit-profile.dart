@@ -51,9 +51,20 @@ class EditProfileScreen extends StatelessWidget {
                         ImageSection(
                           profileImg: snapshot.data?.profilePicture ?? '',
                         ),
+                        // SizedBox(height: 20.h),
+                        // Align(
+                        //   alignment: Alignment.centerRight,
+                        //   child: Text(
+                        //     textDirection: TextDirection.rtl,
+                        //     'صورة غلاف الملف الشخصي',
+                        //     style: TextStyle(
+                        //       color: grey5,
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(height: 5.h),
-                        UploadPhotoContainer(),
-                        SizedBox(height: 20.h),
+                        //   UploadPhotoContainer(),
+                        // SizedBox(height: 20.h),
                         if (!profileProvider.isCompanyAccount) ...[
                           SizedBox(height: 16.h),
                           CustomTextField(

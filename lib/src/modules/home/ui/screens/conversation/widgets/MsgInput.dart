@@ -34,6 +34,7 @@ class MessageInput extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Row(
             //   mainAxisSize: MainAxisSize.min,
@@ -52,6 +53,11 @@ class MessageInput extends StatelessWidget {
             //   ],
             // ),
             // SizedBox(width: 16.w),
+            Icon(
+              Icons.mic,
+              color: grey5,
+              size: 24.sp,
+            ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.0.w),

@@ -83,11 +83,12 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     await fetchAttributes(detailsProvider
         .extractLastCategoryId(provider.selectedAdToUpdate?.categoryPath));
     titleController.text = provider.selectedAdToUpdate?.title ?? '';
-    shortDescController.text = provider.selectedAdToUpdate?.cleanDescription ?? '';
+    shortDescController.text =
+        provider.selectedAdToUpdate?.cleanDescription ?? '';
     priceController.text = '${provider.selectedAdToUpdate?.price}' ?? '';
     contactDetailController.text =
         provider.selectedAdToUpdate?.contactEmail ?? '';
-    text = provider.selectedAdToUpdate?.longDescription ?? '';
+    text = provider.selectedAdToUpdate?.cleanLongDescription ?? '';
 
     setNegotiable(provider.selectedAdToUpdate?.negotiable ?? false);
     setTradePossible(provider.selectedAdToUpdate?.tradePossible ?? false);

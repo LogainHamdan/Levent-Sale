@@ -90,12 +90,12 @@ class TechSupportProvider with ChangeNotifier {
       {required String token, required TicketMessageDTO ticket}) async {
     _isLoading = true;
     _errorMessage = null;
-    notifyListeners();
 
     try {
       final response = await repo.addTicket(token: token, ticket: ticket);
       if (response.statusCode == 200) {
         _isTicketCreated = true;
+        notifyListeners();
         print('ticket created: ${response.data}');
       }
     } on Exception catch (e) {
@@ -114,7 +114,6 @@ class TechSupportProvider with ChangeNotifier {
   }) async {
     _isLoading = true;
     _errorMessage = null;
-    notifyListeners();
 
     try {
       final response =
@@ -137,12 +136,12 @@ class TechSupportProvider with ChangeNotifier {
   Future<void> getTickets({required String token, required int userId}) async {
     _isLoading = true;
     _errorMessage = null;
-    notifyListeners();
 
     try {
       final response = await repo.getTickets(token: token, userId: userId);
 
       _tickets = response ?? [];
+      notifyListeners();
     } on Exception catch (e) {
       _errorMessage = e.toString();
       print(errorMessage);

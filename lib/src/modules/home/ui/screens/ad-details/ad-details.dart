@@ -3,6 +3,7 @@ import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/cutom-druggable-scrollable-sheet.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-item.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ class AdDetailsScreen extends StatelessWidget {
           if (!snapshot.hasData) {
             return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(color: kprimaryColor),
+                child: CustomCircularProgressIndicator(),
               ),
             );
           }
@@ -74,6 +75,7 @@ class AdDetailsScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
+              leadingWidth: 20.w,
               leading: Row(
                 children: [
                   if (user.id == ad?.userId)
@@ -102,11 +104,7 @@ class AdDetailsScreen extends StatelessWidget {
                             width: 10.w,
                           ),
                           InkWell(
-                            onTap: () async {
-                              final token = await TokenHelper.getToken();
-                              await adProvider.deleteAd(
-                                  token: token ?? "", id: ad?.id ?? 0);
-                            },
+                            onTap: () => deleteAdAlert(context, ad?.id ?? 0),
                             child: SvgPicture.asset(
                               deleteCollectionIcon,
                               height: 20.h,
@@ -187,34 +185,34 @@ class AdDetailsScreen extends StatelessWidget {
                                     if (ad != null) DetailsSection(ad: ad),
                                     SizedBox(height: 24.h),
                                     SimpleTitle(title: 'الوصف'),
-                                    SizedBox(height: 10.h),
+                                    SizedBox(height: 12.h),
                                     SpecificationsSection(
-                                      title: 'تفاصيل',
+                                      title: 'التفاصيل، الفوائد، والتسليم',
                                       specifications: [
-                                        '${ad?.longDescription}'
+                                        '${ad?.cleanLongDescription}'
                                         // ' الأداء: أداء سريع وسلس مع تطبيقات متعددة.'
                                         //     ' التصوير: تحسينات كبيرة فى جودة الصورة والفيديو.'
                                         //     '  التوافق:  لتجربة إنترنت أسرع يدعم 65.'
                                       ],
                                     ),
-                                    SizedBox(height: 10.h),
-                                    SpecificationsSection(
-                                        title: 'الفوائد',
-                                        specifications: [
-                                          '${ad?.longDescription}'
-                                          // ' الأداء: أداء سريع وسلس مع تطبيقات متعددة.'
-                                          //     ' التصوير: تحسينات كبيرة فى جودة الصورة والفيديو.'
-                                          //     '  التوافق:  لتجربة إنترنت أسرع يدعم 65.'
-                                        ]),
-                                    SizedBox(height: 10.h),
-                                    SpecificationsSection(
-                                        title: 'التسليم والمرتجعات',
-                                        specifications: [
-                                          '${ad?.longDescription}'
-                                          // ' الأداء: أداء سريع وسلس مع تطبيقات متعددة.'
-                                          //     ' التصوير: تحسينات كبيرة فى جودة الصورة والفيديو.'
-                                          //     '  التوافق:  لتجربة إنترنت أسرع يدعم 65.'
-                                        ]),
+                                    // SizedBox(height: 10.h),
+                                    // SpecificationsSection(
+                                    //     title: 'الفوائد',
+                                    //     specifications: [
+                                    //       '${ad?.longDescription}'
+                                    //       // ' الأداء: أداء سريع وسلس مع تطبيقات متعددة.'
+                                    //       //     ' التصوير: تحسينات كبيرة فى جودة الصورة والفيديو.'
+                                    //       //     '  التوافق:  لتجربة إنترنت أسرع يدعم 65.'
+                                    //     ]),
+                                    // SizedBox(height: 10.h),
+                                    // SpecificationsSection(
+                                    //     title: 'التسليم والمرتجعات',
+                                    //     specifications: [
+                                    //       '${ad?.longDescription}'
+                                    //       // ' الأداء: أداء سريع وسلس مع تطبيقات متعددة.'
+                                    //       //     ' التصوير: تحسينات كبيرة فى جودة الصورة والفيديو.'
+                                    //       //     '  التوافق:  لتجربة إنترنت أسرع يدعم 65.'
+                                    //     ]),
                                     SizedBox(
                                       height: 24.h,
                                     )
@@ -231,16 +229,18 @@ class AdDetailsScreen extends StatelessWidget {
                                     SizedBox(
                                       height: 8.h,
                                     ),
-                                    CustomHeader(
-                                      onPressed: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ReviewsScreen(
-                                                      adId: ad?.id ?? 0))),
-                                      title: 'متوسط التقييم',
-                                    ),
-                                    RatingSection(adId: adId,),
+                                    // CustomHeader(
+                                    //   onPressed: () => Navigator.push(
+                                    //       context,
+                                    //       MaterialPageRoute(
+                                    //           builder: (context) =>
+                                    //               ReviewsScreen(
+                                    //                   adId: ad?.id ?? 0))),
+                                    //   title: 'متوسط التقييم',
+                                    // ),
+                                    // RatingSection(
+                                    //   adId: adId,
+                                    // ),
                                   ],
                                 ),
                               ),

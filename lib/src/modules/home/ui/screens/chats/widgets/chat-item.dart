@@ -107,7 +107,7 @@ class ChatItem extends StatelessWidget {
                   ),
                 ),
               ),
-              subtitle: message?.readAt == null ||
+              subtitle: message?.readAt == null &&
                       message?.receiverId == currentUser?.id
                   ? Text(
                       maxLines: 1,

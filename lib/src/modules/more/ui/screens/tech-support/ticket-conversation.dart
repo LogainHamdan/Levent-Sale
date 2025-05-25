@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,6 +27,7 @@ class TicketConversationScreen extends StatefulWidget {
 
 class _TicketConversationScreenState extends State<TicketConversationScreen> {
   late String senderId;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -44,6 +46,16 @@ class _TicketConversationScreenState extends State<TicketConversationScreen> {
     final token = await TokenHelper.getToken();
     await Provider.of<TechSupportProvider>(context, listen: false)
         .getTicketMsgs(token: token ?? '', ticketId: widget.ticketId);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToBottom();
+    });
+  }
+
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    }
   }
 
   @override
@@ -52,21 +64,18 @@ class _TicketConversationScreenState extends State<TicketConversationScreen> {
       appBar: CustomAppBar(
         leadingIcon: SizedBox(),
         name: 'الدعم الفني',
-        profileImageAsset:
-            'http://www.svgrepo.com/show/390455/user-person-account-avatar-profile-man.svg',
+        profileImageAsset: personIcon,
       ),
       body: Consumer<TechSupportProvider>(
         builder: (context, techSupportProvider, child) {
-          // if (techSupportProvider.isLoading) {
-          //
-          //
-          //   return Center(child: CircularProgressIndicator());
-          // }
-
           if (techSupportProvider.errorMessage != null) {
             return Center(
               child: Text('Error: ${techSupportProvider.errorMessage}'),
             );
+          }
+
+          if (techSupportProvider.isLoading) {
+            return CustomCircularProgressIndicator();
           }
 
           final messages = techSupportProvider.ticketMsgs;
@@ -89,6 +98,7 @@ class _TicketConversationScreenState extends State<TicketConversationScreen> {
             children: [
               Expanded(
                 child: ListView.builder(
+                  controller: _scrollController,
                   padding: EdgeInsets.all(10.sp),
                   itemCount: sortedMessages.length,
                   itemBuilder: (context, index) {
@@ -106,7 +116,7 @@ class _TicketConversationScreenState extends State<TicketConversationScreen> {
                       );
                     }
 
-                    return Container();
+                    return SizedBox.shrink();
                   },
                 ),
               ),
@@ -119,6 +129,10 @@ class _TicketConversationScreenState extends State<TicketConversationScreen> {
                       token: token,
                       ticketId: widget.ticketId,
                     );
+
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _scrollToBottom();
+                    });
                   }
                 },
               ),

@@ -70,6 +70,13 @@ class AdModel {
     return unescape.convert(noTags);
   }
 
+  String get cleanLongDescription {
+    final unescape = HtmlUnescape();
+    final rawHtml = longDescription ?? '';
+    final noTags = rawHtml.replaceAll(RegExp(r'<[^>]*>'), '');
+    return unescape.convert(noTags);
+  }
+
   factory AdModel.fromJson(Map<String, dynamic> json) {
     return AdModel(
       id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,

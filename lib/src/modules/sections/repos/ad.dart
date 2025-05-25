@@ -87,13 +87,10 @@ class AdRepository {
   }) async {
     try {
       final response = await dio.delete(
-        deleteAdUrl,
-        queryParameters: {'id': id},
+        '$deleteAdUrl/$id',
         options: Options(
-          responseType: ResponseType.plain,
           headers: {
             'Authorization': token,
-            'Accept': '*/*',
           },
         ),
       );

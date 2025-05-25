@@ -117,8 +117,8 @@ class ProductItem extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                         CustomRating(
-                          adId: product.id??0,
+                        CustomRating(
+                          adId: product.id ?? 0,
                           flexible: false,
                           rateNum: true,
                           small: true,
