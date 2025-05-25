@@ -9,7 +9,9 @@ import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
 import '../../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import '../../../../../home/ui/screens/ads/ads.dart';
+import '../../../../../home/ui/screens/ads/widgets/products-details.dart';
 import '../../../../../home/ui/screens/home/data.dart';
+import '../../../../../home/ui/screens/home/widgets/custom-header.dart';
 import '../../../../../home/ui/screens/home/widgets/product-section.dart';
 
 class EmptyWidget extends StatelessWidget {
@@ -65,11 +67,13 @@ class EmptyWidget extends StatelessWidget {
                       Navigator.pushNamed(context, AdsScreen.id),
                   category: "الإعلانات الجديدة",
                   products: provider.allAds),
-              ProductSection(
-                  onMorePressed: () =>
-                      Navigator.pushNamed(context, AdsScreen.id),
-                  category: "الإعلانات المفترحة",
-                  products: provider.allAds),
+              CustomHeader(
+                  title: 'الاعلانات المقترحة',
+                  onPressed: () => Navigator.pushNamed(context, AdsScreen.id)),
+              ProductsDetails(productList: provider.allAds),
+              SizedBox(
+                height: 40.h,
+              )
             ],
           ),
         ),

@@ -55,7 +55,7 @@ class _CustomButtonState extends State<CustomButton> {
       builder: (context, favoriteProvider, _) {
         final adId = widget.ad?.id ?? 0;
         //   final isFav = favoriteProvider.isFavorite(adId);
-        final isFav = widget.ad?.tagId != null ?? false;
+        final isFav = widget.ad?.tagId != null;
 
         return ClipRRect(
           borderRadius: BorderRadius.circular(18.r),
@@ -64,12 +64,7 @@ class _CustomButtonState extends State<CustomButton> {
                 ? () async {
                     final token = await TokenHelper.getToken();
                     if (token == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('يجب تسجيل الدخول أولاً'),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
+                      loginFirstAlert(context);
                       return;
                     }
 

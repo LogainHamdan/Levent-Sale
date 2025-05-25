@@ -38,12 +38,14 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../../config/constants.dart';
 import '../../../home/models/rating.dart';
+import '../../../home/ui/screens/ad-details/provider.dart';
 import '../../../home/ui/screens/evaluation/widgets/img-picker.dart';
 import '../../../main/ui/screens/main_screen.dart';
 import '../../../main/ui/screens/provider.dart';
 import '../../../more/models/tag.dart';
 import '../../../more/ui/screens/edit-profile/provider.dart';
 import '../../../more/ui/screens/edit-profile/widgets/title-cancel.dart';
+import '../../../more/ui/screens/tech-support/tech-support-screen.dart';
 import '../../../more/ui/screens/tech-support/technical-support.dart';
 import '../../../sections/ui/screens/section-details/widgets/custom-dropdown.dart';
 import '../../../sections/ui/screens/update-ad/widgets/section-details/provider.dart';
@@ -509,7 +511,8 @@ void showRatingDialog(BuildContext context, int adId) {
                             SizedBox(height: 20.h),
                             Text("تقييمك حول هذا الإعلان"),
                             SizedBox(height: 5.h),
-                            CustomRating(adId:adId,rateNum: false, flexible: true),
+                            CustomRating(
+                                adId: adId, rateNum: false, flexible: true),
                             SizedBox(height: 20.h),
                             CustomTextField(
                                 bgcolor: grey8,
@@ -871,7 +874,7 @@ void showTicketCreated(BuildContext context) {
             borderRadius: BorderRadius.circular(16.r),
           ),
           content: SizedBox(
-            height: 360.h,
+            height: 300.h,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -923,18 +926,18 @@ void showTicketCreated(BuildContext context) {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 24.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0.w),
-                  child: CustomElevatedButton(
-                      text: 'جميع الرسائل',
-                      onPressed: () => Navigator.pushReplacementNamed(
-                          context, TechnicalSupportScreen.id),
-                      backgroundColor: kprimaryColor,
-                      textColor: grey9),
-                )
+                // SizedBox(
+                //   height: 24.h,
+                // ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+                //   child: CustomElevatedButton(
+                //       text: 'جميع الرسائل',
+                //       onPressed: () => Navigator.pushNamed(
+                //           context, TechnicalSupportScreen.id),
+                //       backgroundColor: kprimaryColor,
+                //       textColor: grey9),
+                // )
               ],
             ),
           ),
@@ -1251,7 +1254,12 @@ void editDoneAlert(BuildContext context) async {
           businessLicense: profileProvider.businessLicenseController.text,
           fullAddress: profileProvider.addressController.text,
         );
-
+        profileProvider.firstNameController.clear();
+        profileProvider.lastNameController.clear();
+        profileProvider.dateController.clear();
+        profileProvider.profileImage = null;
+        profileProvider.businessLicenseController.clear();
+        profileProvider.addressController.clear();
         Navigator.pop(context);
         Navigator.pushNamed(context, ProfileScreen.id);
       } catch (e, stack) {
@@ -1261,6 +1269,35 @@ void editDoneAlert(BuildContext context) async {
           SnackBar(content: Text('حدث خطأ أثناء التحديث: $e')),
         );
       }
+    },
+  );
+}
+
+void deleteAdAlert(BuildContext context, int adId) async {
+  showCustomAlertDialog(
+      context: context,
+      title: 'حذف اعلانك',
+      message: 'هل أنت متأكد من حذف الإعلان؟',
+      confirmText: 'حذف',
+      confirmColor: infoColor,
+      onConfirm: () async {
+        final token = await TokenHelper.getToken();
+        final adProvider =
+            Provider.of<AdDetailsProvider>(context, listen: false);
+        Navigator.pop(context);
+        await adProvider.deleteAd(token: token ?? "", id: adId);
+      });
+}
+
+void loginFirstAlert(BuildContext context) async {
+  showCustomAlertDialog(
+    context: context,
+    title: 'سجل دخول اولاً',
+    message: 'ان كنت غير مسجل، قم بإنشاء حساب',
+    confirmText: 'تسجيل دخول',
+    confirmColor: infoColor,
+    onConfirm: () {
+      Navigator.pushNamed(context, SplashScreen.id);
     },
   );
 }

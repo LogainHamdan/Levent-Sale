@@ -17,14 +17,13 @@ class AdDetailsProvider extends ChangeNotifier {
 
   Future<void> deleteAd({required String token, required int id}) async {
     isLoading = true;
-    notifyListeners();
-
     try {
       final response = await _repo.deleteAd(token: token, id: id);
       if (response.statusCode == 200) {
-        print('Ad delted successfully: ${response.data}');
+        print('Ad deleted successfully: ${response.data}');
+        notifyListeners();
+        errorMessage = '';
       }
-      errorMessage = '';
     } catch (e) {
       errorMessage = e.toString();
       print(errorMessage);

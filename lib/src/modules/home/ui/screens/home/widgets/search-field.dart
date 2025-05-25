@@ -71,8 +71,8 @@ class SearchField extends StatelessWidget {
                             Navigator.pushNamed(context, FilterScreen.id),
                         child: SvgPicture.asset(
                           filterIcon,
-                          width: 24.w,
-                          height: 24.h,
+                          width: 20.w,
+                          height: 20.h,
                         ),
                       ),
                       SizedBox(width: 5.w),
@@ -81,6 +81,11 @@ class SearchField extends StatelessWidget {
                         width: 1.5.w,
                         color: grey5,
                       ),
+                      Icon(
+                        Icons.mic,
+                        color: grey5,
+                        size: 24.sp,
+                      )
                     ],
                   ),
                 )

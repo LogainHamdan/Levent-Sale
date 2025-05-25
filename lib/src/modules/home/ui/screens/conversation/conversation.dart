@@ -6,6 +6,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/Msg
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/custom-app-bar.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/recieved-msg.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/sent-msg.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -36,10 +37,12 @@ class ConversationScreen extends StatefulWidget {
 
 class _ConversationScreenState extends State<ConversationScreen> {
   late StompClient stompClient;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     _loadConversation();
     _connectStomp();
   }
@@ -124,9 +127,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
   @override
   void dispose() {
-    final provider = Provider.of<ConversationProvider>(context, listen: false);
-    provider.resetConversation();
+    _scrollController.dispose();
     stompClient.deactivate();
+    Provider.of<ConversationProvider>(context, listen: false)
+        .resetConversation();
     super.dispose();
   }
 
@@ -148,7 +152,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
             body: Consumer<ConversationProvider>(
               builder: (context, chatProvider, child) {
                 if (chatProvider.isLoading) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: CustomCircularProgressIndicator());
                 }
 
                 if (chatProvider.errorMessage.isNotEmpty) {
@@ -168,6 +172,12 @@ class _ConversationScreenState extends State<ConversationScreen> {
                     ),
                   );
                 }
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (_scrollController.hasClients) {
+                    _scrollController
+                        .jumpTo(_scrollController.position.maxScrollExtent);
+                  }
+                });
                 final sortedMessages =
                     List.of(chatProvider.chatMessages!.content!)
                       ..sort((a, b) {
@@ -182,6 +192,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   children: [
                     Expanded(
                       child: ListView.builder(
+                        controller: _scrollController,
                         padding: EdgeInsets.all(10.sp),
                         itemCount: sortedMessages.length,
                         itemBuilder: (context, index) {

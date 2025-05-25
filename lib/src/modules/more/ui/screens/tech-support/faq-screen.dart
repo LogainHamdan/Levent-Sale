@@ -26,7 +26,6 @@ class _FAQScreenState extends State<FAQScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController faqController = TextEditingController();
     final provider = Provider.of<TechSupportProvider>(context);
 
     return FutureBuilder(
@@ -37,8 +36,8 @@ class _FAQScreenState extends State<FAQScreen> {
             padding: EdgeInsets.symmetric(horizontal: 24.0.sp),
             child: Column(
               children: [
-                SizedBox(height: 16.h),
-                SearchField(width: 370.w, controller: faqController),
+                // SizedBox(height: 16.h),
+                // SearchField(width: 370.w, controller: faqController),
                 SizedBox(height: 16.h),
                 SizedBox(
                   height: 700.h,

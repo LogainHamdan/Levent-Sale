@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/more/models/ticket-msgDTO.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
@@ -63,6 +64,7 @@ class SupportScreen extends StatelessWidget {
                 text: 'ارسال',
                 onPressed: () async {
                   final token = await TokenHelper.getToken();
+                  final user = await UserHelper.getUser();
                   final ticketMsg = TicketMessageDTO(
                       title: techSupportProvider.titleController.text,
                       message: techSupportProvider.msgController.text);
@@ -71,6 +73,11 @@ class SupportScreen extends StatelessWidget {
                       token: token ?? '', ticket: ticketMsg);
                   if (techSupportProvider.isTicketCreated) {
                     showTicketCreated(context);
+                    Navigator.pop(context);
+                    techSupportProvider.titleController.clear();
+                    techSupportProvider.msgController.clear();
+                    await techSupportProvider.getTickets(
+                        token: token ?? '', userId: user?.id ?? 0);
                   }
                 },
                 backgroundColor: kprimaryColor,

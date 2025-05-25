@@ -9,6 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String name;
   final String profileImageAsset;
   final Function()? additionalBackFunction;
+  final bool? isNetworkImg;
 
   const CustomAppBar({
     required this.leadingIcon,
@@ -16,6 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.profileImageAsset,
     super.key,
     this.additionalBackFunction,
+    this.isNetworkImg = true,
   });
 
   @override
@@ -43,10 +45,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(width: 10.w),
-              CircleAvatar(
-                backgroundColor: Colors.transparent,
-                backgroundImage: NetworkImage(profileImageAsset),
-              ),
+              isNetworkImg!
+                  ? CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: NetworkImage(profileImageAsset),
+                    )
+                  : CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: SvgPicture.asset(
+                        profileImageAsset,
+                        width: 24.w,
+                        height: 24.h,
+                      ),
+                    ),
               SizedBox(width: 10.w),
               SizedBox(
                   height: 80.h,

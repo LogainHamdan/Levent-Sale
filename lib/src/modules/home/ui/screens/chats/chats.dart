@@ -89,7 +89,7 @@ class _ChatListScreenState extends State<ChatListScreen> with RouteAware {
                   message: lastMessage,
                   time:
                       '${lastMessage?.sentAt?.hour}:${lastMessage?.sentAt?.minute}',
-                  senderId: lastMessage?.receiverId ?? 0,
+                  senderId: lastMessage?.senderId ?? 0,
                 );
               },
             );
