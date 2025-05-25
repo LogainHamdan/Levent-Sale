@@ -105,6 +105,13 @@ extension CurrencyExtension on Currency {
         return null;
     }
   }
+
+  static Currency? fromName(String name) {
+    return Currency.values.firstWhere(
+      (e) => e.name == name,
+      orElse: () => Currency.SYP,
+    );
+  }
 }
 
 enum ContactMethod {
@@ -138,8 +145,16 @@ extension ContactMethodExtension on ContactMethod {
   }
 
   static ContactMethod fromDisplayName(String displayName) {
-    return ContactMethod.values.firstWhere((e) => e.displayName == displayName,
+    return ContactMethod.values.firstWhere(
+        (e) => e.displayName.trim() == displayName.trim(),
         orElse: () => ContactMethod.OTHER);
+  }
+
+  static ContactMethod fromName(String name) {
+    return ContactMethod.values.firstWhere(
+      (e) => e.name == name,
+      orElse: () => ContactMethod.OTHER,
+    );
   }
 }
 
@@ -179,6 +194,13 @@ extension AdTypeExtension on AdType {
   static AdType fromDisplayName(String displayName) {
     return AdType.values.firstWhere(
       (e) => e.displayName == displayName,
+      orElse: () => AdType.UNKNOWN,
+    );
+  }
+
+  static AdType fromName(String name) {
+    return AdType.values.firstWhere(
+      (e) => e.name == name,
       orElse: () => AdType.UNKNOWN,
     );
   }

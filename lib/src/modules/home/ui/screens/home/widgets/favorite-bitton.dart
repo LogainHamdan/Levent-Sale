@@ -7,9 +7,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../../../config/constants.dart';
 import '../../../../../auth/repos/token-helper.dart';
+import '../../../../../auth/repos/user-helper.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
+import '../../../../../main/ui/screens/main_screen.dart';
+import '../../../../../more/models/profile.dart';
+import '../../../../../more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import '../../../../../sections/models/ad.dart';
+import '../../../../../sections/models/adDTO.dart';
 import '../../../../../sections/ui/screens/update-ad/update-ad.dart';
+import '../../../../../sections/ui/screens/update-ad/widgets/section-details/provider.dart';
+import '../../../../../sections/ui/screens/update-ad/widgets/section-details/section-details1-update.dart';
+import '../../../../../sections/ui/screens/update-ad/widgets/section-details/section-details2-update.dart';
 
 class CustomButton extends StatefulWidget {
   final bool favIcon;
@@ -80,17 +88,13 @@ class _CustomButtonState extends State<CustomButton> {
                     }
                   }
                 : () {
-                    final provider =
-                        Provider.of<UpdateAdProvider>(context, listen: false);
-                    provider.selectAdToUpdate(widget.ad ?? AdModel());
-                    // final sectionProvider =
-                    //     Provider.of<CreateAdChooseSectionProvider>(context,
-                    //         listen: false);
-                    // sectionProvider.setSelectedSubcategoryById(
-                    //     widget.ad?.category?.id ?? 0);
-                    print(
-                        'selected ad to update: ${provider.selectedAdToUpdate?.toJson()}');
-                    Navigator.pushNamed(context, UpdateAdScreen.id);
+                    if (widget.ad?.condition?.first?.toLowerCase() ==
+                        'published') {
+                      final provider =
+                          Provider.of<UpdateAdProvider>(context, listen: false);
+                      provider.selectAdToUpdate(widget.ad?.id ?? 0, context);
+                      Navigator.pushNamed(context, UpdateAdScreen.id);
+                    }
                   },
             customBorder: const CircleBorder(),
             child: CircleAvatar(

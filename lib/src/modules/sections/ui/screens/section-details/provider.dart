@@ -13,6 +13,7 @@ import '../../../models/attriburtes.dart';
 class CreateAdSectionDetailsProvider extends ChangeNotifier {
   Map<String, String?> selectedValues = {};
   final List<File> _selectedImages = [];
+  String _mediaType = '';
   final Map<String, bool> _dropdownOpenedMap = {};
   final List<Detail> _selectedServices = [];
   final AdAttributesRepository _repo = AdAttributesRepository();
@@ -37,6 +38,7 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   List<Governorate> _governorates = [];
   bool get negotiable => _negotiable;
   bool get tradePossible => _tradePossible;
+  String get mediaType => _mediaType;
   Currency? _selectedCurrency;
 
   Currency? get selectedCurrency => _selectedCurrency;
@@ -108,7 +110,7 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
 
   void setSelectedCurrency(String key, Currency? currency) {
     _selectedCurrency = currency;
-    setSelectedValue(key, currency?.toString());
+    setSelectedValue(key, currency?.arabicName);
     notifyListeners();
   }
 
@@ -163,10 +165,37 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   }
 
   bool isDropdownOpened(String key) => _dropdownOpenedMap[key] ?? false;
+  set mediaType(String type) {
+    _mediaType = type;
+    notifyListeners();
+  }
+  void resetAttributes() {
+    selectedValues.clear();
+
+    for (var controller in dynamicFieldControllers.values) {
+      controller.clear();
+    }
+    dynamicFieldControllers.clear();
+
+    _selectedServices.clear();
+
+    attributesData = null;
+
+    notifyListeners();
+  }
 
   Future<void> pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    print('media type: $_mediaType');
+    final picker = ImagePicker();
+
+    XFile? pickedFile;
+
+    if (_mediaType == 'image') {
+      pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    } else if (_mediaType == 'video') {
+      pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+    }
+
     if (pickedFile != null) {
       _selectedImages.add(File(pickedFile.path));
       notifyListeners();
@@ -303,6 +332,7 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
   }
 
   bool validateFields2() {
+    print('${selectedContactMethod?.name}');
     if (titleController.text.trim().isEmpty ||
         shortDescController.text.trim().isEmpty ||
         getQuillText().isEmpty ||

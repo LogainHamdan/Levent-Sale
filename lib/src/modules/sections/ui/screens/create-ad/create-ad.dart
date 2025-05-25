@@ -10,9 +10,13 @@ class CreateAdScreen extends StatelessWidget {
   static const id = '/create_ad';
   final Widget lowerWidget;
   final Widget? bottomNavBar;
+  final Function() additionalBackFunction;
 
   const CreateAdScreen(
-      {super.key, required this.lowerWidget, this.bottomNavBar});
+      {super.key,
+      required this.lowerWidget,
+      this.bottomNavBar,
+      required this.additionalBackFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,10 @@ class CreateAdScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: TitleRow(
                       title: 'انشاء اعلان',
-                      additionalBackFunction: () => provider.previousStep()),
+                      additionalBackFunction: () {
+                        provider.previousStep();
+                        additionalBackFunction();
+                      }),
                 ),
                 Padding(
                   padding:

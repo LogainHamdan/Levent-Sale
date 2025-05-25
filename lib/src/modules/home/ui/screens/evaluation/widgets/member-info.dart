@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../config/constants.dart';
+import '../../../../../auth/models/user.dart';
 
 class MemberInfo extends StatelessWidget {
-  final String name;
-  final String memberSince;
+  final User user;
   final String date;
   const MemberInfo({
     super.key,
-    required this.memberSince,
     required this.date,
-    required this.name,
+    required this.user,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      textDirection: TextDirection.rtl,
       children: [
         CircleAvatar(
-          backgroundImage:
-              AssetImage('assets/imgs_icons/home/assets/imgs/منال.png'),
+          backgroundImage: NetworkImage(user?.profilePicture ?? ''),
           radius: 28.r,
         ),
         SizedBox(width: 10.w),
@@ -29,13 +27,11 @@ class MemberInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              name,
-              textDirection: TextDirection.rtl,
+              user?.username ?? '',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(
-              'عضو منذ ${memberSince}',
-              textDirection: TextDirection.rtl,
+              'عضو منذ ${user?.createdAt != null ? DateFormat('yyyy-MM-dd').format(user!.createdAt!) : ''}',
               style: TextStyle(color: Colors.grey),
             ),
           ],

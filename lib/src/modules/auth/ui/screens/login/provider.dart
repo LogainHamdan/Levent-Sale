@@ -237,8 +237,11 @@ class LoginProvider extends ChangeNotifier {
         await TokenHelper.saveToken(token);
         if (_rememberMe) {
           await UserHelper.saveUserWithRememberMe(
+
             user,
+
             _rememberMe,
+            context,
           );
         }
 

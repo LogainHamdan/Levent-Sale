@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../../../config/constants.dart';
-import '../update-ad-section-details.dart';
+import '../provider.dart';
 
 class RichTextEditorUpdate extends StatelessWidget {
   const RichTextEditorUpdate({

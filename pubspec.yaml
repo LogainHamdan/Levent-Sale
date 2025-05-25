@@ -76,6 +76,8 @@ dependencies:
   firebase_analytics: ^11.4.6
   flutter_local_notifications: ^19.2.1
   firebase_messaging: ^15.2.6
+  html_unescape: ^2.0.0
+  flutter_localization: ^0.3.2
 
 
 

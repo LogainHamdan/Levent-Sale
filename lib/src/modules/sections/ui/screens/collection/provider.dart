@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/ad.dart';
 import '../../../repos/ad.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../models/ad.dart';
 import '../../../repos/ad.dart';
+import '../update-ad/provider.dart';
 
 class MyCollectionScreenProvider extends ChangeNotifier {
   int _currentIndex = 0;
@@ -54,7 +56,7 @@ class MyCollectionScreenProvider extends ChangeNotifier {
     ),
   ];
 
-  List<AdModel> _rejectedAds = [];
+List<AdModel> _rejectedAds = [];
   List<AdModel> _pendingAds = [];
   List<AdModel> _publishedAds = [];
 

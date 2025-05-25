@@ -13,6 +13,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/chats/chats.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/evaluations.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/evaluation/my-reviews.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/notifications.dart';
@@ -39,6 +40,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-s
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:Levant_Sale/src/modules/sections/models/adDTO.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details1.dart';
@@ -51,6 +53,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/se
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -60,6 +63,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'src/modules/sections/ui/screens/collection/my-collection.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class MyMaterialApp extends StatelessWidget {
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -83,9 +87,11 @@ class MyMaterialApp extends StatelessWidget {
 
               FirebaseAnalyticsObserver(analytics: analytics),
             ],
-            localizationsDelegates: const [
               FlutterQuillLocalizations.delegate,
             ],
+            // supportedLocales: [Locale('ar'), Locale('en')],
+            // locale: Locale('ar'),
+            navigatorObservers: [RouteObserver<ModalRoute>()],
             debugShowCheckedModeBanner: false,
             title: 'Levent Sale',
             theme: ThemeData(
@@ -122,7 +128,10 @@ class MyMaterialApp extends StatelessWidget {
               //     VerificationScreen.id: (context) => VerificationScreen(),
               HomeScreen.id: (context) => HomeScreen(),
               AdsScreen.id: (context) => AdsScreen(),
-              ReviewsScreen.id: (context) => ReviewsScreen(),
+              ReviewsScreen.id: (context) => ReviewsScreen(
+                    adId: 0,
+                  ),
+              MyReviewsScreen.id: (context) => MyReviewsScreen(),
               AdDetailsScreen.id: (context) => AdDetailsScreen(
                     adId: 0,
                   ),
@@ -139,14 +148,23 @@ class MyMaterialApp extends StatelessWidget {
               MyCollectionScreen.id: (context) => MyCollectionScreen(),
               FavoriteScreen.id: (context) => FavoriteScreen(),
               CreateAdScreen.id: (context) => CreateAdScreen(
+                    additionalBackFunction: () {
+                      final provider =
+                          Provider.of<CreateAdChooseSectionProvider>(context,
+                              listen: false);
+                      print('category before: ${provider.selectedCategory}');
+                      provider.resetCategorySelection();
+                      print('category after: ${provider.selectedCategory}');
+                    },
                     lowerWidget: SectionChoose(),
                   ),
               UpdateAdScreen.id: (context) => Consumer<UpdateAdProvider>(
                     builder: (context, provider, child) {
                       final adToUpdate =
                           provider.selectedAdToUpdate ?? AdModel();
+
                       print(
-                          'ad attributes: ${provider.selectedAdToUpdate?.attributes}');
+                          'selected ad to update: ${provider.selectedAdToUpdate?.toJson()}');
                       return UpdateAdScreen(
                           ad: adToUpdate,
                           bottomNavBar:

@@ -11,10 +11,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../../../../config/constants.dart';
 import '../../../../auth/models/user.dart';
+import '../../../../auth/ui/alerts/alert.dart';
 import '../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
+import '../../../../main/ui/screens/main_screen.dart';
+import '../../../../more/models/profile.dart';
+import '../../../../more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import '../../../../sections/models/ad.dart';
+import '../../../../sections/models/adDTO.dart';
 import '../../../../sections/ui/screens/choose-section/widgets/categories-display.dart';
+import '../../../../sections/ui/screens/update-ad/provider.dart';
 import '../../../../sections/ui/screens/update-ad/update-ad.dart';
+import '../../../../sections/ui/screens/update-ad/widgets/section-details/provider.dart';
+import '../../../../sections/ui/screens/update-ad/widgets/section-details/section-details1-update.dart';
+import '../../../../sections/ui/screens/update-ad/widgets/section-details/section-details2-update.dart';
 import '../ads/widgets/custom-rating.dart';
 import '../ads/widgets/title-row.dart';
 import '../evaluation/evaluations.dart';
@@ -75,7 +84,14 @@ class AdDetailsScreen extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.pushNamed(context, UpdateAdScreen.id);
+                              if (ad?.condition?.first?.toLowerCase() ==
+                                  'published') {
+                                final provider = Provider.of<UpdateAdProvider>(
+                                    context,
+                                    listen: false);
+                                provider.selectAdToUpdate(ad?.id ?? 0, context);
+                                Navigator.pushNamed(context, UpdateAdScreen.id);
+                              }
                             },
                             child: SvgPicture.asset(
                               editBlackIcon,
@@ -148,13 +164,14 @@ class AdDetailsScreen extends StatelessWidget {
                                             ),
                                           ),
                                           CustomRating(
+                                            adId: adId,
                                             rateNum: true,
                                             flexible: false,
                                           ),
                                           SizedBox(height: 8.h),
                                           Text(
                                             textDirection: TextDirection.rtl,
-                                            ad?.description ?? '',
+                                            ad?.cleanDescription ?? '',
                                             maxLines: 4,
                                             style: TextStyle(
                                                 fontSize: 14.sp,
@@ -214,12 +231,16 @@ class AdDetailsScreen extends StatelessWidget {
                                     SizedBox(
                                       height: 8.h,
                                     ),
-                                    // CustomHeader(
-                                    //   onPressed: () => Navigator.pushNamed(
-                                    //       context, ReviewsScreen.id),
-                                    //   title: 'متوسط التقييم',
-                                    // ),
-                                    // RatingSection(),
+                                    CustomHeader(
+                                      onPressed: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ReviewsScreen(
+                                                      adId: ad?.id ?? 0))),
+                                      title: 'متوسط التقييم',
+                                    ),
+                                    RatingSection(adId: adId,),
                                   ],
                                 ),
                               ),

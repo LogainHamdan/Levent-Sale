@@ -16,6 +16,8 @@ import '../../../../../models/attriburtes.dart';
 class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   Map<String, String?> selectedValues = {};
   final List<File> _selectedImages = [];
+  String _mediaType = '';
+
   final Map<String, bool> _dropdownOpenedMap = {};
   final List<Detail> _selectedServices = [];
   final AdAttributesRepository _repo = AdAttributesRepository();
@@ -37,6 +39,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   bool _isLoading = false;
   List<Governorate> _governorates = [];
   bool _isInitialized = false;
+  String get mediaType => _mediaType;
 
   bool get isInitialized => _isInitialized;
   bool get negotiable => _negotiable;
@@ -79,9 +82,8 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
         Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
     await fetchAttributes(detailsProvider
         .extractLastCategoryId(provider.selectedAdToUpdate?.categoryPath));
-    // باقي التهيئة
     titleController.text = provider.selectedAdToUpdate?.title ?? '';
-    shortDescController.text = provider.selectedAdToUpdate?.description ?? '';
+    shortDescController.text = provider.selectedAdToUpdate?.cleanDescription ?? '';
     priceController.text = '${provider.selectedAdToUpdate?.price}' ?? '';
     contactDetailController.text =
         provider.selectedAdToUpdate?.contactEmail ?? '';
@@ -89,12 +91,12 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
 
     setNegotiable(provider.selectedAdToUpdate?.negotiable ?? false);
     setTradePossible(provider.selectedAdToUpdate?.tradePossible ?? false);
-    setSelectedAdType(
-        AdType.values.byName(provider.selectedAdToUpdate?.adType ?? 'UNKNOWN'));
-    setSelectedCurrency('currency',
-        Currency.values.byName(provider.selectedAdToUpdate?.currency ?? 'USD'));
-    setSelectedContactMethod(ContactMethod.values.byName(
-        provider.selectedAdToUpdate?.preferredContactMethod ?? 'OTHER'));
+    // setSelectedAdType(
+    //     AdType.values.byName(provider.selectedAdToUpdate?.adType ?? 'UNKNOWN'));
+    // setSelectedCurrency('currency',
+    //     Currency.values.byName(provider.selectedAdToUpdate?.currency ?? 'USD'));
+    // setSelectedContactMethod(ContactMethod.values.byName(
+    //     provider.selectedAdToUpdate?.preferredContactMethod ?? 'OTHER'));
     setSelectedGovernorate(
         provider.selectedAdToUpdate?.governorate ?? Governorate());
     setSelectedCity(provider.selectedAdToUpdate?.city ?? City());
@@ -137,6 +139,34 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
         }
       }
     }
+
+    var selectedMethod = ContactMethodExtension.fromName(
+        provider.selectedAdToUpdate?.preferredContactMethod ?? '');
+    setSelectedContactMethod(selectedMethod);
+    setSelectedValue('contactMethod', selectedContactMethod?.displayName);
+
+    var selectedAdType =
+        AdTypeExtension.fromName(provider.selectedAdToUpdate?.adType ?? '');
+    setSelectedAdType(selectedAdType);
+    setSelectedValue('adType', selectedAdType.displayName);
+
+    var selectedCurrency =
+        CurrencyExtension.fromName(provider.selectedAdToUpdate?.currency ?? '');
+    print('${selectedCurrency}');
+    print('${selectedCurrency?.arabicName}');
+    setSelectedCurrency('currency', selectedCurrency);
+    final selectedGovernorate = governorates.firstWhere(
+      (gov) =>
+          gov.governorateName ==
+          provider.selectedAdToUpdate?.governorate?.governorateName,
+      orElse: () => governorates.first,
+    );
+    setSelectedGovernorate(selectedGovernorate);
+    final selectedCity = cities.firstWhere(
+      (city) => city.cityName == provider.selectedAdToUpdate?.city?.cityName,
+      orElse: () => cities.first,
+    );
+    setSelectedCity(selectedCity);
     _isInitialized = true;
 
     notifyListeners();
@@ -227,7 +257,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
 
   void setSelectedCurrency(String key, Currency? currency) {
     _selectedCurrency = currency;
-    setSelectedValue(key, currency?.toString());
+    setSelectedValue(key, currency?.arabicName);
     notifyListeners();
   }
 
@@ -282,10 +312,22 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   }
 
   bool isDropdownOpened(String key) => _dropdownOpenedMap[key] ?? false;
+  set mediaType(String type) {
+    _mediaType = type;
+    notifyListeners();
+  }
 
   Future<void> pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final picker = ImagePicker();
+
+    XFile? pickedFile;
+
+    if (_mediaType == 'image') {
+      pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    } else if (_mediaType == 'video') {
+      pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+    }
+
     if (pickedFile != null) {
       _selectedImages.add(File(pickedFile.path));
       notifyListeners();
@@ -430,14 +472,14 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
         getQuillText().isEmpty ||
         priceController.text.trim().isEmpty ||
         contactDetailController.text.trim().isEmpty ||
-        // _selectedCity == null ||
+        _selectedCity == null ||
         _selectedGovernorate == null ||
         _selectedAdType == null ||
         _selectedCurrency == null) {
       return false;
     }
 
-    if (_selectedImages.isEmpty) return false;
+    // if (_selectedImages.isEmpty) return false;
 
     return true;
   }

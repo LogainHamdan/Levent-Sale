@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/item-list.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,8 @@ class EditScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyCollectionScreenProvider>(
         builder: (context, provider, child) {
-      return provider.currentTabLoading
-          ? const Center(child: CircularProgressIndicator())
+      return provider.currentTabLoading || provider.isLoadingPublished
+          ? const Center(child: CustomCircularProgressIndicator())
           : provider.publishedAds.isEmpty
               ? const Center(child: Text('لا توجد إعلانات مقبولة'))
               : ItemList(

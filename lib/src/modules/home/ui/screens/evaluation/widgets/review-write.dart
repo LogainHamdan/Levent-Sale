@@ -6,14 +6,16 @@ import '../../../../../../config/constants.dart';
 import '../../../../../auth/ui/alerts/alert.dart';
 
 class ReviewWrite extends StatelessWidget {
+  final int adId;
   const ReviewWrite({
     super.key,
+    required this.adId,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showRatingDialog(context),
+      onTap: () => showRatingDialog(context, adId),
       child: Stack(
         children: [
           Container(

@@ -1,12 +1,26 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/ad-details.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/custom-action-button.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../auth/repos/token-helper.dart';
+import '../../../../../auth/repos/user-helper.dart';
+import '../../../../../auth/ui/alerts/alert.dart';
+import '../../../../../main/ui/screens/main_screen.dart';
+import '../../../../../more/models/profile.dart';
+import '../../../../../more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import '../../../../models/ad.dart';
+import '../../../../models/adDTO.dart';
+import '../../update-ad/provider.dart';
+import '../../update-ad/widgets/section-details/provider.dart';
+import '../../update-ad/widgets/section-details/section-details1-update.dart';
+import '../../update-ad/widgets/section-details/section-details2-update.dart';
 import '../provider.dart';
 
 class ItemList extends StatelessWidget {
@@ -27,6 +41,8 @@ class ItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final collectionProvider =
+        Provider.of<MyCollectionScreenProvider>(context, listen: false);
     return ListView.builder(
         itemCount: ads?.length,
         itemBuilder: (context, index) {
@@ -102,11 +118,29 @@ class ItemList extends StatelessWidget {
                             child: CustomActionButton(
                               text: buttonText,
                               icon: buttonIcon,
-                              onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          AdDetailsScreen(adId: ad?.id ?? 0))),
+                              onPressed: () {
+                                if (collectionProvider.currentIndex == 0) {
+                                  Navigator.pushNamed(
+                                      context, TechnicalSupportScreen.id);
+                                }
+                                if (collectionProvider.currentIndex == 1) {
+                                  final provider =
+                                      Provider.of<UpdateAdProvider>(context,
+                                          listen: false);
+                                  provider.selectAdToUpdate(
+                                      ad?.id ?? 0, context);
+                                  Navigator.pushNamed(
+                                      context, UpdateAdScreen.id);
+                                }
+                                if (collectionProvider.currentIndex == 2) {
+                                  final provider = Provider.of<HomeProvider>(
+                                      context,
+                                      listen: false);
+                                  provider.selectAd(ad ?? AdModel());
+                                  Navigator.pushNamed(
+                                      context, AdDetailsScreen.id);
+                                }
+                              },
                               backgroundColor: buttonColor,
                               textColor: buttonTextColor,
                             ),

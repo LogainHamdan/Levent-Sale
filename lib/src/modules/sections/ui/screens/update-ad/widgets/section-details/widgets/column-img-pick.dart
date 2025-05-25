@@ -1,11 +1,12 @@
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/create-ad-section-details.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../../../config/constants.dart';
+import '../../../../../../../auth/ui/alerts/alert.dart';
 
 class ImagePickerColumnUpdate extends StatelessWidget {
   const ImagePickerColumnUpdate({
@@ -14,11 +15,8 @@ class ImagePickerColumnUpdate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider =
-        Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
-
     return GestureDetector(
-      onTap: provider.pickImage,
+      onTap: () => showMediaSelection(context, false),
       child: Container(
         height: 140.h,
         decoration: BoxDecoration(

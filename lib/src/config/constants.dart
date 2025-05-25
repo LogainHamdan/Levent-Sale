@@ -42,6 +42,10 @@ const String deleteAdUrl = "$baseUrl/search/ads/delete";
 const String getConversationUrl = "http://37.148.208.169:8080/chat/between";
 const String getChatsUrl = "http://37.148.208.169:8080/chat/conversations";
 const String markAsReadUrl = "$baseUrl/chat/markAsRead";
+const String getMyRatingsUrl = "$baseUrl/ratings/user";
+const String addRatingsUrl = "$baseUrl/ratings/add";
+const String getAdRatingsUrl = "$baseUrl/ratings/ad";
+const String getAdAvgUrl = "$baseUrl/ratings/ad/average";
 
 ///sections
 const String getCategoriesUrl = '$baseUrl/ads/get/all/roots';

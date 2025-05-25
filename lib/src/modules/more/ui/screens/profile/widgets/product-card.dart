@@ -63,7 +63,7 @@ class ProductCard extends StatelessWidget {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          ad.description ?? '',
+                          ad.cleanDescription ?? '',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           textDirection: TextDirection.rtl,
@@ -80,6 +80,7 @@ class ProductCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomRating(
+                            adId: ad.id??0,
                               small: true, rateNum: true, flexible: false),
                           Text(
                             '${ad.currency} ${ad.price}',
