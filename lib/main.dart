@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/managers/firebase_messaging_manager.dart';
+import 'package:Levant_Sale/src/managers/local_notifications_manager.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/provider.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/verify/provider.dart';
@@ -24,6 +26,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/crea
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,6 +45,8 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
       overlays: [SystemUiOverlay.top]);
+  await FirebaseMessagingManager.instance.init();
+  await LocalNotificationsManager.instance.init();
 
   runApp(MyApp());
 }

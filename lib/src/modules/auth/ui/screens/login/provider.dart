@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/managers/firebase_messaging_manager.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -225,6 +226,8 @@ class LoginProvider extends ChangeNotifier {
       if (result['statusCode'] == 200) {
         final token = result['token'];
         final userData = result['user'];
+        final user = User.fromJson(userData);
+      await  saveFcmToken(user,token);
         if (token == null) {
           print('التوكن غير موجود.');
           await TokenHelper.removeToken();
@@ -232,11 +235,12 @@ class LoginProvider extends ChangeNotifier {
         }
 
         await TokenHelper.saveToken(token);
-        if (_rememberMe)
+        if (_rememberMe) {
           await UserHelper.saveUserWithRememberMe(
-            User.fromJson(userData),
+            user,
             _rememberMe,
           );
+        }
 
         await UserHelper.saveUser(User.fromJson(userData));
         print('Token saved: $token');
@@ -259,9 +263,9 @@ class LoginProvider extends ChangeNotifier {
       _setLoading(false);
     }
   }
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: ['email', 'profile',"openid"],
 
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'profile', "openid"],
   );
 
   Future<void> handleGoogleSignIn() async {
@@ -271,16 +275,14 @@ class LoginProvider extends ChangeNotifier {
 
       print('Access Token: ${auth?.accessToken}');
       print('ID Token: ${auth?.idToken}');
-      googleLogin(auth?.idToken??"");
-
+      googleLogin(auth?.idToken ?? "");
     } catch (error) {
       print('Google sign-in failed: $error');
     }
   }
+
   Future<void> googleLogin(String token) async {
-
     try {
-
       final response = await _authRepository.googleLogin(token);
       if (response.statusCode == 200) {
         await TokenHelper.saveToken(token);
@@ -310,5 +312,12 @@ class LoginProvider extends ChangeNotifier {
     final rememberMeStatus = await UserHelper.getRememberMeStatus();
     _rememberMe = rememberMeStatus;
     notifyListeners();
+  }
+
+  saveFcmToken(user,token)async{
+    String? fcmToken = await FirebaseMessagingManager.instance.getToken();
+    final resultToken =
+        await _authRepository.saveFcmToken(fcmToken!, user.id!, token!);
+    print(resultToken.data);
   }
 }

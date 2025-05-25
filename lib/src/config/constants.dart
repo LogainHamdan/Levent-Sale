@@ -14,6 +14,7 @@ const String googleLoginUrl = "$baseUrl/users/google-login";
 const String requestUpdatePassUrl = "$baseUrl/users/request-password-reset";
 const String signUpUrl = "$baseUrl/users/register";
 const String verifyUrl = "$baseUrl/users/verify";
+const String saveToken = "$baseUrl/notifications/save-token";
 const String resendVerifyUrl = "$baseUrl/users/resend-verification-code";
 const String getUserUrl = "http://37.148.208.169:8081/users";
 
