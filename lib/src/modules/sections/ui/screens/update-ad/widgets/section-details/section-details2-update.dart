@@ -6,6 +6,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widg
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/column-img-pick.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/custom-dropdown.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/custom-quill.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/selected-img-section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -16,8 +17,8 @@ import '../../../../../../home/ui/screens/home/widgets/custom-indicator.dart';
 import '../../../../../models/ad.dart';
 import '../../../../../models/adDTO.dart';
 
-import '../../../section-details/create-ad-section-details.dart';
-import 'update-ad-section-details.dart';
+import '../../../section-details/provider.dart';
+import 'provider.dart';
 
 class SectionDetails2Update extends StatefulWidget {
   const SectionDetails2Update({
@@ -40,8 +41,7 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
       provider.loadGovernorates();
       provider.loadCities(governorateId: provider.selectedGovernorate?.id ?? 2);
 
-        provider.initializeControllers(context);
-
+      provider.initializeControllers(context);
     });
   }
 
@@ -92,7 +92,7 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
             SizedBox(
               height: 10.h,
             ),
-            SelectedImagesSection(),
+            SelectedImagesSectionUpdate(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -198,7 +198,7 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
               errorText: 'هذا الحقل مطلوب',
               hint: 'اختر نوع العملة',
               items: Currency.values.map((e) => e.arabicName).toList(),
-              dropdownKey: 'العملة',
+              dropdownKey: 'currency',
               title: 'نوع العملة',
               onItemSelected: (selectedName) {
                 final selectedCurrency =

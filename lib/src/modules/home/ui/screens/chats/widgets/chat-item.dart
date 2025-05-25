@@ -4,6 +4,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/screens/login/provider.dart';
 import 'package:Levant_Sale/src/modules/home/models/chats.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/conversation.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/provider.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,7 +43,7 @@ class ChatItem extends StatelessWidget {
       ]),
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CustomCircularProgressIndicator());
         }
 
         final User? currentUser = snapshot.data![0];
@@ -106,8 +107,11 @@ class ChatItem extends StatelessWidget {
                   ),
                 ),
               ),
-              subtitle: message?.readAt == null
+              subtitle: message?.readAt == null ||
+                      message?.receiverId == currentUser?.id
                   ? Text(
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       message?.content ?? '',
                       style: GoogleFonts.tajawal(
                         textStyle: const TextStyle(

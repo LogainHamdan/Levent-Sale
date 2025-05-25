@@ -21,33 +21,41 @@ class ProductSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomHeader(onPressed: onMorePressed, title: category),
-        Transform.translate(
-          offset: Offset(0, -8.h),
-          child: SizedBox(
-            height: 150.h,
-            child: ListView(
-              reverse: true,
-              scrollDirection: Axis.horizontal,
-              children: products
-                  .map(
-                    (product) => Padding(
-                      padding: EdgeInsets.only(left: 16.0.w),
-                      child: ProductItem(
-                        hasDiscount: hasDiscount,
-                        product: product,
-                        category: category,
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-        ),
-      ],
-    );
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      CustomHeader(onPressed: onMorePressed, title: category),
+      products.isNotEmpty
+          ? Transform.translate(
+              offset: Offset(0, -8.h),
+              child: SizedBox(
+                height: 150.h,
+                child: ListView(
+                  reverse: true,
+                  scrollDirection: Axis.horizontal,
+                  children: products
+                      .map(
+                        (product) => Padding(
+                          padding: EdgeInsets.only(left: 16.0.w),
+                          child: ProductItem(
+                            hasDiscount: hasDiscount,
+                            product: product,
+                            category: category,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            )
+          : Center(
+              child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 50.h),
+              child: Text(
+                'لا يوجد اعلانات هنا',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                ),
+              ),
+            ))
+    ]);
   }
 }

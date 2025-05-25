@@ -20,10 +20,12 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/provider.da
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/create-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
+
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

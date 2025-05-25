@@ -3,7 +3,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widg
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-dropdown.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-quill.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/selected-img-section.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +12,7 @@ import '../../../../../config/constants.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import '../../../../home/ui/screens/home/widgets/custom-indicator.dart';
 import '../../../models/adDTO.dart';
-import 'create-ad-section-details.dart';
+import 'provider.dart';
 
 class SectionDetails2 extends StatefulWidget {
   const SectionDetails2({
@@ -85,7 +85,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
               height: 10.h,
             ),
             SelectedImagesSection(),
-            Consumer<UpdateAdSectionDetailsProvider>(
+            Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, createProvider, _) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -99,10 +99,14 @@ class _SectionDetails2State extends State<SectionDetails2> {
                       dropdownKey: 'contactMethod',
                       title: 'طريقة التواصل',
                       onItemSelected: (selectedName) {
+                        print('Selected display name: $selectedName');
+
                         var selectedMethod =
                             ContactMethodExtension.fromDisplayName(
                                 selectedName);
                         createProvider.setSelectedContactMethod(selectedMethod);
+                        print(
+                            'selected: ${createProvider.selectedContactMethod}');
                         createProvider.setSelectedValue(
                             'contactMethod', selectedName);
                       },
@@ -203,7 +207,7 @@ class _SectionDetails2State extends State<SectionDetails2> {
                 errorText: 'مطلوب',
                 hint: 'اختر نوع العملة',
                 items: Currency.values.map((e) => e.arabicName).toList(),
-                dropdownKey: 'العملة',
+                dropdownKey: 'currency',
                 title: 'نوع العملة',
                 onItemSelected: (selectedName) {
                   final selectedCurrency =

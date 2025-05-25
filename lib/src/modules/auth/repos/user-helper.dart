@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user.dart';
+import '../ui/screens/login/provider.dart';
 
 class UserHelper {
   static const _userKey = 'user';
@@ -34,9 +37,14 @@ class UserHelper {
     return userJson != null;
   }
 
-  static Future<void> saveUserWithRememberMe(User user, bool rememberMe) async {
+  static Future<void> saveUserWithRememberMe(
+      bool rememberMe, BuildContext context) async {
+    final provider = Provider.of<LoginProvider>(context, listen: false);
     final prefs = await SharedPreferences.getInstance();
-    final userJson = jsonEncode(user.toJson());
+    // final userJson = jsonEncode(user.toJson());
+    final userJson = jsonEncode(User(
+        email: provider.emailController.text,
+        password: provider.passwordController.text));
     await prefs.setString(_userKey, userJson);
     await prefs.setBool(_rememberMeKey, rememberMe);
     print('User saved with rememberMe: $userJson');

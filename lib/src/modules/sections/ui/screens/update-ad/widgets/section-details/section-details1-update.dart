@@ -1,6 +1,6 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-dropdown.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/checking-container.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/custom-dropdown.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/widgets/custom-switch.dart';
@@ -20,9 +20,8 @@ class SectionDetails1Update extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<UpdateAdProvider>(context, listen: false);
+    final detailsProvider = UpdateAdSectionDetailsProvider(context);
 
-    final detailsProvider =
-        Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
     return FutureBuilder(
       future: () async {
         final lastCategoryId = detailsProvider

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../home/ui/screens/home/widgets/custom-indicator.dart';
+
 class ViewScreen extends StatelessWidget {
   const ViewScreen({super.key});
 
@@ -12,7 +14,7 @@ class ViewScreen extends StatelessWidget {
     return Consumer<MyCollectionScreenProvider>(
         builder: (context, provider, child) {
       return provider.currentTabLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: CustomCircularProgressIndicator())
           : provider.pendingAds.isEmpty
               ? const Center(child: Text('لا توجد إعلانات قيد المراجعة'))
               : ItemList(

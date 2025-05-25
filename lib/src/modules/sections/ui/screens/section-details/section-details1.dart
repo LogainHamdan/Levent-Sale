@@ -1,6 +1,6 @@
 import 'package:Levant_Sale/src/modules/auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/create-ad-section-details.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/checking-container.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/column-img-pick.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/custom-dropdown.dart';

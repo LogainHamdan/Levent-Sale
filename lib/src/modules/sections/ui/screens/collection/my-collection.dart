@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-widget.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
@@ -69,32 +70,32 @@ class _MyCollectionScreenState extends State<MyCollectionScreen> {
         body: SafeArea(
           bottom: false,
           child: _isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : homeProvider.userAds.isEmpty
-                  ? SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(height: 16.h),
-                          EmptyWidget(
-                            msg: 'إعلاناتي فارغة',
-                            img: emptyAdsIcon,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 12.0.w),
-                              child: CustomElevatedButton(
-                                text: 'ابدأ في انشاء إعلانك',
-                                onPressed: () => Navigator.pushNamed(
-                                    context, CreateAdScreen.id),
-                                backgroundColor: kprimaryColor,
-                                textColor: grey9,
-                                date: false,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : JoinMyCollection(),
+              ? const Center(child: CustomCircularProgressIndicator())
+              // : homeProvider.userAds.isEmpty
+              //     ? SingleChildScrollView(
+              //         child: Column(
+              //           mainAxisSize: MainAxisSize.min,
+              //           children: [
+              //             SizedBox(height: 16.h),
+              //             EmptyWidget(
+              //               msg: 'إعلاناتي فارغة',
+              //               img: emptyAdsIcon,
+              //               child: Padding(
+              //                 padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+              //                 child: CustomElevatedButton(
+              //                   text: 'ابدأ في انشاء إعلانك',
+              //                   onPressed: () => Navigator.pushNamed(
+              //                       context, CreateAdScreen.id),
+              //                   backgroundColor: kprimaryColor,
+              //                   textColor: grey9,
+              //                   date: false,
+              //                 ),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       )
+              : JoinMyCollection(),
         ),
       ),
     );
