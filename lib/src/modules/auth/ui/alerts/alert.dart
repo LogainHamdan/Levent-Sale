@@ -1354,7 +1354,7 @@ void logoutAlert(
       cancelColor: Colors.black,
       onConfirm: () async {
         final provider = Provider.of<LoginProvider>(context, listen: false);
-        final rememberUser = await UserHelper.getRememberedUser();
+        final rememberUser = await UserHelper.getRememberMe();
         await TokenHelper.removeToken();
         await UserHelper.removeUser();
         if (rememberUser == null) {

@@ -10,8 +10,8 @@ import '../../../../auth/repos/user-helper.dart';
 import '../../../../home/ui/screens/chats/no-info-widget.dart';
 import '../../../../home/ui/screens/conversation/widgets/MsgInput.dart';
 import '../../../../home/ui/screens/conversation/widgets/custom-app-bar.dart';
-import '../../../../home/ui/screens/conversation/widgets/recieved-msg.dart';
-import '../../../../home/ui/screens/conversation/widgets/sent-msg.dart';
+import '../../../../home/ui/screens/conversation/widgets/received-message.dart';
+import '../../../../home/ui/screens/conversation/widgets/sent-message.dart';
 import '../../../models/ticket.dart';
 
 class TicketConversationScreen extends StatefulWidget {

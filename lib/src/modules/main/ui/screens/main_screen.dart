@@ -35,7 +35,7 @@ class MainScreen extends StatelessWidget {
     menuSelected,
     collectionSelected,
     sectionsSelected,
-    homeSelected
+    homeSelected,
   ];
   final List<Widget> screens = const [
     MenuScreen(),

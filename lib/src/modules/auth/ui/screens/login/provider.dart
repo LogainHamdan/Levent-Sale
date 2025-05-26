@@ -49,12 +49,12 @@ class LoginProvider extends ChangeNotifier {
 
   void initializeRememberedCredentials() async {
     try {
-      final rememberedUser = await UserHelper.getRememberedUser();
+      final rememberedUser = await UserHelper.getRememberMe();
       print('Remembered user in login: $rememberedUser');
 
       if (rememberedUser != null) {
-        emailController.text = rememberedUser.email ?? '';
-        passwordController.text = rememberedUser.password ?? '';
+        emailController.text = rememberedUser['email'] ?? '';
+        passwordController.text = rememberedUser['password'] ?? '';
         _rememberMe = await UserHelper.getRememberMeStatus();
         print('remember me status: $_rememberMe');
         print('Remember Me status: $_rememberMe');
@@ -236,10 +236,8 @@ class LoginProvider extends ChangeNotifier {
 
         await TokenHelper.saveToken(token);
         if (_rememberMe) {
-          await UserHelper.saveUserWithRememberMe(
-            _rememberMe,
-            context,
-          );
+          await UserHelper.saveRememberMe(
+              emailController.text, passwordController.text);
         }
 
         await UserHelper.saveUser(User.fromJson(userData));
