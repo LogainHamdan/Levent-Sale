@@ -43,7 +43,7 @@ class LocalNotificationsManager {
   }
 
   // show notification.
-  void showNotification(
+   showNotification(
     String? title,
     String? message, {
     String? payload,
