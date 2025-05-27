@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-
 import 'local_notifications_manager.dart';
 
 class FirebaseMessagingManager {
@@ -11,76 +9,75 @@ class FirebaseMessagingManager {
   late final LocalNotificationsManager _localNotificationsManager =
       LocalNotificationsManager.instance;
 
-  // private constructor.
   FirebaseMessagingManager._();
 
-  // singleton pattern.
   static FirebaseMessagingManager get instance {
-    if (_instance != null) return _instance!;
-    return _instance = FirebaseMessagingManager._();
+    return _instance ??= FirebaseMessagingManager._();
   }
 
-  // get token.
   Future<String?> getToken() async {
-    return await _fcm.getToken();
+    final token = await _fcm.getToken();
+    debugPrint('📱 FCM Token: $token');
+    return token;
   }
 
-  // init.
   Future<void> init() async {
-    await _fcm.requestPermission(
+    final settings = await _fcm.requestPermission(
       alert: true,
       badge: true,
       sound: true,
     );
-    debugPrint('device token : ${await getToken()}');
-    FirebaseMessaging.onMessage.listen(
-      (message) {
-        // on message.
-        debugPrint('starting [onMessage][FirebaseMessagingService]...');
-        RemoteNotification? notification = message.notification;
-        debugPrint(notification?.title);
-        debugPrint(notification?.body);
-        debugPrint(message.data.toString());
-        String? chatId = message.data['chat_id'];
-        if (notification != null) {
-          if (chatId == null) {
-            _localNotificationsManager.showNotification(
-              notification.title,
-              notification.body,
-              payload: jsonEncode(
-                message.toMap(),
-              ),
-            );
-          } else {
 
-          }
-        }
-      },
-    );
-    FirebaseMessaging.onMessageOpenedApp.listen(
-      (message) {
-        // on message opened app.
-        debugPrint(
-            'starting [onMessageOpenedApp][FirebaseMessagingService]...');
-        RemoteNotification? notification = message.notification;
-        debugPrint(notification?.title);
-        debugPrint(notification?.body);
-        debugPrint(message.data.toString());
-        _localNotificationsManager
-            .onNotificationTapped(jsonEncode(message.toMap()));
-      },
-    );
+    if (settings.authorizationStatus == AuthorizationStatus.denied) {
+      debugPrint("❌ Notification permission denied by user.");
+      return;
+    }
+
+    await getToken();
+
+    // 🔔 on foreground message
+    FirebaseMessaging.onMessage.listen((message) {
+      debugPrint('📩 onMessage received');
+      final notification = message.notification;
+      final chatId = message.data['chat_id'];
+      if (notification != null && chatId == null) {
+        _localNotificationsManager.showNotification(
+          notification.title,
+          notification.body,
+          payload: jsonEncode(message.toMap()),
+        );
+      }
+    });
+
+    // 🚀 on message opened (app in background then opened by tap)
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      debugPrint('🚀 onMessageOpenedApp triggered');
+      _localNotificationsManager
+          .onNotificationTapped(jsonEncode(message.toMap()));
+    });
+
+    // ❗ on background message
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    // after opening notification when app is terminated.
 
+    // 💤 when app opened from terminated state by notification
+    final initialMessage = await _fcm.getInitialMessage();
+    if (initialMessage != null) {
+      debugPrint("🪪 App launched via notification.");
+      _localNotificationsManager
+          .onNotificationTapped(jsonEncode(initialMessage.toMap()));
+    }
   }
 }
 
+// background handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // on background message.
-  debugPrint('starting [onBackgroundMessage][FirebaseMessagingService]...');
-  RemoteNotification? notification = message.notification;
-  debugPrint(notification?.title);
-  debugPrint(notification?.body);
-  debugPrint(message.data.toString());
+  debugPrint('📤 onBackgroundMessage received');
+  final notification = message.notification;
+  if (notification != null) {
+    await LocalNotificationsManager.instance.showNotification(
+      notification.title,
+      notification.body,
+      payload: jsonEncode(message.toMap()),
+    );
+  }
 }
