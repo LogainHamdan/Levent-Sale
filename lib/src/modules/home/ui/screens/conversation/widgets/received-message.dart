@@ -25,9 +25,9 @@ class ReceivedMsg extends StatelessWidget {
             Text(
               text,
               textDirection: TextDirection.rtl,
-              style: const TextStyle(color: Colors.black, fontSize: 16),
+              style: TextStyle(color: Colors.black, fontSize: 16.sp),
             ),
-            const SizedBox(height: 5),
+            SizedBox(height: 5.h),
             Text(
               "${time.hour > 12 ? time.hour - 12 : time.hour}:${time.minute.toString().padLeft(2, '0')} ${time.hour >= 12 ? 'م' : 'ص'}",
               textDirection: TextDirection.rtl,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,28 +38,25 @@ class UserHelper {
     return userJson != null;
   }
 
-  static Future<void> saveUserWithRememberMe(
-      bool rememberMe, BuildContext context) async {
-    final provider = Provider.of<LoginProvider>(context, listen: false);
-    final prefs = await SharedPreferences.getInstance();
+  static final _storage = FlutterSecureStorage();
 
-    final userJson = jsonEncode(User(
-        email: provider.emailController.text,
-        password: provider.passwordController.text));
-    await prefs.setString(_userKey, userJson);
-    await prefs.setBool(_rememberMeKey, rememberMe);
-    print('User saved with rememberMe: $userJson');
+  static const _keyEmail = 'remember_email';
+  static const _keyPassword = 'remember_password';
+
+  static Future<void> saveRememberMe(String email, String password) async {
+    await _storage.write(key: _keyEmail, value: email);
+    await _storage.write(key: _keyPassword, value: password);
   }
 
-  static Future<User?> getRememberedUser() async {
-    final prefs = await SharedPreferences.getInstance();
-    final rememberMe = prefs.getBool(_rememberMeKey) ?? false;
-    if (!rememberMe) return null;
+  static Future<Map<String, String>?> getRememberMe() async {
+    final email = await _storage.read(key: _keyEmail);
+    final password = await _storage.read(key: _keyPassword);
 
-    final userJson = prefs.getString(_userKey);
-    if (userJson != null) {
-      print('User retrieved: $userJson');
-      return User.fromJson(jsonDecode(userJson));
+    if (email != null && password != null) {
+      return {
+        'email': email,
+        'password': password,
+      };
     }
     return null;
   }

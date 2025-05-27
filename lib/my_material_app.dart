@@ -48,9 +48,9 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.da
 import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/track-section-branches.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/update-ad.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/section-details1-update.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/section-details2-update.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/update-ad-section-details.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
@@ -68,7 +68,7 @@ import 'package:flutter_localization/flutter_localization.dart';
 class MyMaterialApp extends StatelessWidget {
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-   MyMaterialApp({super.key});
+  MyMaterialApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -82,16 +82,15 @@ class MyMaterialApp extends StatelessWidget {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: MaterialApp(
-
-            navigatorObservers: [
-
-              FirebaseAnalyticsObserver(analytics: analytics),
-            ],
-              FlutterQuillLocalizations.delegate,
-            ],
             // supportedLocales: [Locale('ar'), Locale('en')],
             // locale: Locale('ar'),
-            navigatorObservers: [RouteObserver<ModalRoute>()],
+            navigatorObservers: [
+              RouteObserver<ModalRoute>(),
+              FirebaseAnalyticsObserver(analytics: analytics),
+            ],
+            localizationsDelegates: const [
+              FlutterQuillLocalizations.delegate,
+            ],
             debugShowCheckedModeBanner: false,
             title: 'Levent Sale',
             theme: ThemeData(
@@ -142,9 +141,7 @@ class MyMaterialApp extends StatelessWidget {
                     receiverId: 0,
                   ),
               Section.id: (context) => Section(),
-              NotificationsScreen.id: (context) => NotificationsScreen(
-                    noData: false,
-                  ),
+              NotificationsScreen.id: (context) => NotificationsScreen(),
               MyCollectionScreen.id: (context) => MyCollectionScreen(),
               FavoriteScreen.id: (context) => FavoriteScreen(),
               CreateAdScreen.id: (context) => CreateAdScreen(

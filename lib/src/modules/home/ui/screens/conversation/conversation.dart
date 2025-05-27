@@ -4,8 +4,8 @@ import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/MsgInput.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/custom-app-bar.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/recieved-msg.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/sent-msg.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/sent-message.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/received-message.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -200,6 +200,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
                           if (message?.senderId == widget.userId) {
                             return SentMsg(
+                              seen: message?.readAt != null,
                               text: message?.content ?? '',
                               time: message?.sentAt ?? DateTime.now(),
                             );
