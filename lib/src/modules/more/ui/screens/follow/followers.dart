@@ -20,7 +20,10 @@ class FollowersScreen extends StatelessWidget {
         builder: (context, provider, child) => SafeArea(
           child: provider.isFollowersLoading
               ? Center(child: CustomCircularProgressIndicator())
-              : ListView.builder(
+              : ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: 16.h,
+                  ),
                   itemCount: provider.followersCount,
                   itemBuilder: (context, index) {
                     final follower = provider.followers[index];

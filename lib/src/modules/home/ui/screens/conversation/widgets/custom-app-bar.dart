@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../../config/constants.dart';
+import '../../../../../more/ui/screens/profile/friend-profile.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget leadingIcon;
+  final int? userId;
   final String name;
   final String profileImageAsset;
   final Function()? additionalBackFunction;
@@ -18,6 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.additionalBackFunction,
     this.isNetworkImg = true,
+    this.userId,
   });
 
   @override
@@ -40,24 +43,42 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 8.0.h),
           child: Row(
             children: [
-              Text(
-                name,
-                style: Theme.of(context).textTheme.bodyMedium,
+              GestureDetector(
+                onTap: userId != null
+                    ? () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                FriendProfile(userId: userId ?? 0)))
+                    : () {},
+                child: Text(
+                  name,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ),
               SizedBox(width: 10.w),
-              isNetworkImg!
-                  ? CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: NetworkImage(profileImageAsset),
-                    )
-                  : CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: SvgPicture.asset(
-                        profileImageAsset,
-                        width: 24.w,
-                        height: 24.h,
+              GestureDetector(
+                onTap: userId != null
+                    ? () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                FriendProfile(userId: userId ?? 0)))
+                    : () {},
+                child: isNetworkImg!
+                    ? CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        backgroundImage: NetworkImage(profileImageAsset),
+                      )
+                    : CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        child: SvgPicture.asset(
+                          profileImageAsset,
+                          width: 24.w,
+                          height: 24.h,
+                        ),
                       ),
-                    ),
+              ),
               SizedBox(width: 10.w),
               SizedBox(
                   height: 80.h,

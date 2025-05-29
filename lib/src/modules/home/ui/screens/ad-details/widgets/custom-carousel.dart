@@ -30,6 +30,8 @@ class CustomCarousel extends StatelessWidget {
                 children: [
                   CarouselSlider(
                     options: CarouselOptions(
+                      enlargeCenterPage: false,
+                      viewportFraction: 1,
                       height: 200.0.h,
                       autoPlay: true,
                       onPageChanged: (index, reason) {
@@ -37,7 +39,6 @@ class CustomCarousel extends StatelessWidget {
                       },
                     ),
                     items: ad?.imageUrls?.map((item) {
-                      print('images paths: ${ad?.imageUrls.toString()}');
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(4.0.r),
                         child: Image.network(

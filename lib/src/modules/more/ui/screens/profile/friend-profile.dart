@@ -7,6 +7,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/more/models/profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/custom-small-button.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/follow-container.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/name-row.dart';
@@ -53,7 +54,6 @@ class _FriendProfileState extends State<FriendProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final followProvider = Provider.of<FollowProvider>(context, listen: false);
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
     print('user i want to pass ${widget.userId}');
 
@@ -70,7 +70,9 @@ class _FriendProfileState extends State<FriendProfile> {
                     const Center(child: Text('حدث خطأ أثناء تحميل البيانات')));
           }
           final userToShow = snapshot.data!;
-          print('is following:${userToShow.isFollowing}');
+          print('is following:${userToShow.following}');
+          final profileProvider =
+              Provider.of<EditProfileProvider>(context, listen: false);
 
           return Scaffold(
             appBar: AppBar(
@@ -128,64 +130,78 @@ class _FriendProfileState extends State<FriendProfile> {
                         ),
                       ),
                       SizedBox(height: 12.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomSmallButton(
-                            onPressed: () async {
-                              final currentUser = await UserHelper.getUser();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ConversationScreen(
-                                          adId:
-                                              homeProvider.selectedAd?.id ?? 0,
-                                          userId: currentUser?.id ?? 0,
-                                          receiverId: widget.userId)));
-                            },
-                            isOutlined: true,
-                            icon: SvgPicture.asset(
-                              chatGreenIcon,
-                              height: 20.h,
+                      Consumer<FollowProvider>(
+                        builder: (context, followProvider, child) => Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomSmallButton(
+                              onPressed: () async {
+                                final currentUser = await UserHelper.getUser();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ConversationScreen(
+                                                adId: homeProvider
+                                                        .selectedAd?.id ??
+                                                    0,
+                                                userId: currentUser?.id ?? 0,
+                                                receiverId: widget.userId)));
+                              },
+                              isOutlined: true,
+                              icon: SvgPicture.asset(
+                                chatGreenIcon,
+                                height: 20.h,
+                              ),
+                              text: 'محادثة',
+                              textColor: kprimaryColor,
                             ),
-                            text: 'محادثة',
-                            textColor: kprimaryColor,
-                          ),
-                          SizedBox(width: 12.w),
-                          userToShow.isFollowing == false
-                              ? CustomSmallButton(
-                                  isOutlined: false,
-                                  onPressed: () async {
-                                    final token = await TokenHelper.getToken();
-                                    print(
-                                        'to invoke toggle: id: ${widget.userId} and token: $token}');
-                                    followProvider.followProfile(
-                                        followingId: widget.userId,
-                                        token: token ?? "");
-                                  },
-                                  icon: SvgPicture.asset(
-                                    addCircleWhiteIcon,
-                                    height: 20.h,
+                            SizedBox(width: 12.w),
+                            userToShow.following == false
+                                ? CustomSmallButton(
+                                    isOutlined: false,
+                                    onPressed: () async {
+                                      final token =
+                                          await TokenHelper.getToken();
+                                      print(
+                                          'to invoke toggle: id: ${widget.userId} and token: $token}');
+                                      await followProvider.followProfile(
+                                          followingId: widget.userId,
+                                          token: token ?? "");
+                                      setState(() {
+                                        _profileFuture = profileProvider
+                                            .getProfile(userId: widget.userId);
+                                      });
+                                    },
+                                    icon: SvgPicture.asset(
+                                      addCircleWhiteIcon,
+                                      height: 20.h,
+                                    ),
+                                    text: 'متابعة',
+                                    buttonColor: kprimaryColor,
+                                    textColor: grey8,
+                                  )
+                                : CustomSmallButton(
+                                    isOutlined: false,
+                                    onPressed: () async {
+                                      final token =
+                                          await TokenHelper.getToken();
+                                      print('to invoke toggle');
+                                      await followProvider.unfollowProfile(
+                                          followingId: widget.userId,
+                                          token: token ?? "");
+                                      setState(() {
+                                        _profileFuture = profileProvider
+                                            .getProfile(userId: widget.userId);
+                                      });
+                                    },
+                                    icon: const SizedBox(),
+                                    text: 'إلغاء المتابعة',
+                                    textColor: Colors.black,
+                                    buttonColor: grey8,
                                   ),
-                                  text: 'متابعة',
-                                  buttonColor: kprimaryColor,
-                                  textColor: grey8,
-                                )
-                              : CustomSmallButton(
-                                  isOutlined: false,
-                                  onPressed: () async {
-                                    final token = await TokenHelper.getToken();
-                                    print('to invoke toggle');
-                                    followProvider.unfollowProfile(
-                                        followingId: widget.userId,
-                                        token: token ?? "");
-                                  },
-                                  icon: const SizedBox(),
-                                  text: 'إلغاء المتابعة',
-                                  textColor: Colors.black,
-                                  buttonColor: grey8,
-                                ),
-                        ],
+                          ],
+                        ),
                       ),
                       SizedBox(height: 12.h),
                       Container(

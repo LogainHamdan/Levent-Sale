@@ -80,6 +80,9 @@ const String addTicketUrl = '$baseUrl/tickets/add';
 const String getTicketsUrl = '$baseUrl/tickets/user';
 const String getTicketMsgsUrl = '$baseUrl/tickets/messages';
 const String replyTicketUrl = '$baseUrl/tickets/reply';
+const String getAboutUsUrl = '$baseUrl/general/page/about-us';
+const String getPolicyUrl = '$baseUrl/general/page/privacy-policy';
+const String getTermsUrl = '$baseUrl/general/page/terms-and-conditions';
 
 ///collection
 const String getAdsByStatus = '$baseUrl/ads/my';

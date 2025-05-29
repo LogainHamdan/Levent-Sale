@@ -27,7 +27,7 @@ class ProductSection extends StatelessWidget {
           ? Transform.translate(
               offset: Offset(0, -8.h),
               child: SizedBox(
-                height: 150.h,
+                height: 140.h,
                 child: ListView(
                   reverse: true,
                   scrollDirection: Axis.horizontal,

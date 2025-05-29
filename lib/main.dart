@@ -20,6 +20,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/follow/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/website-info/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
@@ -33,11 +34,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'my_material_app.dart';
 
 void main() async {
   await ScreenUtil.ensureScreenSize();
   await Firebase.initializeApp();
+  timeago.setLocaleMessages('ar', timeago.ArMessages());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemStatusBarContrastEnforced: true,
       systemNavigationBarColor: Colors.transparent,
@@ -133,6 +136,9 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (context) => NotificationProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => WebsiteInfoProvider(),
       ),
     ], child: MyMaterialApp());
   }

@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/auth/models/user.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/add-photo-container.dart';
@@ -16,31 +17,40 @@ import '../../../../auth/ui/screens/sign-up/widgets/custom-text-field.dart';
 import '../../../../auth/ui/screens/sign-up/widgets/phone-section.dart';
 import '../../../../home/ui/screens/ads/widgets/title-row.dart';
 
-class EditProfileScreen extends StatelessWidget {
+class EditProfileScreen extends StatefulWidget {
   static const id = '/edit-profile';
 
   const EditProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final profileProvider =
-        Provider.of<EditProfileProvider>(context, listen: false);
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
 
-    return FutureBuilder(
-        future: UserHelper.getUser(),
-        builder: (context, snapshot) => Scaffold(
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = Provider.of<EditProfileProvider>(context, listen: false);
+      if (!provider.isInit) {
+        provider.init();
+        provider.isInit = true;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<EditProfileProvider>(
+        builder: (context, profileProvider, child) => Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.white,
-                titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-                leading: SizedBox(),
-                title: snapshot.hasData
-                    ? TitleRow(
-                        title: '${snapshot.data?.firstName} تعديل',
-                      )
-                    : TitleRow(
-                        title: 'تعديل المستخدم',
-                      ),
-              ),
+                  backgroundColor: Colors.white,
+                  titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+                  leading: SizedBox(),
+                  title: TitleRow(
+                    title: '${profileProvider.firstNameController.text} تعديل',
+                  )),
               body: SafeArea(
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -48,9 +58,17 @@ class EditProfileScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(height: 20.h),
-                        ImageSection(
-                          profileImg: snapshot.data?.profilePicture ?? '',
-                        ),
+                        FutureBuilder(
+                            future: UserHelper.getUser(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CustomCircularProgressIndicator();
+                              }
+                              return ImageSection(
+                                profileImg: snapshot.data?.profilePicture ?? '',
+                              );
+                            }),
                         // SizedBox(height: 20.h),
                         // Align(
                         //   alignment: Alignment.centerRight,
@@ -73,7 +91,9 @@ class EditProfileScreen extends StatelessWidget {
                             label: 'الاسم الأول',
                             bgcolor: grey8,
                           ),
-                          SizedBox(height: 16.h),
+                          SizedBox(
+                            height: 16.h,
+                          ),
                           CustomTextField(
                             labelGrey: true,
                             controller: profileProvider.lastNameController,
@@ -81,6 +101,9 @@ class EditProfileScreen extends StatelessWidget {
                             bgcolor: grey8,
                           ),
                         ],
+                        SizedBox(
+                          height: 16.h,
+                        ),
                         CustomTextField(
                           labelGrey: true,
                           prefix: GestureDetector(
@@ -88,8 +111,8 @@ class EditProfileScreen extends StatelessWidget {
                                 context, profileProvider.dateController),
                             child: SvgPicture.asset(
                               calendarIcon,
-                              height: 24.h,
-                              width: 24.w,
+                              height: 20.h,
+                              width: 20.w,
                             ),
                           ),
                           controller: profileProvider.dateController,
@@ -115,7 +138,6 @@ class EditProfileScreen extends StatelessWidget {
                             bgcolor: grey8,
                           ),
                         ],
-                        SizedBox(height: 16.h),
                         CustomTextField(
                           labelGrey: true,
                           controller: profileProvider.addressController,

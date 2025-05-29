@@ -70,7 +70,10 @@ class SectionTrack extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => CreateAdScreen(
-                        additionalBackFunction: () {},
+                        additionalBackFunction: () {
+                          createDetailsProvider.resetAttributes();
+                          createSectionChooseProvider.navigateBack();
+                        },
                         lowerWidget: SectionDetails1(),
                         bottomNavBar: DraggableButton('متابعة', onPressed: () {
                           if (createDetailsProvider.validateFields1()) {
@@ -245,7 +248,8 @@ class SectionTrack extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => CreateAdScreen(
-                        additionalBackFunction: () {},
+                        additionalBackFunction: () =>
+                            createSectionChooseProvider.navigateBack(),
                         lowerWidget: SectionTrack(
                           subcategories:
                               createSectionChooseProvider.subcategories,

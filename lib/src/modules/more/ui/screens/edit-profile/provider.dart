@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import '../../../../auth/repos/user-helper.dart';
 import '../../../models/profile.dart';
 import '../../../repositories/follow-repo.dart';
+import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 
 class EditProfileProvider extends ChangeNotifier {
   final EditProfileRepository repository = EditProfileRepository();
@@ -24,6 +25,7 @@ class EditProfileProvider extends ChangeNotifier {
   TextEditingController addressController = TextEditingController();
   TextEditingController businessLicenseController = TextEditingController();
   TextEditingController businessNameController = TextEditingController();
+  bool _isInit = false;
 
   bool isCompanyAccount = false;
   bool isLoading = false;
@@ -36,6 +38,7 @@ class EditProfileProvider extends ChangeNotifier {
   String? error;
 
   File? get profileImage => _profileImage;
+  bool get isInit => _isInit;
 
   File? get coverImage => _coverImage;
   set profileImage(File? image) {
@@ -43,18 +46,24 @@ class EditProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  set isInit(bool value) {
+    _isInit = value;
+    notifyListeners();
+  }
+
   Future<void> init() async {
     final user = await UserHelper.getUser();
-    final profile = await getProfile(userId: user?.id ?? 0);
-    if (profile != null) {
-      firstNameController.text = profile.firstName ?? '';
-      lastNameController.text = profile.lastName ?? '';
-      dateController.text = profile.birthday.toString() ?? '';
-      addressController.text = profile.address?.fullAddresse ?? '';
-      businessNameController.text = profile.businessName ?? '';
-      businessLicenseController.text = profile.businessLicense ?? '';
-      isCompanyAccount = checkIfCompanyAccount(user?.roles);
+    print('user ${user?.toJson()}');
+    if (user != null) {
+      isCompanyAccount = checkIfCompanyAccount(user.roles);
+      firstNameController.text = user.firstName ?? '';
+      lastNameController.text = user.lastName ?? '';
+      dateController.text = user.birthday?.toString() ?? '';
+      addressController.text = user.address?.fullAddresse ?? '';
+      businessNameController.text = user.businessName ?? '';
+      businessLicenseController.text = user.businessLicense ?? '';
     }
+    isInit = true;
     notifyListeners();
   }
 
@@ -76,11 +85,14 @@ class EditProfileProvider extends ChangeNotifier {
       {bool isProfile = true}) async {
     final XFile? pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
+      File fixedImage =
+          await FlutterExifRotation.rotateImage(path: pickedFile.path);
+
       if (isProfile) {
-        setProfileImage(File(pickedFile.path));
+        setProfileImage(fixedImage);
         Navigator.of(context).pop();
       } else {
-        setCoverImage(File(pickedFile.path));
+        setCoverImage(fixedImage);
       }
     }
   }
@@ -89,10 +101,13 @@ class EditProfileProvider extends ChangeNotifier {
       {bool isProfile = true}) async {
     final XFile? pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
+      File fixedImage =
+          await FlutterExifRotation.rotateImage(path: pickedFile.path);
+
       if (isProfile) {
-        setProfileImage(File(pickedFile.path));
+        setProfileImage(fixedImage);
       } else {
-        setCoverImage(File(pickedFile.path));
+        setCoverImage(fixedImage);
       }
     }
   }
@@ -143,11 +158,12 @@ class EditProfileProvider extends ChangeNotifier {
     }
   }
 
-  Future<Profile?> getProfile({required int userId, int? myid}) async {
+  Future<Profile?> getProfile({required int userId}) async {
+    final user = await UserHelper.getUser();
     print('user passed: $userId');
     try {
       final profile =
-          await followRepository.getProfile(userId: userId, myid: myid);
+          await followRepository.getProfile(userId: userId, myid: user?.id);
 
       error = null;
       return profile;

@@ -50,7 +50,8 @@ class SectionChoose extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => CreateAdScreen(
-                              additionalBackFunction: () {},
+                              additionalBackFunction: () =>
+                                  createProvider.navigateBack(),
                               lowerWidget: SectionTrack(
                                 subcategories: createProvider.subcategories,
                               ),

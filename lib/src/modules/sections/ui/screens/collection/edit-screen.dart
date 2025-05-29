@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-widget.dart';
@@ -8,6 +9,10 @@ import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
 import '../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
+import '../../../../home/ui/screens/ads/ads.dart';
+import '../../../../home/ui/screens/ads/widgets/products-details.dart';
+import '../../../../home/ui/screens/home/widgets/custom-header.dart';
+import '../../../../home/ui/screens/home/widgets/product-section.dart';
 import '../create-ad/create-ad.dart';
 
 class EditScreen extends StatelessWidget {
@@ -15,6 +20,7 @@ class EditScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
     return Consumer<MyCollectionScreenProvider>(
         builder: (context, provider, child) {
       return provider.currentTabLoading || provider.isLoadingPublished
@@ -40,6 +46,7 @@ class EditScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+
                     ],
                   ),
                 )

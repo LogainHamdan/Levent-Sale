@@ -12,7 +12,6 @@ import 'favorite-bitton.dart';
 class ProductItem extends StatelessWidget {
   final AdModel product;
   final String category;
-  final double? height;
   final double? width;
   final bool? hasDiscount;
   final bool? spacecUnderPic;
@@ -21,7 +20,6 @@ class ProductItem extends StatelessWidget {
     super.key,
     required this.product,
     required this.category,
-    this.height = 120,
     this.width = 144,
     this.hasDiscount = true,
     this.spacecUnderPic = false,
@@ -43,7 +41,6 @@ class ProductItem extends StatelessWidget {
                 builder: (context) => AdDetailsScreen(adId: product.id ?? 0)));
       },
       child: Container(
-        height: height!.h,
         width: width!.w,
         decoration: BoxDecoration(
           color: grey7,
@@ -94,7 +91,9 @@ class ProductItem extends StatelessWidget {
                     Text(
                       product.title ?? "بدون عنوان",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 12.sp),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12.sp,
+                      ),
                       textAlign: TextAlign.right,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
@@ -111,39 +110,38 @@ class ProductItem extends StatelessWidget {
                       ),
                       textAlign: TextAlign.right,
                     ),
-                    SizedBox(
-                      height: 12.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomRating(
-                          adId: product.id ?? 0,
-                          flexible: false,
-                          rateNum: true,
-                          small: true,
-                        ),
-                        SizedBox(
-                          height: 8.h,
-                        ),
-                        SizedBox(
-                          width: 50.w,
-                          child: Text(
-                            overflow: TextOverflow.ellipsis,
-                            "${product.price?.toStringAsFixed(0) ?? '0'} ${product.currency ?? ''}",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12.sp,
-                            ),
-                            textAlign: TextAlign.right,
+                    const Spacer(), // يجعل ما بعده يلتصق بأسفل العمود
+                    Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomRating(
+                            adId: product.id ?? 0,
+                            flexible: false,
+                            rateNum: true,
+                            small: true,
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            width: 50.w,
+                            child: Text(
+                              overflow: TextOverflow.ellipsis,
+                              "${product.price?.toStringAsFixed(0) ?? '0'} ${product.currency ?? ''}",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.sp,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     if (spacecUnderPic ?? false) SizedBox(height: 6.h),
                   ],
                 ),
+
               ),
             ),
           ],

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import '../../../../../config/constants.dart';
 import '../../../../auth/models/user.dart';
 import '../../../../auth/ui/alerts/alert.dart';
@@ -155,7 +156,7 @@ class AdDetailsScreen extends StatelessWidget {
                                           ),
                                           SizedBox(height: 5.h),
                                           Text(
-                                            'نشر في ${ad?.createdAt ?? ''}',
+                                            'نشر ${timeago.format(ad!.createdAt!, locale: 'ar')}',
                                             style: TextStyle(
                                               fontSize: 14.sp,
                                               color: grey3,

@@ -37,6 +37,8 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/profile/friend-profile.d
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/tech-support-screen.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/website-info/website-info.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/website-info/widgets/terms.dart';
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:Levant_Sale/src/modules/sections/models/adDTO.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
@@ -329,6 +331,9 @@ class MyMaterialApp extends StatelessWidget {
               ChangePassColumn.id: (context) => ChangePassColumn(
                     alert: false,
                   ),
+              WebsiteInfoScreen.id: (context) => WebsiteInfoScreen(),
+              ConditionsAndTermsScreen.id: (context) =>
+                  ConditionsAndTermsScreen(),
             },
             onUnknownRoute: (settings) {
               return MaterialPageRoute(

@@ -18,7 +18,13 @@ class JoinMyCollection extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
-          child: SizedBox(height: 60.h, child: const TabBarWidget()),
+          child: SizedBox(
+              height: 60.h,
+              child: const TabBarWidget(
+                  info: false,
+                  tab1: 'المرفوضة',
+                  tab2: 'المقبولة',
+                  tab3: 'قيد المراجعة')),
         ),
         SliverToBoxAdapter(
           child: SizedBox(height: 16.h),

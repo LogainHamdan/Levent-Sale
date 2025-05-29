@@ -25,7 +25,7 @@ class FollowRepository {
     try {
       final response = await _dio.post(
         "$unfollowUrl/$followingId",
-        options: Options(headers: {
+        options: Options(responseType: ResponseType.plain, headers: {
           'Authorization': token,
           'Accept': 'application/hal+json'
         }),
@@ -44,6 +44,7 @@ class FollowRepository {
       final response = await _dio.post(
         "$followUrl/$followingId",
         options: Options(
+          responseType: ResponseType.plain,
           headers: {'Authorization': token, 'Accept': 'application/hal+json'},
         ),
       );

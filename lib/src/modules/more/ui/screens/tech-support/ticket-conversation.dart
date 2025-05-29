@@ -125,7 +125,7 @@ class _TicketConversationScreenState extends State<TicketConversationScreen> {
                   final token = await TokenHelper.getToken();
                   if (token != null) {
                     await techSupportProvider.replyTicket(
-                      message,
+                      message: message,
                       token: token,
                       ticketId: widget.ticketId,
                     );

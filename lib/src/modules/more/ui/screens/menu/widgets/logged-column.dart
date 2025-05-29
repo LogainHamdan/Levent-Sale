@@ -3,6 +3,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/change-pass
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/profile-menu-item.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/website-info/website-info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,15 +41,15 @@ class LoggedInColumn extends StatelessWidget {
               height: 16.h,
             )),
         SizedBox(height: 8.h),
-        MenuItem(
-            onTap: () => Navigator.pushNamed(context, MyReviewsScreen.id),
-            color: kprimary4Color,
-            "تقييماتي",
-            SvgPicture.asset(
-              myFavIcon,
-              height: 16.h,
-            )),
-        SizedBox(height: 8.h),
+        // MenuItem(
+        //     onTap: () => Navigator.pushNamed(context, MyReviewsScreen.id),
+        //     color: kprimary4Color,
+        //     "تقييماتي",
+        //     SvgPicture.asset(
+        //       myFavIcon,
+        //       height: 16.h,
+        //     )),
+        // SizedBox(height: 8.h),
         MenuItem(
             onTap: () => Navigator.pushNamed(context, ChangePassColumn.id),
             color: kprimary4Color,
@@ -71,25 +72,25 @@ class LoggedInColumn extends StatelessWidget {
             )),
         SizedBox(height: 8.h),
         MenuItem(
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, WebsiteInfoScreen.id),
             color: kprimary4Color,
-            "من نحن",
+            "عن الموقع",
             SvgPicture.asset(
               whoAreWeIcon,
               height: 16.h,
               width: 16.w,
             )),
         SizedBox(height: 8.h),
-        MenuItem(
-            onTap: () {},
-            color: kprimary4Color,
-            "سياسة الخصوصية",
-            SvgPicture.asset(
-              privacyIcon,
-              height: 16.h,
-              width: 16.w,
-            )),
-        SizedBox(height: 8.h),
+        // MenuItem(
+        //     onTap: () {},
+        //     color: kprimary4Color,
+        //     "سياسة الخصوصية",
+        //     SvgPicture.asset(
+        //       privacyIcon,
+        //       height: 16.h,
+        //       width: 16.w,
+        //     )),
+        // SizedBox(height: 8.h),
         CustomLogoutItem(),
       ],
     );

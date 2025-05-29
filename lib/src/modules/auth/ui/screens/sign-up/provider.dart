@@ -1,3 +1,6 @@
+import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/auth/models/user.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/auth-repo.dart';
 import 'package:dio/dio.dart';
@@ -207,15 +210,35 @@ class SignUpProvider extends ChangeNotifier {
         print('SIGN UP ERROR: ${e.message}');
         print('RESPONSE DATA: ${e.response?.data}');
         print('STATUS CODE: ${e.response?.statusCode}');
+
+        final responseData = e.response?.data;
+        if (responseData != null &&
+            responseData is Map<String, dynamic> &&
+            responseData.containsKey('field') &&
+            responseData.containsKey('error')) {
+          String field = responseData['field'];
+
+          String translatedError;
+
+          switch (field) {
+            case 'phoneNumber':
+              translatedError = 'رقم الهاتف مستخدم بالفعل';
+              break;
+            case 'email':
+              translatedError = 'البريد الإلكتروني مستخدم بالفعل';
+              break;
+            default:
+              translatedError = 'خطأ في الحقل: $field';
+          }
+
+          customShowSnackBar(context, translatedError, errorColor);
+        } else {
+          customShowSnackBar(context, 'حدث خطأ أثناء التسجيل', errorColor);
+        }
       } else {
         print('ERROR: $e');
+        customShowSnackBar(context, 'حدث خطأ أثناء التسجيل', errorColor);
       }
-      print(e.toString());
-      customShowSnackBar(
-        context,
-        'حدث خطأ أثناء التسجيل',
-        Colors.redAccent,
-      );
       return false;
     } finally {
       isLoading = false;
@@ -231,7 +254,10 @@ class SignUpProvider extends ChangeNotifier {
   void customShowSnackBar(BuildContext context, String message, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+        ),
         duration: const Duration(seconds: 3),
         backgroundColor: color,
         behavior: SnackBarBehavior.floating,

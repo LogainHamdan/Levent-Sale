@@ -34,7 +34,7 @@ class NameRow extends StatelessWidget {
         ),
         CircleAvatar(
           radius: 34.r,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           child: CircleAvatar(
             radius: 32.r,
             backgroundImage: NetworkImage(image),

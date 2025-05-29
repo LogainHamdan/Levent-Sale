@@ -42,31 +42,27 @@ class _FAQScreenState extends State<FAQScreen> {
                 SizedBox(
                   height: 700.h,
                   child: ListView.builder(
-                    itemCount: provider.faqs.length,
-                    itemBuilder: (context, index) {
-                      final faq = provider.faqs[index];
-                      return FutureBuilder<String>(
-                        future: provider.getAnswerFAQ(id: faq.id ?? ''),
-                        builder: (context, answerSnapshot) {
-                          if (answerSnapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CustomCircularProgressIndicator();
-                          } else if (answerSnapshot.hasError) {
+                      itemCount: provider.faqs.length,
+                      itemBuilder: (context, index) {
+                        final faq = provider.faqs[index];
+                        return FutureBuilder<String>(
+                          future: provider.getAnswerFAQ(id: faq.id ?? ''),
+                          builder: (context, answerSnapshot) {
+                            final isExpanded = provider.expandedIndex == index;
+                            final answer =
+                                answerSnapshot.data ?? 'لا يوجد اجابة';
+
                             return CustomExpansionTile(
                               title: faq.question ?? '',
-                              content: 'Error: ${answerSnapshot.error}',
+                              content: answer,
+                              isExpanded: isExpanded,
+                              onTap: () {
+                                provider.setExpandedIndex(index);
+                              },
                             );
-                          } else {
-                            return CustomExpansionTile(
-                              title: faq.question ?? '',
-                              content:
-                                  answerSnapshot.data ?? 'No answer available',
-                            );
-                          }
-                        },
-                      );
-                    },
-                  ),
+                          },
+                        );
+                      }),
                 ),
               ],
             ),

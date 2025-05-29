@@ -58,7 +58,7 @@ class CustomTicketCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  ticket.status.name.toUpperCase(),
+                  ticket.status.arabicDescription,
                   style: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w600,

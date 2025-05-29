@@ -6,6 +6,25 @@ enum TicketStatus {
   CLOSED
 }
 
+extension TicketStatusArabicExtension on TicketStatus {
+  String get arabicDescription {
+    switch (this) {
+      case TicketStatus.OPEN:
+        return 'مفتوحة';
+      case TicketStatus.IN_PROGRESS:
+        return 'قيد المعالجة';
+      case TicketStatus.WAITING_CUSTOMER:
+        return 'بانتظار رد العميل';
+      case TicketStatus.CUSTOMER_REPLIED:
+        return 'تم الرد من العميل';
+      case TicketStatus.CLOSED:
+        return 'مغلقة';
+      default:
+        return 'غير معروف';
+    }
+  }
+}
+
 enum SenderType { USER, ADMIN }
 
 class Ticket {
@@ -26,9 +45,7 @@ class Ticket {
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) {
-    final ticketJson =
-        json['ticket'] ?? json; // Use the nested ticket map if available
-
+    final ticketJson = json['ticket'] ?? json;
     String safeString(dynamic value) {
       if (value == null) return '';
       if (value is String) return value;

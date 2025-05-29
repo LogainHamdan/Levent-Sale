@@ -163,9 +163,9 @@ class TechSupportRepository {
     }
   }
 
-  Future<TicketMessage> replyTicket(
-    String message, {
+  Future<TicketMessage> replyTicket({
     required String token,
+    required String message,
     required String ticketId,
   }) async {
     try {
@@ -173,14 +173,13 @@ class TechSupportRepository {
         '$replyTicketUrl/$ticketId',
         options: Options(
           headers: {
-            'Content-Type': 'application/json',
             'Accept': '*/*',
             'Authorization': token,
           },
         ),
-        data: message,
+        queryParameters: {'message': message},
       );
-      print('replies successfully: ${response.data}');
+      print('replied successfully: ${response.data}');
       if (response.data is Map<String, dynamic>) {
         return TicketMessage.fromJson(response.data);
       } else {

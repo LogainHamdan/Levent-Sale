@@ -54,10 +54,13 @@ class FollowProvider extends ChangeNotifier {
 
   Future<void> followProfile(
       {required int followingId, required String token}) async {
+    print('followingId: $followingId, token:$token');
     try {
       final response = await followRepository.followUser(
           token: token, followingId: followingId);
+
       if (response.statusCode == 200) {
+        notifyListeners();
         print('followed successfully');
       } else {
         print('Failed to unfollow. Please try again.');
@@ -73,7 +76,10 @@ class FollowProvider extends ChangeNotifier {
     try {
       final response = await followRepository.unfollowUser(
           token: token, followingId: followingId);
+
       if (response.statusCode == 200) {
+        notifyListeners();
+
         print('followed successfully');
       } else {
         print('Failed to unfollow. Please try again.');
