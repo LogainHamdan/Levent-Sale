@@ -62,21 +62,22 @@ class MenuScreen extends StatelessWidget {
               noBack: true,
             ),
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              isLoggedIn
-                  ? Padding(
-                      padding: EdgeInsets.all(16.0.sp),
-                      child: LoggedInColumn(),
-                    )
-                  : Padding(
-                      padding: EdgeInsets.all(16.0.sp),
-                      child: GuestColumn(),
-                    ),
-              Spacer(),
-              // CustomBottomNavigationBar(),
-            ],
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                isLoggedIn
+                    ? Padding(
+                        padding: EdgeInsets.all(16.0.sp),
+                        child: LoggedInColumn(),
+                      )
+                    : Padding(
+                        padding: EdgeInsets.all(16.0.sp),
+                        child: GuestColumn(),
+                      ),
+                // CustomBottomNavigationBar(),
+              ],
+            ),
           ),
         );
       },

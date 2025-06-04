@@ -129,7 +129,6 @@ class City {
   final String? latitude;
   final String? longitude;
   final int? sort;
-  final int? governorateId;
 
   City({
     this.id,
@@ -137,7 +136,6 @@ class City {
     this.latitude,
     this.longitude,
     this.sort,
-    this.governorateId,
   });
 
   factory City.fromJson(Map<String, dynamic> json) {
@@ -147,7 +145,6 @@ class City {
       latitude: json['latitude'] ?? '',
       longitude: json['longitude'] ?? '',
       sort: json['sort'] ?? 0,
-      governorateId: json['governorateId'] ?? 0,
     );
   }
 

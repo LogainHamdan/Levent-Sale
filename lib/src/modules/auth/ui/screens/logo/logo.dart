@@ -22,13 +22,11 @@ class LogoScreen extends StatefulWidget {
 
 class _LogoScreenState extends State<LogoScreen>
     with SingleTickerProviderStateMixin {
-
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
 
   @override
   void initState() {
-
     super.initState();
 
     _controller = AnimationController(
@@ -57,7 +55,7 @@ class _LogoScreenState extends State<LogoScreen>
   Future<void> _startApp() async {
     final token = await TokenHelper.getToken();
     final provider =
-    Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
+        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
     await provider.fetchCategories();
     if (token == null) {
       Navigator.pushReplacementNamed(context, SplashScreen.id);
@@ -88,7 +86,9 @@ class _LogoScreenState extends State<LogoScreen>
                   child: Image.asset(logo),
                 ),
                 SizedBox(height: 20.h),
-                CustomCircularProgressIndicator()
+                CircularProgressIndicator(
+                  color: kprimaryColor,
+                )
               ],
             ),
           ),

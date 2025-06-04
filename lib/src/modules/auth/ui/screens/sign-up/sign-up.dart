@@ -213,7 +213,7 @@ class SignUpScreen extends StatelessWidget {
                               ),
                               onPressed: () => Navigator.pushNamed(
                                   context, ConditionsAndTermsScreen.id),
-                              child: Text("الشروط والخصوصية ",
+                              child: Text("الشروط والأحكام ",
                                   style: GoogleFonts.tajawal(
                                     textStyle: TextStyle(
                                       fontSize: 14.sp,

@@ -80,6 +80,9 @@ dependencies:
   flutter_localization: ^0.3.2
   timeago: ^3.7.1
   flutter_exif_rotation: ^0.5.2
+  speech_to_text: ^7.0.0
+  share_plus: ^11.0.0
+  shimmer_animation: ^2.2.2
 
 
 

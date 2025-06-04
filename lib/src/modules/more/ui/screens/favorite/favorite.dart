@@ -1,7 +1,10 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/models/user.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/empty-fav.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/fav-grid.dart';
@@ -56,7 +59,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+            body: Center(child: CustomCircularProgressIndicator()),
           );
         }
 
@@ -67,8 +70,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             leading: Padding(
               padding: EdgeInsets.only(left: 16.0.w),
               child: InkWell(
-                onTap: () =>
-                    showNewCollectionAlert(context, provider.tagController),
+                onTap: () async {
+                  final user = await UserHelper.getUser();
+                  user != null
+                      ? showNewCollectionAlert(context, provider.tagController)
+                      : loginFirstAlert(context);
+                },
                 child: SvgPicture.asset(addCircleGreenIcon),
               ),
             ),

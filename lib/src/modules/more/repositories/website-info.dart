@@ -59,7 +59,8 @@ class WebsiteInfoRepository {
           },
         ),
       );
-      print(response.data['content']);
+
+      print('poilcy" ${response.data['content']}');
       return response.data['content'];
     } on DioException catch (e) {
       print('Error fetching policy: ${e.response?.statusCode} ${e.message}');

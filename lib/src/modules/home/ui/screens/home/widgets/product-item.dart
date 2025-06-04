@@ -102,7 +102,7 @@ class ProductItem extends StatelessWidget {
                       product.cleanDescription ?? '',
                       overflow: TextOverflow.ellipsis,
                       textDirection: TextDirection.rtl,
-                      maxLines: 2,
+                      maxLines: 1,
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 10.sp,
@@ -110,38 +110,23 @@ class ProductItem extends StatelessWidget {
                       ),
                       textAlign: TextAlign.right,
                     ),
-                    const Spacer(), // يجعل ما بعده يلتصق بأسفل العمود
-                    Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomRating(
-                            adId: product.id ?? 0,
-                            flexible: false,
-                            rateNum: true,
-                            small: true,
-                          ),
-                          SizedBox(
-                            width: 50.w,
-                            child: Text(
-                              overflow: TextOverflow.ellipsis,
-                              "${product.price?.toStringAsFixed(0) ?? '0'} ${product.currency ?? ''}",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.sp,
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                          ),
-                        ],
+                    const Spacer(),
+                    SizedBox(
+                      width: 50.w,
+                      child: Text(
+                        overflow: TextOverflow.ellipsis,
+                        "${product.price?.toStringAsFixed(0) ?? '0'} ${product.currency ?? ''}",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.sp,
+                        ),
+                        textAlign: TextAlign.right,
                       ),
                     ),
-                    if (spacecUnderPic ?? false) SizedBox(height: 6.h),
+                    SizedBox(height: 6.h),
                   ],
                 ),
-
               ),
             ),
           ],

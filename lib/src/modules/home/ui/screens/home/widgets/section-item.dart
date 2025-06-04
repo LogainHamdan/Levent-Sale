@@ -27,7 +27,6 @@ class SectionItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         provider.selectCategory(category);
-
         Navigator.pushNamed(context, Section.id);
       },
       child: Column(
@@ -44,14 +43,6 @@ class SectionItem extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 9.h),
-          Text(
-            category.name,
-            style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 12.sp,
-                color: kprimaryColor),
           ),
         ],
       ),

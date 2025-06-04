@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../../config/constants.dart';
+import '../../website-info/website-info.dart';
 import 'info-row.dart';
 import 'logout-item.dart';
 
@@ -49,21 +50,13 @@ class GuestColumn extends StatelessWidget {
             )),
         SizedBox(height: 8.h),
         MenuItem(
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, WebsiteInfoScreen.id),
             color: kprimary4Color,
-            "من نحن",
+            "عن الموقع",
             SvgPicture.asset(
-              whoAreWeIcon,
+              techSupportIcon,
               height: 16.h,
-            )),
-        SizedBox(height: 8.h),
-        MenuItem(
-            onTap: () {},
-            color: kprimary4Color,
-            "سياسة الخصوصية",
-            SvgPicture.asset(
-              privacyIcon,
-              height: 16.h,
+              width: 16.w,
             )),
       ],
     );

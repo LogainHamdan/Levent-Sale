@@ -34,7 +34,7 @@ class _ConditionsAndTermsScreenState extends State<ConditionsAndTermsScreen> {
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         leading: SizedBox(),
         title: const TitleRow(
-          title: 'الشروط والخصوصية',
+          title: 'الشروط والأحكام',
         ),
       ),
       body: SafeArea(

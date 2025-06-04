@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:flutter/material.dart';
@@ -6,18 +7,19 @@ import 'package:provider/provider.dart';
 import '../../../../../../config/constants.dart';
 
 class CategoriesDisplay extends StatelessWidget {
-  final bool? selectable;
+  final bool? forCreateAd;
   final Function() onSectionClicked;
 
   const CategoriesDisplay({
     super.key,
     required this.onSectionClicked,
-    this.selectable = false,
+    this.forCreateAd = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final createProvider = Provider.of<CreateAdChooseSectionProvider>(context);
+    final homeProvider = Provider.of<HomeProvider>(context);
 
     if (createProvider.isLoading) {
       return const Center(child: CustomCircularProgressIndicator());
@@ -52,7 +54,9 @@ class CategoriesDisplay extends StatelessWidget {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () {
-                createProvider.setSelectedCategory(index);
+                forCreateAd!
+                    ? createProvider.setSelectedCategory(index)
+                    : homeProvider.selectCategory(category);
 
                 Future.microtask(() => onSectionClicked());
               },
@@ -65,7 +69,7 @@ class CategoriesDisplay extends StatelessWidget {
                     width: 98.w,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: selectable!
+                      color: forCreateAd!
                           ? isSelected
                               ? kprimaryColor
                               : grey8

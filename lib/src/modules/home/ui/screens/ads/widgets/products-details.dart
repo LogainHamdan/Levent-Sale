@@ -32,7 +32,7 @@ class ProductsDetails extends StatelessWidget {
                     crossAxisCount: 2,
                     crossAxisSpacing: 8.0,
                     mainAxisSpacing: 8.0,
-                    childAspectRatio: 0.8,
+                    childAspectRatio: 1.1,
                   ),
                   itemCount: productList!.length,
                   itemBuilder: (context, index) {

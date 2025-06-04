@@ -18,7 +18,11 @@ class JoinWebsiteInfo extends StatelessWidget {
         SizedBox(
             height: 60.h,
             child: const TabBarWidget(
-                info: true, tab1: 'من نحن', tab2: 'سياسة الخصوصية', tab3: '')),
+                chats: false,
+                info: true,
+                tab1: 'من نحن',
+                tab2: 'سياسة الخصوصية',
+                tab3: '')),
         SizedBox(height: 16.h),
         Expanded(
           child: PageView(

@@ -1,6 +1,6 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-header.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/section-details.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/section-item.dart';
 import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
 import 'package:flutter/material.dart';

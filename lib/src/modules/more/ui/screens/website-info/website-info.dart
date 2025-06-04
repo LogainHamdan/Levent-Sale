@@ -28,7 +28,7 @@ class _WebsiteInfoScreenState extends State<WebsiteInfoScreen> {
     final provider = Provider.of<WebsiteInfoProvider>(context, listen: false);
 
     await provider.loadAboutUs();
-    await provider.loadAboutUs();
+    await provider.loadPrivacyPolicy();
   }
 
   @override
@@ -43,7 +43,6 @@ class _WebsiteInfoScreenState extends State<WebsiteInfoScreen> {
           titleTextStyle: Theme.of(context).textTheme.bodyLarge,
           leading: SizedBox(),
           title: const TitleRow(
-            noBack: true,
             title: 'عن الموقع',
           ),
         ),

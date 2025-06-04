@@ -34,29 +34,30 @@ class SelectedImagesSectionUpdate extends StatelessWidget {
           runSpacing: 10.h,
           children: [
             ...List.generate(networkImgs.length, (index) {
-              return Stack(
-                children: [
+              return
+                  // Stack(
+                  //   children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(8.r),
-                    child: Image.network(
-                      networkImgs[index],
-                      width: 70.w,
-                      height: 50.h,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    left: 1,
-                    child: GestureDetector(
-                      onTap: () => provider.removeImage(index),
-                      child: SvgPicture.asset(
-                        cancelPath,
-                        height: 15.h,
-                      ),
-                    ),
-                  ),
-                ],
+                borderRadius: BorderRadius.circular(8.r),
+                child: Image.network(
+                  networkImgs[index],
+                  width: 70.w,
+                  height: 50.h,
+                  fit: BoxFit.cover,
+                ),
               );
+              // Positioned(
+              //   left: 1,
+              //   child: GestureDetector(
+              //     onTap: () => provider.removeImage(index),
+              //     child: SvgPicture.asset(
+              //       cancelPath,
+              //       height: 15.h,
+              //     ),
+              //   ),
+              // ),
+              // ],
+              //  );
             }),
             ...List.generate(fileImages.length, (index) {
               return Stack(

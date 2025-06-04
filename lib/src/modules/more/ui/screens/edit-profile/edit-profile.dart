@@ -3,8 +3,10 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indi
 import 'package:Levant_Sale/src/modules/more/ui/screens/delete-account/delete-account.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/add-photo-container.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/custom-drop-down.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/photo-section.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -18,9 +20,10 @@ import '../../../../auth/ui/screens/sign-up/widgets/phone-section.dart';
 import '../../../../home/ui/screens/ads/widgets/title-row.dart';
 
 class EditProfileScreen extends StatefulWidget {
+  final String profilePicPath;
   static const id = '/edit-profile';
 
-  const EditProfileScreen({super.key});
+  const EditProfileScreen({super.key, required this.profilePicPath});
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -31,10 +34,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final provider = Provider.of<EditProfileProvider>(context, listen: false);
       if (!provider.isInit) {
-        provider.init();
+        await provider.init(context);
         provider.isInit = true;
       }
     });
@@ -49,7 +52,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   titleTextStyle: Theme.of(context).textTheme.bodyLarge,
                   leading: SizedBox(),
                   title: TitleRow(
-                    title: '${profileProvider.firstNameController.text} تعديل',
+                    title: 'تعديل ${profileProvider.firstNameController.text} ',
                   )),
               body: SafeArea(
                 child: Padding(
@@ -65,9 +68,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   ConnectionState.waiting) {
                                 return CustomCircularProgressIndicator();
                               }
-                              return ImageSection(
-                                profileImg: snapshot.data?.profilePicture ?? '',
-                              );
+                              final user = snapshot.data;
+                              return FutureBuilder(
+                                  future: profileProvider.getProfile(
+                                      userId: user?.id ?? 0),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return CustomCircularProgressIndicator();
+                                    }
+                                    final profile = snapshot.data;
+                                    return ImageSection(
+                                      profileImg: profile?.profilePicture ?? '',
+                                    );
+                                  });
                             }),
                         // SizedBox(height: 20.h),
                         // Align(
@@ -138,31 +152,100 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             bgcolor: grey8,
                           ),
                         ],
+                        SizedBox(height: 16.h),
+
+                        Consumer<EditProfileProvider>(
+                          builder: (context, provider, _) {
+                            if (provider.isLoading) {
+                              return CustomCircularProgressIndicator();
+                            }
+                            print(provider.governorates);
+                            return CustomDropdownSectionProfile(
+                              greyTitle: true,
+                              errorText: 'هذا الحقل مطلوب',
+                              hint: 'ادخل اسم المحافظة',
+                              items: provider.governorates
+                                  .map((governorate) =>
+                                      governorate.governorateName)
+                                  .toList(),
+                              dropdownKey: 'المحافظة',
+                              title: 'المحافظة',
+                              onItemSelected: (selectedName) async {
+                                provider.resetCity();
+                                provider.setSelectedValue('المدينة', null);
+                                final selectedGovernorate =
+                                    provider.governorates.firstWhere(
+                                  (gov) => gov.governorateName == selectedName,
+                                  orElse: () => provider.governorates.first,
+                                );
+                                provider.setSelectedGovernorate(
+                                    selectedGovernorate);
+                                await provider.loadCities(
+                                    governorateId:
+                                        provider.selectedGovernorate?.id ?? 0);
+                              },
+                            );
+                          },
+                        ),
+                        SizedBox(height: 16.h),
+
+                        Consumer<EditProfileProvider>(
+                          builder: (context, provider, _) {
+                            final isCityEnabled =
+                                provider.selectedGovernorate != null;
+                            print('enabled city: $isCityEnabled');
+                            return CustomDropdownSectionProfile(
+                              greyTitle: true,
+                              errorText: 'هذا الحقل مطلوب',
+                              hint: 'ادخل اسم المدينة',
+                              items: isCityEnabled
+                                  ? provider.cities
+                                      .map((city) => city.cityName)
+                                      .toList()
+                                  : [],
+                              dropdownKey: 'المدينة',
+                              title: 'المدينة',
+                              onItemSelected: isCityEnabled
+                                  ? (selectedName) {
+                                      final selectedCity =
+                                          provider.cities.firstWhere(
+                                        (city) => city.cityName == selectedName,
+                                        orElse: () => provider.cities.first,
+                                      );
+                                      provider.setSelectedCity(selectedCity);
+                                    }
+                                  : null,
+                              enabled: isCityEnabled,
+                            );
+                          },
+                        ),
+                        SizedBox(height: 16.h),
+
                         CustomTextField(
                           labelGrey: true,
                           controller: profileProvider.addressController,
                           label: 'العنوان',
                           bgcolor: grey8,
                         ),
-                        SizedBox(height: 20.h),
-                        InkWell(
-                          onTap: () => Navigator.pushNamed(
-                              context, DeleteAccountScreen.id),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                arrowLeftPath,
-                                height: 15.h,
-                              ),
-                              SizedBox(width: 8.w),
-                              Text(
-                                'حذف الحساب',
-                                style: TextStyle(fontSize: 15.sp),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // SizedBox(height: 20.h),
+                        // InkWell(
+                        //   onTap: () => Navigator.pushNamed(
+                        //       context, DeleteAccountScreen.id),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: [
+                        //       SvgPicture.asset(
+                        //         arrowLeftPath,
+                        //         height: 15.h,
+                        //       ),
+                        //       SizedBox(width: 8.w),
+                        //       Text(
+                        //         'حذف الحساب',
+                        //         style: TextStyle(fontSize: 15.sp),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         SizedBox(height: 16.h),
                       ],
                     ),
@@ -170,7 +253,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               bottomNavigationBar: DraggableButton(
-                'حفظ التعديلات',
+                profileProvider.isLoading ? 'جاري المعالجة' : 'حفظ التعديلات',
+                color:
+                    profileProvider.isLoading ? kprimary4Color : kprimaryColor,
                 onPressed: () async {
                   editDoneAlert(context);
                 },

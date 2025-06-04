@@ -22,6 +22,7 @@ class JoinMyCollection extends StatelessWidget {
               height: 60.h,
               child: const TabBarWidget(
                   info: false,
+                  chats: false,
                   tab1: 'المرفوضة',
                   tab2: 'المقبولة',
                   tab3: 'قيد المراجعة')),

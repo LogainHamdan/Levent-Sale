@@ -5,6 +5,7 @@ import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/banner.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/category-list.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-header.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-section.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/top-search.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
@@ -60,23 +61,29 @@ class HomeScreen extends StatelessWidget {
                       TopBanner(),
                       CategoriesList(),
                       SizedBox(height: 10.h),
-                      ProductSection(
-                        onMorePressed: () =>
-                            Navigator.pushNamed(context, AdsScreen.id),
-                        category: "العروض والخصومات",
-                        products: provider.allAds,
-                      ),
-                      ProductSection(
-                        onMorePressed: () =>
-                            Navigator.pushNamed(context, AdsScreen.id),
-                        category: "الإعلانات الجديدة",
-                        products: provider.allAds,
-                      ),
+                      provider.isLoading
+                          ? CustomCircularProgressIndicator()
+                          : ProductSection(
+                              onMorePressed: () =>
+                                  Navigator.pushNamed(context, AdsScreen.id),
+                              category: "العروض والخصومات",
+                              products: provider.allAds,
+                            ),
+                      provider.isLoading
+                          ? CustomCircularProgressIndicator()
+                          : ProductSection(
+                              onMorePressed: () =>
+                                  Navigator.pushNamed(context, AdsScreen.id),
+                              category: "الإعلانات الجديدة",
+                              products: provider.allAds,
+                            ),
                       CustomHeader(
                           title: 'الاعلانات المقترحة',
                           onPressed: () =>
                               Navigator.pushNamed(context, AdsScreen.id)),
-                      ProductsDetails(productList: provider.allAds),
+                      provider.isLoading
+                          ? CustomCircularProgressIndicator()
+                          : ProductsDetails(productList: provider.allAds),
                       SizedBox(
                         height: 40.h,
                       )

@@ -4,6 +4,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/favorite.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/widgets/profile-menu-item.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/website-info/website-info.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/reports/reports.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -72,11 +73,21 @@ class LoggedInColumn extends StatelessWidget {
             )),
         SizedBox(height: 8.h),
         MenuItem(
+            onTap: () => Navigator.pushNamed(context, ReportsScreen.id),
+            color: kprimary4Color,
+            "إبلاغاتي",
+            SvgPicture.asset(
+              whoAreWeIcon,
+              height: 16.h,
+              width: 16.w,
+            )),
+        SizedBox(height: 8.h),
+        MenuItem(
             onTap: () => Navigator.pushNamed(context, WebsiteInfoScreen.id),
             color: kprimary4Color,
             "عن الموقع",
             SvgPicture.asset(
-              whoAreWeIcon,
+              techSupportIcon,
               height: 16.h,
               width: 16.w,
             )),

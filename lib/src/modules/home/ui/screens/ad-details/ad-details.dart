@@ -14,28 +14,22 @@ import 'package:timeago/timeago.dart' as timeago;
 import '../../../../../config/constants.dart';
 import '../../../../auth/models/user.dart';
 import '../../../../auth/ui/alerts/alert.dart';
-import '../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import '../../../../main/ui/screens/main_screen.dart';
 import '../../../../more/models/profile.dart';
 import '../../../../more/ui/screens/edit-profile/widgets/draggable-button.dart';
 import '../../../../sections/models/ad.dart';
 import '../../../../sections/models/adDTO.dart';
-import '../../../../sections/ui/screens/choose-section/widgets/categories-display.dart';
 import '../../../../sections/ui/screens/update-ad/provider.dart';
 import '../../../../sections/ui/screens/update-ad/update-ad.dart';
+
 import '../../../../sections/ui/screens/update-ad/widgets/section-details/provider.dart';
 import '../../../../sections/ui/screens/update-ad/widgets/section-details/section-details1-update.dart';
 import '../../../../sections/ui/screens/update-ad/widgets/section-details/section-details2-update.dart';
-import '../ads/widgets/custom-rating.dart';
 import '../ads/widgets/title-row.dart';
-import '../evaluation/evaluations.dart';
-import '../home/data.dart';
 import '../home/provider.dart';
-import '../home/widgets/custom-header.dart';
 import '../home/widgets/product-section.dart';
 import 'widgets/custom-carousel.dart';
 import 'widgets/details-section.dart';
-import 'widgets/rating-section.dart';
 import 'widgets/simple-title.dart';
 import 'widgets/specifications.dart';
 
@@ -48,7 +42,6 @@ class AdDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
-    final adProvider = Provider.of<AdDetailsProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final token = await TokenHelper.getToken();
@@ -70,56 +63,191 @@ class AdDetailsScreen extends StatelessWidget {
             );
           }
 
-          final user = snapshot.data![0] as User;
+          final user = snapshot.data![0] as User?;
           final ad = homeProvider.selectedAd;
-          print('userId before pass: ${ad?.userId}');
 
           return Scaffold(
             appBar: AppBar(
-              leadingWidth: 20.w,
-              leading: Row(
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              title: Stack(
+                alignment: Alignment.center,
                 children: [
-                  if (user.id == ad?.userId)
-                    Padding(
-                      padding: EdgeInsets.only(left: 24.0.w),
+                  TitleRow(title: ad?.title ?? ''),
+                  if (user != null && user.id == ad?.userId)
+                    Positioned(
+                      left: 0,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          InkWell(
+                          GestureDetector(
+                            behavior: HitTestBehavior.translucent,
                             onTap: () {
-                              if (ad?.condition?.first?.toLowerCase() ==
-                                  'published') {
-                                final provider = Provider.of<UpdateAdProvider>(
-                                    context,
-                                    listen: false);
-                                provider.selectAdToUpdate(ad?.id ?? 0, context);
-                                Navigator.pushNamed(context, UpdateAdScreen.id);
-                              }
+                              print('edit clicked');
+                              final provider = Provider.of<UpdateAdProvider>(
+                                  context,
+                                  listen: false);
+                              provider.selectAdToUpdate(ad?.id ?? 0, context);
+                              final adToUpdate =
+                                  provider.selectedAdToUpdate ?? AdModel();
+                              Navigator.pushNamed(
+                                context,
+                                UpdateAdScreen.id,
+                                arguments: UpdateAdScreenArgs(
+                                  ad: adToUpdate,
+                                  bottomNavBar: DraggableButton(
+                                      color: provider.isLoading
+                                          ? kprimary3Color
+                                          : kprimaryColor,
+                                      provider.isLoading
+                                          ? 'جاري المعالجة'
+                                          : 'متابعة', onPressed: () {
+                                    final detailsProvider = Provider.of<
+                                            UpdateAdSectionDetailsProvider>(
+                                        context,
+                                        listen: false);
+                                    if (detailsProvider.validateFields1()) {
+                                      Navigator.pushNamed(
+                                        context,
+                                        UpdateAdScreen.id,
+                                        arguments: UpdateAdScreenArgs(
+                                          ad: adToUpdate,
+                                          bottomNavBar: DraggableButton(
+                                              color: provider.isLoading
+                                                  ? kprimary3Color
+                                                  : kprimaryColor,
+                                              provider.isLoading
+                                                  ? 'جاري المعالجة'
+                                                  : 'متابعة',
+                                              onPressed: () async {
+                                            print(
+                                                'validate 2: ${detailsProvider.validateFields2()}');
+                                            if (detailsProvider
+                                                .validateFields2()) {
+                                              Map<String, dynamic>
+                                                  filteredAttributes =
+                                                  detailsProvider
+                                                      .getAttributeFieldsMap()
+                                                    ..removeWhere(
+                                                        (key, value) =>
+                                                            value == null);
+
+                                              final address = Address(
+                                                fullAddresse:
+                                                    ' المدينة: ${detailsProvider.selectedCity?.cityName} المحافظة: - ${detailsProvider.selectedGovernorate?.governorateName}',
+                                                city: detailsProvider
+                                                    .selectedCity,
+                                                governorate: detailsProvider
+                                                    .selectedGovernorate,
+                                              );
+
+                                              final ad = AdDTO(
+                                                title: detailsProvider
+                                                    .titleController.text,
+                                                description: detailsProvider
+                                                    .shortDescController.text,
+                                                longDescription: detailsProvider
+                                                    .getQuillText(),
+                                                contactPhone: detailsProvider
+                                                        .numberMethods
+                                                        .contains(detailsProvider
+                                                            .selectedContactMethod)
+                                                    ? detailsProvider
+                                                        .contactDetailController
+                                                        .text
+                                                    : '',
+                                                contactEmail: (detailsProvider
+                                                            .emailMethods
+                                                            .contains(
+                                                                detailsProvider
+                                                                    .selectedContactMethod) ||
+                                                        detailsProvider
+                                                            .detailMethods
+                                                            .contains(
+                                                                detailsProvider
+                                                                    .selectedContactMethod))
+                                                    ? detailsProvider
+                                                        .contactDetailController
+                                                        .text
+                                                    : '',
+                                                governorate:
+                                                    address.governorate,
+                                                city: address.city,
+                                                attributes: filteredAttributes,
+                                                fullAddress:
+                                                    address.fullAddresse,
+                                                adType: detailsProvider
+                                                        .selectedAdType?.name ??
+                                                    AdType.UNKNOWN.name,
+                                                currency: detailsProvider
+                                                    .selectedCurrency?.name,
+                                                negotiable:
+                                                    detailsProvider.negotiable,
+                                                preferredContactMethod:
+                                                    detailsProvider
+                                                            .selectedContactMethod
+                                                            ?.name ??
+                                                        ContactMethod
+                                                            .EMAIL.name,
+                                                price: detailsProvider
+                                                    .priceController.text,
+                                                tradePossible: detailsProvider
+                                                    .tradePossible,
+                                              );
+
+                                              final token =
+                                                  await TokenHelper.getToken();
+                                              final response =
+                                                  await provider.updateAd(
+                                                      ad,
+                                                      detailsProvider
+                                                          .selectedImages,
+                                                      token: token ?? '',
+                                                      id: adToUpdate.id ?? 0);
+                                              provider.nextStep();
+
+                                              if (response?.statusCode == 200) {
+                                                Navigator.popUntil(
+                                                    context,
+                                                    (route) =>
+                                                        route.settings.name ==
+                                                        MainScreen.id);
+                                                showAdUpdated(context);
+                                              }
+                                            }
+                                          }),
+                                          lowerWidget: SectionDetails2Update(),
+                                        ),
+                                      );
+                                    }
+                                  }),
+                                  lowerWidget: SectionDetails1Update(),
+                                ),
+                              );
                             },
                             child: SvgPicture.asset(
                               editBlackIcon,
-                              height: 20.h,
+                              height: 16.h,
                             ),
                           ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          InkWell(
-                            onTap: () => deleteAdAlert(context, ad?.id ?? 0),
-                            child: SvgPicture.asset(
-                              deleteCollectionIcon,
-                              height: 20.h,
+                          SizedBox(width: 8.w),
+                          GestureDetector(
+                            onTap: () {
+                              print('delete clicked');
+                              return deleteAdAlert(context, ad?.id ?? 0);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(8.w),
+                              child: SvgPicture.asset(
+                                deleteCollectionIcon,
+                                height: 16.h,
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
                 ],
-              ),
-              backgroundColor: Colors.white,
-              titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-              title: TitleRow(
-                title: ad?.title ?? '',
               ),
             ),
             body: SafeArea(
@@ -143,41 +271,43 @@ class AdDetailsScreen extends StatelessWidget {
                                     SizedBox(height: 24.0.h),
                                     Padding(
                                       padding: EdgeInsets.only(right: 8.w),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "${ad?.price} ${ad?.currency}",
-                                            style: TextStyle(
-                                              fontSize: 20.sp,
-                                              fontWeight: FontWeight.bold,
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              "${ad?.price} ${ad?.currency}",
+                                              style: TextStyle(
+                                                fontSize: 20.sp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(height: 5.h),
-                                          Text(
-                                            'نشر ${timeago.format(ad!.createdAt!, locale: 'ar')}',
-                                            style: TextStyle(
-                                              fontSize: 14.sp,
-                                              color: grey3,
-                                            ),
-                                          ),
-                                          CustomRating(
-                                            adId: adId,
-                                            rateNum: true,
-                                            flexible: false,
-                                          ),
-                                          SizedBox(height: 8.h),
-                                          Text(
-                                            textDirection: TextDirection.rtl,
-                                            ad?.cleanDescription ?? '',
-                                            maxLines: 4,
-                                            style: TextStyle(
+                                            SizedBox(height: 5.h),
+                                            Text(
+                                              'نشر ${timeago.format(ad?.createdAt ?? DateTime.now(), locale: 'ar')}',
+                                              style: TextStyle(
                                                 fontSize: 14.sp,
-                                                color: grey2,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ],
+                                                color: grey3,
+                                              ),
+                                            ),
+                                            // CustomRating(
+                                            //   adId: adId,
+                                            //   rateNum: true,
+                                            //   flexible: false,
+                                            // ),
+                                            SizedBox(height: 8.h),
+                                            Text(
+                                              ad?.cleanDescription ?? '',
+                                              maxLines: 4,
+                                              style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  color: grey2,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     SizedBox(height: 24.h),

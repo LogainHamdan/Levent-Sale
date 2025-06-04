@@ -24,6 +24,8 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/website-info/provider.da
 import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/reports/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/provider.dart';
@@ -93,9 +95,6 @@ class MyApp extends StatelessWidget {
         create: (_) => CreateAdSectionDetailsProvider(),
       ),
       ChangeNotifierProvider(
-        create: (_) => UpdateAdSectionDetailsProvider(context),
-      ),
-      ChangeNotifierProvider(
         create: (_) => TechSupportProvider(),
       ),
       ChangeNotifierProvider(
@@ -129,7 +128,7 @@ class MyApp extends StatelessWidget {
         create: (context) => UpdateAdProvider(),
       ),
       ChangeNotifierProvider(
-        create: (context) => UpdateAdSectionDetailsProvider(context),
+        create: (context) => UpdateAdSectionDetailsProvider(),
       ),
       ChangeNotifierProvider(
         create: (context) => FavoriteProvider(),
@@ -139,6 +138,12 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (context) => WebsiteInfoProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => ReportProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => SectionProvider(),
       ),
     ], child: MyMaterialApp());
   }

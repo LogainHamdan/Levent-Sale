@@ -37,7 +37,7 @@ class SectionChoose extends StatelessWidget {
               child: Column(
                 children: [
                   CategoriesDisplay(
-                    selectable: true,
+                    forCreateAd: true,
                     onSectionClicked: () async {
                       createAdProvider.nextStep();
 

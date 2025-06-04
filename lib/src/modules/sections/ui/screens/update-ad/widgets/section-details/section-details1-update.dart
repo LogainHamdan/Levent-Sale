@@ -12,32 +12,64 @@ import '../../../../../../home/ui/screens/home/widgets/custom-indicator.dart';
 import '../../../../../models/attriburtes.dart';
 import '../../provider.dart';
 
-class SectionDetails1Update extends StatelessWidget {
-  const SectionDetails1Update({
-    super.key,
-  });
+class SectionDetails1Update extends StatefulWidget {
+  const SectionDetails1Update({super.key});
+
+  @override
+  State<SectionDetails1Update> createState() => _SectionDetails1UpdateState();
+}
+
+class _SectionDetails1UpdateState extends State<SectionDetails1Update> {
+  bool isLoading = true;
+  late UpdateAdSectionDetailsProvider detailsProvider;
+
+  Future<void> _initializeData() async {
+    try {
+      final provider = Provider.of<UpdateAdProvider>(context, listen: false);
+      detailsProvider =
+          Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
+
+      detailsProvider =
+          Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
+      detailsProvider.initializeControllers(context);
+
+      final lastCategoryId = detailsProvider
+          .extractLastCategoryId(provider.selectedAdToUpdate?.categoryPath);
+
+      await detailsProvider.fetchAttributes(lastCategoryId ?? 0);
+      detailsProvider.initializeSelectedValuesFromAd(
+          provider.selectedAdToUpdate?.attributes);
+      detailsProvider.initializeControllers(context);
+
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      debugPrint('Error initializing data: $e');
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<UpdateAdProvider>(context, listen: false);
-    final detailsProvider = UpdateAdSectionDetailsProvider(context);
-
-    return FutureBuilder(
-      future: () async {
-        final lastCategoryId = detailsProvider
-            .extractLastCategoryId(provider.selectedAdToUpdate?.categoryPath);
-        await detailsProvider.fetchAttributes(lastCategoryId);
-
-        detailsProvider.initializeSelectedValuesFromAd(
-            provider.selectedAdToUpdate?.attributes);
-      }(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return const Center(child: CustomCircularProgressIndicator());
-        }
-        return Consumer<UpdateAdSectionDetailsProvider>(
-          builder: (context, provider, _) {
+    return isLoading
+        ? const Center(child: CustomCircularProgressIndicator())
+        : Consumer<UpdateAdSectionDetailsProvider>(
+            builder: (context, provider, _) {
             final attributesData = provider.attributesData;
+            print(attributesData?.toJson());
             if (attributesData == null || attributesData.attributes == null) {
               return const Center(child: CustomCircularProgressIndicator());
             }
@@ -103,12 +135,10 @@ class SectionDetails1Update extends StatelessWidget {
                                   if ((field.options ?? []).isNotEmpty) ...[
                                     CustomDropdownSectionUpdate(
                                       title: field.label ?? 'عنوان غير معروف',
-
                                       dropdownKey: field.name ?? '',
                                       hint: field.placeholder ?? 'اختر',
                                       items: field.options ?? [],
-                                      errorText:
-                                          "هذا الحقل مطلوب", // Error message
+                                      errorText: "هذا الحقل مطلوب",
                                     ),
                                     SizedBox(height: 16.h),
                                   ],
@@ -159,9 +189,6 @@ class SectionDetails1Update extends StatelessWidget {
                 ),
               ),
             );
-          },
-        );
-      },
-    );
+          });
   }
 }

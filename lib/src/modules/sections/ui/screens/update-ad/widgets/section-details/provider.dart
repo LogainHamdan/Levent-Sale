@@ -72,16 +72,11 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
 
   List<Detail> get selectedServices => _selectedServices;
 
-  UpdateAdSectionDetailsProvider(BuildContext context) {
-    initializeControllers(context);
-  }
-
   void initializeControllers(BuildContext context) async {
     final provider = Provider.of<UpdateAdProvider>(context, listen: false);
-    final detailsProvider =
-        Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
-    await fetchAttributes(detailsProvider
-        .extractLastCategoryId(provider.selectedAdToUpdate?.categoryPath));
+
+    await fetchAttributes(
+        extractLastCategoryId(provider.selectedAdToUpdate?.categoryPath) ?? 0);
     titleController.text = provider.selectedAdToUpdate?.title ?? '';
     shortDescController.text =
         provider.selectedAdToUpdate?.cleanDescription ?? '';
@@ -156,18 +151,35 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     print('${selectedCurrency}');
     print('${selectedCurrency?.arabicName}');
     setSelectedCurrency('currency', selectedCurrency);
-    final selectedGovernorate = governorates.firstWhere(
-      (gov) =>
-          gov.governorateName ==
-          provider.selectedAdToUpdate?.governorate?.governorateName,
-      orElse: () => governorates.first,
-    );
-    setSelectedGovernorate(selectedGovernorate);
-    final selectedCity = cities.firstWhere(
-      (city) => city.cityName == provider.selectedAdToUpdate?.city?.cityName,
-      orElse: () => cities.first,
-    );
-    setSelectedCity(selectedCity);
+    await loadGovernorates();
+
+    if (governorates.isNotEmpty) {
+      final selectedGov = governorates.firstWhere(
+        (gov) =>
+            gov.governorateName ==
+            provider.selectedAdToUpdate?.governorate?.governorateName,
+        orElse: () => governorates.first,
+      );
+      setSelectedGovernorate(selectedGov);
+
+      if (selectedGov.id != null) {
+        await loadCities(governorateId: selectedGov.id!);
+      }
+    }
+
+    if (cities.isNotEmpty &&
+        provider.selectedAdToUpdate?.city?.cityName != null) {
+      final selectedCity = cities.firstWhere(
+        (city) => city.cityName == provider.selectedAdToUpdate?.city?.cityName,
+        orElse: () => cities.first,
+      );
+      setSelectedCity(selectedCity);
+    }
+    setSelectedValue('المدينة', selectedCity?.cityName);
+    setSelectedValue('المحافظة', selectedGovernorate?.governorateName);
+    titleController.text = provider.selectedAdToUpdate?.title ?? '';
+    shortDescController.text =
+        provider.selectedAdToUpdate?.cleanDescription ?? '';
     _isInitialized = true;
 
     notifyListeners();
@@ -184,7 +196,7 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void initializeSelectedValuesFromAd(Map<String?, dynamic>? adAttributes) {
+  void initializeSelectedValuesFromAd(Map<String, dynamic>? adAttributes) {
     if (adAttributes == null) return;
 
     adAttributes.forEach((key, value) {
@@ -197,9 +209,15 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
     });
   }
 
-  int extractLastCategoryId(String? categoryPath) {
-    final parts = categoryPath?.split('/');
-    return int.parse(parts?.last ?? '');
+  int? extractLastCategoryId(String? categoryPath) {
+    if (categoryPath == null || categoryPath.isEmpty) return null;
+
+    final parts = categoryPath.split('/');
+    final lastPart = parts.isNotEmpty ? parts.last.trim() : '';
+
+    if (lastPart.isEmpty || int.tryParse(lastPart) == null) return null;
+
+    return int.parse(lastPart);
   }
 
   List<ContactMethod> numberMethods = [

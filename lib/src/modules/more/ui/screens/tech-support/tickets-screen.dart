@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/chats/no-info-widget.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
@@ -6,6 +7,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/provider.da
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/tech-support-screen.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/widgets/custom-card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -87,8 +89,12 @@ class _TicketsScreenState extends State<TicketsScreen> {
                   ),
                   CustomElevatedButton(
                       text: 'بدء رسالة جديدة',
-                      onPressed: () =>
-                          Navigator.pushNamed(context, SupportScreen.id),
+                      onPressed: () async {
+                        final user = await UserHelper.getUser();
+                        user != null
+                            ? Navigator.pushNamed(context, SupportScreen.id)
+                            : loginFirstAlert(context);
+                      },
                       backgroundColor: kprimaryColor,
                       textColor: grey9)
                 ],

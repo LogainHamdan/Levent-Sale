@@ -8,7 +8,7 @@ import '../models/ad.dart';
 import 'package:http_parser/http_parser.dart';
 
 import '../models/adDTO.dart';
-import '../models/filterDTO.dart';
+import '../models/filter.dart';
 
 class AdRepository {
   late final Dio dio;
@@ -94,6 +94,7 @@ class AdRepository {
           },
         ),
       );
+      print('deleted successfully');
 
       return response;
     } on DioException catch (e) {
@@ -220,6 +221,41 @@ class AdRepository {
     }
   }
 
+  Future<Response> getCategoryAds(
+    FilterRequestDTO filter, {
+    required String categoryId,
+    String? token,
+    int? size,
+    int? page,
+  }) async {
+    try {
+      final response = await dio.post(
+        '$getCategoryAdsUrl/$categoryId',
+        data: filter.toJson(),
+        queryParameters: {'page': page, 'size': size},
+        options: Options(
+          headers: {
+            if (token != null) 'Authorization': token,
+            'Content-Type': 'application/json',
+            'Accept': '*/*',
+          },
+        ),
+      );
+      print('ads for category $categoryId : ${response.data}');
+      print('filter : ${filter.toJson()}\n categoryId : $categoryId\n');
+      return response;
+    } catch (e) {
+      if (e is DioException) {
+        print('DioError: ${e.message}');
+        print('Response: ${e.response?.data}');
+        print('Status code: ${e.response?.statusCode}');
+      } else {
+        print('Unknown error: $e');
+      }
+      throw Exception('Repository API error: $e');
+    }
+  }
+
   Future<List<AdModel>> getUserAds({required int userId}) async {
     try {
       final response = await dio.get('$getUserAdsUrl/$userId',
@@ -288,35 +324,6 @@ class AdRepository {
       print('$status Ads API Response: $ads');
 
       return ads;
-    } on DioException catch (e) {
-      print('Error fetching ads by status: ${e.response?.statusCode}');
-      print('Message: ${e.response?.data}');
-      rethrow;
-    }
-  }
-
-  Future<List<AdModel?>> getMyAdsByCategory(
-    FilterRequestDTO filterDTO, {
-    required String categoryId,
-    String? token,
-    int page = 0,
-    int size = 8,
-  }) async {
-    try {
-      final response = await dio.post(
-        '$getAdsByCategoryUrl/$categoryId',
-        queryParameters: {'page': page, 'size': size},
-        options: Options(
-          headers: {
-            'Authorization': token,
-            'Content-Type': 'application/json',
-            'Accept': '*/*',
-          },
-        ),
-      );
-      print('ads by status fetched successfully');
-      final List data = response.data;
-      return data.map((e) => AdModel.fromJson(e)).toList();
     } on DioException catch (e) {
       print('Error fetching ads by status: ${e.response?.statusCode}');
       print('Message: ${e.response?.data}');
