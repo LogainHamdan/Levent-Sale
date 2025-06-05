@@ -369,10 +369,10 @@ void showEmailSent(BuildContext context) {
   );
 }
 
-DateTime _selectedDay = DateTime.now();
-
 void showDatePickerDialog(
     BuildContext context, TextEditingController dateController) {
+  DateTime _selectedDay = DateTime.now();
+
   showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.2),
@@ -427,9 +427,9 @@ void showDatePickerDialog(
                       calendarStyle: CalendarStyle(
                         defaultTextStyle: TextStyle(color: Colors.black),
                         outsideTextStyle: TextStyle(color: Colors.grey),
-                        todayDecoration: BoxDecoration(
-                          color: Colors.transparent,
-                        ),
+                        // todayDecoration: BoxDecoration(
+                        //   color: Colors.transparent,
+                        // ),
                         selectedDecoration: BoxDecoration(
                           color: kprimaryColor,
                           shape: BoxShape.circle,
