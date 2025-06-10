@@ -4,6 +4,7 @@ import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/more/models/ticket-msgDTO.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/provider.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/technical-support.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -71,13 +72,16 @@ class SupportScreen extends StatelessWidget {
                   bottomNavProvider.setIndex(0);
                   await techSupportProvider.addTicket(
                       token: token ?? '', ticket: ticketMsg);
+                  print(
+                      'isTicketCreated ${techSupportProvider.isTicketCreated}');
                   if (techSupportProvider.isTicketCreated) {
-                    showTicketCreated(context);
-                    Navigator.pop(context);
+                    await showTicketCreated(context);
                     techSupportProvider.titleController.clear();
                     techSupportProvider.msgController.clear();
                     await techSupportProvider.getTickets(
                         token: token ?? '', userId: user?.id ?? 0);
+                    Navigator.pushReplacementNamed(
+                        context, TechnicalSupportScreen.id);
                   }
                 },
                 backgroundColor: kprimaryColor,

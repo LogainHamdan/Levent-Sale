@@ -25,6 +25,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/profile/profile.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/ticket-conversation.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/reports/reports.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -239,65 +240,68 @@ void showForgotPassword(BuildContext context) {
   );
 }
 
-void showActivateAccount(BuildContext context) {
-  showDialog(
+Future<void> showActivateAccount(BuildContext context) {
+  return showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.2),
     builder: (dialogContext) {
       return BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
-          child: AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16.r)),
-              backgroundColor: grey9,
-              content: SizedBox(
-                width: 330.w,
-                height: 240.h,
-                child: Column(
+        filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+        child: AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+          backgroundColor: grey9,
+          content: SizedBox(
+            width: 330.w,
+            height: 240.h,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () => Navigator.of(dialogContext).pop(),
-                          child: SvgPicture.asset(
-                            cancelPath,
-                            height: 18.h,
-                            width: 18.w,
-                          ),
-                        ),
-                      ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(dialogContext).pop(); // Close dialog
+                        Navigator.pushReplacementNamed(
+                            context, LoginScreen.id); // Navigate
+                      },
+                      child: SvgPicture.asset(
+                        cancelPath,
+                        height: 18.h,
+                        width: 18.w,
+                      ),
                     ),
-                    SizedBox(
-                      height: 24.h,
-                    ),
-                    Text(
-                      'قم بتفعيل حسابك',
-                      style: GoogleFonts.tajawal(
-                          color: kprimaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.sp),
-                    ),
-                    SizedBox(
-                      height: 8.h,
-                    ),
-                    Text(
-                      textAlign: TextAlign.center,
-                      ' قمنا بإرسال رابط تفعيل على الإيميل الخاص بك، ان لم تجده في صندوق الوارد ابحث عنه في البريد العشوائي. بعد تفعيل الحساب قم بتسجيل الدخول',
-                      style: GoogleFonts.tajawal(color: grey3, fontSize: 14.sp),
-                    ),
-                    SizedBox(height: 24.h),
-                    CustomElevatedButton(
-                        text: 'تسجيل الدخول',
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pushNamed(context, LoginScreen.id);
-                        },
-                        backgroundColor: kprimaryColor,
-                        textColor: greySplash),
                   ],
                 ),
-              )));
+                SizedBox(height: 24.h),
+                Text(
+                  'قم بتفعيل حسابك',
+                  style: GoogleFonts.tajawal(
+                      color: kprimaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.sp),
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  textAlign: TextAlign.center,
+                  'قمنا بإرسال رابط تفعيل على الإيميل الخاص بك، إن لم تجده في صندوق الوارد ابحث عنه في البريد العشوائي. بعد تفعيل الحساب قم بتسجيل الدخول',
+                  style: GoogleFonts.tajawal(color: grey3, fontSize: 14.sp),
+                ),
+                SizedBox(height: 24.h),
+                CustomElevatedButton(
+                  text: 'تسجيل الدخول',
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    Navigator.pushReplacementNamed(context, LoginScreen.id);
+                  },
+                  backgroundColor: kprimaryColor,
+                  textColor: greySplash,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
     },
   );
 }
@@ -365,10 +369,10 @@ void showEmailSent(BuildContext context) {
   );
 }
 
-DateTime _selectedDay = DateTime.now();
-
 void showDatePickerDialog(
     BuildContext context, TextEditingController dateController) {
+  DateTime _selectedDay = DateTime.now();
+
   showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.2),
@@ -423,9 +427,9 @@ void showDatePickerDialog(
                       calendarStyle: CalendarStyle(
                         defaultTextStyle: TextStyle(color: Colors.black),
                         outsideTextStyle: TextStyle(color: Colors.grey),
-                        todayDecoration: BoxDecoration(
-                          color: Colors.transparent,
-                        ),
+                        // todayDecoration: BoxDecoration(
+                        //   color: Colors.transparent,
+                        // ),
                         selectedDecoration: BoxDecoration(
                           color: kprimaryColor,
                           shape: BoxShape.circle,
@@ -673,6 +677,248 @@ void showAdCreated(BuildContext context) {
   );
 }
 
+void showTagCreated(BuildContext context) {
+  if (!context.mounted) return;
+
+  showDialog(
+    context: context,
+    barrierColor: Colors.black.withOpacity(0.2),
+    builder: (dialogContext) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+        child: AlertDialog(
+          backgroundColor: grey9,
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          content: SizedBox(
+            height: 360.h,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(dialogContext).pop();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(20.w),
+                        child: SvgPicture.asset(
+                          cancelPath,
+                          height: 18.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 12.h),
+                  child: SvgPicture.asset(
+                    adCreatedIcon,
+                    height: 120.h,
+                  ),
+                ),
+                SizedBox(height: 15.h),
+                Text(
+                  'تم إنشاء تشكيلتك',
+                  textDirection: TextDirection.rtl,
+                  style: GoogleFonts.tajawal(
+                    color: kprimaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Text(
+                    maxLines: 2,
+                    'تم إنشاء تشكيلتك يمكنك اضافة اعلاناتك المفضلة إليها',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                    style: GoogleFonts.tajawal(
+                      color: grey3,
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: CustomElevatedButton(
+                      text: 'عرض مفضلتي',
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, FavoriteScreen.id);
+                      },
+                      backgroundColor: kprimaryColor,
+                      textColor: grey9,
+                      date: false,
+                    )),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void showAddedToFavorites(BuildContext context) {
+  if (!context.mounted) return;
+
+  showDialog(
+    context: context,
+    barrierColor: Colors.black.withOpacity(0.2),
+    builder: (dialogContext) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+        child: AlertDialog(
+          backgroundColor: grey9,
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          content: SizedBox(
+            height: 360.h,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(dialogContext).pop();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(20.w),
+                        child: SvgPicture.asset(
+                          cancelPath,
+                          height: 18.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 12.h),
+                  child: SvgPicture.asset(
+                    adCreatedIcon,
+                    height: 120.h,
+                  ),
+                ),
+                SizedBox(height: 15.h),
+                Text(
+                  'تم اضافة الاعلان للمفضلة',
+                  textDirection: TextDirection.rtl,
+                  style: GoogleFonts.tajawal(
+                    color: kprimaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Text(
+                    maxLines: 2,
+                    'يمكنك مراجعة اعلاناتك المفضلة من صفحة مفضلتي',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                    style: GoogleFonts.tajawal(
+                      color: grey3,
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: CustomElevatedButton(
+                      text: 'عرض مفضلتي',
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, FavoriteScreen.id);
+                      },
+                      backgroundColor: kprimaryColor,
+                      textColor: grey9,
+                      date: false,
+                    )),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void showAdExists(BuildContext context) {
+  if (!context.mounted) return;
+
+  showDialog(
+    context: context,
+    barrierColor: Colors.black.withOpacity(0.2),
+    builder: (dialogContext) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+        child: AlertDialog(
+          backgroundColor: grey9,
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          content: SizedBox(
+            height: 250.h,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(dialogContext).pop();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(20.w),
+                        child: SvgPicture.asset(
+                          cancelPath,
+                          height: 18.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Icon(
+                  Icons.cancel,
+                  color: errorColor,
+                  size: 120.sp,
+                ),
+                SizedBox(height: 15.h),
+                Text(
+                  'الاعلان موجود بالمفضلة بالفعل',
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.tajawal(
+                    color: errorColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.sp,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
 void showReviewAdded(BuildContext context) {
   if (!context.mounted) return;
 
@@ -858,10 +1104,8 @@ void showAdUpdated(BuildContext context) {
   );
 }
 
-void showTicketCreated(BuildContext context) {
-  if (!context.mounted) return;
-
-  showDialog(
+Future<void> showTicketCreated(BuildContext context) {
+  return showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.2),
     builder: (dialogContext) {
@@ -874,7 +1118,7 @@ void showTicketCreated(BuildContext context) {
             borderRadius: BorderRadius.circular(16.r),
           ),
           content: SizedBox(
-            height: 300.h,
+            height: 350.h,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -884,6 +1128,8 @@ void showTicketCreated(BuildContext context) {
                     GestureDetector(
                       onTap: () {
                         Navigator.of(dialogContext).pop();
+                        Navigator.pushReplacementNamed(
+                            context, TechnicalSupportScreen.id);
                       },
                       child: Padding(
                         padding: EdgeInsets.all(20.w),
@@ -926,18 +1172,107 @@ void showTicketCreated(BuildContext context) {
                     ),
                   ),
                 ),
-                // SizedBox(
-                //   height: 24.h,
-                // ),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: 24.0.w),
-                //   child: CustomElevatedButton(
-                //       text: 'جميع الرسائل',
-                //       onPressed: () => Navigator.pushNamed(
-                //           context, TechnicalSupportScreen.id),
-                //       backgroundColor: kprimaryColor,
-                //       textColor: grey9),
-                // )
+                SizedBox(
+                  height: 24.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+                  child: CustomElevatedButton(
+                      text: 'جميع الرسائل',
+                      onPressed: () => Navigator.pushReplacementNamed(
+                          context, TechnicalSupportScreen.id),
+                      backgroundColor: kprimaryColor,
+                      textColor: grey9),
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+Future<void> showReportCreated(BuildContext context) {
+  return showDialog(
+    context: context,
+    barrierColor: Colors.black.withOpacity(0.2),
+    builder: (dialogContext) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.w, sigmaY: 10.h),
+        child: AlertDialog(
+          backgroundColor: grey9,
+          contentPadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          content: SizedBox(
+            height: 350.h,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(dialogContext).pop();
+                        Navigator.pushReplacementNamed(
+                            context, TechnicalSupportScreen.id);
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(20.w),
+                        child: SvgPicture.asset(
+                          cancelPath,
+                          height: 18.h,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 12.h),
+                  child: SvgPicture.asset(
+                    adCreatedIcon,
+                    height: 120.h,
+                  ),
+                ),
+                SizedBox(height: 15.h),
+                Text(
+                  'تم ارسال الإبلاغ',
+                  textDirection: TextDirection.rtl,
+                  style: GoogleFonts.tajawal(
+                    color: kprimaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Text(
+                    maxLines: 2,
+                    'تم ارسالة الإبلاغ للجهة المختصة ويمكنك مراجعة إبلاغاتك المرسلة جميعها من خلال الصفحة الرئيسية',
+                    textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
+                    style: GoogleFonts.tajawal(
+                      color: grey3,
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 24.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+                  child: CustomElevatedButton(
+                      text: 'جميع إبلاغاتي',
+                      onPressed: () => Navigator.pushReplacementNamed(
+                          context, ReportsScreen.id),
+                      backgroundColor: kprimaryColor,
+                      textColor: grey9),
+                )
               ],
             ),
           ),
@@ -1009,9 +1344,18 @@ Future<void> showAddToFavoriteAlert(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    SizedBox(
+                      height: 16.h,
+                    ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        GestureDetector(
+                          onTap: () => showNewCollectionAlert(
+                              context, favoriteProvider.tagController),
+                          child: SvgPicture.asset(addCircleGreenIcon,
+                              height: 20.h, width: 20.w),
+                        ),
                         Text(
                           "احفظ في قائمة المفضلة",
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -1019,18 +1363,14 @@ Future<void> showAddToFavoriteAlert(
                         ),
                         GestureDetector(
                           onTap: () => Navigator.of(sheetContext).pop(),
-                          child: Padding(
-                            padding: EdgeInsets.all(10.w),
-                            child: SvgPicture.asset(
-                              cancelPath,
-                              height: 18.h,
-                              width: 18.w,
-                            ),
+                          child: SvgPicture.asset(
+                            cancelPath,
+                            height: 18.h,
+                            width: 18.w,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 20.h),
                     FutureBuilder(
                       future: favoriteProvider.fetchTags(token ?? ''),
                       builder: (context, snapshot) {
@@ -1069,66 +1409,45 @@ Future<void> showAddToFavoriteAlert(
 
                           if (context.mounted) {
                             if (success) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('تمت الإضافة إلى المفضلة بنجاح',
-                                      textDirection: TextDirection.rtl),
-                                  backgroundColor: kprimaryColor,
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'الإعلان موجود بالمفضلة بالفعل',
-                                    textDirection: TextDirection.rtl,
-                                  ),
-                                  backgroundColor: errorColor,
-                                ),
-                              );
+                              showAddedToFavorites(context);
                             }
                           }
                         } on DioException catch (e) {
                           Navigator.pop(sheetContext);
                           if (e.response?.statusCode == 409) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('الإعلان موجود بالمفضلة بالفعل'),
-                                backgroundColor: Colors.orange,
-                              ),
-                            );
+                            showAdExists(context);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content:
-                                    Text('حدث خطأ غير متوقع، حاول مرة أخرى'),
-                                backgroundColor: Colors.red,
-                              ),
+                                  content:
+                                      Text('حدث خطأ غير متوقع، حاول مرة أخرى'),
+                                  backgroundColor: errorColor),
                             );
                           }
                         }
                       },
                     ),
+                    SizedBox(height: 8.h),
+                    // GestureDetector(
+                    //   onTap: () => showNewCollectionAlert(
+                    //       context, favoriteProvider.tagController),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.end,
+                    //     children: [
+                    //       Text(
+                    //         'تشكيلة جديدة',
+                    //         style: TextStyle(
+                    //             color: kprimaryColor,
+                    //             fontSize: 14.sp,
+                    //             fontWeight: FontWeight.w400),
+                    //       ),
+                    //       SizedBox(width: 4.w),
+                    //       SvgPicture.asset(addCircleGreenIcon,
+                    //           height: 20.h, width: 20.w),
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(height: 20.h),
-                    GestureDetector(
-                      onTap: () => showNewCollectionAlert(
-                          context, favoriteProvider.tagController),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'تشكيلة جديدة',
-                            style: TextStyle(
-                                color: kprimaryColor,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          SizedBox(width: 4.w),
-                          SvgPicture.asset(addCircleGreenIcon,
-                              height: 20.h, width: 20.w),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -1196,14 +1515,8 @@ void showNewCollectionAlert(
                         await provider.createTag(tagName, token ?? '');
 
                         await provider.fetchTags(token ?? '');
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'تم انشاء التشكيلة بنجاح!',
-                            ),
-                            backgroundColor: kprimaryColor,
-                          ),
-                        );
+                        showAddedToFavorites(context);
+
                         Navigator.pop(context);
                       },
                       backgroundColor: kprimaryColor,
@@ -1237,7 +1550,7 @@ void editDoneAlert(BuildContext context) async {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'حدث خطأ: لم يتم العثور على التوكن',
+                'حدث خطأ',
                 textDirection: TextDirection.rtl,
               ),
               backgroundColor: errorColor,
@@ -1253,6 +1566,8 @@ void editDoneAlert(BuildContext context) async {
           profilePicture: profileProvider.profileImage,
           businessLicense: profileProvider.businessLicenseController.text,
           fullAddress: profileProvider.addressController.text,
+          cityId: '${profileProvider.selectedCity?.id}',
+          governorateId: '${profileProvider.selectedGovernorate?.id}',
         );
         profileProvider.firstNameController.clear();
         profileProvider.lastNameController.clear();

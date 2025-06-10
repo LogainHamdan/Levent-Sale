@@ -70,19 +70,34 @@ class SectionTrack extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => CreateAdScreen(
-                        additionalBackFunction: () {},
+                        additionalBackFunction: () {
+                          createDetailsProvider.resetAttributes();
+                          createSectionChooseProvider.navigateBack();
+                        },
                         lowerWidget: SectionDetails1(),
-                        bottomNavBar: DraggableButton('متابعة', onPressed: () {
-                          if (createDetailsProvider.validateFields1()) {
+                        bottomNavBar: DraggableButton(
+                            color: createAdProvider.isLoading
+                                ? kprimary3Color
+                                : kprimaryColor,
+                            createAdProvider.isLoading
+                                ? 'جاري المعالجة'
+                                : 'متابعة', onPressed: () {
+                          if (createDetailsProvider.validateFields1(context)) {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => CreateAdScreen(
                                         additionalBackFunction: () {},
-                                        bottomNavBar: DraggableButton('متابعة',
+                                        bottomNavBar: DraggableButton(
+                                            color: createAdProvider.isLoading
+                                                ? kprimary3Color
+                                                : kprimaryColor,
+                                            createAdProvider.isLoading
+                                                ? 'جاري المعالجة'
+                                                : 'متابعة',
                                             onPressed: () async {
                                           if (createDetailsProvider
-                                              .validateFields2()) {
+                                              .validateFields2(context)) {
                                             final selectedSubCategory =
                                                 createSectionChooseProvider
                                                     .selectedSubcategory;
@@ -210,8 +225,6 @@ class SectionTrack extends StatelessWidget {
                                               return;
                                             }
 
-                                            print(
-                                                'validate 2: ${createDetailsProvider.validateFields2()}');
                                             final response =
                                                 await createAdProvider.createAd(
                                               adDTO: ad,
@@ -245,7 +258,8 @@ class SectionTrack extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => CreateAdScreen(
-                        additionalBackFunction: () {},
+                        additionalBackFunction: () =>
+                            createSectionChooseProvider.navigateBack(),
                         lowerWidget: SectionTrack(
                           subcategories:
                               createSectionChooseProvider.subcategories,

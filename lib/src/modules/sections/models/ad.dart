@@ -25,7 +25,7 @@ class AdModel {
   final List<String?>? condition;
   final String? currency;
   final List<String>? imageUrls;
-  final Map<String?, dynamic>? attributes;
+  final Map<String, dynamic>? attributes;
   final int? viewCount;
   final Profile? userProfile;
   final String? tagId;

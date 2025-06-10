@@ -8,15 +8,44 @@ import '../home/data.dart';
 class ChatProvider extends ChangeNotifier {
   final ChatRepository _repo = ChatRepository();
   List<Conversation?>? chats = [];
+
   String errorMessage = '';
   bool isLoading = false;
-
+  List<Conversation?>? privateChats;
+  List<Conversation?>? adsChats;
   List<String> _filteredNames = names;
   List<String> _filteredImages = images;
   List<bool> _filteredStatus = onlineStatus;
   List<String> get filteredNames => _filteredNames;
   List<String> get filteredImages => _filteredImages;
   List<bool> get filteredStatus => _filteredStatus;
+  int _currentIndex = 0;
+  final PageController pageController = PageController();
+
+  int get currentIndex => _currentIndex;
+  void changeTab(int index) {
+    _currentIndex = index;
+    pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.ease,
+    );
+    notifyListeners();
+  }
+
+  void updateIndex(int index) {
+    _currentIndex = index;
+    notifyListeners();
+  }
+
+  void getChatsWithAds() {
+    adsChats = chats?.where((chat) => chat?.lastMessage?.adId != 0).toList();
+  }
+
+  void getPrivateChats() {
+    privateChats =
+        chats?.where((chat) => chat?.lastMessage?.adId == 0).toList();
+  }
 
   void filterChats(String query) {
     if (query.isEmpty) {
@@ -34,6 +63,14 @@ class ChatProvider extends ChangeNotifier {
           .toList();
     }
     notifyListeners();
+  }
+
+  int getTotalUnreadMessages() {
+    return chats
+            ?.where((c) => c != null)
+            .map((c) => c!.unreadMessages)
+            .fold(0, (sum, count) => sum! + count!) ??
+        0;
   }
 
   Future<void> fetchChats({required String token, required int userId}) async {

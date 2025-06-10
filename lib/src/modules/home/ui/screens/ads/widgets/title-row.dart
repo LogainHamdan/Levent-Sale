@@ -17,21 +17,26 @@ class TitleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(
+        SizedBox(
+          width: 200.w,
           child: Center(
             child: Text(
+              textDirection: TextDirection.rtl,
               title,
               style: GoogleFonts.tajawal(
                 textStyle: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 20.sp,
+                  fontSize: 18.sp,
                 ),
               ),
             ),
           ),
+        ),
+        SizedBox(
+          width: 10.w,
         ),
         InkWell(
           onTap: () {

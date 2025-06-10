@@ -51,4 +51,41 @@ class CityRepository {
       throw Exception('Repository API error: $e');
     }
   }
+
+  Future<Governorate?> getGovernorateById({required String id}) async {
+    try {
+      final response = await dio.get(
+        '$getGovernorateByIdUrl/$id',
+        options: Options(headers: {'Accept': 'application/hal+json'}),
+      );
+
+      if (response.statusCode == 200) {
+        print('gov: ${response.data}');
+        return Governorate.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load governorate: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Repository API error: $e');
+    }
+  }
+
+  Future<City?> getCityById({required String id}) async {
+    try {
+      final response = await dio.get(
+        '$getCityByIdUrl/$id',
+        options: Options(headers: {'Accept': 'application/hal+json'}),
+      );
+
+      if (response.statusCode == 200) {
+        print('city: ${response.data}');
+
+        return City.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load city: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Repository API error: $e');
+    }
+  }
 }

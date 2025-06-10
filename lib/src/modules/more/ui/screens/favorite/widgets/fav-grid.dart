@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/widgets/rounded-img.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,87 +40,98 @@ class CustomGridView extends StatelessWidget {
           ),
         );
       },
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.r),
-        ),
-        child: Stack(
-          children: [
-            if (favorites.isEmpty)
-              const SizedBox()
-            else
-              Column(
-                children: [
-                  Row(
+      child: Consumer<FavoriteProvider>(
+        builder: (context, favProvider, child) {
+          if (favProvider.isLoading) {
+            return CustomCircularProgressIndicator();
+          }
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.r),
+            ),
+            child: Stack(
+              children: [
+                if (favorites.isEmpty)
+                  const SizedBox()
+                else
+                  Column(
                     children: [
-                      Expanded(
-                        child: favorites.length > 0
-                            ? RoundedImage(
-                                isTopLeft: true,
-                                assetPath: favorites[0].imageUrls?.first ?? '',
-                              )
-                            : const SizedBox(),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: favorites.length > 0
+                                ? RoundedImage(
+                                    isTopLeft: true,
+                                    assetPath:
+                                        favorites[0].imageUrls?.first ?? '',
+                                  )
+                                : const SizedBox(),
+                          ),
+                          Expanded(
+                            child: favorites.length > 1
+                                ? RoundedImage(
+                                    assetPath:
+                                        favorites[1].imageUrls?.first ?? '',
+                                    isTopRight: true,
+                                  )
+                                : const SizedBox(),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: favorites.length > 1
-                            ? RoundedImage(
-                                assetPath: favorites[1].imageUrls?.first ?? '',
-                                isTopRight: true,
-                              )
-                            : const SizedBox(),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: favorites.length > 2
+                                ? RoundedImage(
+                                    assetPath:
+                                        favorites[2].imageUrls?.first ?? '',
+                                    isBottomLeft: true,
+                                  )
+                                : const SizedBox(),
+                          ),
+                          Expanded(
+                            child: favorites.length > 3
+                                ? RoundedImage(
+                                    assetPath:
+                                        favorites[3].imageUrls?.first ?? '',
+                                    isBottomRight: true,
+                                  )
+                                : const SizedBox(),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: favorites.length > 2
-                            ? RoundedImage(
-                                assetPath: favorites[2].imageUrls?.first ?? '',
-                                isBottomLeft: true,
-                              )
-                            : const SizedBox(),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: 35.h,
+                    decoration: BoxDecoration(
+                      color: grey5,
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(5.r),
+                        bottomLeft: Radius.circular(5.r),
                       ),
-                      Expanded(
-                        child: favorites.length > 3
-                            ? RoundedImage(
-                                assetPath: favorites[3].imageUrls?.first ?? '',
-                                isBottomRight: true,
-                              )
-                            : const SizedBox(),
+                    ),
+                    padding: EdgeInsets.all(10.sp),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      tag.name ?? '',
+                      style: GoogleFonts.tajawal(
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.sp,
+                        ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 35.h,
-                decoration: BoxDecoration(
-                  color: grey5,
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(5.r),
-                    bottomLeft: Radius.circular(5.r),
-                  ),
-                ),
-                padding: EdgeInsets.all(10.sp),
-                alignment: Alignment.centerRight,
-                child: Text(
-                  tag.name ?? '',
-                  style: GoogleFonts.tajawal(
-                    textStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.sp,
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

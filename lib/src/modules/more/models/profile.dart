@@ -11,7 +11,7 @@ class Profile {
   final Address? address;
   final int? followersCount;
   final int? followingCount;
-  final bool? isFollowing;
+  final bool? following;
 
   Profile({
     this.username,
@@ -26,7 +26,7 @@ class Profile {
     this.address,
     this.followersCount,
     this.followingCount,
-    this.isFollowing,
+    this.following,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
@@ -44,7 +44,7 @@ class Profile {
           json['address'] != null ? Address.fromJson(json['address']) : null,
       followersCount: json['followersCount'],
       followingCount: json['followingCount'],
-      isFollowing: json['following'] ?? false,
+      following: json['following'] ?? false,
     );
   }
   Map<String, dynamic> toJson() {
@@ -61,7 +61,7 @@ class Profile {
       'address': address?.toJson(),
       'followersCount': followersCount,
       'followingCount': followingCount,
-      'following': isFollowing,
+      'following': following,
     };
   }
 }
@@ -129,7 +129,6 @@ class City {
   final String? latitude;
   final String? longitude;
   final int? sort;
-  final int? governorateId;
 
   City({
     this.id,
@@ -137,7 +136,6 @@ class City {
     this.latitude,
     this.longitude,
     this.sort,
-    this.governorateId,
   });
 
   factory City.fromJson(Map<String, dynamic> json) {
@@ -147,7 +145,6 @@ class City {
       latitude: json['latitude'] ?? '',
       longitude: json['longitude'] ?? '',
       sort: json['sort'] ?? 0,
-      governorateId: json['governorateId'] ?? 0,
     );
   }
 

@@ -19,13 +19,12 @@ class AdAttributesRepository {
   Future<AdAttributesModel?> getAttributesByCategory(int categoryId) async {
     try {
       final response = await _dio.get('$getAttributesById/$categoryId');
-      debugPrint('Response code: ${response.statusCode}');
-      debugPrint('Response data: ${response.data}');
+      print('Response data: ${response.data}');
 
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data;
-        if (data is List && data.isNotEmpty) {
-          return AdAttributesModel.fromJson(data[0]);
+        if (data is Map<String, dynamic>) {
+          return AdAttributesModel.fromJson(data);
         }
       }
     } catch (e) {

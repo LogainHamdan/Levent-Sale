@@ -79,11 +79,16 @@ class ProductCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomRating(
-                            adId: ad.id??0,
-                              small: true, rateNum: true, flexible: false),
                           Text(
-                            '${ad.currency} ${ad.price}',
+                            ad.adType ?? '',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            '${ad.currency ?? ''} ${ad.price ?? ''}',
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.bold,

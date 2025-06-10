@@ -17,11 +17,14 @@ import '../../../../../home/ui/screens/home/widgets/product-section.dart';
 class EmptyWidget extends StatelessWidget {
   final String img;
   final String msg;
-
   final Widget child;
 
   const EmptyWidget(
-      {super.key, required this.img, required this.child, required this.msg});
+      {super.key,
+      required this.img,
+      required this.child,
+      required this.msg,
+   });
 
   @override
   Widget build(BuildContext context) {
@@ -53,30 +56,32 @@ class EmptyWidget extends StatelessWidget {
         SizedBox(
           height: 10.h,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: Column(
-            children: [
-              ProductSection(
-                  onMorePressed: () =>
-                      Navigator.pushNamed(context, AdsScreen.id),
-                  category: "العروض والخصومات",
-                  products: provider.allAds),
-              ProductSection(
-                  onMorePressed: () =>
-                      Navigator.pushNamed(context, AdsScreen.id),
-                  category: "الإعلانات الجديدة",
-                  products: provider.allAds),
-              CustomHeader(
-                  title: 'الاعلانات المقترحة',
-                  onPressed: () => Navigator.pushNamed(context, AdsScreen.id)),
-              ProductsDetails(productList: provider.allAds),
-              SizedBox(
-                height: 40.h,
-              )
-            ],
+
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: Column(
+              children: [
+                // ProductSection(
+                //     onMorePressed: () =>
+                //         Navigator.pushNamed(context, AdsScreen.id),
+                //     category: "العروض والخصومات",
+                //     products: provider.allAds),
+                // ProductSection(
+                //     onMorePressed: () =>
+                //         Navigator.pushNamed(context, AdsScreen.id),
+                //     category: "الإعلانات الجديدة",
+                //     products: provider.allAds),
+                CustomHeader(
+                    title: 'الاعلانات المقترحة',
+                    onPressed: () =>
+                        Navigator.pushNamed(context, AdsScreen.id)),
+                ProductsDetails(productList: provider.allAds),
+                SizedBox(
+                  height: 40.h,
+                )
+              ],
+            ),
           ),
-        ),
       ],
     );
   }

@@ -23,6 +23,10 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
   String get categoryPath => _categoryPath;
   Category? get selectedSubcategory => _selectedSubcategory;
 
+  Category? get selectedCategory => (selectedCategoryIndex! >= 0 &&
+          selectedCategoryIndex! < rootCategories.length)
+      ? rootCategories[selectedCategoryIndex!]
+      : null;
   void setSelectedCategory(int index) {
     _selectedCategoryIndex = index;
     var selectedId = rootCategories[index].id;
@@ -50,10 +54,13 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
     }
   }
 
-  Category? get selectedCategory => (selectedCategoryIndex! >= 0 &&
-          selectedCategoryIndex! < rootCategories.length)
-      ? rootCategories[selectedCategoryIndex!]
-      : null;
+  void resetCategorySelection() {
+    _selectedCategoryIndex = null;
+    category = null;
+    _categoryPath = '';
+    notifyListeners();
+  }
+
   Future<void> fetchCategories() async {
     isLoading = true;
     try {
@@ -106,12 +113,7 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  void resetCategorySelection() {
-    _selectedCategoryIndex = null;
-    category = null;
-    _categoryPath = '';
-    notifyListeners();
-  }
+
   Future<void> fetchCategoryChildren(int id) async {
     final response = await _repo.getCategoryChildren(id);
 
@@ -120,5 +122,38 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
     } else {
       categoryChild = null;
     }
+  }
+
+  Future<void> navigateBack() async {
+    if (_categoryPath.isEmpty) return;
+
+    final pathParts = _categoryPath.split('/');
+
+    // حالة خاصة: الرجوع من الجذر
+    if (pathParts.length == 1) {
+      _categoryPath = '';
+      _selectedSubcategory = null;
+      subcategories = rootCategories;
+      notifyListeners();
+      return;
+    }
+
+    // إنشاء المسار الجديد بإزالة آخر جزء
+    final newPath = pathParts.sublist(0, pathParts.length - 1).join('/');
+    final newParentId = int.parse(pathParts[pathParts.length - 2]);
+
+    // تحديث المسار أولاً
+    _categoryPath = newPath;
+    print('new path: $newPath');
+    print('current subcategory id: $newParentId');
+    await fetchCategoryById(newParentId);
+    print('current subcategory : ${_selectedSubcategory?.toJson()}');
+
+    // جلب أبناء الوالد الجديد
+    await fetchSubcategories(newParentId);
+    print(
+        'current subcategories id: ${subcategories.map((e) => e.toJson()).toList()}');
+
+    notifyListeners();
   }
 }

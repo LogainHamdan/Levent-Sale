@@ -37,9 +37,12 @@ class TechSupportProvider with ChangeNotifier {
   bool _isTicketCreated = false;
   Ticket? _selectedTicket;
   Map<String, String> _cachedAnswers = {};
-
+  bool _isExpanded = false;
   bool _isLoading = false;
   String? _errorMessage;
+  int? _expandedIndex;
+  int? get expandedIndex => _expandedIndex;
+
   List<FAQuestion> get faqs => _faqs;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
@@ -50,9 +53,24 @@ class TechSupportProvider with ChangeNotifier {
   bool get isTicketCreated => _isTicketCreated;
   Ticket? get selectedTicket => _selectedTicket;
   Map<String, String>? get cachedAnswers => _cachedAnswers;
+  bool get isExpanded => _isExpanded;
+
+  void toggleExpanded() {
+    _isExpanded = !_isExpanded;
+    notifyListeners();
+  }
 
   void setSelectedTicket(Ticket? ticket) {
     _selectedTicket = ticket;
+    notifyListeners();
+  }
+
+  void setExpandedIndex(int? index) {
+    if (_expandedIndex == index) {
+      _expandedIndex = null;
+    } else {
+      _expandedIndex = index;
+    }
     notifyListeners();
   }
 
@@ -107,8 +125,8 @@ class TechSupportProvider with ChangeNotifier {
     }
   }
 
-  Future<void> replyTicket(
-    String message, {
+  Future<void> replyTicket({
+    required String message,
     required String token,
     required String ticketId,
   }) async {
@@ -116,8 +134,8 @@ class TechSupportProvider with ChangeNotifier {
     _errorMessage = null;
 
     try {
-      final response =
-          await repo.replyTicket(message, token: token, ticketId: ticketId);
+      final response = await repo.replyTicket(
+          message: message, token: token, ticketId: ticketId);
       if (response.id != null) {
         _isTicketCreated = true;
         print('reply done: ${response.message}');

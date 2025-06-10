@@ -11,12 +11,25 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../auth/repos/user-helper.dart';
+import '../../../../sections/repos/city.dart';
+import '../../../../sections/ui/screens/update-ad/provider.dart';
+import '../../../../sections/ui/screens/update-ad/widgets/section-details/provider.dart';
 import '../../../models/profile.dart';
 import '../../../repositories/follow-repo.dart';
+import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 
 class EditProfileProvider extends ChangeNotifier {
   final EditProfileRepository repository = EditProfileRepository();
   final ImagePicker _picker = ImagePicker();
+  Map<String, String?> selectedValues = {};
+  City? _selectedCity;
+  List<City> _cities = [];
+  List<Governorate> _governorates = [];
+  final Map<String, bool> _dropdownOpenedMap = {};
+
+  final Map<String, TextEditingController> dynamicFieldControllers = {};
+  Governorate? _selectedGovernorate;
+  final CityRepository cityRepo = CityRepository();
 
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -24,6 +37,9 @@ class EditProfileProvider extends ChangeNotifier {
   TextEditingController addressController = TextEditingController();
   TextEditingController businessLicenseController = TextEditingController();
   TextEditingController businessNameController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController governorateController = TextEditingController();
+  bool _isInit = false;
 
   bool isCompanyAccount = false;
   bool isLoading = false;
@@ -31,11 +47,16 @@ class EditProfileProvider extends ChangeNotifier {
   File? _profileImage;
   File? _coverImage;
   final FollowRepository followRepository = FollowRepository();
+  List<Governorate> get governorates => _governorates;
 
   Profile? profile;
   String? error;
+  City? get selectedCity => _selectedCity;
+  List<City> get cities => _cities;
+  Governorate? get selectedGovernorate => _selectedGovernorate;
 
   File? get profileImage => _profileImage;
+  bool get isInit => _isInit;
 
   File? get coverImage => _coverImage;
   set profileImage(File? image) {
@@ -43,18 +64,58 @@ class EditProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> init() async {
+  set isInit(bool value) {
+    _isInit = value;
+    notifyListeners();
+  }
+
+  Future<void> init(BuildContext context) async {
     final user = await UserHelper.getUser();
     final profile = await getProfile(userId: user?.id ?? 0);
-    if (profile != null) {
-      firstNameController.text = profile.firstName ?? '';
-      lastNameController.text = profile.lastName ?? '';
-      dateController.text = profile.birthday.toString() ?? '';
-      addressController.text = profile.address?.fullAddresse ?? '';
-      businessNameController.text = profile.businessName ?? '';
-      businessLicenseController.text = profile.businessLicense ?? '';
-      isCompanyAccount = checkIfCompanyAccount(user?.roles);
+    print('user ${user?.toJson()}');
+    if (user != null) {
+      await loadGovernorates();
+      final city = profile?.address?.city;
+      final gov = profile?.address?.governorate;
+      print(' user: ${user.toJson()}');
+      isCompanyAccount = checkIfCompanyAccount(user.roles);
+      firstNameController.text = profile?.firstName ?? '';
+      lastNameController.text = profile?.lastName ?? '';
+      dateController.text = profile?.birthday ?? '';
+      addressController.text = profile?.address?.fullAddresse ?? '';
+      businessNameController.text = profile?.businessName ?? '';
+      businessLicenseController.text = profile?.businessLicense ?? '';
+      governorateController.text = gov?.governorateName ?? '';
+      cityController.text = city?.cityName ?? '';
+      setSelectedGovernorate(gov ?? Governorate());
+      setSelectedCity(city ?? City());
+      setSelectedValue('المحافظة', gov?.governorateName);
+      setSelectedValue('المدينة', city?.cityName);
+      // if (governorates.isNotEmpty) {
+      //   final selectedGov = governorates.firstWhere(
+      //     (gover) =>
+      //         gover.governorateName ==
+      //         gov?.governorateName,
+      //     orElse: () => governorates.first,
+      //   );
+      //   setSelectedGovernorate(selectedGov);
+      //
+      //   if (selectedGov.id != null) {
+      //     await loadCities(governorateId: selectedGov.id!);
+      //   }
+      // }
+      //
+      // if (cities.isNotEmpty &&
+      //     provider.selectedAdToUpdate?.city?.cityName != null) {
+      //   final selectedCity = cities.firstWhere(
+      //     (cityy) =>
+      //         cityy?.cityName == city?.cityName,
+      //     orElse: () => cities.first,
+      //   );
+      //   setSelectedCity(selectedCity);
+      // }
     }
+    isInit = true;
     notifyListeners();
   }
 
@@ -76,11 +137,14 @@ class EditProfileProvider extends ChangeNotifier {
       {bool isProfile = true}) async {
     final XFile? pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
+      File fixedImage =
+          await FlutterExifRotation.rotateImage(path: pickedFile.path);
+
       if (isProfile) {
-        setProfileImage(File(pickedFile.path));
+        setProfileImage(fixedImage);
         Navigator.of(context).pop();
       } else {
-        setCoverImage(File(pickedFile.path));
+        setCoverImage(fixedImage);
       }
     }
   }
@@ -89,10 +153,13 @@ class EditProfileProvider extends ChangeNotifier {
       {bool isProfile = true}) async {
     final XFile? pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
+      File fixedImage =
+          await FlutterExifRotation.rotateImage(path: pickedFile.path);
+
       if (isProfile) {
-        setProfileImage(File(pickedFile.path));
+        setProfileImage(fixedImage);
       } else {
-        setCoverImage(File(pickedFile.path));
+        setCoverImage(fixedImage);
       }
     }
   }
@@ -143,11 +210,12 @@ class EditProfileProvider extends ChangeNotifier {
     }
   }
 
-  Future<Profile?> getProfile({required int userId, int? myid}) async {
+  Future<Profile?> getProfile({required int userId}) async {
+    final user = await UserHelper.getUser();
     print('user passed: $userId');
     try {
       final profile =
-          await followRepository.getProfile(userId: userId, myid: myid);
+          await followRepository.getProfile(userId: userId, myid: user?.id);
 
       error = null;
       return profile;
@@ -166,7 +234,109 @@ class EditProfileProvider extends ChangeNotifier {
       return null;
     }
   }
-  //
+
+  String? getSelectedValue(String key) {
+    return selectedValues[key];
+  }
+
+  void setSelectedValue(String key, String? value) {
+    selectedValues[key] = value;
+    notifyListeners();
+  }
+
+  void setSelectedCity(City city) {
+    _selectedCity = city;
+    notifyListeners();
+  }
+
+  void resetCity() {
+    _selectedCity = null;
+    _cities.clear();
+    selectedValues.remove("city");
+
+    dynamicFieldControllers.remove("city")?.clear();
+
+    notifyListeners();
+  }
+
+  void setSelectedGovernorate(Governorate governorate) {
+    _selectedGovernorate = governorate;
+    notifyListeners();
+  }
+
+  Future<void> loadGovernorates() async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      _governorates = await cityRepo.getGovernorates();
+    } catch (e) {
+      print('Error loading governorates: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> loadCities({required int governorateId}) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      _cities = await cityRepo.getCities(governorateId: governorateId);
+      notifyListeners();
+
+      print('current cities: $_cities');
+    } catch (e) {
+      print('Error loading cities: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<Governorate?> getGovernorateById({required String id}) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      final gov = await cityRepo.getGovernorateById(id: id);
+      notifyListeners();
+      return gov;
+    } catch (e) {
+      print('Error loading gov: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+    return null;
+  }
+
+  Future<City?> getCityById({required String id}) async {
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      final city = await cityRepo.getCityById(id: id);
+      notifyListeners();
+      return city;
+    } catch (e) {
+      print('Error loading city: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+    return null;
+  }
+
+  bool isDropdownOpened(String key) => _dropdownOpenedMap[key] ?? false;
+
+  void setDropdownOpened(String key, bool value) {
+    _dropdownOpenedMap[key] = value;
+    notifyListeners();
+  }
+
+//
   // Future<void> updateAddress({
   //   int? addressId,
   //   int? id,

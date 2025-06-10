@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/config/constants.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/tech-support/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,22 +23,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomExpansionTile extends StatefulWidget {
+class CustomExpansionTile extends StatelessWidget {
   final String title;
   final String content;
+  final bool isExpanded;
+  final VoidCallback onTap;
 
   const CustomExpansionTile({
     super.key,
     required this.title,
     required this.content,
+    required this.isExpanded,
+    required this.onTap,
   });
-
-  @override
-  _CustomExpansionTileState createState() => _CustomExpansionTileState();
-}
-
-class _CustomExpansionTileState extends State<CustomExpansionTile> {
-  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,23 +48,20 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
       child: Column(
         children: [
           InkWell(
-            onTap: () {
-              setState(() {
-                _isExpanded = !_isExpanded;
-              });
-            },
+            onTap: onTap,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SvgPicture.asset(
-                      height: 7.h,
-                      width: 7.w,
-                      _isExpanded ? aboveGreyPath : greyArrowDownPath),
+                    height: 7.h,
+                    width: 7.w,
+                    isExpanded ? aboveGreyPath : greyArrowDownPath,
+                  ),
                   Expanded(
                     child: Text(
-                      widget.title,
+                      title,
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.right,
                       style: GoogleFonts.tajawal(
@@ -81,17 +76,18 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
               ),
             ),
           ),
-          if (_isExpanded)
+          if (isExpanded)
             Padding(
               padding: EdgeInsets.all(12.sp),
               child: Text(
                 textDirection: TextDirection.rtl,
-                widget.content,
+                content,
                 style: GoogleFonts.tajawal(
                   textStyle: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.normal,
-                      color: grey2),
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.normal,
+                    color: grey2,
+                  ),
                 ),
               ),
             ),

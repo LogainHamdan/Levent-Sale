@@ -3,10 +3,14 @@ import 'dart:convert';
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/MsgInput.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/chat-ad-container.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/custom-app-bar.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/sent-message.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/conversation/widgets/received-message.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/profile/friend-profile.dart';
+import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -115,7 +119,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   Future<void> _loadConversation() async {
     final token = await TokenHelper.getToken();
     final provider = Provider.of<ConversationProvider>(context, listen: false);
-    provider.fetchConversation(
+    await provider.fetchConversation(
       token: token ?? '',
       senderId: widget.userId,
       receiverId: widget.receiverId,
@@ -145,6 +149,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
         return SafeArea(
           child: Scaffold(
             appBar: CustomAppBar(
+              userId: widget.receiverId,
               leadingIcon: SvgPicture.asset(moreIcon, height: 22.h),
               name: snapshot.data?.username ?? '',
               profileImageAsset: snapshot.data?.profilePicture ?? '',
@@ -187,34 +192,52 @@ class _ConversationScreenState extends State<ConversationScreen> {
                             b?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
                         return aTime.compareTo(bTime);
                       });
+                final homeProvider =
+                    Provider.of<HomeProvider>(context, listen: false);
 
-                return Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        padding: EdgeInsets.all(10.sp),
-                        itemCount: sortedMessages.length,
-                        itemBuilder: (context, index) {
-                          final message = sortedMessages[index];
+                return FutureBuilder(
+                  future: homeProvider.getAdById(widget.adId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CustomCircularProgressIndicator();
+                    }
+                    final ad = snapshot.data;
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        ChatAdContainer(ad: ad),
+                        Expanded(
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            padding: EdgeInsets.all(10.sp),
+                            itemCount: sortedMessages.length,
+                            itemBuilder: (context, index) {
+                              final message = sortedMessages[index];
 
-                          if (message?.senderId == widget.userId) {
-                            return SentMsg(
-                              seen: message?.readAt != null,
-                              text: message?.content ?? '',
-                              time: message?.sentAt ?? DateTime.now(),
-                            );
-                          } else {
-                            return ReceivedMsg(
-                              text: message?.content ?? '',
-                              time: message?.sentAt ?? DateTime.now(),
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                    MessageInput(onSend: sendMessage),
-                  ],
+                              if (message?.senderId == widget.userId) {
+                                return SentMsg(
+                                  seen: message?.readAt != null,
+                                  text: message?.content ?? '',
+                                  time: message?.sentAt ?? DateTime.now(),
+                                );
+                              } else {
+                                return ReceivedMsg(
+                                  text: message?.content ?? '',
+                                  time: message?.sentAt ?? DateTime.now(),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 25.0.h),
+                          child: MessageInput(onSend: sendMessage),
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
             ),

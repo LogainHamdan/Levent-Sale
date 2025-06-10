@@ -55,15 +55,15 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomNavProvider = Provider.of<BottomNavProvider>(context);
 
-    final provider =
-        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
+    // final provider =
+    //     Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final token = await TokenHelper.getToken();
 
       await homeProvider.loadAds(token: token);
-      await provider.fetchCategories();
+      //  await provider.fetchCategories();
       final notificationsProvider =
           Provider.of<NotificationProvider>(context, listen: false);
       await notificationsProvider.getNotificationStats(token: token ?? '');

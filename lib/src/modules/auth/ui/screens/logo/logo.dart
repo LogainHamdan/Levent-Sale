@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
 import '../../../../main/ui/screens/main_screen.dart';
+import '../../../../sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import '../../../repos/token-helper.dart';
 import '../splash/splash.dart';
 
@@ -26,6 +28,7 @@ class _LogoScreenState extends State<LogoScreen>
   @override
   void initState() {
     super.initState();
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
@@ -46,11 +49,14 @@ class _LogoScreenState extends State<LogoScreen>
   }
 
   void _startLogoTimer() {
-    Timer(const Duration(seconds: 4), _checkToken);
+    Timer(const Duration(seconds: 4), _startApp);
   }
 
-  Future<void> _checkToken() async {
+  Future<void> _startApp() async {
     final token = await TokenHelper.getToken();
+    final provider =
+        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
+    await provider.fetchCategories();
     if (token == null) {
       Navigator.pushReplacementNamed(context, SplashScreen.id);
     } else {
@@ -80,7 +86,9 @@ class _LogoScreenState extends State<LogoScreen>
                   child: Image.asset(logo),
                 ),
                 SizedBox(height: 20.h),
-                CustomCircularProgressIndicator()
+                CircularProgressIndicator(
+                  color: kprimaryColor,
+                )
               ],
             ),
           ),

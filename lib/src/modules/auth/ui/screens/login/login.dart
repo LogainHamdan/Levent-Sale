@@ -94,7 +94,8 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 16.h),
                   CustomElevatedButton(
-                    text: 'متابعة',
+                    text: provider.isLoading ? 'جاري تسجيل الدخول' : 'متابعة',
+
                     onPressed: () async {
                       print("Login button pressed!");
                       provider.markTriedSubmit();
@@ -121,8 +122,8 @@ class LoginScreen extends StatelessWidget {
                         print("Login failed: token not available.");
                       }
                     },
-                    backgroundColor: kprimaryColor,
-                    textColor: grey9,
+                    backgroundColor:
+                    provider.isLoading ? kprimary3Color : kprimaryColor,                    textColor: grey9,
                     date: false,
                   ),
                   SizedBox(height: 8.h),

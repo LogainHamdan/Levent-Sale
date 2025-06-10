@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/more/models/profile.dart';
 import 'package:Levant_Sale/src/modules/sections/repos/attributes.dart';
 import 'package:Levant_Sale/src/modules/sections/repos/city.dart';
@@ -169,6 +170,7 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
     _mediaType = type;
     notifyListeners();
   }
+
   void resetAttributes() {
     selectedValues.clear();
 
@@ -319,20 +321,80 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
     }
   }
 
-  bool validateFields1() {
+  bool validateFields1(BuildContext context) {
     for (var controller in dynamicFieldControllers.values) {
-      if (controller.text.trim().isEmpty) return false;
+      if (controller.text.trim().isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              backgroundColor: errorColor,
+              content: Text(
+                'يرجى تعبئة جميع الحقول المطلوبة.',
+                textAlign: TextAlign.center,
+              )),
+        );
+        return false;
+      }
     }
 
     if (selectedValues.containsValue(null) ||
         selectedValues.containsValue("")) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: errorColor,
+            content: Text(
+              'يرجى اختيار جميع القيم المطلوبة.',
+              textAlign: TextAlign.center,
+            )),
+      );
       return false;
     }
+
     return true;
   }
 
-  bool validateFields2() {
-    print('${selectedContactMethod?.name}');
+  bool validateFields2(BuildContext context) {
+    if (_selectedImages.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: errorColor,
+          content: Text(
+            'يرجى إضافة صور للإعلان.',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+      return false;
+    }
+
+    if (shortDescController.text.trim().length <= 10) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: errorColor,
+          content: Text(
+            'الوصف يجب أن يكون أكثر من 10 أحرف',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+      return false;
+    }
+
+    String contact = contactDetailController.text.trim();
+    final phoneRegex = RegExp(r'^\+963\d{9}$');
+    if (numberMethods.contains(selectedContactMethod!)) {
+      if (!phoneRegex.hasMatch(contact)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: errorColor,
+            content: Text(
+              'رقم الهاتف يجب أن يبدأ بـ +963 ويتبعه 9 أرقام',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+        return false;
+      }
+    }
     if (titleController.text.trim().isEmpty ||
         shortDescController.text.trim().isEmpty ||
         getQuillText().isEmpty ||
@@ -342,10 +404,17 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
         _selectedGovernorate == null ||
         _selectedAdType == null ||
         _selectedCurrency == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: errorColor,
+          content: Text(
+            'يرجى تعبئة جميع التفاصيل المطلوبة',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
       return false;
     }
-
-    if (_selectedImages.isEmpty) return false;
 
     return true;
   }

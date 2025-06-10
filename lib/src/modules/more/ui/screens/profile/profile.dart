@@ -9,6 +9,7 @@ import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/custom-s
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/follow-container.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/name-row.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/product-card.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/profile/widgets/user-info-container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,6 +17,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../auth/models/user.dart';
 import '../../../../home/ui/screens/home/provider.dart';
+import '../../../../home/ui/screens/home/widgets/custom-indicator.dart';
+import '../../../../sections/ui/screens/section-details/widgets/custom-label.dart';
 import '../../../models/profile.dart';
 import '../edit-profile/provider.dart';
 
@@ -158,67 +161,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   SvgPicture.asset(editWhiteIcon, height: 24.h),
                             ),
                             SizedBox(height: 12.h),
-                            Container(
-                              color: grey7,
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20.w, vertical: 20.h),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(userToShow.phoneNumber ?? '',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.w600)),
-                                        SizedBox(width: 14.w),
-                                        const Icon(
-                                          Icons.phone,
-                                          color: Colors.black,
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 12.h,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(userToShow.email ?? '',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.w600)),
-                                        SizedBox(width: 14.w),
-                                        const Icon(Icons.email),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: CustomLabel(
+                                text: 'المعلومات',
+                                grey: true,
                               ),
                             ),
+                            personalInfoContainer(userToShow: userToShow),
                             SizedBox(height: 16.h),
-                            FutureBuilder<void>(
-                              future: _userAdsFuture,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return CircularProgressIndicator();
-                                } else if (snapshot.hasError) {
-                                  return Text('فشل تحميل الاعلانات');
-                                } else if (!snapshot.hasData) {
-                                  return Text('لا يوجد اعلانات لك');
-                                } else {
-                                  return Column(
-                                    children: homeProvider.userAds
-                                        .map((ad) => Column(
-                                              children: [
-                                                ProductCard(ad: ad),
-                                                SizedBox(height: 16.h),
-                                              ],
-                                            ))
-                                        .toList(),
-                                  );
-                                }
-                              },
+                            Consumer<HomeProvider>(
+                              builder: (context, provider, child) =>
+                                  FutureBuilder<void>(
+                                future: _userAdsFuture,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return CustomCircularProgressIndicator();
+                                  } else if (snapshot.hasError) {
+                                    return Text('فشل تحميل الاعلانات');
+                                  } else if (provider.userAds.isEmpty) {
+                                    return Text(
+                                        'لا يوجد اعلانات لهذا المستخدم');
+                                  } else {
+                                    return Column(
+                                      children: provider.userAds
+                                          .map((ad) => Column(
+                                                children: [
+                                                  ProductCard(ad: ad),
+                                                  SizedBox(height: 16.h),
+                                                ],
+                                              ))
+                                          .toList(),
+                                    );
+                                  }
+                                },
+                              ),
                             ),
                           ],
                         ),

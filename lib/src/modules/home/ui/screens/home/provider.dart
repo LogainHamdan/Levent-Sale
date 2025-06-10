@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../../sections/models/ad.dart';
 
 class HomeProvider extends ChangeNotifier {
-  HomeProvider(){
+  HomeProvider() {
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
       parameters: {

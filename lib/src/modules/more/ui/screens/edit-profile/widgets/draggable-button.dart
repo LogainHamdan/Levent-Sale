@@ -7,9 +7,10 @@ class DraggableButton extends StatelessWidget {
   final Function() onPressed;
   final String title;
   final Widget? icon;
+  final Color color;
 
   const DraggableButton(this.title,
-      {super.key, required this.onPressed, this.icon});
+      {super.key, required this.onPressed, this.icon, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class DraggableButton extends StatelessWidget {
                     icon: icon,
                     text: title,
                     onPressed: onPressed,
-                    backgroundColor: kprimaryColor,
+                    backgroundColor: color,
                     textColor: grey9,
                   ),
                 ),

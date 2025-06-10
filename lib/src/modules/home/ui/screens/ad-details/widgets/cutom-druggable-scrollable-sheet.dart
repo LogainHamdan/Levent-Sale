@@ -155,7 +155,9 @@ class _CustomDraggableScrollableSheetState
                                               child: Text(
                                                 textDirection:
                                                     TextDirection.rtl,
-                                                '${profile?.username ?? ''}',
+                                                profile?.businessName == null
+                                                    ? '${profile?.firstName} ${profile?.lastName}'
+                                                    : '${profile?.businessName}',
                                                 style: TextStyle(
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -165,7 +167,7 @@ class _CustomDraggableScrollableSheetState
                                               ),
                                             ),
                                             Text(
-                                              "عضو منذ ${profile?.birthday ?? ''}",
+                                              "@${profile?.username ?? ''}",
                                               style: TextStyle(
                                                   fontSize: 14.sp,
                                                   color: grey4),
@@ -215,11 +217,13 @@ class _CustomDraggableScrollableSheetState
                                     .map(
                                       (product) => Padding(
                                         padding: EdgeInsets.only(left: 16.0.w),
-                                        child: ProductItem(
+                                        child: SizedBox(
                                           height: 120.h,
-                                          hasDiscount: false,
-                                          product: product,
-                                          category: '',
+                                          child: ProductItem(
+                                            hasDiscount: false,
+                                            product: product,
+                                            category: '',
+                                          ),
                                         ),
                                       ),
                                     )

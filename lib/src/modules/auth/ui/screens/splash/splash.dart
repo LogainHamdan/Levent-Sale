@@ -77,7 +77,8 @@ class SplashScreen extends StatelessWidget {
                         isLoggedIn
                             ? Navigator.pushReplacementNamed(
                                 context, LoginScreen.id)
-                            : Navigator.pushNamed(context, LoginScreen.id);
+                            : Navigator.pushReplacementNamed(
+                                context, LoginScreen.id);
                       },
                       backgroundColor: kprimaryColor,
                       textColor: grey9,
@@ -91,7 +92,8 @@ class SplashScreen extends StatelessWidget {
                         isLoggedIn
                             ? Navigator.pushReplacementNamed(
                                 context, MainScreen.id)
-                            : Navigator.pushNamed(context, MainScreen.id);
+                            : Navigator.pushReplacementNamed(
+                                context, MainScreen.id);
                       },
                       backgroundColor: grey8,
                       textColor: kprimaryColor,

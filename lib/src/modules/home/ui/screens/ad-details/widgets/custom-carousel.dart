@@ -1,13 +1,17 @@
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
+import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
 import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../config/constants.dart';
-import '../../../../../sections/ui/screens/update-ad/update-ad.dart';
-import '../../home/data.dart';
+
+import '../../../../../sections/ui/screens/reports/add-report.dart';
+
 import '../../home/widgets/favorite-bitton.dart';
 import '../provider.dart';
 
@@ -30,6 +34,8 @@ class CustomCarousel extends StatelessWidget {
                 children: [
                   CarouselSlider(
                     options: CarouselOptions(
+                      enlargeCenterPage: false,
+                      viewportFraction: 1,
                       height: 200.0.h,
                       autoPlay: true,
                       onPageChanged: (index, reason) {
@@ -37,7 +43,6 @@ class CustomCarousel extends StatelessWidget {
                       },
                     ),
                     items: ad?.imageUrls?.map((item) {
-                      print('images paths: ${ad?.imageUrls.toString()}');
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(4.0.r),
                         child: Image.network(
@@ -99,15 +104,42 @@ class CustomCarousel extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CustomButton(
-                          favIcon: true,
-                          ad: ad,
+                        CircleAvatar(
+                          radius: 14.w,
+                          backgroundColor: Colors.white,
+                          child: Center(
+                            child: GestureDetector(
+                              onTap: () async {
+                                final user = await UserHelper.getUser();
+                                user != null
+                                    ? Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddReportScreen(
+                                                    adReport: true)))
+                                    : loginFirstAlert(context);
+                              },
+                              child: Icon(
+                                size: 20.sp,
+                                CupertinoIcons.info,
+                                color: kprimaryColor,
+                              ),
+                            ),
+                          ),
                         ),
                         SizedBox(
                           width: 5.w,
                         ),
                         CustomButton(
                           favIcon: false,
+                          ad: ad,
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        CustomButton(
+                          favIcon: true,
                           ad: ad,
                         ),
                       ],

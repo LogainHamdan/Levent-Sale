@@ -65,8 +65,6 @@ class SearchScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 24.h),
-
-                // Results / No Results
                 if (query.isEmpty)
                   NoInfoWidget(
                     msg: 'ابدأ بكتابة كلمة للبحث',
@@ -83,9 +81,7 @@ class SearchScreen extends StatelessWidget {
                   isUsersSearch
                       ? const SearchUsersWidget()
                       : const SearchAdsWidget(),
-
                 SizedBox(height: 30.h),
-
                 ProductSection(
                   hasDiscount: false,
                   onMorePressed: () =>

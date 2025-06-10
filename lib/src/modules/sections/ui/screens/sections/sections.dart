@@ -5,6 +5,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/widge
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../home/ui/screens/home/widgets/banner.dart';
+import '../one-section/one-section.dart';
 
 class Sections extends StatelessWidget {
   static const id = '/sections';
@@ -39,10 +40,9 @@ class Sections extends StatelessWidget {
                 SizedBox(
                   height: 20.h,
                 ),
-                CategoriesDisplay(
-                  onSectionClicked: () =>
-                      Navigator.pushNamed(context, AdsScreen.id),
-                )
+                CategoriesDisplay(onSectionClicked: () {
+                  Navigator.pushNamed(context, Section.id);
+                })
               ],
             ),
           ),

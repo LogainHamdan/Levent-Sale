@@ -12,18 +12,16 @@ import '../../../models/ad.dart';
 
 class UpdateAdScreen extends StatelessWidget {
   static const id = '/update_ad';
-  final Widget lowerWidget;
-  final Widget? bottomNavBar;
-  final AdModel ad;
 
-  const UpdateAdScreen(
-      {super.key,
-      required this.lowerWidget,
-      this.bottomNavBar,
-      required this.ad});
+  const UpdateAdScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as UpdateAdScreenArgs;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -48,13 +46,25 @@ class UpdateAdScreen extends StatelessWidget {
                 SizedBox(
                   height: 20.h,
                 ),
-                Expanded(child: lowerWidget)
+                Expanded(child: args.lowerWidget)
               ],
             );
           },
         ),
       ),
-      bottomNavigationBar: bottomNavBar ?? SizedBox(),
+      bottomNavigationBar: args.bottomNavBar,
     );
   }
+}
+
+class UpdateAdScreenArgs {
+  final AdModel ad;
+  final Widget bottomNavBar;
+  final Widget lowerWidget;
+
+  UpdateAdScreenArgs({
+    required this.ad,
+    required this.bottomNavBar,
+    required this.lowerWidget,
+  });
 }
