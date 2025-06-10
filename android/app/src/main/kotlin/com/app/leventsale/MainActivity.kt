@@ -1,4 +1,4 @@
-package com.app.levantsale
+package com.app.leventsale
 
 import io.flutter.embedding.android.FlutterActivity
 

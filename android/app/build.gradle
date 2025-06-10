@@ -17,7 +17,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
 }
 android {
-    namespace = "com.app.levantsale"
+    namespace = "com.app.leventsale"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -32,7 +32,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.app.levantsale"
+        applicationId = "com.app.leventsale"
         minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
