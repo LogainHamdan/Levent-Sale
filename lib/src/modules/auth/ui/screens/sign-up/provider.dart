@@ -51,7 +51,7 @@ class SignUpProvider extends ChangeNotifier {
   }
 
   bool _agreeToTerms = false;
-  String _selectedValue = '';
+  String _selectedValue = 'شخصي';
   bool _isDropdownOpened = false;
   final AuthRepository _authRepository = AuthRepository();
 

@@ -42,154 +42,153 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool showError =
-        errorText != null && errorText!.isNotEmpty && controller.text.isEmpty ||
-            controller.text == '' ||
-            controller.text == ' ';
-    return (paragraph == false)
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              if (label!.isNotEmpty)
-                Text(
-                  textAlign: TextAlign.right,
-                  label ?? '',
-                  style: TextStyle(
-                      fontSize: 14.sp,
-                      color: labelGrey ?? false ? grey5 : Colors.black,
-                      fontWeight: FontWeight.w500),
-                ),
-              SizedBox(
-                height: 4.h,
+    final bool showError = errorText != null &&
+        errorText!.isNotEmpty &&
+        (controller.text.isEmpty || controller.text.trim().isEmpty);
+
+    return paragraph == false
+        ? _buildSingleLineField(showError)
+        : _buildMultiLineField(showError);
+  }
+
+  Widget _buildSingleLineField(bool showError) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        if (label!.isNotEmpty) ...[
+          Text(
+            label ?? '',
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: labelGrey ?? false ? grey5 : Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: 4.h),
+        ],
+        TextField(
+          controller: controller,
+          obscureText: isPassword,
+          textDirection: textDirection,
+          cursorColor: Colors.black,
+          style: GoogleFonts.tajawal(
+            textStyle: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+              fontSize: 16.sp,
+            ),
+          ),
+          decoration: InputDecoration(
+            prefix: prefix,
+            suffixIcon: suffix,
+            hintText: hint ?? '',
+            fillColor: bgcolor,
+            filled: true,
+            hintTextDirection: TextDirection.rtl,
+            hintStyle: GoogleFonts.tajawal(
+              textStyle: TextStyle(
+                fontSize: 16.sp,
+                color: grey3,
+                fontWeight: FontWeight.normal,
               ),
-              TextField(
-                controller: controller,
-                obscureText: isPassword,
-                textDirection: textDirection,
-                cursorColor: Colors.black,
-                style: GoogleFonts.tajawal(
-                  textStyle: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16.sp,
-                  ),
-                ),
-                decoration: InputDecoration(
-                  prefix: prefix,
-                  suffixIcon: suffix,
-                  hintText: hint ?? '',
-                  fillColor: bgcolor,
-                  filled: true,
-                  hintTextDirection: TextDirection.rtl,
-                  hintStyle: GoogleFonts.tajawal(
-                    textStyle: TextStyle(
-                      fontSize: 16.sp,
-                      color: grey3,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                    borderSide:
-                        // showError
-                        //     ? const BorderSide(color: Color(0xffF75555), width: 2.0)
-                        //     :
-                        //
-                        BorderSide.none,
-                  ),
-                  // enabledBorder: OutlineInputBorder(
-                  //   borderRadius: BorderRadius.circular(10.r),
-                  //   borderSide: showError
-                  //       ? const BorderSide(color: Color(0xffF75555), width: 2.0)
-                  //       : BorderSide.none,
-                  // ),
-                  // focusedBorder: OutlineInputBorder(
-                  //   borderRadius: BorderRadius.circular(10.r),
-                  //   borderSide: showError
-                  //       ? const BorderSide(color: Color(0xffF75555), width: 2.0)
-                  //       : BorderSide.none,
-                  // ),
-                  errorText: null,
-                ),
-                onChanged: onChanged,
-              ),
-              if (showError)
-                Padding(
-                  padding: EdgeInsets.only(top: 4.h, right: 8.w),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Text(
-                      errorText ?? '',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: errorColor,
-                      ),
-                      textAlign: TextAlign.right,
-                    ),
-                  ),
-                ),
-            ],
-          )
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              if (label != null)
-                Text(
-                  textAlign: TextAlign.right,
-                  label ?? '',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: labelGrey ?? false ? grey5 : Colors.black,
-                  ),
-                ),
-              TextField(
-                controller: controller,
-                obscureText: isPassword,
-                textDirection: textDirection,
-                cursorColor: Colors.black,
-                maxLines: 5,
-                decoration: InputDecoration(
-                  fillColor: bgcolor,
-                  filled: true,
-                  hintText: hint ?? '',
-                  hintStyle: TextStyle(color: grey3, fontSize: 16.sp),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(paragraphBorderRadius ?? 10.r),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(paragraphBorderRadius ?? 10.r),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.r),
+              borderSide: BorderSide.none,
+            ),
+            errorText: null,
+          ),
+          onChanged: onChanged,
+        ),
+        if (showError)
+          Padding(
+            padding: EdgeInsets.only(top: 4.h, right: 8.w),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Text(
+                errorText ?? '',
                 style: TextStyle(
-                  fontSize: 16.0.sp,
-                  color: Colors.black,
+                  fontSize: 14.sp,
+                  color: errorColor,
                 ),
-                onChanged: onChanged,
+                textAlign: TextAlign.right,
               ),
-              if (showError)
-                Padding(
-                  padding: EdgeInsets.only(top: 4.h, right: 8.w),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Text(
-                      errorText ?? '',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: errorColor,
-                      ),
-                      textAlign: TextAlign.right,
-                    ),
-                  ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildMultiLineField(bool showError) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        if (label != null && label!.isNotEmpty) ...[
+          Text(
+            label ?? '',
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: labelGrey ?? false ? grey5 : Colors.black,
+            ),
+          ),
+          SizedBox(height: 4.h),
+        ],
+        TextField(
+          controller: controller,
+          obscureText: isPassword,
+          textDirection: textDirection,
+          cursorColor: Colors.black,
+          maxLines: 5,
+          style: GoogleFonts.tajawal(
+            textStyle: TextStyle(
+              fontSize: 16.sp,
+              color: Colors.black,
+            ),
+          ),
+          decoration: InputDecoration(
+            fillColor: bgcolor,
+            filled: true,
+            hintText: hint ?? '',
+            hintTextDirection: TextDirection.rtl,
+            hintStyle: GoogleFonts.tajawal(
+              textStyle: TextStyle(
+                color: grey3,
+                fontSize: 16.sp,
+              ),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(paragraphBorderRadius ?? 10.r),
+              borderSide: BorderSide.none,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(paragraphBorderRadius ?? 10.r),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(paragraphBorderRadius ?? 10.r),
+              borderSide: BorderSide.none,
+            ),
+          ),
+          onChanged: onChanged,
+        ),
+        if (showError)
+          Padding(
+            padding: EdgeInsets.only(top: 4.h, right: 8.w),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Text(
+                errorText ?? '',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: errorColor,
                 ),
-            ],
-          );
+                textAlign: TextAlign.right,
+              ),
+            ),
+          ),
+      ],
+    );
   }
 }

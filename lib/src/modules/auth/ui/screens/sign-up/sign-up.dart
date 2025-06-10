@@ -63,7 +63,7 @@ class SignUpScreen extends StatelessWidget {
                             provider.setSelectedValue(value);
                           },
                         ),
-                        SizedBox(height: 8.h),
+                        SizedBox(height: 12.h),
                         if (provider.selectedValue == "شخصي") ...[
                           Row(
                             children: [
@@ -98,6 +98,7 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ],
                           ),
+                          if (provider.selectedValue == "شخصي")         SizedBox(height: 12.h,),
                           if (provider.selectedValue == "شخصي")
                             CustomTextField(
                               isRequired: true,
@@ -133,7 +134,7 @@ class SignUpScreen extends StatelessWidget {
                             controller: provider.companyNameController,
                             hint: "اسم الشركة",
                           ),
-
+                          SizedBox(height: 12.h,),
                           CustomTextField(
                             isRequired: true,
                             errorText: provider.hasTriedSubmit &&
@@ -171,7 +172,7 @@ class SignUpScreen extends StatelessWidget {
                           //   hint: "عنوان الشركة",
                           // ),
                           SizedBox(
-                            height: 8.h,
+                            height: 12.h,
                           ),
                           CustomTextField(
                             isRequired: true,
@@ -188,7 +189,7 @@ class SignUpScreen extends StatelessWidget {
                         ] else ...[
                           SizedBox.shrink()
                         ],
-                        SizedBox(height: 8.h),
+                        SizedBox(height: 12.h,),
                         CustomTextField(
                           isRequired: true,
                           errorText: provider.emailError,
@@ -196,7 +197,7 @@ class SignUpScreen extends StatelessWidget {
                           controller: provider.emailController,
                           hint: "البريد الإلكتروني",
                         ),
-                        SizedBox(height: 8.h),
+                        SizedBox(height: 12.h,),
                         CustomPasswordField(
                           isConfirmField: false,
                           controller: provider.passwordController,
@@ -205,7 +206,7 @@ class SignUpScreen extends StatelessWidget {
                           onChanged: (value) =>
                               provider.validatePasswordOnChange(value),
                         ),
-                        SizedBox(height: 16.h),
+                        SizedBox(height: 12.h,),
                         CustomPasswordField(
                           isConfirmField: true,
                           controller: provider.confirmPasswordController,
@@ -214,7 +215,7 @@ class SignUpScreen extends StatelessWidget {
                           onChanged: (value) =>
                               provider.validateConfirmPasswordOnChange(value),
                         ),
-                        SizedBox(height: 16.h),
+                        SizedBox(height: 12.h,),
                         PhoneSection(
                           controller: provider.phoneController,
                           errorText: provider.phoneError,
@@ -251,7 +252,7 @@ class SignUpScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(height: 16.h),
+                        SizedBox(height: 12.h,),
                         CustomElevatedButton(
                           text: 'متابعة',
                           onPressed: () async {
@@ -335,9 +336,9 @@ class SignUpScreen extends StatelessWidget {
                           textColor: grey9,
                           date: false,
                         ),
-                        SizedBox(height: 16.h),
+                        SizedBox(height: 12.h,),
                         OrRow(),
-                        SizedBox(height: 16.h),
+                        SizedBox(height: 12.h,),
                         Consumer<LoginProvider>(
                           builder: (context, authProvider, child) {
                             return SocialButton(
@@ -388,7 +389,7 @@ class SignUpScreen extends StatelessWidget {
                           text: "الاستمرار بالفيسبوك Facebook",
                           image: facebookPath,
                         ),
-                        SizedBox(height: 16.h),
+                        SizedBox(height: 12.h,),
                         InsteadWidget(
                           question: 'هل لديك حساب؟',
                           action: 'سجل دخول',
