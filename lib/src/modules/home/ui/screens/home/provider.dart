@@ -1,4 +1,5 @@
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:Levant_Sale/src/modules/sections/models/getAdDTO.dart';
 import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
 import 'package:Levant_Sale/src/modules/sections/repos/ad.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -23,12 +24,14 @@ class HomeProvider extends ChangeNotifier {
   List<AdModel> allAds = [];
   List<AdModel> userAds = [];
   AdModel? _selectedAd;
+  GetAdDTO? _selectedAdForMap;
 
   bool isLoading = false;
   String? error;
 
   int get currentIndex => _currentIndex;
   AdModel? get selectedAd => _selectedAd;
+  GetAdDTO? get selectedAdForMap => _selectedAdForMap;
 
   Category? get selectedCategory => _selectedCategory;
 
@@ -144,6 +147,30 @@ class HomeProvider extends ChangeNotifier {
 
       if (ad != null) {
         _selectedAd = ad;
+        return ad;
+      } else {
+        error = "Failed to load ad: empty or invalid response.";
+        return null;
+      }
+    } catch (e) {
+      error = "Exception while loading ad: $e";
+      return null;
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  Future<GetAdDTO?> getAdByIdForMap(int id) async {
+    print('get ad invoked');
+    isLoading = true;
+    error = null;
+
+    try {
+      final ad = await repo.getAdByIdForMap(id: id);
+      print('get ad done');
+
+      if (ad != null) {
+        _selectedAdForMap = ad;
         return ad;
       } else {
         error = "Failed to load ad: empty or invalid response.";

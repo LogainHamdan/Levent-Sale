@@ -9,9 +9,12 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/provider.d
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../../models/adDTO.dart';
 import '../../../../../models/attriburtes.dart';
+import 'package:http/http.dart' as http;
 
 class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   Map<String, String?> selectedValues = {};
@@ -71,10 +74,32 @@ class UpdateAdSectionDetailsProvider extends ChangeNotifier {
   Governorate? get selectedGovernorate => _selectedGovernorate;
 
   List<Detail> get selectedServices => _selectedServices;
+  Future<File> urlToFile(String imageUrl) async {
+    final response = await http.get(Uri.parse(imageUrl));
+    final bytes = response.bodyBytes;
+    final tempDir = await getTemporaryDirectory();
+    final fileName = basename(imageUrl);
+    final file = File('${tempDir.path}/$fileName');
+    await file.writeAsBytes(bytes);
+    return file;
+  }
+
+  Future<void> loadNetworkImagesAsFiles(List<String> networkUrls) async {
+    for (final url in networkUrls) {
+      try {
+        final file = await urlToFile(url);
+        _selectedImages.add(file);
+      } catch (e) {
+        print('Failed to load image from $url: $e');
+      }
+    }
+    notifyListeners();
+  }
 
   void initializeControllers(BuildContext context) async {
     final provider = Provider.of<UpdateAdProvider>(context, listen: false);
-
+    final imageUrls = provider.selectedAdToUpdate?.imageUrls ?? [];
+    await loadNetworkImagesAsFiles(imageUrls);
     await fetchAttributes(
         extractLastCategoryId(provider.selectedAdToUpdate?.categoryPath) ?? 0);
     titleController.text = provider.selectedAdToUpdate?.title ?? '';

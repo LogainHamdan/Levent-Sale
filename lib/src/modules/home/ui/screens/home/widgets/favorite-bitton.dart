@@ -65,7 +65,8 @@ class CustomButton extends StatelessWidget {
                 : () async {
                     try {
                       await SharePlus.instance.share(ShareParams(
-                        text: '${ad?.title ?? ''}\n',
+                        text:
+                            '${ad?.title ?? ''}\n https://aliyasstore.online/ads/${ad?.id}',
                         subject: ad?.title,
                       ));
                     } catch (e) {

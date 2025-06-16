@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:Levant_Sale/src/modules/sections/models/getAdDTO.dart';
 import 'package:dio/dio.dart';
 import 'package:path/path.dart';
 import '../../../config/constants.dart';
@@ -148,7 +149,6 @@ class AdRepository {
     try {
       print(adDTO.toJson());
       final formData = FormData();
-
       formData.files.add(MapEntry(
         'adDTO',
         MultipartFile.fromBytes(
@@ -179,7 +179,7 @@ class AdRepository {
         ));
       }
       print(formData);
-      print('to update before request');
+      print('$updateAdUrl/$id');
 
       final response = await dio.put(
         '$updateAdUrl/$id',
@@ -192,6 +192,7 @@ class AdRepository {
           },
         ),
       );
+
       print('update response: ${response.statusCode}');
 
       return response;
@@ -285,6 +286,23 @@ class AdRepository {
         print(response.data);
 
         return AdModel.fromJson(response.data);
+      } else {
+        print('Failed to get ad. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      throw Exception('Repository API error: $e');
+    }
+  }
+
+  Future<GetAdDTO?> getAdByIdForMap({required int id}) async {
+    try {
+      final response = await dio.get("$getAdUrl/$id");
+
+      if (response.statusCode == 200) {
+        print(response.data);
+
+        return GetAdDTO.fromJson(response.data);
       } else {
         print('Failed to get ad. Status code: ${response.statusCode}');
         return null;

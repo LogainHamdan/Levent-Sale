@@ -2,6 +2,7 @@ import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/cutom-druggable-scrollable-sheet.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/map-section.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-item.dart';
@@ -47,6 +48,7 @@ class AdDetailsScreen extends StatelessWidget {
       final token = await TokenHelper.getToken();
       await homeProvider.loadAds(token: token);
       await homeProvider.getAdById(adId);
+      await homeProvider.getAdByIdForMap(adId);
     });
 
     return FutureBuilder(
@@ -357,6 +359,19 @@ class AdDetailsScreen extends StatelessWidget {
                                       location: true,
                                       title: 'الموقع',
                                     ),
+                                    FutureBuilder(
+                                        future:
+                                            homeProvider.getAdByIdForMap(adId),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return CustomCircularProgressIndicator();
+                                          }
+                                          final adMap = snapshot.data;
+                                          return MapSection(
+                                              latitude: adMap?.latitude,
+                                              longitude: adMap?.longitude);
+                                        }),
                                     SizedBox(
                                       height: 8.h,
                                     ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:Levant_Sale/src/managers/firebase_messaging_manager.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/login/login.dart';
 import 'package:dio/dio.dart';
@@ -5,6 +7,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../main/ui/screens/main_screen.dart';
@@ -263,19 +266,41 @@ class LoginProvider extends ChangeNotifier {
   }
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: ['email', 'profile', "openid"],
+    scopes: ['email', 'profile'],
+    clientId:
+        '655888338489-8cg472042ad5k10dg03p5ceh3p8b8a76.apps.googleusercontent.com',
   );
 
   Future<void> handleGoogleSignIn() async {
     try {
-      final account = await _googleSignIn.signIn();
-      final auth = await account?.authentication;
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        print('Login canceled');
+        return;
+      }
 
-      print('Access Token: ${auth?.accessToken}');
-      print('ID Token: ${auth?.idToken}');
-      googleLogin(auth?.idToken ?? "");
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final idToken = googleAuth.idToken;
+      if (idToken == null) {
+        print('No ID token received');
+        return;
+      }
+
+      final response = await http.post(
+        Uri.parse('https://aliyasstore.online/api/auth/google'), // عدل حسب API
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'token': idToken}),
+      );
+
+      if (response.statusCode == 200) {
+        print('Login successful: ${response.body}');
+      } else {
+        print('Login failed: ${response.statusCode} ${response.body}');
+      }
     } catch (error) {
-      print('Google sign-in failed: $error');
+      print('Error during Google login: $error');
     }
   }
 
