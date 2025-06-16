@@ -267,8 +267,8 @@ class LoginProvider extends ChangeNotifier {
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: ['email', 'profile'],
-    clientId:
-        '655888338489-8cg472042ad5k10dg03p5ceh3p8b8a76.apps.googleusercontent.com',
+    // clientId:
+    //     '655888338489-8cg472042ad5k10dg03p5ceh3p8b8a76.apps.googleusercontent.com',
   );
 
   Future<void> handleGoogleSignIn() async {
