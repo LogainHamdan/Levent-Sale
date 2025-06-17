@@ -98,6 +98,7 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+                        SizedBox(height: 18.h),
                         CustomTextField(
                           isRequired: true,
                           errorText: provider.hasTriedSubmit &&
@@ -132,6 +133,9 @@ class SignUpScreen extends StatelessWidget {
                           bgcolor: grey8,
                           controller: provider.companyNameController,
                           hint: "اسم الشركة",
+                        ),
+                        SizedBox(
+                          height: 18.h,
                         ),
                         CustomTextField(
                           isRequired: true,
@@ -168,13 +172,17 @@ class SignUpScreen extends StatelessWidget {
                         //     hint: "الرقم الضريبي",
                         //   ),
                       ],
-                      SizedBox(height: 18.h),
+                      if (provider.selectedValue == 'شخصي')
+                        SizedBox(height: 18.h),
                       CustomTextField(
                         isRequired: true,
                         errorText: provider.emailError,
                         bgcolor: grey8,
                         controller: provider.emailController,
                         hint: "البريد الإلكتروني",
+                      ),
+                      SizedBox(
+                        height: 18.h,
                       ),
                       CustomPasswordField(
                         isConfirmField: false,
@@ -231,7 +239,7 @@ class SignUpScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 12.h),
                       CustomElevatedButton(
                         text: provider.isLoading ? 'جاري التسجيل' : 'متابعة',
                         onPressed: () async {

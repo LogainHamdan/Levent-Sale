@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/managers/firebase_messaging_manager.dart';
 import 'package:Levant_Sale/src/managers/local_notifications_manager.dart';

@@ -359,6 +359,9 @@ class AdDetailsScreen extends StatelessWidget {
                                       location: true,
                                       title: 'الموقع',
                                     ),
+                                    SizedBox(
+                                      height: 16.h,
+                                    ),
                                     FutureBuilder(
                                         future:
                                             homeProvider.getAdByIdForMap(adId),
@@ -398,7 +401,7 @@ class AdDetailsScreen extends StatelessWidget {
                                     products: homeProvider.allAds),
                               ),
                               SliverToBoxAdapter(
-                                child: SizedBox(height: 145.h),
+                                child: SizedBox(height: 165.h),
                               ),
                             ],
                           ),

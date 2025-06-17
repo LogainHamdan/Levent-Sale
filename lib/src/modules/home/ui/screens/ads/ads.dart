@@ -49,10 +49,13 @@ class AdsScreen extends StatelessWidget {
                   controller: adController,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                child: HorizontalCategories(),
+              SizedBox(
+                height: 16.h,
               ),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+              //   child: HorizontalCategories(),
+              // ),
               ProductsDetails(
                 productList: homeProvider.allAds,
               ),
