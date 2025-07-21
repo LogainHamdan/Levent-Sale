@@ -44,6 +44,8 @@ class SectionItem extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(height: 10.h,),
+          Text(category.name)
         ],
       ),
     );

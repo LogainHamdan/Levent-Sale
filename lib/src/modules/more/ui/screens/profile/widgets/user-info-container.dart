@@ -15,7 +15,8 @@ class personalInfoContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: grey7,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: grey8,),
+
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
         child: Column(

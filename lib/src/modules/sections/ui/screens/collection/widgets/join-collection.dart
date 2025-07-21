@@ -9,7 +9,22 @@ import '../review-screen.dart';
 import '../view-screen.dart';
 
 class JoinMyCollection extends StatelessWidget {
-  const JoinMyCollection({super.key});
+  final bool isLoadingPublished;
+  final bool isLoadingPending;
+  final bool isLoadingRejected;
+  final List publishedAds;
+  final List pendingAds;
+  final List rejectedAds;
+
+  const JoinMyCollection({
+    super.key,
+    required this.isLoadingPublished,
+    required this.isLoadingPending,
+    required this.isLoadingRejected,
+    required this.publishedAds,
+    required this.pendingAds,
+    required this.rejectedAds,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +40,7 @@ class JoinMyCollection extends StatelessWidget {
                   chats: false,
                   tab1: 'المرفوضة',
                   tab2: 'المقبولة',
+                  tab4: "",
                   tab3: 'قيد المراجعة')),
         ),
         SliverToBoxAdapter(
@@ -34,7 +50,7 @@ class JoinMyCollection extends StatelessWidget {
           child: PageView(
             controller: provider.pageController,
             onPageChanged: provider.updateIndex,
-            children: const [
+            children: [
               ReviewScreen(),
               EditScreen(),
               ViewScreen(),

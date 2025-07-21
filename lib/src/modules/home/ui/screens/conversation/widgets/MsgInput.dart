@@ -6,22 +6,34 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../provider.dart';
-import 'attach-section.dart';
 
-import 'package:Levant_Sale/src/config/constants.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-
-import '../provider.dart';
-import 'attach-section.dart';
-
-class MessageInput extends StatelessWidget {
+class MessageInput extends StatefulWidget {
   final void Function(String message) onSend;
 
   const MessageInput({super.key, required this.onSend});
+
+  @override
+  State<MessageInput> createState() => _MessageInputState();
+}
+
+class _MessageInputState extends State<MessageInput> {
+  late final ConversationProvider _provider;
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _provider = context.read<ConversationProvider>();
+  }
+
+  void _handleSendMessage() {
+    final message = _provider.message.trim();
+    if (message.isNotEmpty && !_provider.isLoading) {
+      widget.onSend(message);
+      _provider.clearMessage();
+      _focusNode.requestFocus();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,28 +48,7 @@ class MessageInput extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Row(
-            //   mainAxisSize: MainAxisSize.min,
-            //   children: [
-            //     AttachSection(
-            //       oneOrTwo: 1,
-            //       icon: SvgPicture.asset(photoAttachIcon,
-            //           height: 24.h, width: 24.w),
-            //     ),
-            //     SizedBox(width: 16.w),
-            //     AttachSection(
-            //       oneOrTwo: 2,
-            //       icon: SvgPicture.asset(linkAttachIcon,
-            //           height: 24.h, width: 24.w),
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(width: 16.w),
-            Icon(
-              Icons.mic,
-              color: grey5,
-              size: 24.sp,
-            ),
+            Icon(Icons.mic, color: grey5, size: 24.sp),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.0.w),
@@ -67,56 +58,55 @@ class MessageInput extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4.r),
                     color: grey8,
                   ),
-                  child: TextField(
-                    onSubmitted: (value) {
-                      if (value.trim().isNotEmpty) {
-                        onSend(value.trim());
-                        context.read<ConversationProvider>().clearMessage();
-                      }
-                    },
-                    controller:
-                        context.read<ConversationProvider>().messageController,
-                    textDirection: TextDirection.rtl,
-                    onChanged: (value) => context
-                        .read<ConversationProvider>()
-                        .updateMessage(value),
-                    style: GoogleFonts.tajawal(
-                      textStyle: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18.sp,
-                      ),
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'اكتب رسالة',
-                      hintTextDirection: TextDirection.rtl,
-                      hintStyle: GoogleFonts.tajawal(
-                        textStyle: TextStyle(
-                          fontSize: 18.sp,
-                          color: grey5,
-                          fontWeight: FontWeight.w500,
+                  child: Selector<ConversationProvider, String>(
+                    selector: (_, provider) => provider.message,
+                    builder: (context, message, child) {
+                      return TextField(
+                        focusNode: _focusNode,
+                        onSubmitted: (_) => _handleSendMessage(),
+                        controller: _provider.messageController,
+                        textDirection: TextDirection.rtl,
+                        onChanged: _provider.updateMessage,
+                        style: GoogleFonts.tajawal(
+                          textStyle: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18.sp,
+                          ),
                         ),
-                      ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.only(
-                          right: 24.0.w, top: 13.h, bottom: 13.h),
-                    ),
+                        decoration: InputDecoration(
+                          hintText: 'اكتب رسالة',
+                          hintTextDirection: TextDirection.rtl,
+                          hintStyle: GoogleFonts.tajawal(
+                            textStyle: TextStyle(
+                              fontSize: 18.sp,
+                              color: grey5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              right: 24.0.w, top: 13.h, bottom: 13.h),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
             ),
-            Selector<ConversationProvider, String>(
-              selector: (_, provider) => provider.message,
-              builder: (context, message, child) {
-                return message.trim().isNotEmpty
-                    ? IconButton(
-                        onPressed: () {
-                          onSend(message.trim());
-                          context.read<ConversationProvider>().clearMessage();
-                        },
-                        icon: SvgPicture.asset(sendIcon, height: 20.h),
-                      )
-                    : SizedBox.shrink();
+            Selector<ConversationProvider, bool>(
+              selector: (context, provider) =>
+                  provider.message.trim().isNotEmpty,
+              builder: (context, canSend, child) {
+                return IconButton(
+                  onPressed: canSend && !_provider.isLoading
+                      ? _handleSendMessage
+                      : _handleSendMessage,
+                  icon: SvgPicture.asset(
+                    sendIcon,
+                    height: 20.h,
+                  ),
+                );
               },
             ),
           ],

@@ -49,9 +49,13 @@ class CustomButton extends StatelessWidget {
                     }
 
                     if (isFav) {
-                      await favoriteProvider.deleteFavorite(
+                      final tagId = ad?.tagId?.toString() ??
+                          favoriteProvider.selectedTag?.id ??
+                          '';
+                      await favoriteProvider.deleteFavoriteAndRefresh(
                         token: token,
                         favid: '$adId',
+                        tagId: tagId,
                       );
                     } else {
                       print('ad selected: ${ad?.id}');

@@ -1,71 +1,82 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
-import '../../../models/chats.dart';
 import '../../../models/conversation.dart';
 import '../../../repos/chat-repo.dart';
 
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-
-import '../../../models/chats.dart';
-import '../../../models/conversation.dart';
-import '../../../repos/chat-repo.dart';
 
 class ConversationProvider extends ChangeNotifier {
   final ChatRepository _repo = ChatRepository();
 
-  bool isLoading = false;
-  bool isRead = false;
-  ChatMessageResponse? chatMessages;
-  String errorMessage = '';
+  bool _isLoading = false;
+  bool _isRead = false;
+  ChatMessageResponse? _chatMessages;
+  String _errorMessage = '';
+  String _message = '';
 
   File? _selectedImage1;
   File? _selectedImage2;
 
   final TextEditingController messageController = TextEditingController();
 
-  String _message = '';
-
+  // Getters
+  bool get isLoading => _isLoading;
+  bool get isRead => _isRead;
+  ChatMessageResponse? get chatMessages => _chatMessages;
+  String get errorMessage => _errorMessage;
   String get message => _message;
-
   File? get selectedImage1 => _selectedImage1;
-
   File? get selectedImage2 => _selectedImage2;
 
+  // Selectors for better performance
+  List<ChatMessage?> get sortedMessages {
+    if (_chatMessages?.content == null) return [];
+
+    final messages = List<ChatMessage?>.from(_chatMessages!.content!);
+    messages.sort((a, b) {
+      final aTime = a?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+      final bTime = b?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+      return aTime.compareTo(bTime);
+    });
+    return messages;
+  }
+
+  bool get hasMessages => _chatMessages?.content?.isNotEmpty == true;
+
   void updateMessage(String newMessage) {
-    _message = newMessage;
-    notifyListeners();
+    if (_message != newMessage) {
+      _message = newMessage;
+    }
   }
 
   void clearMessage() {
-    _message = '';
-    messageController.clear();
-    notifyListeners();
+    if (_message.isNotEmpty) {
+      _message = '';
+      messageController.clear();
+      notifyListeners();
+    }
   }
 
   void addLocalMessage(String content, int senderId) {
     final newMessage = ChatMessage(
         content: content, senderId: senderId, sentAt: DateTime.now());
 
-    if (chatMessages != null && chatMessages!.content != null) {
-      chatMessages!.content!.insert(0, newMessage);
+    if (_chatMessages != null && _chatMessages!.content != null) {
+      _chatMessages!.content!.add(newMessage); // add to end for natural order
     } else {
-      chatMessages = ChatMessageResponse(content: [newMessage]);
+      _chatMessages = ChatMessageResponse(content: [newMessage]);
     }
-
     notifyListeners();
   }
 
   void resetConversation() {
-    chatMessages = null;
-    isLoading = false;
-    errorMessage = '';
+    _chatMessages = null;
+    _isLoading = false;
+    _errorMessage = '';
+    _message = '';
+    messageController.clear();
     notifyListeners();
   }
 
@@ -74,10 +85,10 @@ class ConversationProvider extends ChangeNotifier {
       final decoded = jsonDecode(rawMessage);
       final newMessage = ChatMessage.fromJson(decoded);
 
-      if (chatMessages != null && chatMessages!.content != null) {
-        chatMessages!.content!.insert(0, newMessage);
+      if (_chatMessages != null && _chatMessages!.content != null) {
+        _chatMessages!.content!.insert(0, newMessage);
       } else {
-        chatMessages = ChatMessageResponse(content: [newMessage]);
+        _chatMessages = ChatMessageResponse(content: [newMessage]);
       }
 
       notifyListeners();
@@ -114,11 +125,12 @@ class ConversationProvider extends ChangeNotifier {
     required int page,
     required int limit,
   }) async {
-    isLoading = true;
+    _isLoading = true;
+    _errorMessage = '';
     notifyListeners();
 
     try {
-      chatMessages = await _repo.getConversation(
+      _chatMessages = await _repo.getConversation(
         token: token,
         senderId: senderId,
         receiverId: receiverId,
@@ -127,25 +139,31 @@ class ConversationProvider extends ChangeNotifier {
         limit: limit,
       );
     } catch (e) {
-      errorMessage = e.toString();
-      print(errorMessage);
+      _errorMessage = e.toString();
+      print(_errorMessage);
     } finally {
-      isLoading = false;
+      _isLoading = false;
       notifyListeners();
     }
   }
 
   Future<void> markAsRead(List<String> msgIds, {required String token}) async {
-    isLoading = true;
+    _isLoading = true;
     notifyListeners();
 
     try {
-      isRead = await _repo.markAsRead(msgIds, token: token);
+      _isRead = await _repo.markAsRead(msgIds, token: token);
     } catch (e) {
       print(e.toString());
     } finally {
-      isLoading = false;
+      _isLoading = false;
       notifyListeners();
     }
+  }
+
+  @override
+  void dispose() {
+    messageController.dispose();
+    super.dispose();
   }
 }

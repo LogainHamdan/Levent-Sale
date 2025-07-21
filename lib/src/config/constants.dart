@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 ///API
-const String baseUrl = 'http://37.148.208.169:8080';
+const String baseUrl = 'http://34.22.173.63:8080';
 const webClientId =
     '22344934998-c329k6om5herh9ngnie0280k8en1r5s3.apps.googleusercontent.com';
 
@@ -16,7 +16,7 @@ const String signUpUrl = "$baseUrl/users/register";
 const String verifyUrl = "$baseUrl/users/verify";
 const String saveToken = "$baseUrl/notifications/save-token";
 const String resendVerifyUrl = "$baseUrl/users/resend-verification-code";
-const String getUserUrl = "http://37.148.208.169:8081/users";
+const String getUserUrl = "http://34.22.173.63:8080/users";
 
 ///follow
 const String unfollowUrl = "$baseUrl/users/unfollow";
@@ -37,10 +37,10 @@ const String searchUrl = "$baseUrl/users/search";
 const String adsUrl = "$baseUrl/search/ads/paged";
 const String getAdUrl = "$baseUrl/ads/get";
 const String searchAdsUrl =
-    "http://37.148.208.169:8088/search/ads/search?query=";
-const String deleteAdUrl = "http://37.148.208.169:8082/ads/delete";
-const String getConversationUrl = "http://37.148.208.169:8080/chat/between";
-const String getChatsUrl = "http://37.148.208.169:8080/chat/conversations";
+    "http://34.22.173.63:8088/search/ads/search?query=";
+const String deleteAdUrl = "http://34.22.173.63:8080/ads/delete";
+const String getConversationUrl = "http://34.22.173.63:8080/chat/between";
+const String getChatsUrl = "http://34.22.173.63:8080/chat/conversations";
 const String markAsReadUrl = "$baseUrl/chat/markAsRead";
 const String getMyRatingsUrl = "$baseUrl/ratings/user";
 const String addRatingsUrl = "$baseUrl/ratings/add";
@@ -62,13 +62,15 @@ const String getAttributesById = '$baseUrl/ads/attributes/category';
 const String createAdUrl = '$baseUrl/ads/add';
 const String updateAdUrl = '$baseUrl/ads/update';
 const String getCategoryAdsUrl = '$baseUrl/search/ads/category';
+const String getCategoryFiltersUrl = 'http://34.22.173.63:8083/search/filters/category';
+const String searchAdsByCategoryUrl = '$baseUrl/search/ads/category';
 
 const String getCitiesUrl =
-    'http://37.148.208.169:8083/general/cities/governorate';
+    'http://34.22.173.63:8083/general/cities/governorate';
 const String getGovernoratesUrl =
-    'http://37.148.208.169:8083/general/governorates/get/all';
-const String getGovernorateByIdUrl = 'http://37.148.208.169:8081/governorates';
-const String getCityByIdUrl = 'http://37.148.208.169:8081/cities';
+    'http://34.22.173.63:8083/general/governorates/get/all';
+const String getGovernorateByIdUrl = 'http://34.22.173.63:8081/governorates';
+const String getCityByIdUrl = 'http://34.22.173.63:8081/cities';
 
 ///more
 const String getTagsUrl = '$baseUrl/favorites/tags';
@@ -95,7 +97,7 @@ const String getAdsByStatus = '$baseUrl/ads/my';
 const String getUserAdsUrl = '$baseUrl/search/ads/user';
 
 // primary colors
-Color kprimaryColor = const Color(0xff82B81C);
+Color kprimaryColor = const Color(0xff82b81c);
 Color kprimary1Color = const Color(0xFF82B81C);
 Color kprimary2Color = const Color(0xFFB4D477);
 Color kprimary3Color = const Color(0xFFCDE3A4);

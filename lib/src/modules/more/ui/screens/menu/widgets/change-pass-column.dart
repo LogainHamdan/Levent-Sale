@@ -55,7 +55,7 @@ class ChangePassColumn extends StatelessWidget {
                 Column(
                   children: [
                     SizedBox(height: 20.h),
-                    TitleRow(title: 'تغيير كلمة المرور'),
+                    TitleRow(title: 'تغير كلمة المرور'),
                   ],
                 ),
               if (alert) ...[

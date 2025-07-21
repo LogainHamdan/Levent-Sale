@@ -76,16 +76,31 @@ class CreateAdProvider extends ChangeNotifier {
     required AdDTO adDTO,
     List<File>? files,
     required String token,
+    required BuildContext context,
   }) async {
     isLoading = true;
     error = null;
     notifyListeners();
-
     try {
       print('to create provider');
-
+      showDialog(
+        context: context,
+        barrierDismissible: false, // منع إغلاق الـ dialog بالضغط خارجه
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Row(
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(width: 20),
+                Text("جاري رفع الإعلان..."),
+              ],
+            ),
+          );
+        },
+      );
       final response =
           await _repo.createAd(adDTO: adDTO, files: files, token: token);
+      Navigator.pop(context);
       isLoading = false;
       notifyListeners();
       return response;

@@ -18,13 +18,14 @@ class ChangePasswordRepository {
     required String token,
   }) async {
     try {
-      final response = await _dio.post(
-        updatePassUrl,
-        queryParameters: {
+      final response = await _dio.put(
+        data:  {
           "userId": userId,
           "oldPassword": oldPassword,
           "newPassword": newPassword,
         },
+        updatePassUrl,
+
         options: Options(
           headers: {
             'Authorization': token,
@@ -56,7 +57,7 @@ class ChangePasswordRepository {
         url,
         data: {
           "newPassword": newPassword,
-          "newPasswordVerify": newPasswordVerify,
+          "oldPassword": newPasswordVerify,
           "token": token,
         },
         options: Options(

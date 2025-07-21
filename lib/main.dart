@@ -51,8 +51,8 @@ void main() async {
   HttpOverrides.global = MyHttpOverrides();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge,
       overlays: [SystemUiOverlay.top]);
-  await FirebaseMessagingManager.instance.init();
-  await LocalNotificationsManager.instance.init();
+  // await FirebaseMessagingManager.instance.init();
+  // await LocalNotificationsManager.instance.init();
 
   runApp(MyApp());
 }
@@ -68,13 +68,13 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (_) => SignUpProvider(),
+      ), ChangeNotifierProvider(
+        create: (_) => HomeProvider(),
       ),
       ChangeNotifierProvider(
         create: (_) => VerificationProvider(),
       ),
-      ChangeNotifierProvider(
-        create: (_) => HomeProvider(),
-      ),
+
       ChangeNotifierProvider(
         create: (_) => AdDetailsProvider(),
       ),

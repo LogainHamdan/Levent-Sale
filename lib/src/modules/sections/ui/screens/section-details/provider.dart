@@ -323,6 +323,7 @@ class CreateAdSectionDetailsProvider extends ChangeNotifier {
 
   bool validateFields1(BuildContext context) {
     for (var controller in dynamicFieldControllers.values) {
+      print(controller);
       if (controller.text.trim().isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

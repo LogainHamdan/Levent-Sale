@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../home/provider.dart';
 import '../../home/widgets/custom-indicator.dart';
 import '../../home/widgets/product-item.dart';
@@ -75,7 +76,7 @@ class _CustomDraggableScrollableSheetState
                   ],
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(16.0.sp),
+                  padding: EdgeInsets.all(10.0.sp),
                   child: snapshot.connectionState == ConnectionState.waiting
                       ? CustomCircularProgressIndicator()
                       : SingleChildScrollView(
@@ -139,7 +140,18 @@ class _CustomDraggableScrollableSheetState
                                               color: kprimaryColor,
                                               size: 18.sp,
                                             ),
-                                            onPressed: () {},
+                                            onPressed: ()async {
+                                              final Uri phoneUrl = Uri.parse('tel:${profile?.phoneNumber}');                                              try {
+                                                print(profile?.phoneNumber);
+                                                if (await canLaunchUrl(phoneUrl)) {
+                                                  await launchUrl(phoneUrl);
+                                                } else {
+                                                  print("Cannot make phone calls");
+                                                }
+                                              } catch (e) {
+                                                print('Error making phone call: $e');
+                                              }
+                                            },
                                           ),
                                         ),
                                       ],

@@ -13,89 +13,92 @@ import '../../../../home/ui/screens/home/provider.dart';
 import '../../../../main/ui/screens/main_screen.dart';
 import '../create-ad/create-ad.dart';
 
-class MyCollectionScreen extends StatefulWidget {
+class MyCollectionScreen extends StatelessWidget {
   static const id = '/collection';
-
   const MyCollectionScreen({super.key});
 
   @override
-  State<MyCollectionScreen> createState() => _MyCollectionScreenState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => MyCollectionScreenProvider(),
+      child: const _MyCollectionScreenBody(),
+    );
+  }
 }
 
-class _MyCollectionScreenState extends State<MyCollectionScreen> {
-  bool _isLoading = true;
+class _MyCollectionScreenBody extends StatefulWidget {
+  const _MyCollectionScreenBody({Key? key}) : super(key: key);
 
+  @override
+  State<_MyCollectionScreenBody> createState() =>
+      _MyCollectionScreenBodyState();
+}
+
+class _MyCollectionScreenBodyState extends State<_MyCollectionScreenBody> {
   @override
   void initState() {
     super.initState();
-    _fetchUserAds();
-  }
-
-  Future<void> _fetchUserAds() async {
-    try {
-      final user = await UserHelper.getUser();
-      if (user != null) {
-        final userId = user.id;
-        final homeProvider = Provider.of<HomeProvider>(context, listen: false);
-        final collectionProvider =
-            Provider.of<MyCollectionScreenProvider>(context, listen: false);
-        await homeProvider.loadUserAds(userId: userId ?? 0);
-        await collectionProvider.fetchPendingAds();
-        await collectionProvider.fetchPublishedAds();
-        await collectionProvider.fetchRejectedAds();
-      }
-    } catch (e) {
-      print('Error fetching user ads: $e');
-    } finally {
-      setState(() => _isLoading = false);
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<MyCollectionScreenProvider>().fetchAllUserAds();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(
-      builder: (context, homeProvider, child) => Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-          leading: SizedBox(),
-          title: const TitleRow(
-            noBack: true,
-            title: 'تشكيلتي',
-          ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+        leading: SizedBox(),
+        title: const TitleRow(
+          noBack: true,
+          title: 'تشكيلتي',
         ),
-        body: SafeArea(
-          bottom: false,
-          child: _isLoading
-              ? const Center(child: CustomCircularProgressIndicator())
-              // : homeProvider.userAds.isEmpty
-              //     ? SingleChildScrollView(
-              //         child: Column(
-              //           mainAxisSize: MainAxisSize.min,
-              //           children: [
-              //             SizedBox(height: 16.h),
-              //             EmptyWidget(
-              //               msg: 'إعلاناتي فارغة',
-              //               img: emptyAdsIcon,
-              //               child: Padding(
-              //                 padding: EdgeInsets.symmetric(horizontal: 12.0.w),
-              //                 child: CustomElevatedButton(
-              //                   text: 'ابدأ في انشاء إعلانك',
-              //                   onPressed: () => Navigator.pushNamed(
-              //                       context, CreateAdScreen.id),
-              //                   backgroundColor: kprimaryColor,
-              //                   textColor: grey9,
-              //                   date: false,
-              //                 ),
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       )
-              : JoinMyCollection(),
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: Consumer<MyCollectionScreenProvider>(
+          builder: (context, provider, child) {
+            if (provider.isLoading &&
+                provider.publishedAds.isEmpty &&
+                provider.pendingAds.isEmpty &&
+                provider.rejectedAds.isEmpty) {
+              return const Center(child: CustomCircularProgressIndicator());
+            }
+            if (provider.publishedAds.isEmpty &&
+                provider.pendingAds.isEmpty &&
+                provider.rejectedAds.isEmpty) {
+              return EmptyWidget(
+                msg: 'إعلاناتي فارغة',
+                img: emptyAdsIcon,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+                  child: CustomElevatedButton(
+                    text: 'ابدأ في انشاء إعلانك',
+                    onPressed: () async {
+                      await Navigator.pushNamed(context, CreateAdScreen.id);
+                      // بعد العودة من إضافة إعلان، أعد تحميل الإعلانات
+                      provider.fetchAllUserAds();
+                    },
+                    backgroundColor: kprimaryColor,
+                    textColor: grey9,
+                    date: false,
+                  ),
+                ),
+              );
+            }
+            return JoinMyCollection(
+              isLoadingPublished: provider.isLoadingPublished,
+              isLoadingPending: provider.isLoadingPending,
+              isLoadingRejected: provider.isLoadingRejected,
+              publishedAds: provider.publishedAds,
+              pendingAds: provider.pendingAds,
+              rejectedAds: provider.rejectedAds,
+            );
+          },
         ),
       ),
     );

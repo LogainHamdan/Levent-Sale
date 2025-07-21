@@ -165,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               alignment: Alignment.centerRight,
                               child: CustomLabel(
                                 text: 'المعلومات',
-                                grey: true,
+
                               ),
                             ),
                             personalInfoContainer(userToShow: userToShow),

@@ -15,7 +15,7 @@ class ChatAdContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160.w,
+      width: 200.w,
       padding: EdgeInsets.all(16.sp),
       decoration: BoxDecoration(
           color: grey7, borderRadius: BorderRadius.circular(12.r)),

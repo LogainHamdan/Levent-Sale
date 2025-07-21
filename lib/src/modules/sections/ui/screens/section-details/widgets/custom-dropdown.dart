@@ -127,6 +127,7 @@ class CustomDropdownSection extends StatelessWidget {
                                   child: Text(
                                     item ?? '',
                                     textDirection: TextDirection.rtl,
+                                    maxLines: 1,
                                     style: GoogleFonts.tajawal(
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w500,
