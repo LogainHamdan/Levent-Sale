@@ -30,7 +30,7 @@
 ---
 
 This app delivers a secure and seamless experience for users to buy, sell, and interact — all in one place.
----
+
 ## APK Release and More UI Screens: https://drive.google.com/drive/folders/1k4TG-bnoCdTxYts2RNbLznFQvM6Fw3rn
 ![alt](https://github.com/LogainHamdan/Levent-Sale/blob/77d1f71e2ca082a48a9e88ec5c6a368191583e07/levant-sale.png)
 ---
