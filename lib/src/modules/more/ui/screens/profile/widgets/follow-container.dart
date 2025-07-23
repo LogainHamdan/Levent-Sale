@@ -23,10 +23,10 @@ class FollowContainer extends StatelessWidget {
       onTap: () => Navigator.push(context,
           MaterialPageRoute(builder: (context) => JoinFollow(userId: userId))),
       child: Container(
-        height: 100.h,
+        height: 80.h,
         decoration: BoxDecoration(
-          color: grey7,
-          borderRadius: BorderRadius.circular(4.r),
+          color: grey9,
+          borderRadius: BorderRadius.circular(8.r),
         ),
         child: Row(
           children: [
@@ -34,7 +34,7 @@ class FollowContainer extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 40.h),
+                  padding: EdgeInsets.only(top: 20.h),
                   child: leftChild,
                 ),
               ),
@@ -50,7 +50,7 @@ class FollowContainer extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 40.0.h),
+                  padding: EdgeInsets.only(top: 20.0.h),
                   child: rightChild,
                 ),
               ),

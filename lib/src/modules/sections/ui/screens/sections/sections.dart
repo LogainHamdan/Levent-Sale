@@ -9,8 +9,18 @@ import '../one-section/one-section.dart';
 
 class Sections extends StatelessWidget {
   static const id = '/sections';
-
   const Sections({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+
+    return const _SectionsBody();
+  }
+}
+
+class _SectionsBody extends StatelessWidget {
+  const _SectionsBody({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +33,8 @@ class Sections extends StatelessWidget {
         foregroundColor: Colors.transparent,
         backgroundColor: Colors.transparent,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-        leading: SizedBox(),
-        title: TitleRow(
+        leading: const SizedBox(),
+        title: const TitleRow(
           noBack: true,
           title: 'الاقسام',
         ),
@@ -36,19 +46,18 @@ class Sections extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                TopBanner(),
-                SizedBox(
-                  height: 20.h,
+                const TopBanner(),
+                SizedBox(height: 20.h),
+                CategoriesDisplay(
+                  onSectionClicked: () {
+                    Navigator.pushNamed(context, Section.id);
+                  },
                 ),
-                CategoriesDisplay(onSectionClicked: () {
-                  Navigator.pushNamed(context, Section.id);
-                })
               ],
             ),
           ),
         ),
       ),
-      // bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

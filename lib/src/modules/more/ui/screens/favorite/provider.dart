@@ -224,4 +224,16 @@ class FavoriteProvider with ChangeNotifier {
       print(e.response?.statusCode);
     }
   }
+
+  Future<void> deleteFavoriteAndRefresh({
+    required String favid,
+    required String token,
+    required String tagId,
+  }) async {
+    await deleteFavorite(favid: favid, token: token);
+    // بعد الحذف، أعد جلب المفضلة لهذا التاج
+    tagFavorites.remove(tagId); // احذف القائمة القديمة حتى يتم إعادة جلبها
+    await fetchFavoritesByTag(token: token, tagId: tagId);
+    notifyListeners();
+  }
 }

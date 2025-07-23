@@ -20,7 +20,7 @@ class ProductItem extends StatelessWidget {
     super.key,
     required this.product,
     required this.category,
-    this.width = 144,
+    this.width = 150,
     this.hasDiscount = true,
     this.spacecUnderPic = false,
   });
@@ -28,9 +28,9 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageUrl =
-        (product.imageUrls != null && product.imageUrls!.isNotEmpty)
-            ? product.imageUrls!.first
-            : '';
+    (product.imageUrls != null && product.imageUrls!.isNotEmpty)
+        ? product.imageUrls!.first
+        : '';
     final provider = Provider.of<HomeProvider>(context, listen: false);
     return InkWell(
       onTap: () {
@@ -50,7 +50,7 @@ class ProductItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              flex: 3,
+              flex: 4,
               child: ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(4.r)),
                 child: Stack(
@@ -60,7 +60,7 @@ class ProductItem extends StatelessWidget {
                         imageUrl ?? '',
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) =>
-                            const Center(child: Icon(Icons.broken_image)),
+                        const Center(child: Icon(Icons.broken_image)),
                       ),
                     ),
                     Positioned(
@@ -82,9 +82,9 @@ class ProductItem extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 4,
+              flex: 3,
               child: Padding(
-                padding: EdgeInsets.only(right: 8.0.w, left: 8.0.w, top: 4.h),
+                padding: EdgeInsets.all(8.0.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -92,12 +92,13 @@ class ProductItem extends StatelessWidget {
                       product.title ?? "بدون عنوان",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 12.sp,
+                        fontSize: 11.sp,
                       ),
                       textAlign: TextAlign.right,
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
+                      maxLines: 1, // تقليل عدد الأسطر إلى سطر واحد
                     ),
+                    SizedBox(height: 2.h),
                     Text(
                       product.cleanDescription ?? '',
                       overflow: TextOverflow.ellipsis,
@@ -105,16 +106,15 @@ class ProductItem extends StatelessWidget {
                       maxLines: 1,
                       style: TextStyle(
                         color: Colors.grey,
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 9.sp,
+                        fontWeight: FontWeight.w500,
                       ),
                       textAlign: TextAlign.right,
                     ),
                     const Spacer(),
-                    SizedBox(
-                      width: 50.w,
+                    Container(
+                      width: double.infinity,
                       child: Text(
-                        overflow: TextOverflow.ellipsis,
                         "${product.price?.toStringAsFixed(0) ?? '0'} ${product.currency ?? ''}",
                         style: TextStyle(
                           color: Colors.black,
@@ -124,7 +124,7 @@ class ProductItem extends StatelessWidget {
                         textAlign: TextAlign.right,
                       ),
                     ),
-                    SizedBox(height: 6.h),
+                    SizedBox(height: 4.h),
                   ],
                 ),
               ),

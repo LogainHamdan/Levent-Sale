@@ -43,6 +43,8 @@ class _ConversationScreenState extends State<ConversationScreen> {
   late StompClient stompClient;
   late ScrollController _scrollController;
 
+  final bool isProd = bool.fromEnvironment('dart.vm.product');
+
   @override
   void initState() {
     super.initState();
@@ -52,10 +54,15 @@ class _ConversationScreenState extends State<ConversationScreen> {
   }
 
   void _connectStomp() {
-    print('Attempting to connect');
+    final socketUrl = isProd
+        ? 'wss://levantsale.com/ws-chat'
+        : 'ws://34.22.173.63:8086/ws';
+
+    print('Attempting to connect to: $socketUrl');
+
     stompClient = StompClient(
       config: StompConfig(
-        url: 'ws://37.148.208.169:8086/ws-chat/websocket',
+        url: socketUrl,
         onConnect: _onConnect,
         onWebSocketError: (dynamic error) => print('WebSocket Error: $error'),
         onStompError: (frame) => print('STOMP Error: ${frame.body}'),
@@ -77,7 +84,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
       callback: (frame) {
         if (frame.body != null) {
           final provider =
-              Provider.of<ConversationProvider>(context, listen: false);
+          Provider.of<ConversationProvider>(context, listen: false);
           provider.receiveMessage(frame.body!);
           print('Message received: ${frame.body}');
         }
@@ -107,11 +114,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
       print('Message sent successfully: $messageContent');
 
       final provider =
-          Provider.of<ConversationProvider>(context, listen: false);
+      Provider.of<ConversationProvider>(context, listen: false);
       provider.addLocalMessage(messageContent, widget.userId);
     } catch (error) {
       print('Error sending message: $error');
-
       print('error sending msg');
     }
   }
@@ -141,7 +147,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   Widget build(BuildContext context) {
     final profileProvider =
-        Provider.of<EditProfileProvider>(context, listen: false);
+    Provider.of<EditProfileProvider>(context, listen: false);
     print('receiver: ${widget.receiverId}');
     return FutureBuilder(
       future: profileProvider.getProfile(userId: widget.receiverId),
@@ -184,16 +190,16 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   }
                 });
                 final sortedMessages =
-                    List.of(chatProvider.chatMessages!.content!)
-                      ..sort((a, b) {
-                        final aTime =
-                            a?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
-                        final bTime =
-                            b?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
-                        return aTime.compareTo(bTime);
-                      });
+                List.of(chatProvider.chatMessages!.content!)
+                  ..sort((a, b) {
+                    final aTime =
+                        a?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+                    final bTime =
+                        b?.sentAt ?? DateTime.fromMillisecondsSinceEpoch(0);
+                    return aTime.compareTo(bTime);
+                  });
                 final homeProvider =
-                    Provider.of<HomeProvider>(context, listen: false);
+                Provider.of<HomeProvider>(context, listen: false);
 
                 return FutureBuilder(
                   future: homeProvider.getAdById(widget.adId),

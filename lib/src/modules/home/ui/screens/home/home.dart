@@ -17,82 +17,194 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../../../auth/repos/token-helper.dart';
+import '../chats/provider.dart';
 import '../notifications/provider.dart';
 import 'data.dart';
+import 'package:Levant_Sale/src/modules/sections/models/ad.dart';
+import 'package:Levant_Sale/src/modules/more/ui/screens/favorite/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   static const id = '/home';
-  const HomeScreen({
-    super.key,
-  });
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeProvider>(
-      builder: (context, provider, _) {
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          resizeToAvoidBottomInset: false,
-          extendBody: true,
-          body: SafeArea(
-            bottom: false,
-            child: RefreshIndicator(
-              color: kprimaryColor,
-              onRefresh: () async {
-                final notificationsProvider =
-                    Provider.of<NotificationProvider>(context, listen: false);
-                final categoryProvider =
-                    Provider.of<CreateAdChooseSectionProvider>(context,
-                        listen: false);
-                final token = await TokenHelper.getToken();
-                await provider.loadAds(token: token);
-                await categoryProvider.fetchCategories();
-                await notificationsProvider.getNotificationStats(
-                    token: token ?? '');
-              },
-              child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: Padding(
-                  padding:
-                      EdgeInsets.only(top: 12.0.h, right: 10.w, left: 10.w),
-                  child: Column(
-                    children: [
-                      TopSearchBar(),
-                      TopBanner(),
-                      CategoriesList(),
-                      SizedBox(height: 10.h),
-                      provider.isLoading
-                          ? CustomCircularProgressIndicator()
-                          : ProductSection(
-                              onMorePressed: () =>
-                                  Navigator.pushNamed(context, AdsScreen.id),
-                              category: "العروض والخصومات",
-                              products: provider.allAds,
-                            ),
-                      provider.isLoading
-                          ? CustomCircularProgressIndicator()
-                          : ProductSection(
-                              onMorePressed: () =>
-                                  Navigator.pushNamed(context, AdsScreen.id),
-                              category: "الإعلانات الجديدة",
-                              products: provider.allAds,
-                            ),
-                      CustomHeader(
-                          title: 'الاعلانات المقترحة',
-                          onPressed: () =>
-                              Navigator.pushNamed(context, AdsScreen.id)),
-                      provider.isLoading
-                          ? CustomCircularProgressIndicator()
-                          : ProductsDetails(productList: provider.allAds),
-                      SizedBox(
-                        height: 40.h,
-                      )
-                    ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+        ChangeNotifierProvider(create: (_) => ChatProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
+      ],
+      child: const _HomeScreenBody(),
+    );
+  }
+}
+
+class _HomeScreenBody extends StatefulWidget {
+  const _HomeScreenBody({Key? key}) : super(key: key);
+
+  @override
+  State<_HomeScreenBody> createState() => _HomeScreenBodyState();
+}
+
+class _HomeScreenBodyState extends State<_HomeScreenBody> {
+  late Future<void> _initFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _initFuture = _fetchAll();
+  }
+
+  Future<void> _fetchAll() async {
+    final homeProvider = context.read<HomeProvider>();
+    await homeProvider.initialize(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<void>(
+      future: _initFuture,
+      builder: (context, snapshot) {
+        print(snapshot.connectionState );
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return SafeArea(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('حدث خطأ أثناء تحميل البيانات',
+                      style: TextStyle(color: Colors.red)),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _initFuture = _fetchAll();
+                      });
+                    },
+                    child: const Text('إعادة المحاولة'),
                   ),
-                ),
+                ],
               ),
             ),
-          ),
+          );
+        }
+        return Consumer<HomeProvider>(
+          builder: (context, provider, child) {
+
+            // if (provider.allAds.isEmpty) {
+            //   return Center(child: Text('لا يوجد إعلانات حالياً'));
+            // }
+            return RefreshIndicator(
+              onRefresh: _fetchAll,
+              color: kprimaryColor,
+              child: SafeArea(
+                child: ListView(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                  children: const [
+                    TopSearchBar(),
+                    SizedBox(height: 10),
+                    TopBanner(),
+                    SizedBox(height: 10),
+                    CategoriesList(),
+                    SizedBox(height: 10),
+                    _ProductsSections(),
+                    SizedBox(height: 10),
+                    _SuggestedHeaderSection(),
+                    SizedBox(height: 10),
+                    _ProductsDetailsSection(),
+                    SizedBox(height: 40),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _TopSearchBarSection extends StatelessWidget {
+  const _TopSearchBarSection();
+  @override
+  Widget build(BuildContext context) => TopSearchBar();
+}
+
+class _TopBannerSection extends StatelessWidget {
+  const _TopBannerSection();
+  @override
+  Widget build(BuildContext context) => TopBanner();
+}
+
+class _CategoriesSection extends StatelessWidget {
+  const _CategoriesSection();
+  @override
+  Widget build(BuildContext context) => CategoriesList();
+}
+
+class _ProductsSections extends StatelessWidget {
+  const _ProductsSections();
+  @override
+  Widget build(BuildContext context) {
+    return Selector<HomeProvider, bool>(
+      selector: (_, provider) => provider.isLoading,
+      builder: (context, isLoading, child) {
+        if (isLoading) return const CustomCircularProgressIndicator();
+        return Selector<HomeProvider, List<AdModel>>(
+          selector: (_, provider) => provider.allAds,
+          builder: (context, allAds, child) {
+            return Column(
+              children: [
+                ProductSection(
+                  onMorePressed: () =>
+                      Navigator.pushNamed(context, AdsScreen.id),
+                  category: "العروض والخصومات",
+                  products: allAds,
+                ),
+                ProductSection(
+                  onMorePressed: () =>
+                      Navigator.pushNamed(context, AdsScreen.id),
+                  category: "الإعلانات الجديدة",
+                  products: allAds,
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _SuggestedHeaderSection extends StatelessWidget {
+  const _SuggestedHeaderSection();
+  @override
+  Widget build(BuildContext context) {
+    return CustomHeader(
+      title: 'الاعلانات المقترحة',
+      onPressed: () => Navigator.pushNamed(context, AdsScreen.id),
+    );
+  }
+}
+
+class _ProductsDetailsSection extends StatelessWidget {
+  const _ProductsDetailsSection();
+  @override
+  Widget build(BuildContext context) {
+    return Selector<HomeProvider, bool>(
+      selector: (_, provider) => provider.isLoading,
+      builder: (context, isLoading, child) {
+        if (isLoading) return const CustomCircularProgressIndicator();
+        return Selector<HomeProvider, List<AdModel>>(
+          selector: (_, provider) => provider.allAds,
+          builder: (context, allAds, child) {
+            return ProductsDetails(productList: allAds);
+          },
         );
       },
     );

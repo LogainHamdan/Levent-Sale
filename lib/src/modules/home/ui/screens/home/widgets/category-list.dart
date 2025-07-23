@@ -26,7 +26,6 @@ class CategoriesList extends StatelessWidget {
     final createProvider =
         Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
     final categories = createProvider.rootCategories;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,22 +38,24 @@ class CategoriesList extends StatelessWidget {
         ),
         createProvider.isLoading
             ? CustomCircularProgressIndicator()
-            : SingleChildScrollView(
-                reverse: true,
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(categories.length, (index) {
-                    final category = categories[index];
-                    return Padding(
-                      padding: EdgeInsets.only(left: index == 0 ? 0 : 16.w),
-                      child: SectionItem(
-                        category: category,
-                        img: category.imageUrl ?? '',
-                      ),
-                    );
-                  }),
+            : Directionality(
+          textDirection: TextDirection.rtl,
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(categories.length, (index) {
+                      final category = categories[index];
+                      return Padding(
+                        padding: EdgeInsets.only(right: index == 0 ? 0 : 16.w,),
+                        child: SectionItem(
+                          category: category,
+                          img: category.imageUrl ?? '',
+                        ),
+                      );
+                    }),
+                  ),
                 ),
-              ),
+            ),
       ],
     );
   }

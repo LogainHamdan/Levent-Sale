@@ -8,6 +8,7 @@ class TabBarWidget extends StatelessWidget {
   final String tab1;
   final String tab2;
   final String tab3;
+  final String tab4;
   final bool info;
   final bool chats;
   const TabBarWidget(
@@ -15,6 +16,7 @@ class TabBarWidget extends StatelessWidget {
       required this.tab1,
       required this.tab2,
       required this.tab3,
+      required this.tab4,
       required this.info,
       required this.chats});
 
@@ -27,6 +29,7 @@ class TabBarWidget extends StatelessWidget {
         TabButton(chats: chats, info: info, text: tab2, index: 1),
         if (!info && !chats)
           TabButton(chats: chats, info: info, text: tab3, index: 2),
+        TabButton(text: tab4, index: 3, info: info, chats: chats)
       ],
     );
   }

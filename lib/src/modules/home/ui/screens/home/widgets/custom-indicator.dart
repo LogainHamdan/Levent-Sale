@@ -11,41 +11,42 @@ class CustomCircularProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer(
-      color: kprimary2Color,
-      direction: ShimmerDirection.fromRightToLeft(),
-      enabled: true,
-      child: Column(
-        children: List.generate(
-          3,
-          (index) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Container(
-              height: 100,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-    // return Center(
+    return
+    //   Shimmer(
+    //   color: kprimary2Color,
+    //   direction: ShimmerDirection.fromRightToLeft(),
+    //   enabled: true,
     //   child: Column(
-    //     mainAxisSize: MainAxisSize.min,
-    //     children: [
-    //       SizedBox(
-    //         width: 30.0.w,
-    //         height: 30.w,
-    //         child: CircularProgressIndicator(
-    //           strokeWidth: 3.w,
-    //           color: kprimaryColor,
+    //     children: List.generate(
+    //       3,
+    //       (index) => Padding(
+    //         padding: const EdgeInsets.symmetric(vertical: 8.0),
+    //         child: Container(
+    //           height: 100,
+    //           width: MediaQuery.of(context).size.width,
+    //           decoration: BoxDecoration(
+    //             color: Colors.white,
+    //             borderRadius: BorderRadius.circular(12),
+    //           ),
     //         ),
     //       ),
-    //     ],
+    //     ),
     //   ),
     // );
+  Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 30.0.w,
+            height: 30.w,
+            child: CircularProgressIndicator(
+              strokeWidth: 3.w,
+              color: kprimaryColor,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

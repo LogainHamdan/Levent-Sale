@@ -56,13 +56,19 @@ class MyCollectionScreenProvider extends ChangeNotifier {
     ),
   ];
 
-List<AdModel> _rejectedAds = [];
+  List<AdModel> _rejectedAds = [];
   List<AdModel> _pendingAds = [];
   List<AdModel> _publishedAds = [];
 
   bool _isLoadingRejected = false;
   bool _isLoadingPending = false;
   bool _isLoadingPublished = false;
+  bool _isLoadingAll = false;
+  bool get isLoading =>
+      _isLoadingAll ||
+      _isLoadingRejected ||
+      _isLoadingPending ||
+      _isLoadingPublished;
 
   int get currentIndex => _currentIndex;
   String get currentTabTitle => _tabTitles[_currentIndex];
@@ -144,6 +150,23 @@ List<AdModel> _rejectedAds = [];
       _publishedAds = [];
     } finally {
       _isLoadingPublished = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchAllUserAds() async {
+    _isLoadingAll = true;
+    notifyListeners();
+    try {
+      await Future.wait([
+        fetchPublishedAds(),
+        fetchPendingAds(),
+        fetchRejectedAds(),
+      ]);
+    } catch (e) {
+      debugPrint('Error fetching all user ads: $e');
+    } finally {
+      _isLoadingAll = false;
       notifyListeners();
     }
   }

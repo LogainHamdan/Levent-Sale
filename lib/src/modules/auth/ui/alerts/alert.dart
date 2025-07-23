@@ -216,6 +216,8 @@ void showForgotPassword(BuildContext context) {
                         bgcolor: grey8,
                         controller: authProvider.emailRequestController,
                         hint: 'البريد الإلكتروني'),
+                    SizedBox(height: 16.h),
+
                     CustomElevatedButton(
                         text: 'ارسال',
                         onPressed: () async {
@@ -586,7 +588,6 @@ void showAdCreated(BuildContext context) {
   final createAdProvider =
       Provider.of<CreateAdProvider>(context, listen: false);
 
-  if (!context.mounted) return;
 
   showDialog(
     context: context,
@@ -677,9 +678,8 @@ void showAdCreated(BuildContext context) {
   );
 }
 
-void showTagCreated(BuildContext context) {
-  if (!context.mounted) return;
 
+void showTagCreated(BuildContext context) {
   showDialog(
     context: context,
     barrierColor: Colors.black.withOpacity(0.2),
@@ -768,7 +768,7 @@ void showTagCreated(BuildContext context) {
 }
 
 void showAddedToFavorites(BuildContext context) {
-  if (!context.mounted) return;
+
 
   showDialog(
     context: context,
@@ -858,7 +858,7 @@ void showAddedToFavorites(BuildContext context) {
 }
 
 void showAdExists(BuildContext context) {
-  if (!context.mounted) return;
+
 
   showDialog(
     context: context,
@@ -920,7 +920,7 @@ void showAdExists(BuildContext context) {
 }
 
 void showReviewAdded(BuildContext context) {
-  if (!context.mounted) return;
+
 
   showDialog(
     context: context,
@@ -1013,7 +1013,7 @@ void showAdUpdated(BuildContext context) {
   final createAdProvider =
       Provider.of<CreateAdProvider>(context, listen: false);
 
-  if (!context.mounted) return;
+
 
   showDialog(
     context: context,
@@ -1407,11 +1407,11 @@ Future<void> showAddToFavoriteAlert(
 
                           Navigator.pop(sheetContext);
 
-                          if (context.mounted) {
+
                             if (success) {
                               showAddedToFavorites(context);
                             }
-                          }
+
                         } on DioException catch (e) {
                           Navigator.pop(sheetContext);
                           if (e.response?.statusCode == 409) {
@@ -1495,7 +1495,6 @@ void showNewCollectionAlert(
                       text: 'حفظ',
                       onPressed: () async {
                         final token = await TokenHelper.getToken();
-
                         final provider = Provider.of<FavoriteProvider>(context,
                             listen: false);
                         String tagName = newTagController.text.trim();
@@ -1511,13 +1510,14 @@ void showNewCollectionAlert(
                           );
                           return;
                         }
-
+                        Navigator.pop(context);
                         await provider.createTag(tagName, token ?? '');
 
                         await provider.fetchTags(token ?? '');
                         showAddedToFavorites(context);
 
-                        Navigator.pop(context);
+
+
                       },
                       backgroundColor: kprimaryColor,
                       textColor: grey9,

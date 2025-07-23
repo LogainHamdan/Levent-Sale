@@ -19,7 +19,8 @@ class CustomCarousel extends StatelessWidget {
   final String productKey = "iphone_14_pro_max";
   final AdModel? ad;
 
-  const CustomCarousel({super.key, this.ad});
+
+   CustomCarousel({super.key, this.ad,});
 
   @override
   Widget build(BuildContext context) {

@@ -39,236 +39,240 @@ class SectionTrack extends StatelessWidget {
         shrinkWrap: true,
         itemCount: subcategories.length,
         itemBuilder: (context, index) {
-          return CustomCard(
-              icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
-              title: subcategories[index].name,
-              onTap: () async {
-                createSectionChooseProvider.setSelectedSubcategory(index);
-                debugPrint(
-                    "Selected: ${createSectionChooseProvider.selectedSubcategory?.name}");
-
-                if (createSectionChooseProvider.selectedSubcategory != null) {
-                  await createSectionChooseProvider.fetchSubcategories(
-                    createSectionChooseProvider.selectedSubcategory!.id,
-                  );
-                } else {
-                  print('selectd subcategory is null');
-                }
-
-                if (createSectionChooseProvider.subcategories.isEmpty) {
-                  createAdProvider.nextStep();
-
-                  debugPrint("fetching attributes...");
+          return SizedBox(
+            height: 55.h,
+            child: CustomCard(
+                icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
+                title: subcategories[index].name,
+                onTap: () async {
+                  createSectionChooseProvider.setSelectedSubcategory(index);
+                  debugPrint(
+                      "Selected: ${createSectionChooseProvider.selectedSubcategory?.name}");
 
                   if (createSectionChooseProvider.selectedSubcategory != null) {
-                    await createDetailsProvider.fetchAttributes(
+                    await createSectionChooseProvider.fetchSubcategories(
                       createSectionChooseProvider.selectedSubcategory!.id,
                     );
+                  } else {
+                    print('selectd subcategory is null');
                   }
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CreateAdScreen(
-                        additionalBackFunction: () {
-                          createDetailsProvider.resetAttributes();
-                          createSectionChooseProvider.navigateBack();
-                        },
-                        lowerWidget: SectionDetails1(),
-                        bottomNavBar: DraggableButton(
-                            color: createAdProvider.isLoading
-                                ? kprimary3Color
-                                : kprimaryColor,
-                            createAdProvider.isLoading
-                                ? 'جاري المعالجة'
-                                : 'متابعة', onPressed: () {
-                          if (createDetailsProvider.validateFields1(context)) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CreateAdScreen(
-                                        additionalBackFunction: () {},
-                                        bottomNavBar: DraggableButton(
-                                            color: createAdProvider.isLoading
-                                                ? kprimary3Color
-                                                : kprimaryColor,
-                                            createAdProvider.isLoading
-                                                ? 'جاري المعالجة'
-                                                : 'متابعة',
-                                            onPressed: () async {
-                                          if (createDetailsProvider
-                                              .validateFields2(context)) {
-                                            final selectedSubCategory =
-                                                createSectionChooseProvider
-                                                    .selectedSubcategory;
-                                            final selectedCategory =
-                                                createSectionChooseProvider
-                                                    .selectedCategory;
+                  if (createSectionChooseProvider.subcategories.isEmpty) {
+                    createAdProvider.nextStep();
 
-                                            final user =
-                                                await UserHelper.getUser();
+                    debugPrint("fetching attributes...");
 
-                                            if (user == null) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                      "تعذر الحصول على معلومات المستخدم. قم بتسجيل الدخول أولاً."),
-                                                  backgroundColor: Colors.red,
-                                                ),
-                                              );
-                                              return;
-                                            }
+                    if (createSectionChooseProvider.selectedSubcategory != null) {
+                      await createDetailsProvider.fetchAttributes(
+                        createSectionChooseProvider.selectedSubcategory!.id,
+                      );
+                    }
 
-                                            if (selectedCategory == null) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                      "الرجاء اختيار قسم أولاً"),
-                                                  backgroundColor: Colors.red,
-                                                ),
-                                              );
-                                              return;
-                                            }
-                                            Map<String, dynamic>
-                                                filteredAttributes =
-                                                createDetailsProvider
-                                                    .getAttributeFieldsMap()
-                                                    .map((key, value) =>
-                                                        MapEntry(key, value))
-                                                  ..removeWhere((key, value) =>
-                                                      value == null);
-
-                                            final address = Address(
-                                                fullAddresse:
-                                                    ' المدينة: ${createDetailsProvider.selectedCity?.cityName} المحافظة: - ${createDetailsProvider.selectedGovernorate?.governorateName}',
-                                                city: createDetailsProvider
-                                                    .selectedCity,
-                                                governorate:
-                                                    createDetailsProvider
-                                                        .selectedGovernorate);
-                                            print(
-                                                'selected category to add: ${selectedCategory.name}');
-                                            print(
-                                                'selected subcategory to add: ${selectedSubCategory?.name}');
-                                            final ad = AdDTO(
-                                              title: createDetailsProvider
-                                                  .titleController.text,
-                                              categoryPath:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateAdScreen(
+                          additionalBackFunction: () {
+                            createDetailsProvider.resetAttributes();
+                            createSectionChooseProvider.navigateBack();
+                          },
+                          lowerWidget: SectionDetails1(),
+                          bottomNavBar: DraggableButton(
+                              color: createAdProvider.isLoading
+                                  ? kprimary3Color
+                                  : kprimaryColor,
+                              createAdProvider.isLoading
+                                  ? 'جاري المعالجة'
+                                  : 'متابعة', onPressed: () {
+                            if (createDetailsProvider.validateFields1(context)) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateAdScreen(
+                                          additionalBackFunction: () {},
+                                          bottomNavBar: DraggableButton(
+                                              color: createAdProvider.isLoading
+                                                  ? kprimary3Color
+                                                  : kprimaryColor,
+                                              createAdProvider.isLoading
+                                                  ? 'جاري المعالجة'
+                                                  : 'متابعة',
+                                              onPressed: () async {
+                                            if (createDetailsProvider
+                                                .validateFields2(context)) {
+                                              final selectedSubCategory =
                                                   createSectionChooseProvider
-                                                      .categoryPath,
-                                              description: createDetailsProvider
-                                                  .shortDescController.text,
-                                              longDescription:
-                                                  createDetailsProvider
-                                                      .getQuillText(),
-                                              contactPhone: createDetailsProvider
-                                                      .numberMethods
-                                                      .contains(
-                                                          createDetailsProvider
-                                                              .selectedContactMethod)
-                                                  ? createDetailsProvider
-                                                      .contactDetailController
-                                                      .text
-                                                  : '',
-                                              contactEmail: (createDetailsProvider
-                                                          .emailMethods
-                                                          .contains(
-                                                              createDetailsProvider
-                                                                  .selectedContactMethod) ||
-                                                      createDetailsProvider
-                                                          .detailMethods
-                                                          .contains(
-                                                              createDetailsProvider
-                                                                  .selectedContactMethod))
-                                                  ? createDetailsProvider
-                                                      .contactDetailController
-                                                      .text
-                                                  : '',
-                                              governorate: address.governorate,
-                                              city: address.city,
-                                              attributes: filteredAttributes,
-                                              fullAddress: address.fullAddresse,
-                                              adType: createDetailsProvider
-                                                      .selectedAdType?.name ??
-                                                  AdType.UNKNOWN.name,
-                                              currency: createDetailsProvider
-                                                  .selectedCurrency?.name,
-                                              negotiable: createDetailsProvider
-                                                  .negotiable,
-                                              preferredContactMethod:
-                                                  createDetailsProvider
-                                                          .selectedContactMethod
-                                                          ?.name ??
-                                                      ContactMethod.EMAIL.name,
-                                              price: createDetailsProvider
-                                                  .priceController.text,
-                                              tradePossible:
-                                                  createDetailsProvider
-                                                      .tradePossible,
-                                            );
+                                                      .selectedSubcategory;
+                                              final selectedCategory =
+                                                  createSectionChooseProvider
+                                                      .selectedCategory;
 
-                                            final token =
-                                                await TokenHelper.getToken();
-                                            print(token);
+                                              final user =
+                                                  await UserHelper.getUser();
 
-                                            if (token == null) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
+                                              if (user == null) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
                                                     content: Text(
-                                                        "قم بتسحيل الدخول اولاً."),
-                                                    backgroundColor:
-                                                        Colors.red),
+                                                        "تعذر الحصول على معلومات المستخدم. قم بتسجيل الدخول أولاً."),
+                                                    backgroundColor: Colors.red,
+                                                  ),
+                                                );
+                                                return;
+                                              }
+
+                                              if (selectedCategory == null) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                        "الرجاء اختيار قسم أولاً"),
+                                                    backgroundColor: Colors.red,
+                                                  ),
+                                                );
+                                                return;
+                                              }
+                                              Map<String, dynamic>
+                                                  filteredAttributes =
+                                                  createDetailsProvider
+                                                      .getAttributeFieldsMap()
+                                                      .map((key, value) =>
+                                                          MapEntry(key, value))
+                                                    ..removeWhere((key, value) =>
+                                                        value == null);
+
+                                              final address = Address(
+                                                  fullAddresse:
+                                                      ' المدينة: ${createDetailsProvider.selectedCity?.cityName} المحافظة: - ${createDetailsProvider.selectedGovernorate?.governorateName}',
+                                                  city: createDetailsProvider
+                                                      .selectedCity,
+                                                  governorate:
+                                                      createDetailsProvider
+                                                          .selectedGovernorate);
+                                              print(
+                                                  'selected category to add: ${selectedCategory.name}');
+                                              print(
+                                                  'selected subcategory to add: ${selectedSubCategory?.name}');
+                                              final ad = AdDTO(
+                                                title: createDetailsProvider
+                                                    .titleController.text,
+                                                categoryPath:
+                                                    createSectionChooseProvider
+                                                        .categoryPath,
+                                                description: createDetailsProvider
+                                                    .shortDescController.text,
+                                                longDescription:
+                                                    createDetailsProvider
+                                                        .getQuillText(),
+                                                contactPhone: createDetailsProvider
+                                                        .numberMethods
+                                                        .contains(
+                                                            createDetailsProvider
+                                                                .selectedContactMethod)
+                                                    ? createDetailsProvider
+                                                        .contactDetailController
+                                                        .text
+                                                    : '',
+                                                contactEmail: (createDetailsProvider
+                                                            .emailMethods
+                                                            .contains(
+                                                                createDetailsProvider
+                                                                    .selectedContactMethod) ||
+                                                        createDetailsProvider
+                                                            .detailMethods
+                                                            .contains(
+                                                                createDetailsProvider
+                                                                    .selectedContactMethod))
+                                                    ? createDetailsProvider
+                                                        .contactDetailController
+                                                        .text
+                                                    : '',
+                                                governorate: address.governorate,
+                                                city: address.city,
+                                                attributes: filteredAttributes,
+                                                fullAddress: address.fullAddresse,
+                                                adType: createDetailsProvider
+                                                        .selectedAdType?.name ??
+                                                    AdType.UNKNOWN.name,
+                                                currency: createDetailsProvider
+                                                    .selectedCurrency?.name,
+                                                negotiable: createDetailsProvider
+                                                    .negotiable,
+                                                preferredContactMethod:
+                                                    createDetailsProvider
+                                                            .selectedContactMethod
+                                                            ?.name ??
+                                                        ContactMethod.EMAIL.name,
+                                                price: createDetailsProvider
+                                                    .priceController.text,
+                                                tradePossible:
+                                                    createDetailsProvider
+                                                        .tradePossible,
                                               );
-                                              return;
+
+                                              final token =
+                                                  await TokenHelper.getToken();
+                                              print(token);
+
+                                              if (token == null) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                      content: Text(
+                                                          "قم بتسحيل الدخول اولاً."),
+                                                      backgroundColor:
+                                                          Colors.red),
+                                                );
+                                                return;
+                                              }
+
+                                              final response =
+                                                  await createAdProvider.createAd(
+                                                    context: context,
+                                                adDTO: ad,
+                                                files: createDetailsProvider
+                                                    .selectedImages,
+                                                token: token,
+                                              );
+                                              createAdProvider.nextStep();
+
+                                              if (response?.statusCode == 200) {
+                                                Navigator.popUntil(context,
+                                                    (route) {
+                                                  return route.settings.name ==
+                                                      MainScreen.id;
+                                                });
+
+                                                showAdCreated(context);
+                                              }
                                             }
-
-                                            final response =
-                                                await createAdProvider.createAd(
-                                              adDTO: ad,
-                                              files: createDetailsProvider
-                                                  .selectedImages,
-                                              token: token,
-                                            );
-                                            createAdProvider.nextStep();
-
-                                            if (response?.statusCode == 200) {
-                                              Navigator.popUntil(context,
-                                                  (route) {
-                                                return route.settings.name ==
-                                                    MainScreen.id;
-                                              });
-
-                                              showAdCreated(context);
-                                            }
-                                          }
-                                        }),
-                                        lowerWidget: SectionDetails2())));
-                          }
-                        }),
-                      ),
-                    ),
-                  );
-                } else {
-                  debugPrint("showing subcategories...");
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CreateAdScreen(
-                        additionalBackFunction: () =>
-                            createSectionChooseProvider.navigateBack(),
-                        lowerWidget: SectionTrack(
-                          subcategories:
-                              createSectionChooseProvider.subcategories,
+                                          }),
+                                          lowerWidget: SectionDetails2())));
+                            }
+                          }),
                         ),
                       ),
-                    ),
-                  );
-                }
-              });
+                    );
+                  } else {
+                    debugPrint("showing subcategories...");
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateAdScreen(
+                          additionalBackFunction: () =>
+                              createSectionChooseProvider.navigateBack(),
+                          lowerWidget: SectionTrack(
+                            subcategories:
+                                createSectionChooseProvider.subcategories,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+                }),
+          );
         },
       ),
     );

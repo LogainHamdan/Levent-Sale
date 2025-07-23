@@ -97,6 +97,7 @@ class MyMaterialApp extends StatelessWidget {
               FlutterQuillLocalizations.delegate,
             ],
             debugShowCheckedModeBanner: false,
+            locale: Locale("ar"),
             title: 'Levent Sale',
             theme: ThemeData(
               appBarTheme: AppBarTheme(

@@ -74,6 +74,7 @@ class _JoinChatsState extends State<JoinChats> {
                       tab1: 'بشأن الإعلان',
                       tab2: 'خاصة',
                       tab3: '',
+                      tab4: "",
                     ),
                   ),
                   Expanded(

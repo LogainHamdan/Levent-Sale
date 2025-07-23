@@ -68,6 +68,8 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
       final response = await _repo.fetchCategories();
       print('Raw response: $response');
       rootCategories = response;
+      rootCategories.reversed;
+      print("categ${rootCategories.first.name}");
     } catch (e) {
       print('Failed to load categories: ${e.toString()}');
       print('Stack trace: ${e}');
@@ -129,7 +131,7 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
 
     final pathParts = _categoryPath.split('/');
 
-    // حالة خاصة: الرجوع من الجذر
+
     if (pathParts.length == 1) {
       _categoryPath = '';
       _selectedSubcategory = null;
@@ -138,18 +140,17 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
       return;
     }
 
-    // إنشاء المسار الجديد بإزالة آخر جزء
     final newPath = pathParts.sublist(0, pathParts.length - 1).join('/');
     final newParentId = int.parse(pathParts[pathParts.length - 2]);
 
-    // تحديث المسار أولاً
+
     _categoryPath = newPath;
     print('new path: $newPath');
     print('current subcategory id: $newParentId');
     await fetchCategoryById(newParentId);
     print('current subcategory : ${_selectedSubcategory?.toJson()}');
 
-    // جلب أبناء الوالد الجديد
+
     await fetchSubcategories(newParentId);
     print(
         'current subcategories id: ${subcategories.map((e) => e.toJson()).toList()}');

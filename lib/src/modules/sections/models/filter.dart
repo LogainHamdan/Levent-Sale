@@ -29,7 +29,7 @@ class FilterRequestDTO {
       if (sortBy != null) 'sortBy': sortBy,
       if (sortDirection != null) 'sortDirection': sortDirection,
       if (filters != null) 'filters': filters,
-      if (searchAttributes != null) 'searchAttributes': searchAttributes,
+      if (searchAttributes != null&&searchAttributes!=[]) 'searchAttributes': searchAttributes,
     };
   }
 }

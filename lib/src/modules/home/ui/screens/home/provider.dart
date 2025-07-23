@@ -1,9 +1,12 @@
-import 'package:Levant_Sale/src/modules/home/ui/screens/home/home.dart';
+import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/notifications/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/models/getAdDTO.dart';
 import 'package:Levant_Sale/src/modules/sections/models/root-category.dart';
 import 'package:Levant_Sale/src/modules/sections/repos/ad.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/create-ad-choose-section-provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../sections/models/ad.dart';
 
@@ -15,6 +18,19 @@ class HomeProvider extends ChangeNotifier {
         'screen_name': 'HomeScreen',
       },
     );
+
+  }
+  initialize(context)async{
+    final notificationsProvider =
+    Provider.of<NotificationProvider>(context, listen: false);
+    final categoryProvider =
+    Provider.of<CreateAdChooseSectionProvider>(context,
+        listen: false);
+    final token = await TokenHelper.getToken();
+    await loadAds(token: token);
+    await categoryProvider.fetchCategories();
+    await notificationsProvider.getNotificationStats(
+        token: token ?? '');
   }
   final Map<String, bool> _favorites = {};
   int _currentIndex = 0;

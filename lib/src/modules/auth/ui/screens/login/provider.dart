@@ -230,7 +230,7 @@ class LoginProvider extends ChangeNotifier {
         final token = result['token'];
         final userData = result['user'];
         final user = User.fromJson(userData);
-        await saveFcmToken(user, token);
+      // await saveFcmToken(user, token);
         if (token == null) {
           print('التوكن غير موجود.');
           await TokenHelper.removeToken();

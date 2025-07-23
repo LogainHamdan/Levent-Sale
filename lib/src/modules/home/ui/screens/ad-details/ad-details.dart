@@ -1,12 +1,9 @@
 import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/cutom-druggable-scrollable-sheet.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/widgets/map-section.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/ads.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
-import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/product-item.dart';
-import 'package:Levant_Sale/src/modules/sections/ui/screens/choose-section/choose-section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -44,21 +41,75 @@ class AdDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final token = await TokenHelper.getToken();
-      await homeProvider.loadAds(token: token);
-      await homeProvider.getAdById(adId);
-      await homeProvider.getAdByIdForMap(adId);
-    });
-
     return FutureBuilder(
         future: Future.wait([
           UserHelper.getUser(),
           homeProvider.getAdById(adId),
         ]),
         builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('تفاصيل الإعلان'),
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.black),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+              body: Center(
+                child: CustomCircularProgressIndicator(),
+              ),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('تفاصيل الإعلان'),
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.black),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.error_outline, size: 64, color: Colors.grey),
+                    SizedBox(height: 16),
+                    Text(
+                      'حدث خطأ في تحميل الإعلان',
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
+                    SizedBox(height: 8),
+                    TextButton(
+                      onPressed: () {
+                        // Retry loading
+                        homeProvider.getAdById(adId);
+                      },
+                      child: Text('إعادة المحاولة'),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+
           if (!snapshot.hasData) {
             return Scaffold(
+              appBar: AppBar(
+                title: Text('تفاصيل الإعلان'),
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.black),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
               body: Center(
                 child: CustomCircularProgressIndicator(),
               ),
@@ -66,18 +117,59 @@ class AdDetailsScreen extends StatelessWidget {
           }
 
           final user = snapshot.data![0] as User?;
-          final ad = homeProvider.selectedAd;
+          final ad = snapshot.data![1] as AdModel?;
+
+          // Update the provider's selected ad if we have valid data
+          if (ad != null) {
+            homeProvider.selectAd(ad);
+          }
+
+          if (ad == null) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('تفاصيل الإعلان'),
+                backgroundColor: Colors.white,
+                elevation: 0,
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.black),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.search_off, size: 64, color: Colors.grey),
+                    SizedBox(height: 16),
+                    Text(
+                      'لم يتم العثور على الإعلان',
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'قد يكون الإعلان قد تم حذفه أو غير متاح',
+                      style: TextStyle(fontSize: 14, color: Colors.grey[400]),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
 
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
               backgroundColor: Colors.white,
               elevation: 0,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.pop(context),
+              ),
               title: Stack(
                 alignment: Alignment.center,
                 children: [
-                  TitleRow(title: ad?.title ?? ''),
-                  if (user != null && user.id == ad?.userId)
+                  TitleRow(title: ad.title ?? ''),
+                  if (user != null && user.id == ad.userId)
                     Positioned(
                       left: 0,
                       child: Row(
@@ -85,11 +177,10 @@ class AdDetailsScreen extends StatelessWidget {
                           GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () {
-                              print('edit clicked');
                               final provider = Provider.of<UpdateAdProvider>(
                                   context,
                                   listen: false);
-                              provider.selectAdToUpdate(ad?.id ?? 0, context);
+                              provider.selectAdToUpdate(ad.id ?? 0, context);
                               final adToUpdate =
                                   provider.selectedAdToUpdate ?? AdModel();
                               Navigator.pushNamed(
@@ -122,8 +213,6 @@ class AdDetailsScreen extends StatelessWidget {
                                                   ? 'جاري المعالجة'
                                                   : 'متابعة',
                                               onPressed: () async {
-                                            print(
-                                                'validate 2: ${detailsProvider.validateFields2()}');
                                             if (detailsProvider
                                                 .validateFields2()) {
                                               Map<String, dynamic>
@@ -235,8 +324,7 @@ class AdDetailsScreen extends StatelessWidget {
                           SizedBox(width: 8.w),
                           GestureDetector(
                             onTap: () {
-                              print('delete clicked');
-                              return deleteAdAlert(context, ad?.id ?? 0);
+                              return deleteAdAlert(context, ad.id ?? 0);
                             },
                             child: Padding(
                               padding: EdgeInsets.all(8.w),
@@ -266,10 +354,9 @@ class AdDetailsScreen extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    if (ad != null)
-                                      CustomCarousel(
-                                        ad: ad,
-                                      ),
+                                    CustomCarousel(
+                                      ad: ad,
+                                    ),
                                     SizedBox(height: 24.0.h),
                                     Padding(
                                       padding: EdgeInsets.only(right: 8.w),
@@ -280,7 +367,7 @@ class AdDetailsScreen extends StatelessWidget {
                                               CrossAxisAlignment.end,
                                           children: [
                                             Text(
-                                              "${ad?.price} ${ad?.currency}",
+                                              "${ad.price} ${ad.currency}",
                                               style: TextStyle(
                                                 fontSize: 20.sp,
                                                 fontWeight: FontWeight.bold,
@@ -288,20 +375,15 @@ class AdDetailsScreen extends StatelessWidget {
                                             ),
                                             SizedBox(height: 5.h),
                                             Text(
-                                              'نشر ${timeago.format(ad?.createdAt ?? DateTime.now(), locale: 'ar')}',
+                                              'نشر ${timeago.format(ad.createdAt ?? DateTime.now(), locale: 'ar')}',
                                               style: TextStyle(
                                                 fontSize: 14.sp,
                                                 color: grey3,
                                               ),
                                             ),
-                                            // CustomRating(
-                                            //   adId: adId,
-                                            //   rateNum: true,
-                                            //   flexible: false,
-                                            // ),
                                             SizedBox(height: 8.h),
                                             Text(
-                                              ad?.cleanDescription ?? '',
+                                              ad.cleanDescription ?? '',
                                               maxLines: 4,
                                               style: TextStyle(
                                                   fontSize: 14.sp,
@@ -315,37 +397,16 @@ class AdDetailsScreen extends StatelessWidget {
                                     SizedBox(height: 24.h),
                                     SimpleTitle(title: 'التعريفات'),
                                     SizedBox(height: 16.h),
-                                    if (ad != null) DetailsSection(ad: ad),
+                                    DetailsSection(ad: ad),
                                     SizedBox(height: 24.h),
                                     SimpleTitle(title: 'الوصف'),
                                     SizedBox(height: 12.h),
                                     SpecificationsSection(
                                       title: 'التفاصيل، الفوائد، والتسليم',
                                       specifications: [
-                                        '${ad?.cleanLongDescription}'
-                                        // ' الأداء: أداء سريع وسلس مع تطبيقات متعددة.'
-                                        //     ' التصوير: تحسينات كبيرة فى جودة الصورة والفيديو.'
-                                        //     '  التوافق:  لتجربة إنترنت أسرع يدعم 65.'
+                                        ad.cleanLongDescription ?? ''
                                       ],
                                     ),
-                                    // SizedBox(height: 10.h),
-                                    // SpecificationsSection(
-                                    //     title: 'الفوائد',
-                                    //     specifications: [
-                                    //       '${ad?.longDescription}'
-                                    //       // ' الأداء: أداء سريع وسلس مع تطبيقات متعددة.'
-                                    //       //     ' التصوير: تحسينات كبيرة فى جودة الصورة والفيديو.'
-                                    //       //     '  التوافق:  لتجربة إنترنت أسرع يدعم 65.'
-                                    //     ]),
-                                    // SizedBox(height: 10.h),
-                                    // SpecificationsSection(
-                                    //     title: 'التسليم والمرتجعات',
-                                    //     specifications: [
-                                    //       '${ad?.longDescription}'
-                                    //       // ' الأداء: أداء سريع وسلس مع تطبيقات متعددة.'
-                                    //       //     ' التصوير: تحسينات كبيرة فى جودة الصورة والفيديو.'
-                                    //       //     '  التوافق:  لتجربة إنترنت أسرع يدعم 65.'
-                                    //     ]),
                                     SizedBox(
                                       height: 24.h,
                                     )
@@ -372,24 +433,14 @@ class AdDetailsScreen extends StatelessWidget {
                                           }
                                           final adMap = snapshot.data;
                                           return MapSection(
-                                              latitude: adMap?.latitude,
-                                              longitude: adMap?.longitude);
+                                              latitude:
+                                                  adMap?.latitude?.toString(),
+                                              longitude:
+                                                  adMap?.longitude?.toString());
                                         }),
                                     SizedBox(
                                       height: 8.h,
                                     ),
-                                    // CustomHeader(
-                                    //   onPressed: () => Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //           builder: (context) =>
-                                    //               ReviewsScreen(
-                                    //                   adId: ad?.id ?? 0))),
-                                    //   title: 'متوسط التقييم',
-                                    // ),
-                                    // RatingSection(
-                                    //   adId: adId,
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -410,8 +461,8 @@ class AdDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   CustomDraggableScrollableSheet(
-                    adId: ad?.id ?? 0,
-                    userId: ad?.userId ?? 0,
+                    adId: ad.id ?? 0,
+                    userId: ad.userId ?? 0,
                   ),
                 ],
               ),

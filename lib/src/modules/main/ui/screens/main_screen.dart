@@ -24,6 +24,20 @@ class MainScreen extends StatelessWidget {
 
   MainScreen({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => BottomNavProvider()),
+      ],
+      child: _MainScreenBody(),
+    );
+  }
+}
+
+class _MainScreenBody extends StatelessWidget {
+  _MainScreenBody({Key? key}) : super(key: key);
+
   final List<String> unselectedIcons = [
     menuUnselected,
     collectionUnselected,
@@ -54,26 +68,17 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomNavProvider = Provider.of<BottomNavProvider>(context);
-
     // final provider =
     //     Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
-    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final token = await TokenHelper.getToken();
-
-      await homeProvider.loadAds(token: token);
-      //  await provider.fetchCategories();
-      final notificationsProvider =
-          Provider.of<NotificationProvider>(context, listen: false);
-      await notificationsProvider.getNotificationStats(token: token ?? '');
-    });
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBody: true,
       extendBodyBehindAppBar: true,
-      body: screens[bottomNavProvider.currentIndex],
+      body: IndexedStack(
+        index: bottomNavProvider.currentIndex,
+        children: screens,
+      ),
       floatingActionButton: SizedBox(
         height: 56.h,
         width: 56.w,

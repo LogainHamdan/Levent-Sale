@@ -10,23 +10,8 @@ class AddCoverColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 4.h,
-        ),
-        Icon(
-          Icons.arrow_downward_rounded,
-          color: Colors.white,
-          size: 30.sp,
-        ),
-        SizedBox(
-          height: 8.h,
-        ),
-        Text(
-          textAlign: TextAlign.center,
-          textDirection: TextDirection.rtl,
-          'أضف صورة بانر\nالأبعاد المثالية 3200 * 410 بكسل',
-          style: TextStyle(color: Colors.white),
-        ),
+
+
       ],
     );
   }
