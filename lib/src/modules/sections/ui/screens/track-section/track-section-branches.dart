@@ -20,15 +20,17 @@ import '../section-details/provider.dart';
 import '../section-details/section-details1.dart';
 
 class SectionTrack extends StatelessWidget {
-  final List<Category> subcategories;
+  final List<dynamic> subcategories;
 
   const SectionTrack({super.key, required this.subcategories});
 
   @override
   Widget build(BuildContext context) {
-    final createAdProvider = Provider.of<CreateAdProvider>(context);
+    final createAdProvider =
+        Provider.of<CreateAdProvider>(context, listen: false);
+
     final createSectionChooseProvider =
-        Provider.of<CreateAdChooseSectionProvider>(context);
+        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
 
     final createDetailsProvider =
         Provider.of<CreateAdSectionDetailsProvider>(context);
@@ -37,32 +39,84 @@ class SectionTrack extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 24.0.w),
       child: ListView.builder(
         shrinkWrap: true,
-        itemCount: subcategories.length,
+        itemCount: () {
+          switch (createSectionChooseProvider.currentSelection) {
+            case SelectionState.year:
+              return createSectionChooseProvider.years.length;
+            case SelectionState.yearBrand:
+              return createSectionChooseProvider.brands.length;
+            case SelectionState.yearBrandModel:
+              return createSectionChooseProvider.models.length;
+            case SelectionState.yearBrandModelTrans:
+              return createSectionChooseProvider.trans.length;
+            case SelectionState.none:
+              return subcategories.length;
+          }
+        }(),
         itemBuilder: (context, index) {
           return SizedBox(
             height: 55.h,
             child: CustomCard(
                 icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
-                title: subcategories[index].name,
-                onTap: () async {
-                  createSectionChooseProvider.setSelectedSubcategory(index);
-                  debugPrint(
-                      "Selected: ${createSectionChooseProvider.selectedSubcategory?.name}");
-
-                  if (createSectionChooseProvider.selectedSubcategory != null) {
-                    await createSectionChooseProvider.fetchSubcategories(
-                      createSectionChooseProvider.selectedSubcategory!.id,
-                    );
-                  } else {
-                    print('selectd subcategory is null');
+                title: () {
+                  switch (createSectionChooseProvider.currentSelection) {
+                    case SelectionState.year:
+                      return createSectionChooseProvider.years[index]
+                          .toString();
+                    case SelectionState.yearBrand:
+                      return createSectionChooseProvider.brands[index];
+                    case SelectionState.yearBrandModel:
+                      return createSectionChooseProvider.models[index];
+                    case SelectionState.yearBrandModelTrans:
+                      return createSectionChooseProvider.trans[index];
+                    case SelectionState.none:
+                      return subcategories[index].name;
                   }
+                }(),
+                onTap: () async {
+                  final provider = createSectionChooseProvider;
 
-                  if (createSectionChooseProvider.subcategories.isEmpty) {
+                  switch (provider.currentSelection) {
+                    case SelectionState.year:
+                      provider.setSelectedYear(provider.years[index]);
+                      print('selected year: ${provider.selectedYear}');
+                      break;
+                    case SelectionState.yearBrand:
+                      provider.setSelectedBrand(provider.brands[index]);
+                      print('selected year: ${provider.selectedBrand}');
+
+                      break;
+                    case SelectionState.yearBrandModel:
+                      provider.setSelectedModel(provider.models[index]);
+                      print('selected year: ${provider.selectedModel}');
+
+                      break;
+                    case SelectionState.none:
+                    default:
+                      provider.setSelectedSubcategory(index);
+                      debugPrint(
+                          "Selected: ${provider.selectedSubcategory?.name}");
+
+                      if (provider.selectedSubcategory != null) {
+                        await provider.fetchSubcategories(
+                          provider.selectedSubcategory!.id,
+                        );
+                      } else {
+                        print('selected subcategory is null');
+                      }
+                      break;
+                  }
+                  final isCar = createSectionChooseProvider.isCar;
+                  print(
+                      'is Car ${createSectionChooseProvider.selectedSubcategory?.name}$isCar');
+                  if (createSectionChooseProvider.subcategories.isEmpty &&
+                      !isCar) {
                     createAdProvider.nextStep();
 
                     debugPrint("fetching attributes...");
 
-                    if (createSectionChooseProvider.selectedSubcategory != null) {
+                    if (createSectionChooseProvider.selectedSubcategory !=
+                        null) {
                       await createDetailsProvider.fetchAttributes(
                         createSectionChooseProvider.selectedSubcategory!.id,
                       );
@@ -84,7 +138,8 @@ class SectionTrack extends StatelessWidget {
                               createAdProvider.isLoading
                                   ? 'جاري المعالجة'
                                   : 'متابعة', onPressed: () {
-                            if (createDetailsProvider.validateFields1(context)) {
+                            if (createDetailsProvider
+                                .validateFields1(context)) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -139,8 +194,9 @@ class SectionTrack extends StatelessWidget {
                                                       .getAttributeFieldsMap()
                                                       .map((key, value) =>
                                                           MapEntry(key, value))
-                                                    ..removeWhere((key, value) =>
-                                                        value == null);
+                                                    ..removeWhere(
+                                                        (key, value) =>
+                                                            value == null);
 
                                               final address = Address(
                                                   fullAddresse:
@@ -160,8 +216,10 @@ class SectionTrack extends StatelessWidget {
                                                 categoryPath:
                                                     createSectionChooseProvider
                                                         .categoryPath,
-                                                description: createDetailsProvider
-                                                    .shortDescController.text,
+                                                description:
+                                                    createDetailsProvider
+                                                        .shortDescController
+                                                        .text,
                                                 longDescription:
                                                     createDetailsProvider
                                                         .getQuillText(),
@@ -188,22 +246,26 @@ class SectionTrack extends StatelessWidget {
                                                         .contactDetailController
                                                         .text
                                                     : '',
-                                                governorate: address.governorate,
+                                                governorate:
+                                                    address.governorate,
                                                 city: address.city,
                                                 attributes: filteredAttributes,
-                                                fullAddress: address.fullAddresse,
+                                                fullAddress:
+                                                    address.fullAddresse,
                                                 adType: createDetailsProvider
                                                         .selectedAdType?.name ??
                                                     AdType.UNKNOWN.name,
                                                 currency: createDetailsProvider
                                                     .selectedCurrency?.name,
-                                                negotiable: createDetailsProvider
-                                                    .negotiable,
+                                                negotiable:
+                                                    createDetailsProvider
+                                                        .negotiable,
                                                 preferredContactMethod:
                                                     createDetailsProvider
                                                             .selectedContactMethod
                                                             ?.name ??
-                                                        ContactMethod.EMAIL.name,
+                                                        ContactMethod
+                                                            .EMAIL.name,
                                                 price: createDetailsProvider
                                                     .priceController.text,
                                                 tradePossible:
@@ -228,8 +290,9 @@ class SectionTrack extends StatelessWidget {
                                               }
 
                                               final response =
-                                                  await createAdProvider.createAd(
-                                                    context: context,
+                                                  await createAdProvider
+                                                      .createAd(
+                                                context: context,
                                                 adDTO: ad,
                                                 files: createDetailsProvider
                                                     .selectedImages,
@@ -254,9 +317,54 @@ class SectionTrack extends StatelessWidget {
                         ),
                       ),
                     );
-                  } else {
-                    debugPrint("showing subcategories...");
+                  } else if (createSectionChooseProvider
+                          .subcategories.isEmpty &&
+                      isCar) {
+                    if (createSectionChooseProvider.currentSelection ==
+                        SelectionState.none) {
+                      await createSectionChooseProvider.fetchYears();
+                    } else if (createSectionChooseProvider.currentSelection ==
+                        SelectionState.year) {
+                      await createSectionChooseProvider.fetchBrands();
+                    } else if (createSectionChooseProvider.currentSelection ==
+                        SelectionState.yearBrand) {
+                      await createSectionChooseProvider.fetchModels();
+                    } else if (createSectionChooseProvider.currentSelection ==
+                        SelectionState.yearBrandModel) {
+                      await createSectionChooseProvider.fetchTransmissions();
+                    } else if (createSectionChooseProvider.currentSelection ==
+                        SelectionState.yearBrandModelTrans) {}
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateAdScreen(
+                          additionalBackFunction: () =>
+                              createSectionChooseProvider.navigateBack(),
+                          lowerWidget: SectionTrack(
+                            subcategories: () {
+                              final selection =
+                                  createSectionChooseProvider.currentSelection;
 
+                              if (selection == SelectionState.year) {
+                                return createSectionChooseProvider.years;
+                              } else if (selection ==
+                                  SelectionState.yearBrand) {
+                                return createSectionChooseProvider.brands;
+                              } else if (selection ==
+                                  SelectionState.yearBrandModel) {
+                                return createSectionChooseProvider.models;
+                              } else if (selection ==
+                                  SelectionState.yearBrandModelTrans) {
+                                return createSectionChooseProvider.trans;
+                              } else {
+                                return [];
+                              }
+                            }(),
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
                     Navigator.push(
                       context,
                       MaterialPageRoute(

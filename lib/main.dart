@@ -68,13 +68,13 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (_) => SignUpProvider(),
-      ), ChangeNotifierProvider(
+      ),
+      ChangeNotifierProvider(
         create: (_) => HomeProvider(),
       ),
       ChangeNotifierProvider(
         create: (_) => VerificationProvider(),
       ),
-
       ChangeNotifierProvider(
         create: (_) => AdDetailsProvider(),
       ),

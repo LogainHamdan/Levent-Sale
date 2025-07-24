@@ -12,6 +12,7 @@ class Category {
   final String? categoryPath;
   final String? categoryNamePath;
   final bool active;
+  final bool? car;
 
   Category({
     required this.id,
@@ -27,6 +28,7 @@ class Category {
     this.categoryPath,
     this.categoryNamePath,
     required this.active,
+    this.car,
   });
 
   factory Category.fromJson(Map<String, dynamic> json) {
@@ -51,6 +53,7 @@ class Category {
       categoryPath: json['categoryPath']?.toString(),
       categoryNamePath: json['categoryNamePath']?.toString(),
       active: (json['active'] as bool?) ?? false,
+      car: (json['car'] as bool?) ?? false,
     );
   }
   Map<String, dynamic> toJson() {
@@ -68,6 +71,7 @@ class Category {
       'categoryPath': categoryPath,
       'categoryNamePath': categoryNamePath,
       'active': active,
+      'car': car,
     };
   }
 }
