@@ -13,7 +13,6 @@ class Sections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return const _SectionsBody();
   }
 }
@@ -24,9 +23,9 @@ class _SectionsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      extendBody: true,
       backgroundColor: Colors.white,
       appBar: AppBar(
         scrolledUnderElevation: 0,

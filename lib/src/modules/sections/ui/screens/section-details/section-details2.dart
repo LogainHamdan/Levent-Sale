@@ -33,8 +33,10 @@ class _SectionDetails2State extends State<SectionDetails2> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       createProvider.loadGovernorates();
-      createProvider.loadCities(
-          governorateId: createProvider.selectedGovernorate?.id ?? 2);
+      if (createProvider.selectedGovernorate != null) {
+        createProvider.loadCities(
+            governorateId: createProvider.selectedGovernorate?.id ?? 2);
+      }
     });
   }
 

@@ -2,6 +2,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/provider
 import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/widgets/products_filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../home/ui/screens/home/provider.dart';
@@ -48,7 +49,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 200) {
-        final sectionProvider = Provider.of<SectionProvider>(context, listen: false);
+        final sectionProvider =
+            Provider.of<SectionProvider>(context, listen: false);
 
         // ✅ حمّل المزيد إذا كان هناك إعلانات محملة ويمكن تحميل المزيد
         if (sectionProvider.adsByCategory.isNotEmpty &&
@@ -74,7 +76,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
 
   void _loadInitialData() {
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
-    final sectionProvider = Provider.of<SectionProvider>(context, listen: false);
+    final sectionProvider =
+        Provider.of<SectionProvider>(context, listen: false);
 
     final categoryId = homeProvider.selectedCategory?.id ?? 0;
 
@@ -88,9 +91,11 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
   }
 
   Future<void> _onRefresh() async {
-    final sectionProvider = Provider.of<SectionProvider>(context, listen: false);
+    final sectionProvider =
+        Provider.of<SectionProvider>(context, listen: false);
 
-    if (sectionProvider.adsByCategory.isNotEmpty && sectionProvider.navigationPath.isNotEmpty) {
+    if (sectionProvider.adsByCategory.isNotEmpty &&
+        sectionProvider.navigationPath.isNotEmpty) {
       final currentCategoryId = sectionProvider.navigationPath.last.id;
       await sectionProvider.refresh('$currentCategoryId');
     } else {
@@ -123,22 +128,24 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                         _buildSubCategoriesSection(sectionProvider),
 
                         // ✅ عرض أدوات التحكم والفلاتر عند وجود إعلانات أو فلاتر
-                        if (sectionProvider.adsByCategory.isNotEmpty || sectionProvider.availableFilters.isNotEmpty)
+                        if (sectionProvider.adsByCategory.isNotEmpty ||
+                            sectionProvider.availableFilters.isNotEmpty)
                           _buildViewSwitcherAndFilters(sectionProvider),
                       ],
                     ),
                   ),
-
                   if (sectionProvider.adsByCategory.isNotEmpty)
                     _buildProductsSection(sectionProvider)
                   else if (sectionProvider.isLoading)
                     _buildLoadingSection()
                   else if (sectionProvider.error != null)
-                      SliverToBoxAdapter(child: _buildErrorWidget(sectionProvider))
-                    else if (sectionProvider.adsByCategory.isEmpty && !sectionProvider.isLoading)
-                        SliverToBoxAdapter(child: _buildEmptyWidget()),
-
-                  if (sectionProvider.isLoadingMore && sectionProvider.adsByCategory.isNotEmpty)
+                    SliverToBoxAdapter(
+                        child: _buildErrorWidget(sectionProvider))
+                  else if (sectionProvider.adsByCategory.isEmpty &&
+                      !sectionProvider.isLoading)
+                    SliverToBoxAdapter(child: _buildEmptyWidget()),
+                  if (sectionProvider.isLoadingMore &&
+                      sectionProvider.adsByCategory.isNotEmpty)
                     SliverToBoxAdapter(
                       child: Container(
                         padding: EdgeInsets.all(20.h),
@@ -174,26 +181,26 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
       title: Consumer<SectionProvider>(
         builder: (context, sectionProvider, _) {
           return Text(
-            sectionProvider.navigationPath.isNotEmpty
-                ? sectionProvider.navigationPath.last.name
-                : 'القسم',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w700,
-            ),
-          );
+              sectionProvider.navigationPath.isNotEmpty
+                  ? sectionProvider.navigationPath.last.name
+                  : 'القسم',
+              style: GoogleFonts.tajawal(
+                textStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+              ));
         },
       ),
       leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios_new, color: Colors.black, size: 16.sp),
+        icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.sp),
         onPressed: () {
-          final sectionProvider = Provider.of<SectionProvider>(context, listen: false);
+          final sectionProvider =
+              Provider.of<SectionProvider>(context, listen: false);
           if (sectionProvider.canGoBack) {
             sectionProvider.navigateBack();
           } else {
@@ -202,10 +209,10 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
         },
       ),
       actions: [
-
         Consumer<SectionProvider>(
           builder: (context, sectionProvider, _) {
-            if (sectionProvider.availableFilters.isEmpty && sectionProvider.adsByCategory.isEmpty) {
+            if (sectionProvider.availableFilters.isEmpty &&
+                sectionProvider.adsByCategory.isEmpty) {
               return SizedBox.shrink();
             }
 
@@ -264,13 +271,14 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
               height: 60.h,
               child: Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      Theme.of(context).primaryColor),
                 ),
               ),
             )
           else if (sectionProvider.categoryInfo != null &&
               sectionProvider.categoryInfo!.subCategories.isNotEmpty)
-          // قائمة الأقسام الفرعية فقط
+            // قائمة الأقسام الفرعية فقط
             SizedBox(
               height: 20.h,
               child: SingleChildScrollView(
@@ -278,7 +286,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: sectionProvider.categoryInfo!.subCategories.map((subCategory) {
+                  children: sectionProvider.categoryInfo!.subCategories
+                      .map((subCategory) {
                     return GestureDetector(
                       onTap: () {
                         final categoryLevel = CategoryLevel(
@@ -304,7 +313,9 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                             SizedBox(width: 8.w),
                             Container(
                               decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(8.r),
                               ),
                               child: Row(
@@ -407,7 +418,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                           if (sectionProvider.hasSelectedFilters())
                             Container(
                               margin: EdgeInsets.only(right: 4.w),
-                              padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 6.w, vertical: 2.h),
                               decoration: BoxDecoration(
                                 color: Theme.of(context).primaryColor,
                                 borderRadius: BorderRadius.circular(10.r),
@@ -563,7 +575,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.inventory_2_outlined, color: Colors.blue[600], size: 48.sp),
+            Icon(Icons.inventory_2_outlined,
+                color: Colors.blue[600], size: 48.sp),
             SizedBox(height: 16.h),
             Text(
               'لا توجد منتجات',
@@ -585,10 +598,12 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
             SizedBox(height: 16.h),
             ElevatedButton.icon(
               onPressed: () {
-                final sectionProvider = Provider.of<SectionProvider>(context, listen: false);
+                final sectionProvider =
+                    Provider.of<SectionProvider>(context, listen: false);
                 sectionProvider.resetAllFilters();
                 if (sectionProvider.navigationPath.isNotEmpty) {
-                  final currentCategoryId = sectionProvider.navigationPath.last.id;
+                  final currentCategoryId =
+                      sectionProvider.navigationPath.last.id;
                   sectionProvider.fetchCategoryAds('$currentCategoryId');
                 }
               },
@@ -637,7 +652,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                 SizedBox(width: 8.w),
                 Text(
                   'البحث في المنتجات',
-                  style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
+                  style:
+                      TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
                 ),
               ],
             ),
@@ -680,7 +696,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                 Container(
                   padding: EdgeInsets.all(20.w),
                   decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
+                    border:
+                        Border(bottom: BorderSide(color: Colors.grey[200]!)),
                   ),
                   child: Column(
                     children: [
@@ -698,7 +715,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                         children: [
                           Text(
                             'الفلاتر',
-                            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                                fontSize: 18.sp, fontWeight: FontWeight.w600),
                           ),
                           Row(
                             children: [
@@ -717,7 +735,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                                 ),
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
-                                child: Icon(Icons.close, color: Colors.grey[600]),
+                                child:
+                                    Icon(Icons.close, color: Colors.grey[600]),
                               ),
                             ],
                           ),
@@ -725,12 +744,12 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                       ),
                       Text(
                         'اختر الفلاتر المناسبة لعرض النتائج',
-                        style: TextStyle(fontSize: 12.sp, color: Colors.grey[600]),
+                        style:
+                            TextStyle(fontSize: 12.sp, color: Colors.grey[600]),
                       ),
                     ],
                   ),
                 ),
-
                 Expanded(
                   child: ListView.builder(
                     controller: scrollController,
@@ -755,7 +774,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                     },
                   ),
                 ),
-
                 Container(
                   padding: EdgeInsets.all(20.w),
                   decoration: BoxDecoration(
@@ -783,12 +801,14 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                         flex: 2,
                         child: ElevatedButton(
                           onPressed: () async {
-                            final currentCategoryId = sectionProvider.navigationPath.isNotEmpty
-                                ? sectionProvider.navigationPath.last.id
-                                : null;
+                            final currentCategoryId =
+                                sectionProvider.navigationPath.isNotEmpty
+                                    ? sectionProvider.navigationPath.last.id
+                                    : null;
                             if (currentCategoryId != null) {
                               // ✅ تطبيق الفلاتر فقط
-                              await sectionProvider.applyFilters('$currentCategoryId');
+                              await sectionProvider
+                                  .applyFilters('$currentCategoryId');
                             }
                             Navigator.pop(context);
                           },
@@ -814,7 +834,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
   }
 
   // ✅ إضافة زر إعادة تعيين لكل فلتر
-  Widget _buildSimpleFilterItem(DynamicFilter filter, SectionProvider sectionProvider) {
+  Widget _buildSimpleFilterItem(
+      DynamicFilter filter, SectionProvider sectionProvider) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8.h),
       child: Column(
@@ -838,7 +859,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                     sectionProvider.resetFilter(filter.id);
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                     decoration: BoxDecoration(
                       color: Colors.red[50],
                       borderRadius: BorderRadius.circular(4.r),
@@ -878,7 +900,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
   }
 
   // ✅ تحسين _buildDropdownFilter مع عرض القيمة الحالية
-  Widget _buildDropdownFilter(DynamicFilter filter, SectionProvider sectionProvider) {
+  Widget _buildDropdownFilter(
+      DynamicFilter filter, SectionProvider sectionProvider) {
     return Consumer<SectionProvider>(
       builder: (context, provider, child) {
         return Container(
@@ -888,8 +911,7 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
             border: Border.all(
                 color: filter.selectedValue != null
                     ? Theme.of(context).primaryColor
-                    : Colors.grey[300]!
-            ),
+                    : Colors.grey[300]!),
             borderRadius: BorderRadius.circular(8.r),
             color: filter.selectedValue != null
                 ? Theme.of(context).primaryColor.withOpacity(0.05)
@@ -912,19 +934,16 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
               items: [
                 DropdownMenuItem<dynamic>(
                   value: null,
-                  child: Text(
-                      'اختر...',
+                  child: Text('اختر...',
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: Colors.grey[600],
-                      )
-                  ),
+                      )),
                 ),
                 ...filter.options.map((option) {
                   return DropdownMenuItem<dynamic>(
                     value: option.value,
-                    child: Text(
-                        option.name,
+                    child: Text(option.name,
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: filter.selectedValue == option.value
@@ -933,8 +952,7 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                           color: filter.selectedValue == option.value
                               ? Theme.of(context).primaryColor
                               : Colors.black87,
-                        )
-                    ),
+                        )),
                   );
                 }).toList(),
               ],
@@ -949,10 +967,10 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
   }
 
   // ✅ تحسين _buildTextFilter مع حفظ القيمة المدخلة
-  Widget _buildTextFilter(DynamicFilter filter, SectionProvider sectionProvider) {
-    final TextEditingController controller = TextEditingController(
-        text: filter.selectedValue?.toString() ?? ''
-    );
+  Widget _buildTextFilter(
+      DynamicFilter filter, SectionProvider sectionProvider) {
+    final TextEditingController controller =
+        TextEditingController(text: filter.selectedValue?.toString() ?? '');
 
     return Consumer<SectionProvider>(
       builder: (context, provider, child) {
@@ -963,7 +981,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.r),
               borderSide: BorderSide(
-                color: filter.selectedValue != null && filter.selectedValue!.isNotEmpty
+                color: filter.selectedValue != null &&
+                        filter.selectedValue!.isNotEmpty
                     ? Theme.of(context).primaryColor
                     : Colors.grey[300]!,
               ),
@@ -975,10 +994,12 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                 width: 2,
               ),
             ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-            fillColor: filter.selectedValue != null && filter.selectedValue!.isNotEmpty
-                ? Theme.of(context).primaryColor.withOpacity(0.05)
-                : Colors.white,
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+            fillColor:
+                filter.selectedValue != null && filter.selectedValue!.isNotEmpty
+                    ? Theme.of(context).primaryColor.withOpacity(0.05)
+                    : Colors.white,
             filled: true,
           ),
           onChanged: (value) {
@@ -990,23 +1011,23 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
   }
 
   // ✅ تحسين _buildRangeFilter مع حفظ القيم المدخلة
-  Widget _buildRangeFilter(DynamicFilter filter, SectionProvider sectionProvider) {
+  Widget _buildRangeFilter(
+      DynamicFilter filter, SectionProvider sectionProvider) {
     final TextEditingController fromController = TextEditingController(
         text: filter.selectedValues != null && filter.selectedValues!.isNotEmpty
             ? filter.selectedValues![0]?.toString() ?? ''
-            : ''
-    );
+            : '');
 
     final TextEditingController toController = TextEditingController(
         text: filter.selectedValues != null && filter.selectedValues!.length > 1
             ? filter.selectedValues![1]?.toString() ?? ''
-            : ''
-    );
+            : '');
 
     return Consumer<SectionProvider>(
       builder: (context, provider, child) {
         bool hasValue = (filter.selectedValues != null &&
-            filter.selectedValues!.any((v) => v != null && v.toString().isNotEmpty));
+            filter.selectedValues!
+                .any((v) => v != null && v.toString().isNotEmpty));
 
         return Row(
           children: [
@@ -1018,7 +1039,9 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.r),
                     borderSide: BorderSide(
-                      color: hasValue ? Theme.of(context).primaryColor : Colors.grey[300]!,
+                      color: hasValue
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey[300]!,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -1028,7 +1051,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                       width: 2,
                     ),
                   ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                   fillColor: hasValue
                       ? Theme.of(context).primaryColor.withOpacity(0.05)
                       : Colors.white,
@@ -1037,7 +1061,10 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   final currentValues = filter.selectedValues ?? [null, null];
-                  sectionProvider.updateFilter(filter.id, [value.isEmpty ? null : value, currentValues.length > 1 ? currentValues[1] : null]);
+                  sectionProvider.updateFilter(filter.id, [
+                    value.isEmpty ? null : value,
+                    currentValues.length > 1 ? currentValues[1] : null
+                  ]);
                 },
               ),
             ),
@@ -1050,7 +1077,9 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.r),
                     borderSide: BorderSide(
-                      color: hasValue ? Theme.of(context).primaryColor : Colors.grey[300]!,
+                      color: hasValue
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey[300]!,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -1060,7 +1089,8 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                       width: 2,
                     ),
                   ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                   fillColor: hasValue
                       ? Theme.of(context).primaryColor.withOpacity(0.05)
                       : Colors.white,
@@ -1069,7 +1099,10 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   final currentValues = filter.selectedValues ?? [null, null];
-                  sectionProvider.updateFilter(filter.id, [currentValues.isNotEmpty ? currentValues[0] : null, value.isEmpty ? null : value]);
+                  sectionProvider.updateFilter(filter.id, [
+                    currentValues.isNotEmpty ? currentValues[0] : null,
+                    value.isEmpty ? null : value
+                  ]);
                 },
               ),
             ),
@@ -1085,10 +1118,12 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
       case FilterType.dropdown:
       case FilterType.number:
       case FilterType.text:
-        return filter.selectedValue != null && filter.selectedValue.toString().isNotEmpty;
+        return filter.selectedValue != null &&
+            filter.selectedValue.toString().isNotEmpty;
       case FilterType.range:
         return filter.selectedValues != null &&
-            filter.selectedValues!.any((v) => v != null && v.toString().isNotEmpty);
+            filter.selectedValues!
+                .any((v) => v != null && v.toString().isNotEmpty);
       case FilterType.checkbox:
         return filter.options.any((option) => option.isSelected);
       default:

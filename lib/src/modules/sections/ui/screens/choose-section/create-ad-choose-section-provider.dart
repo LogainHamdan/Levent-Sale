@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../models/car.dart';
 import '../../../models/root-category.dart';
 import '../../../repos/car-repo.dart';
 import '../../../repos/category-repo.dart';
@@ -33,25 +34,46 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
   List _models = [];
   List _trans = [];
   List _brands = [];
-  List<Map<String, dynamic>> _cars = [];
+  List<Car> _cars = [];
 
   int? _selectedYear;
   String? _selectedModel;
   String? _selectedTrans;
   String? _selectedBrand;
-  String? _selectedCar;
+
+  String? _selectedFuel;
+  String? _selectedMPG;
+  String? _selectedCylinders;
+  String? _selectedDrive;
+  String? _selectedClass;
 
   List get years => _years;
+
   List get models => _models;
+
   List get trans => _trans;
+
   List get brands => _brands;
+
   List get cars => _cars;
 
   int? get selectedYear => _selectedYear;
+
   String? get selectedModel => _selectedModel;
+
   String? get selectedTrans => _selectedTrans;
+
   String? get selectedBrand => _selectedBrand;
-  String? get selectedCar => _selectedCar;
+
+  String? get selectedFuel => _selectedFuel;
+
+  String? get selectedMPG => _selectedMPG;
+
+  String? get selectedCylinders => _selectedCylinders;
+
+  String? get selectedDrive => _selectedDrive;
+
+  String? get selectedClass => _selectedClass;
 
   void setYears(List<int> values) {
     _years = values;
@@ -90,11 +112,6 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
 
   void setSelectedBrand(String value) {
     _selectedBrand = value;
-    notifyListeners();
-  }
-
-  void setSelectedCar(String value) {
-    _selectedCar = value;
     notifyListeners();
   }
 
@@ -218,8 +235,31 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
       subcategories = rootCategories;
       notifyListeners();
       return;
+    } else if (isCar) {
+      switch (currentSelection) {
+        case SelectionState.yearBrandModelTrans:
+          _selectedTrans = null;
+          currentSelection = SelectionState.yearBrandModel;
+          break;
+        case SelectionState.yearBrandModel:
+          _selectedModel = null;
+          currentSelection = SelectionState.yearBrand;
+          break;
+        case SelectionState.yearBrand:
+          _selectedBrand = null;
+          currentSelection = SelectionState.year;
+          break;
+        case SelectionState.year:
+          _selectedYear = null;
+          currentSelection = SelectionState.none;
+          break;
+        case SelectionState.none:
+          _selectedSubcategory = null;
+          subcategories = [];
+          break;
+      }
+      notifyListeners();
     }
-
     final newPath = pathParts.sublist(0, pathParts.length - 1).join('/');
     final newParentId = int.parse(pathParts[pathParts.length - 2]);
 
@@ -306,23 +346,26 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
   }
 
   Future<void> fetchCars() async {
+    print('Provider entered');
     isLoading = true;
     try {
       print(
-          'getting trans for the year, brand, model and trans $selectedYear $selectedBrand $selectedModel $_selectedTrans');
+          'getting cars for the year, brand, model and trans $selectedYear $selectedBrand $selectedModel $_selectedTrans');
       final response = await _carRepo.getCars(
           year: _selectedYear ?? 0,
           brand: _selectedBrand ?? '',
           model: _selectedModel ?? '',
           transmission: _selectedTrans ?? '');
-      _trans = response;
-      currentSelection = SelectionState.yearBrandModelTrans;
+
+      _cars = response;
+
       print('current selection: $currentSelection');
     } catch (e) {
-      print('Failed to load trans in provider: ${e.toString()}');
+      print('Failed to load cars in provider: ${e.toString()}');
       _trans = [];
     } finally {
       isLoading = false;
+      notifyListeners();
     }
   }
 }

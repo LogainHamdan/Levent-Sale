@@ -75,12 +75,9 @@ class _MainScreenBody extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       extendBody: true,
       extendBodyBehindAppBar: true,
-      body: SafeArea(
-        bottom: false,
-        child: IndexedStack(
-          index: bottomNavProvider.currentIndex,
-          children: screens,
-        ),
+      body: IndexedStack(
+        index: bottomNavProvider.currentIndex,
+        children: screens,
       ),
       floatingActionButton: SizedBox(
         height: 56.h,

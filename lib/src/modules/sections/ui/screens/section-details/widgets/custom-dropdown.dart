@@ -12,7 +12,7 @@ import 'custom-label.dart';
 
 class CustomDropdownSection extends StatelessWidget {
   final String hint;
-  final List<String?> items;
+  final List<dynamic> items;
   final String dropdownKey;
   final String? title;
   final Function(String selectedItem)? onItemSelected;
@@ -34,14 +34,14 @@ class CustomDropdownSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CreateAdSectionDetailsProvider>(
       builder: (context, createProvider, child) {
-        List<String?> createUniqueItems = items.toSet().toList();
+        List<dynamic> createUniqueItems = items.toSet().toList();
 
         String? createSelectedValue =
             createProvider.getSelectedValue(dropdownKey);
         bool createIsOpen = createProvider.isDropdownOpened(dropdownKey);
 
         bool isOpen = createIsOpen;
-        List<String?> shownItems = createUniqueItems;
+        List<dynamic> shownItems = createUniqueItems;
         String? selectedValue = createSelectedValue;
         final bool showError =
             (selectedValue == null || selectedValue.isEmpty) &&

@@ -46,9 +46,9 @@ class _MyCollectionScreenBodyState extends State<_MyCollectionScreenBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
-      extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,

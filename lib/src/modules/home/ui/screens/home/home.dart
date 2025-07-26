@@ -66,35 +66,40 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
     return FutureBuilder<void>(
       future: _initFuture,
       builder: (context, snapshot) {
-        print(snapshot.connectionState );
+        print(snapshot.connectionState);
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
-          return SafeArea(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('حدث خطأ أثناء تحميل البيانات',
-                      style: TextStyle(color: Colors.red)),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _initFuture = _fetchAll();
-                      });
-                    },
-                    child: const Text('إعادة المحاولة'),
-                  ),
-                ],
+          return Scaffold(
+            extendBody: true,
+            resizeToAvoidBottomInset: false,
+            extendBodyBehindAppBar: true,
+            body: SafeArea(
+              bottom: false,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('حدث خطأ أثناء تحميل البيانات',
+                        style: TextStyle(color: Colors.red)),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _initFuture = _fetchAll();
+                        });
+                      },
+                      child: const Text('إعادة المحاولة'),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
         }
         return Consumer<HomeProvider>(
           builder: (context, provider, child) {
-
             // if (provider.allAds.isEmpty) {
             //   return Center(child: Text('لا يوجد إعلانات حالياً'));
             // }
@@ -127,24 +132,6 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
       },
     );
   }
-}
-
-class _TopSearchBarSection extends StatelessWidget {
-  const _TopSearchBarSection();
-  @override
-  Widget build(BuildContext context) => TopSearchBar();
-}
-
-class _TopBannerSection extends StatelessWidget {
-  const _TopBannerSection();
-  @override
-  Widget build(BuildContext context) => TopBanner();
-}
-
-class _CategoriesSection extends StatelessWidget {
-  const _CategoriesSection();
-  @override
-  Widget build(BuildContext context) => CategoriesList();
 }
 
 class _ProductsSections extends StatelessWidget {

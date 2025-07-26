@@ -1,9 +1,10 @@
 import 'package:Levant_Sale/src/config/constants.dart';
-import 'package:Levant_Sale/src/modules/auth/repos/token-helper.dart';
-import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
-import 'package:Levant_Sale/src/modules/auth/ui/alerts/alert.dart';
+
 import 'package:Levant_Sale/src/modules/more/ui/screens/edit-profile/widgets/draggable-button.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/cars-sections/cars-section.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/cars-sections/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/section-details2.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/track-section/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,362 +27,283 @@ class SectionTrack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createAdProvider =
-        Provider.of<CreateAdProvider>(context, listen: false);
-
-    final createSectionChooseProvider =
-        Provider.of<CreateAdChooseSectionProvider>(context, listen: false);
-
-    final createDetailsProvider =
-        Provider.of<CreateAdSectionDetailsProvider>(context);
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.0.w),
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: () {
-          switch (createSectionChooseProvider.currentSelection) {
-            case SelectionState.year:
-              return createSectionChooseProvider.years.length;
-            case SelectionState.yearBrand:
-              return createSectionChooseProvider.brands.length;
-            case SelectionState.yearBrandModel:
-              return createSectionChooseProvider.models.length;
-            case SelectionState.yearBrandModelTrans:
-              return createSectionChooseProvider.trans.length;
-            case SelectionState.none:
-              return subcategories.length;
-          }
-        }(),
-        itemBuilder: (context, index) {
-          return SizedBox(
-            height: 55.h,
-            child: CustomCard(
-                icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
-                title: () {
+    return Consumer<CreateAdProvider>(
+      builder: (context, createAdProvider, child) =>
+          Consumer<CreateAdChooseSectionProvider>(
+        builder: (context, createSectionChooseProvider, child) =>
+            Consumer<CreateAdSectionDetailsProvider>(
+          builder: (context, createDetailsProvider, child) =>
+              Consumer<CarSectionProvider>(
+            builder: (context, carsProvider, child) => Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: () {
                   switch (createSectionChooseProvider.currentSelection) {
                     case SelectionState.year:
-                      return createSectionChooseProvider.years[index]
-                          .toString();
+                      return createSectionChooseProvider.years.length;
                     case SelectionState.yearBrand:
-                      return createSectionChooseProvider.brands[index];
+                      return createSectionChooseProvider.brands.length;
                     case SelectionState.yearBrandModel:
-                      return createSectionChooseProvider.models[index];
+                      return createSectionChooseProvider.models.length;
                     case SelectionState.yearBrandModelTrans:
-                      return createSectionChooseProvider.trans[index];
+                      return createSectionChooseProvider.trans.length;
                     case SelectionState.none:
-                      return subcategories[index].name;
+                      return subcategories.length;
                   }
                 }(),
-                onTap: () async {
-                  final provider = createSectionChooseProvider;
+                itemBuilder: (context, index) {
+                  return SizedBox(
+                    height: 55.h,
+                    child: CustomCard(
+                        icon: SvgPicture.asset(height: 15.h, arrowLeftPath),
+                        title: () {
+                          switch (
+                              createSectionChooseProvider.currentSelection) {
+                            case SelectionState.year:
+                              return createSectionChooseProvider.years[index]
+                                  .toString();
+                            case SelectionState.yearBrand:
+                              return createSectionChooseProvider.brands[index];
+                            case SelectionState.yearBrandModel:
+                              return createSectionChooseProvider.models[index];
+                            case SelectionState.yearBrandModelTrans:
+                              return createSectionChooseProvider.trans[index];
+                            case SelectionState.none:
+                              return subcategories[index].name;
+                          }
+                        }(),
+                        onTap: () async {
+                          final provider = createSectionChooseProvider;
+                          if (createSectionChooseProvider.currentSelection ==
+                              SelectionState.yearBrandModelTrans) {
+                            provider.setSelectedTrans(provider.trans[index]);
 
-                  switch (provider.currentSelection) {
-                    case SelectionState.year:
-                      provider.setSelectedYear(provider.years[index]);
-                      print('selected year: ${provider.selectedYear}');
-                      break;
-                    case SelectionState.yearBrand:
-                      provider.setSelectedBrand(provider.brands[index]);
-                      print('selected year: ${provider.selectedBrand}');
-
-                      break;
-                    case SelectionState.yearBrandModel:
-                      provider.setSelectedModel(provider.models[index]);
-                      print('selected year: ${provider.selectedModel}');
-
-                      break;
-                    case SelectionState.none:
-                    default:
-                      provider.setSelectedSubcategory(index);
-                      debugPrint(
-                          "Selected: ${provider.selectedSubcategory?.name}");
-
-                      if (provider.selectedSubcategory != null) {
-                        await provider.fetchSubcategories(
-                          provider.selectedSubcategory!.id,
-                        );
-                      } else {
-                        print('selected subcategory is null');
-                      }
-                      break;
-                  }
-                  final isCar = createSectionChooseProvider.isCar;
-                  print(
-                      'is Car ${createSectionChooseProvider.selectedSubcategory?.name}$isCar');
-                  if (createSectionChooseProvider.subcategories.isEmpty &&
-                      !isCar) {
-                    createAdProvider.nextStep();
-
-                    debugPrint("fetching attributes...");
-
-                    if (createSectionChooseProvider.selectedSubcategory !=
-                        null) {
-                      await createDetailsProvider.fetchAttributes(
-                        createSectionChooseProvider.selectedSubcategory!.id,
-                      );
-                    }
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateAdScreen(
-                          additionalBackFunction: () {
-                            createDetailsProvider.resetAttributes();
-                            createSectionChooseProvider.navigateBack();
-                          },
-                          lowerWidget: SectionDetails1(),
-                          bottomNavBar: DraggableButton(
-                              color: createAdProvider.isLoading
-                                  ? kprimary3Color
-                                  : kprimaryColor,
-                              createAdProvider.isLoading
-                                  ? 'جاري المعالجة'
-                                  : 'متابعة', onPressed: () {
-                            if (createDetailsProvider
-                                .validateFields1(context)) {
+                            await provider.fetchCars();
+                            Future.microtask(() {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CreateAdScreen(
-                                          additionalBackFunction: () {},
-                                          bottomNavBar: DraggableButton(
-                                              color: createAdProvider.isLoading
-                                                  ? kprimary3Color
-                                                  : kprimaryColor,
-                                              createAdProvider.isLoading
-                                                  ? 'جاري المعالجة'
-                                                  : 'متابعة',
-                                              onPressed: () async {
-                                            if (createDetailsProvider
-                                                .validateFields2(context)) {
-                                              final selectedSubCategory =
-                                                  createSectionChooseProvider
-                                                      .selectedSubcategory;
-                                              final selectedCategory =
-                                                  createSectionChooseProvider
-                                                      .selectedCategory;
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CreateAdScreen(
+                                    additionalBackFunction: () {
+                                      createSectionChooseProvider
+                                          .navigateBack();
+                                    },
+                                    lowerWidget: CarSection(),
+                                    bottomNavBar: DraggableButton('متابعة',
+                                        onPressed: () async {
+                                      if (carsProvider.selectedCar != null) {
+                                        createAdProvider.nextStep();
 
-                                              final user =
-                                                  await UserHelper.getUser();
+                                        print(
+                                            'selected car: ${carsProvider.selectedCar}');
+                                        await createDetailsProvider
+                                            .fetchAttributes(
+                                                createSectionChooseProvider
+                                                        .selectedSubcategory
+                                                        ?.id ??
+                                                    0);
+                                        NavigateToSectionDetails1(
+                                            context: context,
+                                            createDetailsProvider:
+                                                createDetailsProvider,
+                                            createSectionChooseProvider:
+                                                createSectionChooseProvider,
+                                            createAdProvider: createAdProvider,
+                                            carsProvider: carsProvider);
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                            'قم باختيار السيارة اولاً',
+                                            textDirection: TextDirection.rtl,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          backgroundColor: errorColor,
+                                        ));
+                                      }
+                                    }, color: kprimaryColor),
+                                  ),
+                                ),
+                              );
+                            });
+                            return const SizedBox();
+                          }
 
-                                              if (user == null) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                        "تعذر الحصول على معلومات المستخدم. قم بتسجيل الدخول أولاً."),
-                                                    backgroundColor: Colors.red,
-                                                  ),
-                                                );
-                                                return;
-                                              }
+                          switch (provider.currentSelection) {
+                            case SelectionState.year:
+                              provider.setSelectedYear(provider.years[index]);
+                              print('selected: ${provider.selectedYear}');
+                              break;
+                            case SelectionState.yearBrand:
+                              provider.setSelectedBrand(provider.brands[index]);
+                              print('selected: ${provider.selectedBrand}');
 
-                                              if (selectedCategory == null) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                        "الرجاء اختيار قسم أولاً"),
-                                                    backgroundColor: Colors.red,
-                                                  ),
-                                                );
-                                                return;
-                                              }
-                                              Map<String, dynamic>
-                                                  filteredAttributes =
-                                                  createDetailsProvider
-                                                      .getAttributeFieldsMap()
-                                                      .map((key, value) =>
-                                                          MapEntry(key, value))
-                                                    ..removeWhere(
-                                                        (key, value) =>
-                                                            value == null);
+                              break;
+                            case SelectionState.yearBrandModel:
+                              provider.setSelectedModel(provider.models[index]);
+                              print('selected: ${provider.selectedModel}');
 
-                                              final address = Address(
-                                                  fullAddresse:
-                                                      ' المدينة: ${createDetailsProvider.selectedCity?.cityName} المحافظة: - ${createDetailsProvider.selectedGovernorate?.governorateName}',
-                                                  city: createDetailsProvider
-                                                      .selectedCity,
-                                                  governorate:
-                                                      createDetailsProvider
-                                                          .selectedGovernorate);
-                                              print(
-                                                  'selected category to add: ${selectedCategory.name}');
-                                              print(
-                                                  'selected subcategory to add: ${selectedSubCategory?.name}');
-                                              final ad = AdDTO(
-                                                title: createDetailsProvider
-                                                    .titleController.text,
-                                                categoryPath:
-                                                    createSectionChooseProvider
-                                                        .categoryPath,
-                                                description:
-                                                    createDetailsProvider
-                                                        .shortDescController
-                                                        .text,
-                                                longDescription:
-                                                    createDetailsProvider
-                                                        .getQuillText(),
-                                                contactPhone: createDetailsProvider
-                                                        .numberMethods
-                                                        .contains(
-                                                            createDetailsProvider
-                                                                .selectedContactMethod)
-                                                    ? createDetailsProvider
-                                                        .contactDetailController
-                                                        .text
-                                                    : '',
-                                                contactEmail: (createDetailsProvider
-                                                            .emailMethods
-                                                            .contains(
-                                                                createDetailsProvider
-                                                                    .selectedContactMethod) ||
-                                                        createDetailsProvider
-                                                            .detailMethods
-                                                            .contains(
-                                                                createDetailsProvider
-                                                                    .selectedContactMethod))
-                                                    ? createDetailsProvider
-                                                        .contactDetailController
-                                                        .text
-                                                    : '',
-                                                governorate:
-                                                    address.governorate,
-                                                city: address.city,
-                                                attributes: filteredAttributes,
-                                                fullAddress:
-                                                    address.fullAddresse,
-                                                adType: createDetailsProvider
-                                                        .selectedAdType?.name ??
-                                                    AdType.UNKNOWN.name,
-                                                currency: createDetailsProvider
-                                                    .selectedCurrency?.name,
-                                                negotiable:
-                                                    createDetailsProvider
-                                                        .negotiable,
-                                                preferredContactMethod:
-                                                    createDetailsProvider
-                                                            .selectedContactMethod
-                                                            ?.name ??
-                                                        ContactMethod
-                                                            .EMAIL.name,
-                                                price: createDetailsProvider
-                                                    .priceController.text,
-                                                tradePossible:
-                                                    createDetailsProvider
-                                                        .tradePossible,
-                                              );
+                              break;
+                            case SelectionState.yearBrandModelTrans:
+                              provider.setSelectedModel(provider.trans[index]);
+                              print('selected: ${provider.selectedTrans}');
 
-                                              final token =
-                                                  await TokenHelper.getToken();
-                                              print(token);
+                              break;
 
-                                              if (token == null) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                      content: Text(
-                                                          "قم بتسحيل الدخول اولاً."),
-                                                      backgroundColor:
-                                                          Colors.red),
-                                                );
-                                                return;
-                                              }
+                            case SelectionState.none:
+                              provider.setSelectedSubcategory(index);
+                              debugPrint(
+                                  "Selected: ${provider.selectedSubcategory?.name}");
 
-                                              final response =
-                                                  await createAdProvider
-                                                      .createAd(
-                                                context: context,
-                                                adDTO: ad,
-                                                files: createDetailsProvider
-                                                    .selectedImages,
-                                                token: token,
-                                              );
-                                              createAdProvider.nextStep();
-
-                                              if (response?.statusCode == 200) {
-                                                Navigator.popUntil(context,
-                                                    (route) {
-                                                  return route.settings.name ==
-                                                      MainScreen.id;
-                                                });
-
-                                                showAdCreated(context);
-                                              }
-                                            }
-                                          }),
-                                          lowerWidget: SectionDetails2())));
-                            }
-                          }),
-                        ),
-                      ),
-                    );
-                  } else if (createSectionChooseProvider
-                          .subcategories.isEmpty &&
-                      isCar) {
-                    if (createSectionChooseProvider.currentSelection ==
-                        SelectionState.none) {
-                      await createSectionChooseProvider.fetchYears();
-                    } else if (createSectionChooseProvider.currentSelection ==
-                        SelectionState.year) {
-                      await createSectionChooseProvider.fetchBrands();
-                    } else if (createSectionChooseProvider.currentSelection ==
-                        SelectionState.yearBrand) {
-                      await createSectionChooseProvider.fetchModels();
-                    } else if (createSectionChooseProvider.currentSelection ==
-                        SelectionState.yearBrandModel) {
-                      await createSectionChooseProvider.fetchTransmissions();
-                    } else if (createSectionChooseProvider.currentSelection ==
-                        SelectionState.yearBrandModelTrans) {}
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateAdScreen(
-                          additionalBackFunction: () =>
-                              createSectionChooseProvider.navigateBack(),
-                          lowerWidget: SectionTrack(
-                            subcategories: () {
-                              final selection =
-                                  createSectionChooseProvider.currentSelection;
-
-                              if (selection == SelectionState.year) {
-                                return createSectionChooseProvider.years;
-                              } else if (selection ==
-                                  SelectionState.yearBrand) {
-                                return createSectionChooseProvider.brands;
-                              } else if (selection ==
-                                  SelectionState.yearBrandModel) {
-                                return createSectionChooseProvider.models;
-                              } else if (selection ==
-                                  SelectionState.yearBrandModelTrans) {
-                                return createSectionChooseProvider.trans;
+                              if (provider.selectedSubcategory != null) {
+                                await provider.fetchSubcategories(
+                                  provider.selectedSubcategory!.id,
+                                );
                               } else {
-                                return [];
+                                print('selected subcategory is null');
                               }
-                            }(),
-                          ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CreateAdScreen(
-                          additionalBackFunction: () =>
-                              createSectionChooseProvider.navigateBack(),
-                          lowerWidget: SectionTrack(
-                            subcategories:
-                                createSectionChooseProvider.subcategories,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                }),
-          );
-        },
+                              break;
+                          }
+                          final isCar = createSectionChooseProvider.isCar;
+                          print(
+                              'is Car ${createSectionChooseProvider.selectedSubcategory?.name}$isCar');
+
+                          if (createSectionChooseProvider
+                                  .subcategories.isEmpty &&
+                              !isCar) {
+                            createAdProvider.nextStep();
+
+                            debugPrint("fetching attributes...");
+
+                            if (createSectionChooseProvider
+                                    .selectedSubcategory !=
+                                null) {
+                              await createDetailsProvider.fetchAttributes(
+                                createSectionChooseProvider
+                                    .selectedSubcategory!.id,
+                              );
+                            }
+                            NavigateToSectionDetails1(
+                                context: context,
+                                createDetailsProvider: createDetailsProvider,
+                                createSectionChooseProvider:
+                                    createSectionChooseProvider,
+                                createAdProvider: createAdProvider,
+                                carsProvider: carsProvider);
+                          } else if (createSectionChooseProvider
+                                  .subcategories.isEmpty &&
+                              isCar) {
+                            if (provider.currentSelection ==
+                                SelectionState.none) {
+                              await provider.fetchYears();
+                              _navigateToNextSection(context, provider);
+                            } else if (provider.currentSelection ==
+                                SelectionState.year) {
+                              await provider.fetchBrands();
+                              _navigateToNextSection(
+                                context,
+                                provider,
+                              );
+                            } else if (provider.currentSelection ==
+                                SelectionState.yearBrand) {
+                              await provider.fetchModels();
+                              _navigateToNextSection(context, provider);
+                            } else if (provider.currentSelection ==
+                                SelectionState.yearBrandModel) {
+                              await provider.fetchTransmissions();
+
+                              _navigateToNextSection(
+                                context,
+                                provider,
+                              );
+                            }
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CreateAdScreen(
+                                  additionalBackFunction: () =>
+                                      createSectionChooseProvider
+                                          .navigateBack(),
+                                  lowerWidget: SectionTrack(
+                                    subcategories: () {
+                                      final selection =
+                                          createSectionChooseProvider
+                                              .currentSelection;
+
+                                      if (selection == SelectionState.year) {
+                                        return createSectionChooseProvider
+                                            .years;
+                                      } else if (selection ==
+                                          SelectionState.yearBrand) {
+                                        return createSectionChooseProvider
+                                            .brands;
+                                      } else if (selection ==
+                                          SelectionState.yearBrandModel) {
+                                        return createSectionChooseProvider
+                                            .models;
+                                      } else {
+                                        return [];
+                                      }
+                                    }(),
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CreateAdScreen(
+                                  additionalBackFunction: () =>
+                                      createSectionChooseProvider
+                                          .navigateBack(),
+                                  lowerWidget: SectionTrack(
+                                    subcategories: createSectionChooseProvider
+                                        .subcategories,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                        }),
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _navigateToNextSection(
+    BuildContext context,
+    CreateAdChooseSectionProvider provider,
+  ) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreateAdScreen(
+          additionalBackFunction: () => provider.navigateBack(),
+          lowerWidget: SectionTrack(
+            subcategories: () {
+              final selection = provider.currentSelection;
+              if (selection == SelectionState.year) {
+                return provider.years;
+              } else if (selection == SelectionState.yearBrand) {
+                return provider.brands;
+              } else if (selection == SelectionState.yearBrandModel) {
+                return provider.models;
+              } else if (selection == SelectionState.yearBrandModelTrans) {
+                return provider.trans;
+              } else {
+                return provider.subcategories;
+              }
+            }(),
+          ),
+        ),
       ),
     );
   }
