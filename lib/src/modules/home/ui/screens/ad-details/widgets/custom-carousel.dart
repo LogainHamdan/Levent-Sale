@@ -28,6 +28,7 @@ class CustomCarousel extends StatelessWidget {
       create: (_) => AdDetailsProvider(),
       child: Consumer<AdDetailsProvider>(
         builder: (context, carouselProvider, child) {
+          print(ad?.tagId);
           return Column(
             children: [
               Stack(
@@ -142,6 +143,7 @@ class CustomCarousel extends StatelessWidget {
                         CustomButton(
                           favIcon: true,
                           ad: ad,
+                          isFav: ad?.tagId!=null?true:false,
                         ),
                       ],
                     ),

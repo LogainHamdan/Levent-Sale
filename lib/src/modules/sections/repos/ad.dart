@@ -133,7 +133,9 @@ class AdRepository {
       }) async {
     try {
       print('📤 Updating ad $id: ${adDTO.toJson()}');
+      print(files);
       final formData = FormData();
+
       formData.files.add(MapEntry(
         'adDTO',
         MultipartFile.fromBytes(
@@ -145,7 +147,7 @@ class AdRepository {
 
       if (files != null && files.isNotEmpty) {
         for (final file in files) {
-          if (await file.exists() && file is File) {
+          if (await file.exists()) {
             formData.files.add(MapEntry(
               'files',
               await MultipartFile.fromFile(
@@ -160,7 +162,7 @@ class AdRepository {
       } else {
         formData.files.add(MapEntry(
           'files',
-          MultipartFile.fromBytes([], filename: ''),
+          MultipartFile.fromBytes([], filename: '.jpg'),
         ));
       }
 
@@ -182,6 +184,9 @@ class AdRepository {
       print('❌ Dio error updating ad: ${e.message}');
       print('Status: ${e.response?.statusCode}');
       print('Response: ${e.response?.data}');
+      rethrow;
+    } catch (e) {
+      print('❌ Unexpected error updating ad: $e');
       rethrow;
     }
   }
@@ -329,7 +334,6 @@ class AdRepository {
 
   // ===== HIERARCHICAL NAVIGATION METHODS =====
 
-  /// ✅ جلب الأقسام الفرعية لقسم معين
   Future<Response> getCategoryChildren({
     required int categoryId,
     String? token,
@@ -362,13 +366,11 @@ class AdRepository {
     }
   }
 
-  /// ✅ جلب الأقسام الفرعية مع الإحصائيات
   Future<Response> getCategoryChildrenWithStats({
     required int categoryId,
     String? token,
   }) async {
     try {
-      // محاولة endpoint محدث للإحصائيات أولاً
       final statsUrl = '$baseUrl/ads/get/category/children/$categoryId?includeStats=true';
 
       print('📊 Attempting to get category children with stats for ID: $categoryId');
@@ -390,12 +392,11 @@ class AdRepository {
     } on DioException catch (e) {
       print('⚠️ Stats endpoint failed (${e.response?.statusCode}), falling back to regular method');
 
-      // Fallback إلى الطريقة العادية
+
       return await getCategoryChildren(categoryId: categoryId, token: token);
     }
   }
 
-  /// ✅ جلب فلاتر القسم مع التحقق من وجودها
   Future<Response> getCategoryFilters({
     required int categoryId,
     String? token,

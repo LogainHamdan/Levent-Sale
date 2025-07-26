@@ -65,9 +65,10 @@ const String getCategoryFiltersUrl =
     'http://34.22.173.63:8083/search/filters/category';
 const String searchAdsByCategoryUrl = '$baseUrl/search/ads/category';
 
-const String getCitiesUrl = 'http://34.22.173.63:8080/users/cities';
+const String getCitiesUrl =
+    'http://34.22.173.63:8080/ads/cities';
 const String getGovernoratesUrl =
-    'http://34.22.173.63:8080/users/governorates/get/all';
+    'http://34.22.173.63:8080/ads/governorates/get/all';
 const String getGovernorateByIdUrl = 'http://34.22.173.63:8081/governorates';
 const String getCityByIdUrl = 'http://34.22.173.63:8081/cities';
 const String getYearsUrl = '$baseUrl/search/car/template/years';

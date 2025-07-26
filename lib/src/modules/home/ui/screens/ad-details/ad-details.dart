@@ -23,6 +23,7 @@ import '../../../../sections/ui/screens/update-ad/update-ad.dart';
 import '../../../../sections/ui/screens/update-ad/widgets/section-details/provider.dart';
 import '../../../../sections/ui/screens/update-ad/widgets/section-details/section-details1-update.dart';
 import '../../../../sections/ui/screens/update-ad/widgets/section-details/section-details2-update.dart';
+import '../ads/widgets/products-details.dart';
 import '../ads/widgets/title-row.dart';
 import '../home/provider.dart';
 import '../home/widgets/product-section.dart';
@@ -415,10 +416,36 @@ class AdDetailsScreen extends StatelessWidget {
                               ),
                               SliverToBoxAdapter(
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     SimpleTitle(
                                       location: true,
                                       title: 'الموقع',
+                                    ),
+                                    Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            ad.governorate?.governorateName ==
+                                                        null ||
+                                                    ad.governorate
+                                                            ?.governorateName ==
+                                                        ""
+                                                ? SizedBox()
+                                                : Text(
+                                                    "${ad.governorate?.governorateName ?? ""}-${ad.city?.cityName ?? ""}"),
+                                            SizedBox(
+                                              width: 5.w,
+                                            ),
+                                          ],
+                                        ),
+                                        ad.fullAddress == null ||
+                                                ad.fullAddress == ""
+                                            ? SizedBox()
+                                            : Text("${ad.fullAddress ?? ""}"),
+                                      ],
                                     ),
                                     SizedBox(
                                       height: 16.h,
@@ -445,11 +472,9 @@ class AdDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               SliverToBoxAdapter(
-                                child: ProductSection(
-                                    onMorePressed: () => Navigator.pushNamed(
-                                        context, AdsScreen.id),
-                                    category: 'مزيد من الإعلانات',
-                                    products: homeProvider.allAds),
+                                child: ProductsDetails(
+                                  productList: homeProvider.allAds,
+                                ),
                               ),
                               SliverToBoxAdapter(
                                 child: SizedBox(height: 165.h),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class CustomTextField extends StatelessWidget {
   final bool? labelGrey;
   final bool? isRequired;
   final String? errorText;
+  final bool numbersOnly;
 
   const CustomTextField({
     super.key,
@@ -38,6 +40,7 @@ class CustomTextField extends StatelessWidget {
     this.labelGrey = false,
     this.isRequired = false,
     this.errorText,
+    this.numbersOnly = false,
   });
 
   @override
@@ -55,7 +58,7 @@ class CustomTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        if (label!.isNotEmpty) ...[
+        if (label!=null) ...[
           Text(
             label ?? '',
             textAlign: TextAlign.right,
@@ -65,13 +68,19 @@ class CustomTextField extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizedBox(height: 4.h),
+
         ],
         TextField(
           controller: controller,
           obscureText: isPassword,
           textDirection: textDirection,
           cursorColor: Colors.black,
+          keyboardType: numbersOnly ? TextInputType.number : TextInputType.text,
+          inputFormatters: numbersOnly
+              ? [
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+          ]
+              : null,
           style: GoogleFonts.tajawal(
             textStyle: TextStyle(
               color: Colors.black,
@@ -141,6 +150,12 @@ class CustomTextField extends StatelessWidget {
           textDirection: textDirection,
           cursorColor: Colors.black,
           maxLines: 5,
+          keyboardType: numbersOnly ? TextInputType.number : TextInputType.multiline,
+          inputFormatters: numbersOnly
+              ? [
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+          ]
+              : null,
           style: GoogleFonts.tajawal(
             textStyle: TextStyle(
               fontSize: 16.sp,

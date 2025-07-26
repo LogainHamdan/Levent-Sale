@@ -6,6 +6,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widg
 import 'package:Levant_Sale/src/modules/sections/ui/screens/update-ad/widgets/section-details/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
@@ -48,67 +49,165 @@ class _SectionDetails2State extends State<SectionDetails2> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            // عنوان
+            Align(
+              alignment: Alignment.centerRight,
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: ' *',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 14.sp,
+                        fontFamily: GoogleFonts.tajawal().fontFamily,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'عنوان',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14.sp,
+                        fontFamily: GoogleFonts.tajawal().fontFamily,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 4.h),
             CustomTextField(
-                errorText:
-                    createProvider.titleController.text.isEmpty ? 'مطلوب' : '',
+                errorText: '',
                 onChanged: (value) {
                   createProvider.titleController.text = value;
                 },
                 controller: createProvider.titleController,
                 hint: '',
-                label: 'عنوان',
+                label: null,
                 bgcolor: grey8),
-            SizedBox(
-              height: 16.h,
+            SizedBox(height: 8.h),
+
+            // وصف صغير
+            Align(
+              alignment: Alignment.centerRight,
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: ' *',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 14.sp,
+                        fontFamily: GoogleFonts.tajawal().fontFamily,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'وصف صغير',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14.sp,
+                        fontFamily: GoogleFonts.tajawal().fontFamily,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
+            SizedBox(height: 4.h),
             CustomTextField(
-              errorText: createProvider.shortDescController.text.isEmpty
-                  ? 'مطلوب'
-                  : '',
+              errorText: '',
               onChanged: (value) {
                 createProvider.shortDescController.text = value;
               },
-              label: 'وصف صغير',
+              label: null,
               controller: createProvider.shortDescController,
               hint: '',
               bgcolor: grey8,
               paragraphBorderRadius: 10.r,
               paragraph: true,
             ),
-            SizedBox(
-              height: 16.h,
+            SizedBox(height: 8.h),
+
+            // محتوى
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'محتوى',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.black,
+                  fontFamily: GoogleFonts.tajawal().fontFamily,
+                ),
+              ),
             ),
-            Align(alignment: Alignment.centerRight, child: Text('محتوى')),
+            SizedBox(height: 4.h),
             SizedBox(height: 300.h, child: RichTextEditor()),
-            SizedBox(height: 24.h),
-            Align(alignment: Alignment.centerRight, child: Text('صور')),
+            SizedBox(height: 12.h),
+
+            // صور
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'صور',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.black,
+                  fontFamily: GoogleFonts.tajawal().fontFamily,
+                ),
+              ),
+            ),
+            SizedBox(height: 4.h),
             ImagePickerColumn(),
-            SizedBox(
-              height: 10.h,
-            ),
+            SizedBox(height: 5.h),
             SelectedImagesSection(),
-            SizedBox(
-              height: 16.h,
-            ),
+            SizedBox(height: 8.h),
+
             Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, createProvider, _) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    // طريقة التواصل
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 14.sp,
+                                fontFamily: GoogleFonts.tajawal().fontFamily,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'طريقة التواصل',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.sp,
+                                fontFamily: GoogleFonts.tajawal().fontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
                     CustomDropdownSection(
-                      errorText: 'مطلوب',
+                      errorText: '',
                       hint: 'اختر طريقة التواصل',
                       items: ContactMethod.values
                           .map((e) => e.displayName)
                           .toList(),
                       dropdownKey: 'contactMethod',
-                      title: 'طريقة التواصل',
+                      title: null,
                       onItemSelected: (selectedName) {
                         print('Selected display name: $selectedName');
 
                         var selectedMethod =
-                            ContactMethodExtension.fromDisplayName(
-                                selectedName);
+                        ContactMethodExtension.fromDisplayName(
+                            selectedName);
                         createProvider.setSelectedContactMethod(selectedMethod);
                         print(
                             'selected: ${createProvider.selectedContactMethod}');
@@ -117,34 +216,81 @@ class _SectionDetails2State extends State<SectionDetails2> {
                       },
                     ),
                     if (createProvider.selectedContactMethod != null) ...[
-                      const SizedBox(height: 16),
+                      SizedBox(height: 8.h),
                       if (createProvider.numberMethods
                           .contains(createProvider.selectedContactMethod!)) ...[
+                        // رقم التواصل
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 14.sp,
+                                    fontFamily: GoogleFonts.tajawal().fontFamily,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'رقم ${createProvider.selectedContactMethod!.displayName}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14.sp,
+                                    fontFamily: GoogleFonts.tajawal().fontFamily,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
                         CustomTextField(
-                          errorText: createProvider
-                                  .contactDetailController.text.isEmpty
-                              ? 'مطلوب'
-                              : '',
+                          errorText: '',
                           controller: createProvider.contactDetailController,
-                          label:
-                              'رقم ${createProvider.selectedContactMethod!.displayName}',
+                          label: null,
                           onChanged: (value) {
                             createProvider.setSelectedValue(
                                 'contactDetail', value);
                           },
                           hint: 'أدخل الرقم',
                           bgcolor: grey8,
+
                         ),
                       ] else if (createProvider.emailMethods
                           .contains(createProvider.selectedContactMethod!)) ...[
+
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 14.sp,
+                                    fontFamily: GoogleFonts.tajawal().fontFamily,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'بريد ${createProvider.selectedContactMethod!.displayName}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14.sp,
+                                    fontFamily: GoogleFonts.tajawal().fontFamily,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
                         CustomTextField(
-                          errorText: createProvider
-                                  .contactDetailController.text.isEmpty
-                              ? 'مطلوب'
-                              : '',
+                          errorText: '',
                           controller: createProvider.contactDetailController,
-                          label:
-                              'بريد ${createProvider.selectedContactMethod!.displayName}',
+                          label: null,
                           onChanged: (value) {
                             createProvider.setSelectedValue(
                                 'contactDetail', value);
@@ -154,14 +300,37 @@ class _SectionDetails2State extends State<SectionDetails2> {
                         ),
                       ] else if (createProvider.detailMethods
                           .contains(createProvider.selectedContactMethod!)) ...[
+
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: ' *',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 14.sp,
+                                    fontFamily: GoogleFonts.tajawal().fontFamily,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'تفاصيل ${createProvider.selectedContactMethod!.displayName}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14.sp,
+                                    fontFamily: GoogleFonts.tajawal().fontFamily,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
                         CustomTextField(
-                          errorText: createProvider
-                                  .contactDetailController.text.isEmpty
-                              ? 'مطلوب'
-                              : '',
+                          errorText: '',
                           controller: createProvider.contactDetailController,
-                          label:
-                              'تفاصيل ${createProvider.selectedContactMethod!.displayName}',
+                          label: null,
                           onChanged: (value) {
                             createProvider.setSelectedValue(
                                 'contactDetail', value);
@@ -175,15 +344,41 @@ class _SectionDetails2State extends State<SectionDetails2> {
                 );
               },
             ),
-            SizedBox(
-              height: 16.h,
+            SizedBox(height: 8.h),
+
+            // نوع الإعلان
+            Align(
+              alignment: Alignment.centerRight,
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: ' *',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 14.sp,
+                        fontFamily: GoogleFonts.tajawal().fontFamily,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'نوع الإعلان',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14.sp,
+                        fontFamily: GoogleFonts.tajawal().fontFamily,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
+            SizedBox(height: 4.h),
             CustomDropdownSection(
-              errorText: 'مطلوب',
+              errorText: '',
               hint: 'اختر نوع الإعلان',
               items: AdType.values.map((e) => e.displayName).toList(),
               dropdownKey: 'adType',
-              title: 'نوع الإعلان',
+              title: null,
               onItemSelected: (selectedName) {
                 createProvider.setSelectedAdType(
                   AdTypeExtension.fromDisplayName(selectedName),
@@ -191,59 +386,106 @@ class _SectionDetails2State extends State<SectionDetails2> {
                 createProvider.setSelectedValue('adType', selectedName);
               },
             ),
-            SizedBox(
-              height: 16.h,
+            SizedBox(height: 8.h),
+
+            // السعر
+            Align(
+              alignment: Alignment.centerRight,
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: ' *',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 14.sp,
+                        fontFamily: GoogleFonts.tajawal().fontFamily,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'السعر',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14.sp,
+                        fontFamily: GoogleFonts.tajawal().fontFamily,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
+            SizedBox(height: 4.h),
             CustomTextField(
-                errorText:
-                    createProvider.priceController.text.isEmpty ? 'مطلوب' : '',
-                label: 'السعر',
+                errorText: '',
+                label: null,
                 onChanged: (value) {
                   createProvider.priceController.text = value;
                 },
                 controller: createProvider.priceController,
                 hint: '',
-                bgcolor: grey8),
-            SizedBox(
-              height: 16.h,
-            ),
+                bgcolor: grey8,
+                ),
+            SizedBox(height: 8.h),
+
+            // نوع العملة
             Consumer<CreateAdSectionDetailsProvider>(
-              builder: (context, provider, child) => CustomDropdownSection(
-                errorText: 'مطلوب',
-                hint: 'اختر نوع العملة',
-                items: Currency.values.map((e) => e.arabicName).toList(),
-                dropdownKey: 'currency',
-                title: 'نوع العملة',
-                onItemSelected: (selectedName) {
-                  final selectedCurrency =
+              builder: (context, provider, child) => Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: ' *',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 14.sp,
+                              fontFamily: GoogleFonts.tajawal().fontFamily,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'نوع العملة',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14.sp,
+                              fontFamily: GoogleFonts.tajawal().fontFamily,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  CustomDropdownSection(
+                    errorText: '',
+                    hint: 'اختر نوع العملة',
+                    items: Currency.values.map((e) => e.arabicName).toList(),
+                    dropdownKey: 'currency',
+                    title: null,
+                    onItemSelected: (selectedName) {
+                      final selectedCurrency =
                       CurrencyExtension.fromArabicName(selectedName);
-                  if (selectedCurrency != null) {
-                    provider.setSelectedCurrency('currency', selectedCurrency);
-                  }
-                },
+                      if (selectedCurrency != null) {
+                        provider.setSelectedCurrency('currency', selectedCurrency);
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
-            SizedBox(
-              height: 16.h,
-            ),
-            // CustomTextField(
-            //     suffix: Icon(Icons.percent, color: grey4),
-            //     onChanged: (value) {
-            //       widget.create
-            //           ? createProvider.discountController.text = value
-            //           : updateProvider.discountController.text = value;
-            //     },
-            //     label: 'خصم بنسبة',
-            //     controller: widget.create
-            //         ? createProvider.discountController
-            //         : updateProvider.discountController,
-            //     hint: '',
-            //     bgcolor: grey8),
+            SizedBox(height: 8.h),
 
             Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, provider, child) => CustomCheckBox(
                 value: provider.negotiable,
-                title: Text('قابل للتفاوض'),
+                title: Text(
+                  'قابل للتفاوض',
+                  style: TextStyle(
+                    fontFamily: GoogleFonts.tajawal().fontFamily,
+                  ),
+                ),
                 onChanged: (val) {
                   setState(() {
                     provider.setNegotiable(val);
@@ -251,13 +493,17 @@ class _SectionDetails2State extends State<SectionDetails2> {
                 },
               ),
             ),
-            SizedBox(
-              height: 16.h,
-            ),
+            SizedBox(height: 8.h),
+
             Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, provider, child) => CustomCheckBox(
                 value: provider.tradePossible,
-                title: Text('قابل للمقايضة'),
+                title: Text(
+                  'قابل للمقايضة',
+                  style: TextStyle(
+                    fontFamily: GoogleFonts.tajawal().fontFamily,
+                  ),
+                ),
                 onChanged: (val) {
                   setState(() {
                     provider.setTradePossible(val);
@@ -265,65 +511,128 @@ class _SectionDetails2State extends State<SectionDetails2> {
                 },
               ),
             ),
-            SizedBox(
-              height: 16.h,
-            ),
+            SizedBox(height: 8.h),
+
+            // المحافظة
             Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, provider, _) {
                 if (provider.isLoading) {
                   return CustomCircularProgressIndicator();
                 }
-                return CustomDropdownSection(
-                  errorText: 'مطلوب',
-                  hint: 'ادخل اسم المحافظة',
-                  items: provider.governorates
-                      .map((governorate) => governorate.governorateName)
-                      .toList(),
-                  dropdownKey: 'المحافظة',
-                  title: 'المحافظة',
-                  onItemSelected: (selectedName) {
-                    provider.resetCity();
-                    provider.setSelectedValue('المدينة', null);
-                    final selectedGovernorate =
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 14.sp,
+                                fontFamily: GoogleFonts.tajawal().fontFamily,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'المحافظة',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.sp,
+                                fontFamily: GoogleFonts.tajawal().fontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    CustomDropdownSection(
+                      errorText: '',
+                      hint: 'ادخل اسم المحافظة',
+                      items: provider.governorates
+                          .map((governorate) => governorate.governorateName)
+                          .toList(),
+                      dropdownKey: 'المحافظة',
+                      title: null,
+                      onItemSelected: (selectedName) {
+                        provider.resetCity();
+                        provider.setSelectedValue('المدينة', null);
+                        final selectedGovernorate =
                         provider.governorates.firstWhere(
-                      (gov) => gov.governorateName == selectedName,
-                      orElse: () => provider.governorates.first,
-                    );
-                    provider.setSelectedGovernorate(selectedGovernorate);
-                    createProvider.loadCities(
-                        governorateId: createProvider.selectedGovernorate.id);
-                  },
+                              (gov) => gov.governorateName == selectedName,
+                          orElse: () => provider.governorates.first,
+                        );
+                        provider.setSelectedGovernorate(selectedGovernorate);
+                        createProvider.loadCities(
+                            governorateId: createProvider.selectedGovernorate.id);
+                      },
+                    ),
+                  ],
                 );
               },
             ),
-            SizedBox(
-              height: 16.h,
-            ),
+            SizedBox(height: 8.h),
+
+            // المدينة
             Consumer<CreateAdSectionDetailsProvider>(
               builder: (context, provider, _) {
                 final isCityEnabled = provider.selectedGovernorate != null;
 
-                return CustomDropdownSection(
-                  errorText: 'مطلوب',
-                  hint: 'ادخل اسم المدينة',
-                  items: isCityEnabled
-                      ? provider.cities.map((city) => city.cityName).toList()
-                      : [],
-                  dropdownKey: 'المدينة',
-                  title: 'المدينة',
-                  onItemSelected: isCityEnabled
-                      ? (selectedName) {
-                          final selectedCity = provider.cities.firstWhere(
-                            (city) => city.cityName == selectedName,
-                            orElse: () => provider.cities.first,
-                          );
-                          provider.setSelectedCity(selectedCity);
-                        }
-                      : null,
-                  enabled: isCityEnabled,
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 14.sp,
+                                fontFamily: GoogleFonts.tajawal().fontFamily,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'المدينة',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.sp,
+                                fontFamily: GoogleFonts.tajawal().fontFamily,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    CustomDropdownSection(
+                      errorText: '',
+                      hint: 'ادخل اسم المدينة',
+                      items: isCityEnabled
+                          ? provider.cities.map((city) => city.cityName).toList()
+                          : [],
+                      dropdownKey: 'المدينة',
+                      title: null,
+                      onItemSelected: isCityEnabled
+                          ? (selectedName) {
+                        final selectedCity = provider.cities.firstWhere(
+                              (city) => city.cityName == selectedName,
+                          orElse: () => provider.cities.first,
+                        );
+                        provider.setSelectedCity(selectedCity);
+                      }
+                          : null,
+                      enabled: isCityEnabled,
+                    ),
+                  ],
                 );
               },
             ),
+            SizedBox(height: 20.h),
           ],
         ),
       ),

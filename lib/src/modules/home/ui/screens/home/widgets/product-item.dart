@@ -96,7 +96,7 @@ class ProductItem extends StatelessWidget {
                       ),
                       textAlign: TextAlign.right,
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 1, // تقليل عدد الأسطر إلى سطر واحد
+                      maxLines: 1,
                     ),
                     SizedBox(height: 2.h),
                     Text(

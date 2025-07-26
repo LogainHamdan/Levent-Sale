@@ -33,9 +33,9 @@ class ProductsFilterDetails extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              crossAxisSpacing: 8.0,
+              crossAxisSpacing: 9.0,
               mainAxisSpacing: 8.0,
-              childAspectRatio: 1.1,
+              childAspectRatio: .9,
             ),
             itemCount: productList!.length,
             itemBuilder: (context, index) {

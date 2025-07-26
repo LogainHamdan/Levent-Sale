@@ -126,6 +126,7 @@ class MyCollectionScreenProvider extends ChangeNotifier {
           await repo.getMyAdsByStatus(token: token ?? '', status: 'PENDING');
       debugPrint("Pending Ads API Response: ${response.toString()}");
       _pendingAds = response.whereType<AdModel>().toList();
+      print(_pendingAds);
     } catch (e) {
       debugPrint("Failed to fetch pending ads: $e");
       _pendingAds = [];

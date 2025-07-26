@@ -21,12 +21,20 @@ class UpdateAdScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context)!.settings.arguments as UpdateAdScreenArgs;
+    final provider =
+    Provider.of<UpdateAdProvider>(context,
+        listen: false);
+Future.delayed(Duration(seconds: 1),(){
+  provider.resetProgress();
+});
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Consumer<UpdateAdProvider>(
+
           builder: (context, provider, child) {
+
             return Column(
               children: [
                 SizedBox(height: 16.h),
