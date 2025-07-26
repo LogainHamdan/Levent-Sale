@@ -11,6 +11,7 @@ import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widg
 import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/widgets/selected-img-section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../config/constants.dart';
@@ -24,7 +25,7 @@ class SectionDetails1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final createAdProvider =
-        Provider.of<CreateAdChooseSectionProvider>(context);
+    Provider.of<CreateAdChooseSectionProvider>(context);
 
     final subcategory = createAdProvider.selectedSubcategory;
 
@@ -42,9 +43,9 @@ class SectionDetails1 extends StatelessWidget {
             attributesData.attributes == null) {
           return Center(
               child: Text(
-            'لا يوجد بيانات',
-            style: TextStyle(fontSize: 16.sp),
-          ));
+                'لا يوجد بيانات',
+                style: TextStyle(fontSize: 16.sp),
+              ));
         }
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -64,20 +65,47 @@ class SectionDetails1 extends StatelessWidget {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 14.sp,
+                                          fontFamily: GoogleFonts.tajawal().fontFamily
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: field.label ?? '',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14.sp,
+                                          fontFamily: GoogleFonts.tajawal().fontFamily
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 4.h),
                             CustomTextField(
-                              label: field.label,
+                              label: null,
                               controller: createDetailsProvider
                                   .getController(field.name ?? ''),
                               hint: field.placeholder,
                               bgcolor: grey8,
                               errorText: createDetailsProvider
-                                      .getController(field.name ?? '')
-                                      .text
-                                      .isEmpty
-                                  ? 'مطلوب'
+                                  .getController(field.name ?? '')
+                                  .text
+                                  .isEmpty
+                                  ? ''
                                   : '',
                             ),
-                            SizedBox(height: 16.h),
+                            SizedBox(height: 8.h),
                           ],
                         );
                       case FieldType.number:
@@ -86,18 +114,18 @@ class SectionDetails1 extends StatelessWidget {
                           children: [
                             CustomTextField(
                               errorText: createDetailsProvider
-                                      .getController(field.name ?? '')
-                                      .text
-                                      .isEmpty
-                                  ? 'مطلوب'
+                                  .getController(field.name ?? '')
+                                  .text
+                                  .isEmpty
+                                  ? ''
                                   : '',
-                              label: field.label,
+                              label: "* ${field.label ?? ''} ",
                               controller: createDetailsProvider
                                   .getController(field.name ?? ''),
                               hint: field.placeholder,
                               bgcolor: grey8,
                             ),
-                            SizedBox(height: 16.h),
+                            SizedBox(height: 8.h),
                           ],
                         );
                       case FieldType.dropdown:
@@ -105,21 +133,48 @@ class SectionDetails1 extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               if ((field.options ?? []).isNotEmpty) ...[
-                                CustomDropdownSection(
-                                  title: field.label ?? 'عنوان غير معروف',
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: '* ',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14.sp,
+                                              fontFamily: GoogleFonts.tajawal().fontFamily
+                                          ),
+                                        ),
 
+                                        TextSpan(
+                                          text: field.label ?? 'عنوان غير معروف',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14.sp,
+                                            fontFamily: GoogleFonts.tajawal().fontFamily
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 4.h),
+                                CustomDropdownSection(
+                                  title: null,
                                   dropdownKey: field.name ?? '',
                                   hint: field.placeholder ?? 'اختر',
                                   items: field.options ?? [],
-                                  errorText: "مطلوب", // Error message
+                                  errorText: "", // Error message removed
                                 ),
-                                SizedBox(height: 16.h),
+                                SizedBox(height: 8.h),
                               ],
                             ]);
                       case FieldType.radio:
                         final options = field.options ?? ['نعم', 'لا'];
                         final onValue =
-                            options.isNotEmpty ? options.first : 'نعم';
+                        options.isNotEmpty ? options.first : 'نعم';
                         final offValue = options.length > 1 ? options[1] : 'لا';
                         final currentValue = createDetailsProvider
                             .getSelectedValue(field.name ?? '');
@@ -127,8 +182,34 @@ class SectionDetails1 extends StatelessWidget {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: field.label ?? '',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14.sp,
+                                          fontFamily: GoogleFonts.tajawal().fontFamily
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 4.h),
                             CustomSwitchTile(
-                              title: field.label ?? '',
+                              title: "",
                               value: currentValue == onValue,
                               onChanged: (val) {
                                 final newValue = val ? onValue : offValue;
@@ -137,7 +218,7 @@ class SectionDetails1 extends StatelessWidget {
                               },
                               activeColor: kprimaryColor,
                             ),
-                            SizedBox(height: 16.h),
+                            SizedBox(height: 8.h),
                           ],
                         );
 
@@ -148,7 +229,7 @@ class SectionDetails1 extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               CheckingContainer(),
-                              SizedBox(height: 16.h),
+                              SizedBox(height: 8.h),
                             ],
                           ),
                         );
@@ -156,7 +237,7 @@ class SectionDetails1 extends StatelessWidget {
                         return SizedBox.shrink();
                     }
                   }).toList(),
-                SizedBox(height: 41.h),
+                SizedBox(height: 20.h),
               ],
             ),
           ),

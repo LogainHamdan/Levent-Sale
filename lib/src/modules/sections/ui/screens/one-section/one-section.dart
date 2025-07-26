@@ -49,8 +49,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 200) {
         final sectionProvider = Provider.of<SectionProvider>(context, listen: false);
-
-        // ✅ حمّل المزيد إذا كان هناك إعلانات محملة ويمكن تحميل المزيد
         if (sectionProvider.adsByCategory.isNotEmpty &&
             sectionProvider.hasMoreData &&
             !sectionProvider.isLoadingMore) {
@@ -94,7 +92,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
       final currentCategoryId = sectionProvider.navigationPath.last.id;
       await sectionProvider.refresh('$currentCategoryId');
     } else {
-      // إعادة تحميل معلومات القسم الحالي
       if (sectionProvider.navigationPath.isNotEmpty) {
         final currentCategoryId = sectionProvider.navigationPath.last.id;
         await sectionProvider.fetchCategoryInfo(currentCategoryId);
@@ -121,8 +118,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
                     child: Column(
                       children: [
                         _buildSubCategoriesSection(sectionProvider),
-
-                        // ✅ عرض أدوات التحكم والفلاتر عند وجود إعلانات أو فلاتر
                         if (sectionProvider.adsByCategory.isNotEmpty || sectionProvider.availableFilters.isNotEmpty)
                           _buildViewSwitcherAndFilters(sectionProvider),
                       ],
@@ -253,7 +248,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
     );
   }
 
-  // ✅ تحسين _buildSubCategoriesSection - بدون زر "عرض الكل"
   Widget _buildSubCategoriesSection(SectionProvider sectionProvider) {
     return Container(
       padding: EdgeInsets.all(16.w),
@@ -270,7 +264,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
             )
           else if (sectionProvider.categoryInfo != null &&
               sectionProvider.categoryInfo!.subCategories.isNotEmpty)
-          // قائمة الأقسام الفرعية فقط
             SizedBox(
               height: 20.h,
               child: SingleChildScrollView(
@@ -372,7 +365,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
               ),
             ),
 
-            // ✅ عرض زر الفلاتر إذا كان هناك فلاتر متاحة
             if (sectionProvider.availableFilters.isNotEmpty)
               Container(
                 decoration: BoxDecoration(
@@ -608,56 +600,7 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
     );
   }
 
-  void _showSearchBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.7,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-        ),
-        padding: EdgeInsets.all(20.w),
-        child: Column(
-          children: [
-            Container(
-              width: 40.w,
-              height: 4.h,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(2.r),
-              ),
-            ),
-            SizedBox(height: 20.h),
-            Row(
-              children: [
-                Icon(Icons.search, color: Theme.of(context).primaryColor),
-                SizedBox(width: 8.w),
-                Text(
-                  'البحث في المنتجات',
-                  style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.h),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'ابحث عن منتج...',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                filled: true,
-                fillColor: Colors.grey[50],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+
 
   void _showFilterBottomSheet(SectionProvider sectionProvider) {
     showModalBottomSheet(
@@ -813,7 +756,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
     );
   }
 
-  // ✅ إضافة زر إعادة تعيين لكل فلتر
   Widget _buildSimpleFilterItem(DynamicFilter filter, SectionProvider sectionProvider) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8.h),
@@ -877,7 +819,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
     );
   }
 
-  // ✅ تحسين _buildDropdownFilter مع عرض القيمة الحالية
   Widget _buildDropdownFilter(DynamicFilter filter, SectionProvider sectionProvider) {
     return Consumer<SectionProvider>(
       builder: (context, provider, child) {
@@ -948,7 +889,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
     );
   }
 
-  // ✅ تحسين _buildTextFilter مع حفظ القيمة المدخلة
   Widget _buildTextFilter(DynamicFilter filter, SectionProvider sectionProvider) {
     final TextEditingController controller = TextEditingController(
         text: filter.selectedValue?.toString() ?? ''
@@ -989,7 +929,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
     );
   }
 
-  // ✅ تحسين _buildRangeFilter مع حفظ القيم المدخلة
   Widget _buildRangeFilter(DynamicFilter filter, SectionProvider sectionProvider) {
     final TextEditingController fromController = TextEditingController(
         text: filter.selectedValues != null && filter.selectedValues!.isNotEmpty
@@ -1078,8 +1017,6 @@ class _SectionScreenState extends State<Section> with TickerProviderStateMixin {
       },
     );
   }
-
-  // ✅ دالة مساعدة للتحقق من وجود قيمة في الفلتر
   bool _hasFilterValue(DynamicFilter filter) {
     switch (filter.type) {
       case FilterType.dropdown:
