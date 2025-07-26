@@ -53,7 +53,10 @@ class CreateAdScreen extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: bottomNavBar ?? SizedBox(),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom:20.0),
+        child: bottomNavBar ?? SizedBox(),
+      ),
     );
   }
 }

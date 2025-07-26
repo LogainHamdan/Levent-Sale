@@ -16,10 +16,11 @@ import '../home/widgets/search-field.dart';
 class AdsScreen extends StatelessWidget {
   static const id = '/id';
 
-  const AdsScreen({super.key});
+   AdsScreen({super.key,});
 
   @override
   Widget build(BuildContext context) {
+
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {

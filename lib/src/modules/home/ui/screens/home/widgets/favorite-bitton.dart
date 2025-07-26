@@ -22,21 +22,22 @@ import '../../../../../sections/ui/screens/update-ad/widgets/section-details/sec
 
 class CustomButton extends StatelessWidget {
   final bool favIcon;
+  final bool ?isFav;
   final AdModel? ad;
 
-  const CustomButton({
+   CustomButton({
     super.key,
     required this.favIcon,
+    this.isFav,
     this.ad,
   });
 
   @override
   Widget build(BuildContext context) {
+    final adId = ad?.id ?? 0;
+    final isFav = ad?.tagId != null;
     return Consumer<FavoriteProvider>(
       builder: (context, favoriteProvider, _) {
-        final adId = ad?.id ?? 0;
-        final isFav = ad?.tagId != null;
-
         return ClipRRect(
           borderRadius: BorderRadius.circular(18.r),
           child: InkWell(

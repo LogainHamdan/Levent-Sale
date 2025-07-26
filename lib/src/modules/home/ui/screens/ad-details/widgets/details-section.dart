@@ -44,26 +44,26 @@ class DetailsSection extends StatelessWidget {
                   bgColor: grey6),
               DetailRow(
                   title: 'العملة', value: ad.currency ?? 'NA', bgColor: grey8),
-              DetailRow(
-                  title: 'المحافظة',
-                  value: ad.governorate?.governorateName ?? 'NA',
-                  bgColor: grey6),
-              DetailRow(
-                  title: 'المدينة',
-                  value: ad.city?.cityName ?? 'NA',
-                  bgColor: grey8),
-              DetailRow(
-                  title: 'العنوان الكامل',
-                  value: ad.fullAddress ?? 'NA',
-                  bgColor: grey6),
-              DetailRow(
-                  title: 'تاريخ الإنشاء',
-                  value: ad.createdAt?.toString() ?? 'NA',
-                  bgColor: grey8),
-              DetailRow(
-                  title: 'تاريخ التحديث',
-                  value: ad.updatedAt?.toString() ?? 'NA',
-                  bgColor: grey6),
+              // DetailRow(
+              //     title: 'المحافظة',
+              //     value: ad.governorate?.governorateName ?? 'NA',
+              //     bgColor: grey6),
+              // DetailRow(
+              //     title: 'المدينة',
+              //     value: ad.city?.cityName ?? 'NA',
+              //     bgColor: grey8),
+              // DetailRow(
+              //     title: 'العنوان الكامل',
+              //     value: ad.fullAddress ?? 'NA',
+              //     bgColor: grey6),
+              // DetailRow(
+              //     title: 'تاريخ الإنشاء',
+              //     value: ad.createdAt?.toString() ?? 'NA',
+              //     bgColor: grey8),
+              // DetailRow(
+              //     title: 'تاريخ التحديث',
+              //     value: ad.updatedAt?.toString() ?? 'NA',
+              //     bgColor: grey6),
               DetailRow(
                   title: 'إمكانية المبادلة',
                   value: ad.tradePossible != null
@@ -78,7 +78,7 @@ class DetailsSection extends StatelessWidget {
                   title: 'رقم التواصل',
                   value: ad.contactPhone ?? 'NA',
                   bgColor: grey8),
-              DetailRow(
+              ad.contactEmail==null||ad.contactEmail==""?SizedBox():        DetailRow(
                   title: 'البريد الإلكتروني',
                   value: ad.contactEmail ?? 'NA',
                   bgColor: grey6),

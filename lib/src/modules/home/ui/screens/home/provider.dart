@@ -41,6 +41,11 @@ class HomeProvider extends ChangeNotifier {
   List<AdModel> userAds = [];
   AdModel? _selectedAd;
   GetAdDTO? _selectedAdForMap;
+  bool _isLoadingMore = false;
+  bool _hasMoreData = true;
+
+  bool get isLoadingMore => _isLoadingMore;
+  bool get hasMoreData => _hasMoreData;
 
   bool isLoading = false;
   String? error;
@@ -50,6 +55,12 @@ class HomeProvider extends ChangeNotifier {
   GetAdDTO? get selectedAdForMap => _selectedAdForMap;
 
   Category? get selectedCategory => _selectedCategory;
+  int _currentPage = 0;
+  int _totalElements = 0;
+  int _totalPages = 0;
+  int _pageSize = 8;
+
+
 
   bool isFavorite(String productKey) => _favorites[productKey] ?? false;
 
@@ -87,50 +98,94 @@ class HomeProvider extends ChangeNotifier {
     scrollController.dispose();
     super.dispose();
   }
-
-  Future<void> loadAds(
-      {String? token, int page = 0, int size = 8, List<int>? ids}) async {
-    isLoading = true;
+  Future<void> loadAds({
+    String? token,
+    int page = 0,
+    int? size,
+    List<int>? ids,
+    bool append = false,
+  }) async {
+    if (append) {
+      _isLoadingMore = true;
+    } else {
+      isLoading = true;
+      allAds.clear(); //
+    }
     error = null;
     notifyListeners();
 
     try {
-      final response =
-          await repo.getAds(token: token, page: page, size: size, ids: ids);
+      final actualSize = size ?? _pageSize;
+      final response = await repo.getAds(
+        token: token,
+        page: page,
+        size: actualSize,
+        ids: ids,
+      );
+
       print('Full response: ${response.data}');
 
       if (response.statusCode == 200) {
-        if (response.data['content'] is! List) {
+        final data = response.data;
+
+        if (data['content'] is! List) {
           throw Exception('Content is not a list');
         }
-
+        _currentPage = data['number'] ?? page;
+        _pageSize = data['size'] ?? actualSize;
+        _totalElements = data['totalElements'] ?? 0;
+        _totalPages = data['totalPages'] ?? 0;
+        _hasMoreData = _currentPage < (_totalPages - 1);
         List<AdModel> parsedAds = [];
-        for (var item in response.data['content']) {
+        for (var item in data['content']) {
           try {
-            print('Processing item: $item');
             final ad = AdModel.fromJson(item);
             parsedAds.add(ad);
-            print('All ads content:');
-            parsedAds.forEach((ad) {
-              print(
-                  'Ad ID: ${ad.id}, Title: ${ad.title}, Description: ${ad.cleanDescription}, ad fav: ${ad.tagId}');
-            });
           } catch (e, stackTrace) {
             print('Failed to parse ad: $e');
             print('Stack trace: $stackTrace');
             print('Problematic item: $item');
           }
         }
+        if (append) {
+          allAds.addAll(parsedAds);
+          print('Added ${parsedAds.length} ads. Total: ${allAds.length}');
+        } else {
+          allAds = parsedAds;
+          print('Loaded ${parsedAds.length} ads');
+        }
 
-        allAds = parsedAds;
+        print('Current Page: $_currentPage, Total Pages: $_totalPages, Has More: $_hasMoreData');
       }
     } catch (e) {
       error = 'Failed to load ads: $e';
       print('Error loading ads: $e');
     }
 
-    isLoading = false;
+    if (append) {
+      _isLoadingMore = false;
+    } else {
+      isLoading = false;
+    }
     notifyListeners();
+  }
+
+
+  Future<void> loadMoreAds({String? token}) async {
+    if (_isLoadingMore || !_hasMoreData) return;
+
+    print('Loading more ads... Current page: $_currentPage');
+    await loadAds(
+        token: token,
+        page: _currentPage + 1,
+        append: true
+    );
+  }
+
+  Future<void> refreshAds({String? token}) async {
+    _currentPage = 0;
+    _hasMoreData = true;
+    await loadAds(token: token, page: 0, append: false);
   }
 
   Future<void> loadUserAds({required int userId}) async {
