@@ -211,11 +211,10 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - speech_to_text (0.0.1):
+  - speech_to_text (7.2.0):
+    - CwlCatchException
     - Flutter
     - FlutterMacOS
-    - Try
-  - Try (2.1.1)
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -268,7 +267,6 @@ SPEC REPOS:
     - RecaptchaInterop
     - SDWebImage
     - SDWebImageWebPCoder
-    - Try
 
 EXTERNAL SOURCES:
   firebase_analytics:
@@ -355,8 +353,6 @@ SPEC CHECKSUMS:
   share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
   speech_to_text: 3b313d98516d3d0406cea424782ec25470c59d19
-  speech_to_text: 9dc43a5df3cbc2813f8c7cc9bd0fbf94268ed7ac
-  Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
 
 PODFILE CHECKSUM: 1959d098c91d8a792531a723c4a9d7e9f6a01e38

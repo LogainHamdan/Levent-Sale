@@ -1,5 +1,6 @@
 import 'package:Levant_Sale/src/config/constants.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/provider.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';

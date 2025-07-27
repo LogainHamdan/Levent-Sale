@@ -5,6 +5,7 @@ import 'package:Levant_Sale/src/modules/main/ui/screens/provider.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/my-collection.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/create-ad/create-ad.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/one-section/one-section.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/sections/sections.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
