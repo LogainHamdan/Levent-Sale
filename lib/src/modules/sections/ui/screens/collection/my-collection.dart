@@ -45,60 +45,63 @@ class _MyCollectionScreenBodyState extends State<_MyCollectionScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-        leading: SizedBox(),
-        title: const TitleRow(
-          noBack: true,
-          title: 'تشكيلتي',
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+          leading: SizedBox(),
+          title: const TitleRow(
+            noBack: true,
+            title: 'تشكيلتي',
+          ),
         ),
-      ),
-      body: SafeArea(
-        bottom: false,
-        child: Consumer<MyCollectionScreenProvider>(
-          builder: (context, provider, child) {
-            if (provider.isLoading &&
-                provider.publishedAds.isEmpty &&
-                provider.pendingAds.isEmpty &&
-                provider.rejectedAds.isEmpty) {
-              return const Center(child: CustomCircularProgressIndicator());
-            }
-            if (provider.publishedAds.isEmpty &&
-                provider.pendingAds.isEmpty &&
-                provider.rejectedAds.isEmpty) {
-              return EmptyWidget(
-                msg: 'إعلاناتي فارغة',
-                img: emptyAdsIcon,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0.w),
-                  child: CustomElevatedButton(
-                    text: 'ابدأ في انشاء إعلانك',
-                    onPressed: () async {
-                      await Navigator.pushNamed(context, CreateAdScreen.id);
-                      // بعد العودة من إضافة إعلان، أعد تحميل الإعلانات
-                      provider.fetchAllUserAds();
-                    },
-                    backgroundColor: kprimaryColor,
-                    textColor: grey9,
-                    date: false,
+        body: SafeArea(
+          bottom: false,
+          child: Consumer<MyCollectionScreenProvider>(
+            builder: (context, provider, child) {
+              if (provider.isLoading &&
+                  provider.publishedAds.isEmpty &&
+                  provider.pendingAds.isEmpty &&
+                  provider.rejectedAds.isEmpty) {
+                return const Center(child: CustomCircularProgressIndicator());
+              }
+              if (provider.publishedAds.isEmpty &&
+                  provider.pendingAds.isEmpty &&
+                  provider.rejectedAds.isEmpty) {
+                return EmptyWidget(
+                  msg: 'إعلاناتي فارغة',
+                  img: emptyAdsIcon,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+                    child: CustomElevatedButton(
+                      text: 'ابدأ في انشاء إعلانك',
+                      onPressed: () async {
+                        await Navigator.pushNamed(context, CreateAdScreen.id);
+                        // بعد العودة من إضافة إعلان، أعد تحميل الإعلانات
+                        provider.fetchAllUserAds();
+                      },
+                      backgroundColor: kprimaryColor,
+                      textColor: grey9,
+                      date: false,
+                    ),
                   ),
-                ),
+                );
+              }
+              return JoinMyCollection(
+                isLoadingPublished: provider.isLoadingPublished,
+                isLoadingPending: provider.isLoadingPending,
+                isLoadingRejected: provider.isLoadingRejected,
+                publishedAds: provider.publishedAds,
+                pendingAds: provider.pendingAds,
+                rejectedAds: provider.rejectedAds,
               );
-            }
-            return JoinMyCollection(
-              isLoadingPublished: provider.isLoadingPublished,
-              isLoadingPending: provider.isLoadingPending,
-              isLoadingRejected: provider.isLoadingRejected,
-              publishedAds: provider.publishedAds,
-              pendingAds: provider.pendingAds,
-              rejectedAds: provider.rejectedAds,
-            );
-          },
+            },
+          ),
         ),
       ),
     );

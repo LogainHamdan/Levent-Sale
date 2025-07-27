@@ -35,9 +35,6 @@ class MenuScreen extends StatelessWidget {
 
         if (snapshot.hasError) {
           return Scaffold(
-            extendBody: true,
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
             appBar: AppBar(
               leading: SizedBox(),
               backgroundColor: Colors.white,
@@ -65,24 +62,21 @@ class MenuScreen extends StatelessWidget {
               noBack: true,
             ),
           ),
-          body: SafeArea(
-            bottom: false,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  isLoggedIn
-                      ? Padding(
-                          padding: EdgeInsets.all(16.0.sp),
-                          child: LoggedInColumn(),
-                        )
-                      : Padding(
-                          padding: EdgeInsets.all(16.0.sp),
-                          child: GuestColumn(),
-                        ),
-                  // CustomBottomNavigationBar(),
-                ],
-              ),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                isLoggedIn
+                    ? Padding(
+                        padding: EdgeInsets.all(16.0.sp),
+                        child: LoggedInColumn(),
+                      )
+                    : Padding(
+                        padding: EdgeInsets.all(16.0.sp),
+                        child: GuestColumn(),
+                      ),
+                // CustomBottomNavigationBar(),
+              ],
             ),
           ),
         );

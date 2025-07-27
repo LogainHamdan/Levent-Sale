@@ -5,6 +5,9 @@ PODS:
   - AppAuth/Core (1.7.6)
   - AppAuth/ExternalUserAgent (1.7.6):
     - AppAuth/Core
+  - CwlCatchException (2.2.1):
+    - CwlCatchExceptionSupport (~> 2.2.1)
+  - CwlCatchExceptionSupport (2.2.1)
   - Firebase/Analytics (11.10.0):
     - Firebase/Core
   - Firebase/Auth (11.10.0):
@@ -208,11 +211,10 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - speech_to_text (0.0.1):
+  - speech_to_text (7.2.0):
+    - CwlCatchException
     - Flutter
     - FlutterMacOS
-    - Try
-  - Try (2.1.1)
   - url_launcher_ios (0.0.1):
     - Flutter
 
@@ -240,6 +242,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
+    - CwlCatchException
+    - CwlCatchExceptionSupport
     - Firebase
     - FirebaseAnalytics
     - FirebaseAppCheckInterop
@@ -263,7 +267,6 @@ SPEC REPOS:
     - RecaptchaInterop
     - SDWebImage
     - SDWebImageWebPCoder
-    - Try
 
 EXTERNAL SOURCES:
   firebase_analytics:
@@ -307,6 +310,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
+  CwlCatchException: 7acc161b299a6de7f0a46a6ed741eae2c8b4d75a
+  CwlCatchExceptionSupport: 54ccab8d8c78907b57f99717fb19d4cc3bce02dc
   Firebase: 1fe1c0a7d9aaea32efe01fbea5f0ebd8d70e53a2
   firebase_analytics: 23a2678c8f20c46ef305c2f05a9ead0e681163cf
   firebase_auth: 83bf106e5ac670dd3a0af27a86be6cba16a85723
@@ -347,8 +352,7 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
-  speech_to_text: 9dc43a5df3cbc2813f8c7cc9bd0fbf94268ed7ac
-  Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
+  speech_to_text: 3b313d98516d3d0406cea424782ec25470c59d19
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
 
 PODFILE CHECKSUM: 1959d098c91d8a792531a723c4a9d7e9f6a01e38
