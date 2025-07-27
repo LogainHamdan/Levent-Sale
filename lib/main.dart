@@ -69,6 +69,8 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(
         create: (_) => SignUpProvider(),
+      ), ChangeNotifierProvider(
+        create: (_) => HomeProvider(),
       ),
       ChangeNotifierProvider(
         create: (_) => HomeProvider(),
@@ -76,6 +78,7 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(
         create: (_) => VerificationProvider(),
       ),
+
       ChangeNotifierProvider(
         create: (_) => AdDetailsProvider(),
       ),

@@ -49,14 +49,37 @@ class _HomeScreenBody extends StatefulWidget {
 
 class _HomeScreenBodyState extends State<_HomeScreenBody> {
   late Future<void> _initFuture;
+  String? _token;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
     _initFuture = _fetchAll();
   }
 
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 300) { // 300px قبل النهاية
+      final homeProvider = context.read<HomeProvider>();
+      if (!homeProvider.isLoadingMore && homeProvider.hasMoreData) {
+        homeProvider.loadMoreAds(token: _token);
+      }
+    }
+  }
+
   Future<void> _fetchAll() async {
+    _token = await TokenHelper.getToken();
     final homeProvider = context.read<HomeProvider>();
     await homeProvider.initialize(context);
   }
@@ -66,63 +89,100 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
     return FutureBuilder<void>(
       future: _initFuture,
       builder: (context, snapshot) {
-        print(snapshot.connectionState);
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
-          return Scaffold(
-            extendBody: true,
-            resizeToAvoidBottomInset: false,
-            extendBodyBehindAppBar: true,
-            body: SafeArea(
-              bottom: false,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('حدث خطأ أثناء تحميل البيانات',
-                        style: TextStyle(color: Colors.red)),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _initFuture = _fetchAll();
-                        });
-                      },
-                      child: const Text('إعادة المحاولة'),
-                    ),
-                  ],
-                ),
+          return SafeArea(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('حدث خطأ أثناء تحميل البيانات',
+                      style: TextStyle(color: Colors.red)),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _initFuture = _fetchAll();
+                      });
+                    },
+                    child: const Text('إعادة المحاولة'),
+                  ),
+                ],
               ),
             ),
           );
         }
         return Consumer<HomeProvider>(
           builder: (context, provider, child) {
-            // if (provider.allAds.isEmpty) {
-            //   return Center(child: Text('لا يوجد إعلانات حالياً'));
-            // }
             return RefreshIndicator(
-              onRefresh: _fetchAll,
+              onRefresh: () => provider.refreshAds(token: _token),
               color: kprimaryColor,
               child: SafeArea(
                 child: ListView(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                  children: const [
-                    TopSearchBar(),
-                    SizedBox(height: 10),
-                    TopBanner(),
-                    SizedBox(height: 10),
-                    CategoriesList(),
-                    SizedBox(height: 10),
-                    _ProductsSections(),
-                    SizedBox(height: 10),
-                    _SuggestedHeaderSection(),
-                    SizedBox(height: 10),
-                    _ProductsDetailsSection(),
-                    SizedBox(height: 40),
+                  controller: _scrollController, // إضافة الـ controller
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                  children: [
+                    const TopSearchBar(),
+                    const SizedBox(height: 10),
+                    const TopBanner(),
+                    const SizedBox(height: 10),
+                    const CategoriesList(),
+                    const SizedBox(height: 10),
+                    const _ProductsSections(),
+                    const SizedBox(height: 10),
+                    const _SuggestedHeaderSection(),
+                    const SizedBox(height: 10),
+                    const _ProductsDetailsSection(),
+
+                    // Loading indicator في النهاية
+                    Consumer<HomeProvider>(
+                      builder: (context, provider, child) {
+                        if (provider.isLoadingMore) {
+                          return const Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(strokeWidth: 2),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'جاري تحميل المزيد...',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+
+                        // رسالة انتهاء البيانات
+                        if (!provider.hasMoreData && provider.allAds.isNotEmpty) {
+                          return const Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Center(
+                              child: Text(
+                                'تم عرض جميع الإعلانات',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+
+                        return const SizedBox(height: 40);
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -133,6 +193,10 @@ class _HomeScreenBodyState extends State<_HomeScreenBody> {
     );
   }
 }
+
+
+
+
 
 class _ProductsSections extends StatelessWidget {
   const _ProductsSections();
@@ -149,7 +213,7 @@ class _ProductsSections extends StatelessWidget {
               children: [
                 ProductSection(
                   onMorePressed: () =>
-                      Navigator.pushNamed(context, AdsScreen.id),
+                      Navigator.pushNamed(context, AdsScreen.id,),
                   category: "العروض والخصومات",
                   products: allAds,
                 ),
@@ -187,10 +251,9 @@ class _ProductsDetailsSection extends StatelessWidget {
       selector: (_, provider) => provider.isLoading,
       builder: (context, isLoading, child) {
         if (isLoading) return const CustomCircularProgressIndicator();
-        return Selector<HomeProvider, List<AdModel>>(
-          selector: (_, provider) => provider.allAds,
+        return Consumer<HomeProvider>(
           builder: (context, allAds, child) {
-            return ProductsDetails(productList: allAds);
+            return ProductsDetails(productList: allAds.allAds);
           },
         );
       },
