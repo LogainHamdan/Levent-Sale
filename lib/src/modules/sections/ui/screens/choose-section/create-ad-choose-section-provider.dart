@@ -193,7 +193,7 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
     try {
       final response = await _repo.getSubcategories(id);
       print('Subcategories response: ${response.data}');
-      isCar = response.data['car'];
+      isCar = isCar || response.data['car'] == true;
       if (response.statusCode == 200) {
         final data = response.data['categoryNameDTO'];
         if (data is List) {
@@ -240,20 +240,32 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
         case SelectionState.yearBrandModelTrans:
           _selectedTrans = null;
           currentSelection = SelectionState.yearBrandModel;
+          print('selected trans: $_selectedTrans');
+
           break;
         case SelectionState.yearBrandModel:
           _selectedModel = null;
+          _trans = [];
+
           currentSelection = SelectionState.yearBrand;
+          print('selected model: $_selectedModel');
+
           break;
         case SelectionState.yearBrand:
           _selectedBrand = null;
+          _models = [];
           currentSelection = SelectionState.year;
+          print('selected brand: $_selectedBrand');
+
           break;
         case SelectionState.year:
           _selectedYear = null;
+          _brands = [];
+          print('selected year: $_selectedYear');
+
           currentSelection = SelectionState.none;
-          break;
         case SelectionState.none:
+          _years = [];
           _selectedSubcategory = null;
           subcategories = [];
           break;
@@ -369,3 +381,26 @@ class CreateAdChooseSectionProvider extends ChangeNotifier {
     }
   }
 }
+//else if (isCar) {
+//       switch (currentSelection) {
+//         case SelectionState.yearBrandModel:
+//           _selectedTrans = null;
+//           currentSelection = SelectionState.yearBrand;
+//           break;
+//         case SelectionState.yearBrand:
+//           _selectedModel = null;
+//           currentSelection = SelectionState.year;
+//           break;
+//         case SelectionState.year:
+//           _selectedBrand = null;
+//           currentSelection = SelectionState.none;
+//           break;
+//         case SelectionState.none:
+//         default:
+//           _selectedYear = null;
+//           _selectedSubcategory = null;
+//           subcategories = [];
+//           break;
+//       }
+//       notifyListeners();
+//     }

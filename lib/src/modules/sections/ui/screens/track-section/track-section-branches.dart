@@ -162,6 +162,7 @@ class SectionTrack extends StatelessWidget {
                                 );
                               } else {
                                 print('selected subcategory is null');
+                                print('selected subcategory is null');
                               }
                               break;
                           }
@@ -218,39 +219,6 @@ class SectionTrack extends StatelessWidget {
                                 provider,
                               );
                             }
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CreateAdScreen(
-                                  additionalBackFunction: () =>
-                                      createSectionChooseProvider
-                                          .navigateBack(),
-                                  lowerWidget: SectionTrack(
-                                    subcategories: () {
-                                      final selection =
-                                          createSectionChooseProvider
-                                              .currentSelection;
-
-                                      if (selection == SelectionState.year) {
-                                        return createSectionChooseProvider
-                                            .years;
-                                      } else if (selection ==
-                                          SelectionState.yearBrand) {
-                                        return createSectionChooseProvider
-                                            .brands;
-                                      } else if (selection ==
-                                          SelectionState.yearBrandModel) {
-                                        return createSectionChooseProvider
-                                            .models;
-                                      } else {
-                                        return [];
-                                      }
-                                    }(),
-                                  ),
-                                ),
-                              ),
-                            );
                           } else {
                             Navigator.push(
                               context,
