@@ -87,8 +87,8 @@ class MyMaterialApp extends StatelessWidget {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: MaterialApp(
-            // supportedLocales: [Locale('ar'), Locale('en')],
-            // locale: Locale('ar'),
+            // locale: Locale('ar'),     // supportedLocales: [Locale('ar'), Locale('en')],
+
             navigatorObservers: [
               RouteObserver<ModalRoute>(),
               FirebaseAnalyticsObserver(analytics: analytics),

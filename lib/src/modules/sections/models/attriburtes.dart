@@ -1,6 +1,6 @@
 class AdAttributesModel {
-  final int? id;
-  final int? categoryId;
+  final dynamic id;
+  final dynamic categoryId;
   final Attributes? attributes;
   final List<Detail>? details;
 
@@ -81,7 +81,7 @@ class Field {
   final String? name;
   final FieldType? type;
   final String? label;
-  final List<String>? options;
+  final List<dynamic>? options;
   final bool? required;
   final dynamic defaultValue;
   final Validation? validation;
@@ -114,7 +114,7 @@ class Field {
       type: typeStr != null ? _tryParseFieldType(typeStr) : null,
       label: json['label'],
       options:
-          json['options'] != null ? List<String>.from(json['options']) : null,
+          json['options'] != null ? List<dynamic>.from(json['options']) : null,
       required: json['required'],
       defaultValue: json['defaultValue'],
       validation: json['validation'] != null
@@ -139,8 +139,8 @@ class Field {
 }
 
 class Validation {
-  final int? max;
-  final int? min;
+  final dynamic max;
+  final dynamic min;
   final String? pattern;
 
   Validation({this.max, this.min, this.pattern});
@@ -163,7 +163,7 @@ class Validation {
 }
 
 class Detail {
-  final int? id;
+  final dynamic id;
   final String? name;
 
   Detail({this.id, this.name});

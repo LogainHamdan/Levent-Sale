@@ -38,6 +38,7 @@ const String adsUrl = "$baseUrl/search/ads/paged";
 const String getAdUrl = "$baseUrl/ads/get";
 const String searchAdsUrl =
     "http://34.22.173.63:8088/search/ads/search?query=";
+
 const String deleteAdUrl = "http://34.22.173.63:8080/ads/delete";
 const String getConversationUrl = "http://34.22.173.63:8080/chat/between";
 const String getChatsUrl = "http://34.22.173.63:8080/chat/conversations";
@@ -62,7 +63,9 @@ const String getAttributesById = '$baseUrl/ads/attributes/category';
 const String createAdUrl = '$baseUrl/ads/add';
 const String updateAdUrl = '$baseUrl/ads/update';
 const String getCategoryAdsUrl = '$baseUrl/search/ads/category';
-const String getCategoryFiltersUrl = 'http://34.22.173.63:8083/search/filters/category';
+const String getCategoryFiltersUrl =
+    'http://34.22.173.63:8083/search/filters/category';
+
 const String searchAdsByCategoryUrl = '$baseUrl/search/ads/category';
 
 const String getCitiesUrl =
@@ -71,6 +74,13 @@ const String getGovernoratesUrl =
     'http://34.22.173.63:8080/ads/governorates/get/all';
 const String getGovernorateByIdUrl = 'http://34.22.173.63:8081/governorates';
 const String getCityByIdUrl = 'http://34.22.173.63:8081/cities';
+
+const String getYearsUrl = '$baseUrl/search/car/template/years';
+const String getBrandsUrl = '$baseUrl/search/car/template/brands';
+const String getModelsUrl = '$baseUrl/search/car/template/models';
+const String getTransmissionsUrl = '$baseUrl/search/car/template/transmissions';
+const String getCarsUrl = '$baseUrl/search/car/template/cars';
+
 
 ///more
 const String getTagsUrl = '$baseUrl/favorites/tags';

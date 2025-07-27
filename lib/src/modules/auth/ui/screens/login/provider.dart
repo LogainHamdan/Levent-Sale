@@ -32,14 +32,19 @@ class LoginProvider extends ChangeNotifier {
   final AuthRepository _authRepository = AuthRepository();
 
   bool get passwordVisible => _passwordVisible;
+
   bool get confirmPasswordVisible => _confirmPasswordVisible;
+
   bool get rememberMe => _rememberMe;
+
   String? get errorMessage => _errorMessage;
+
   bool get isLoading => _isLoading;
 
   bool _isFormValid = false;
 
   bool get isFormValid => _isFormValid;
+
   LoginProvider() {
     FirebaseAnalytics.instance.logEvent(
       name: 'screen_view',
@@ -114,6 +119,7 @@ class LoginProvider extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
   }
+
   //
   // Future<void> logoutUser(BuildContext context, {required String token}) async {
   //   _setLoading(true);
@@ -196,6 +202,8 @@ class LoginProvider extends ChangeNotifier {
       print(response.statusCode);
       if (response.statusCode == 200) {
         debugPrint("Password reset email sent.");
+        await UserHelper.removeRememberMeStatus();
+        await UserHelper.removeUser();
       } else {
         _setErrorMessage("Failed to send reset email: ${response.statusCode}");
       }
@@ -230,7 +238,9 @@ class LoginProvider extends ChangeNotifier {
         final token = result['token'];
         final userData = result['user'];
         final user = User.fromJson(userData);
+
       // await saveFcmToken(user, token);
+
         if (token == null) {
           print('التوكن غير موجود.');
           await TokenHelper.removeToken();
@@ -279,6 +289,7 @@ class LoginProvider extends ChangeNotifier {
         return;
       }
 
+
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
@@ -287,6 +298,7 @@ class LoginProvider extends ChangeNotifier {
         print('No ID token received');
         return;
       }
+
 
       final response = await http.post(
         Uri.parse('https://aliyasstore.online/api/auth/google'), // عدل حسب API

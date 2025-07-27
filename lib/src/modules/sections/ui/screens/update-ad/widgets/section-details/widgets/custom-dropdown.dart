@@ -10,7 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomDropdownSectionUpdate extends StatelessWidget {
   final String hint;
-  final List<String?> items;
+  final List<dynamic?> items;
   final String dropdownKey;
   final String? title;
   final Function(String selectedItem)? onItemSelected;
@@ -32,13 +32,13 @@ class CustomDropdownSectionUpdate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UpdateAdSectionDetailsProvider>(
       builder: (context, provider, child) {
-        List<String?> uniqueItems = items.toSet().toList();
+        List<dynamic> uniqueItems = items.toSet().toList();
 
         String? selectedValue = provider.getSelectedValue(dropdownKey);
         bool isOpen = provider.isDropdownOpened(dropdownKey);
         print('👀 dropdownKey: $dropdownKey, selected: $selectedValue');
 
-        List<String?> shownItems = uniqueItems;
+        List<dynamic> shownItems = uniqueItems;
         final bool showError =
             (selectedValue == null || selectedValue.isEmpty) &&
                 (errorText != null && errorText!.isNotEmpty);

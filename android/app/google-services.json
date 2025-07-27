@@ -1,35 +1,87 @@
 {
   "project_info": {
-    "project_number": "1033890166586",
-    "project_id": "aliyas-store-auth-mobile",
-    "storage_bucket": "aliyas-store-auth-mobile.firebasestorage.app"
+    "project_number": "452221103090",
+    "project_id": "levant-sale-application",
+    "storage_bucket": "levant-sale-application.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1033890166586:android:7122dc5dfbc4b6aaf94203",
+        "mobilesdk_app_id": "1:452221103090:android:9e44e83571f21b72ef996b",
         "android_client_info": {
-          "package_name": "com.app.levantsale"
+          "package_name": "com.app.leventsale"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1033890166586-5gsh717dm11ouku1lvebs07l9mfqbtpp.apps.googleusercontent.com",
+          "client_id": "452221103090-q7c42klcrov1a119tgni6g56bnlqu6gi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.app.levantsale",
-            "certificate_hash": "e27fb1bb40e81321dff9bef414e1717396d0eee3"
+            "package_name": "com.app.leventsale",
+            "certificate_hash": "7d77a8b4ab2f6fcf28b0eefa88069109aadc07ae"
           }
+        },
+        {
+          "client_id": "452221103090-igc2pumhafripbhnvg67g1p6gaqksi9c.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAHku08yOgSdwgjn8eIM42IdNS1WX1Ayzs"
+          "current_key": "AIzaSyDQKomriiw-7wy-Y3T_3mrIWuFKYdcpIRs"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452221103090-igc2pumhafripbhnvg67g1p6gaqksi9c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "452221103090-99p45q6q4o0l1eamut8e8cbje9tqbb01.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.levantsale.levantsale"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452221103090:android:b7f1791561a8c69fef996b",
+        "android_client_info": {
+          "package_name": "com.levantsale.levantsale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452221103090-igc2pumhafripbhnvg67g1p6gaqksi9c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQKomriiw-7wy-Y3T_3mrIWuFKYdcpIRs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452221103090-igc2pumhafripbhnvg67g1p6gaqksi9c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "452221103090-99p45q6q4o0l1eamut8e8cbje9tqbb01.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.levantsale.levantsale"
+              }
+            }
+          ]
         }
       }
     }

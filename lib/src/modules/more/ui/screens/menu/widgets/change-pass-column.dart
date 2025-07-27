@@ -1,3 +1,4 @@
+import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
 import 'package:Levant_Sale/src/modules/auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/more/ui/screens/menu/menu.dart';
@@ -17,12 +18,10 @@ import '../provider.dart';
 
 class ChangePassColumn extends StatelessWidget {
   static const id = '/change-pass';
-  final int? userId;
   final bool alert;
 
   const ChangePassColumn({
     super.key,
-    this.userId,
     required this.alert,
   });
 
@@ -88,6 +87,11 @@ class ChangePassColumn extends StatelessWidget {
                     : menuProvider.newPassController,
                 hint: 'كلمة المرور الجديدة',
               ),
+              SizedBox(height: 12.h),
+
+              CustomPasswordField(
+                  controller: menuProvider.confirmNewPassController,
+                  hint: 'تأكيد كلمة المرور الجديدة'),
               //  SizedBox(height: 12.h),
               // CustomPasswordField(
               //   controller: alert
@@ -100,7 +104,7 @@ class ChangePassColumn extends StatelessWidget {
                 text: 'تغيير كلمة المرور',
                 onPressed: () async {
                   final token = await TokenHelper.getToken();
-
+                  final user = await UserHelper.getUser();
                   if (token == null || token.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -109,15 +113,45 @@ class ChangePassColumn extends StatelessWidget {
                     return;
                   }
 
-                  if (alert) {
-                    await menuProvider.changePasswordWithToken(token: token);
-                  } else {
-                    await menuProvider.submitChangePassword(
-                      context: context,
-                      userId: userId ?? 0,
-                      token: token,
+                  final newPass = alert
+                      ? menuProvider.newPassAlertController.text
+                      : menuProvider.newPassController.text;
+
+                  final confirmPass = alert
+                      ? menuProvider.confirmNewPassAlertController.text
+                      : menuProvider.confirmNewPassController.text;
+                  final oldPass = menuProvider.oldPassController.text;
+                  if (newPass != confirmPass) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'كلمة المرور الجديدة وتأكيدها غير متطابقتين',
+                          textDirection: TextDirection.rtl,
+                        ),
+                        backgroundColor: errorColor,
+                      ),
                     );
+                    return;
                   }
+
+                  // else if (oldPass != user?.password) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text(
+                  //         'كلمة المرور الحالية خاطئة',
+                  //         textDirection: TextDirection.rtl,
+                  //       ),
+                  //       backgroundColor: errorColor,
+                  //     ),
+                  //   );
+                  //   return;
+                  // }
+
+                  await menuProvider.submitChangePassword(
+                    context: context,
+                    userId: user?.id ?? 0,
+                    token: token,
+                  );
 
                   Navigator.pop(context);
                   showPasswordUpdated(context);

@@ -1,0 +1,1 @@
+/Users/developersplus/Levent-Sale/build/app/intermediates/cxx/RelWithDebInfo/6ck454j5/obj/arm64-v8a
