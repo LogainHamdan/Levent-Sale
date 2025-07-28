@@ -29,18 +29,12 @@ class _SectionDetails1UpdateState extends State<SectionDetails1Update> {
       final provider = Provider.of<UpdateAdProvider>(context, listen: false);
       detailsProvider =
           Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
-
-      detailsProvider =
-          Provider.of<UpdateAdSectionDetailsProvider>(context, listen: false);
-      detailsProvider.initializeControllers(context);
-
       final lastCategoryId = detailsProvider
           .extractLastCategoryId(provider.selectedAdToUpdate?.categoryPath);
-
       await detailsProvider.fetchAttributes(lastCategoryId ?? 0);
+      detailsProvider.initializeControllers(context);
       detailsProvider.initializeSelectedValuesFromAd(
           provider.selectedAdToUpdate?.attributes);
-      detailsProvider.initializeControllers(context);
 
       if (mounted) {
         setState(() {
@@ -60,7 +54,9 @@ class _SectionDetails1UpdateState extends State<SectionDetails1Update> {
   @override
   void initState() {
     super.initState();
-    _initializeData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeData();
+    });
   }
 
   @override
@@ -68,223 +64,232 @@ class _SectionDetails1UpdateState extends State<SectionDetails1Update> {
     return isLoading
         ? const Center(child: CustomCircularProgressIndicator())
         : Consumer<UpdateAdSectionDetailsProvider>(
-        builder: (context, provider, _) {
-          final attributesData = provider.attributesData;
-          print(attributesData?.toJson());
-          if (attributesData == null || attributesData.attributes == null) {
-            return const Center(child: CustomCircularProgressIndicator());
-          }
+            builder: (context, provider, _) {
+            final attributesData = provider.attributesData;
+            print(attributesData?.toJson());
+            if (attributesData == null || attributesData.attributes == null) {
+              return const Center(child: CustomCircularProgressIndicator());
+            }
 
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  if (attributesData.attributes?.fields?.isNotEmpty ?? false)
-                    ...(attributesData.attributes?.fields ?? [])
-                        .where((field) => field.type != null)
-                        .map((field) {
-                      if (field.type == null) {
-                        return const SizedBox.shrink();
-                      }
-                      switch (field.type) {
-                        case FieldType.text:
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: ' *',
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 14.sp,
-                                          fontFamily: GoogleFonts.tajawal().fontFamily,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: field.label ?? '',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14.sp,
-                                          fontFamily: GoogleFonts.tajawal().fontFamily,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              CustomTextField(
-                                label: null,
-                                controller:
-                                provider.getController(field.name ?? ''),
-                                hint: field.placeholder,
-                                bgcolor: grey8,
-                                errorText: '',
-                              ),
-                              SizedBox(height: 8.h),
-                            ],
-                          );
-                        case FieldType.number:
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: ' *',
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 14.sp,
-                                          fontFamily: GoogleFonts.tajawal().fontFamily,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: field.label ?? '',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14.sp,
-                                          fontFamily: GoogleFonts.tajawal().fontFamily,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              CustomTextField(
-                                errorText: '',
-                                label: null,
-                                controller:
-                                provider.getController(field.name ?? ''),
-                                hint: field.placeholder,
-                                bgcolor: grey8,
-
-                              ),
-
-                            ],
-                          );
-                        case FieldType.dropdown:
-                          return Column(
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (attributesData.attributes?.fields?.isNotEmpty ?? false)
+                      ...(attributesData.attributes?.fields ?? [])
+                          .where((field) => field.type != null)
+                          .map((field) {
+                        if (field.type == null) {
+                          return const SizedBox.shrink();
+                        }
+                        switch (field.type) {
+                          case FieldType.text:
+                            return Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                if ((field.options ?? []).isNotEmpty) ...[
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: ' *',
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 14.sp,
-                                              fontFamily: GoogleFonts.tajawal().fontFamily,
-                                            ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: ' *',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 14.sp,
+                                            fontFamily: GoogleFonts.tajawal()
+                                                .fontFamily,
                                           ),
-                                          TextSpan(
-                                            text: field.label ?? 'عنوان غير معروف',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14.sp,
-                                              fontFamily: GoogleFonts.tajawal().fontFamily,
-                                            ),
+                                        ),
+                                        TextSpan(
+                                          text: field.label ?? '',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14.sp,
+                                            fontFamily: GoogleFonts.tajawal()
+                                                .fontFamily,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  SizedBox(height: 4.h),
-                                  CustomDropdownSectionUpdate(
-                                    title: null,
-                                    dropdownKey: field.name ?? '',
-                                    hint: field.placeholder ?? 'اختر',
-                                    items: field.options ?? [],
-                                    errorText: "",
-                                  ),
-                                  SizedBox(height: 8.h),
-                                ],
-                              ]);
-                        case FieldType.radio:
-                          final options = field.options ?? ['نعم', 'لا'];
-                          final onValue =
-                          options.isNotEmpty ? options.first : 'نعم';
-                          final offValue =
-                          options.length > 1 ? options[1] : 'لا';
-                          final currentValue =
-                          provider.getSelectedValue(field.name ?? '');
-
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: ' *',
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 14.sp,
-                                          fontFamily: GoogleFonts.tajawal().fontFamily,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: field.label ?? '',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14.sp,
-                                          fontFamily: GoogleFonts.tajawal().fontFamily,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 4.h),
-                              CustomSwitchTileUpdate(
-                                title: "",
-                                value: currentValue == onValue,
-                                onChanged: (val) {
-                                  final newValue = val ? onValue : offValue;
-                                  (provider.setSelectedValue(
-                                      field.name ?? '', newValue));
-                                },
-                                activeColor: kprimaryColor,
-                              ),
-                              SizedBox(height: 8.h),
-                            ],
-                          );
-
-                        case FieldType.checkbox:
-                          return Align(
-                            alignment: Alignment.centerRight,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                CheckingContainerUpdate(),
+                                SizedBox(height: 4.h),
+                                CustomTextField(
+                                  label: null,
+                                  controller:
+                                      provider.getController(field.name ?? ''),
+                                  hint: field.placeholder,
+                                  bgcolor: grey8,
+                                  errorText: '',
+                                ),
                                 SizedBox(height: 8.h),
                               ],
-                            ),
-                          );
-                        default:
-                          return SizedBox.shrink();
-                      }
-                    }).toList(),
-                  SizedBox(height: 20.h),
-                ],
+                            );
+                          case FieldType.number:
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: ' *',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 14.sp,
+                                            fontFamily: GoogleFonts.tajawal()
+                                                .fontFamily,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: field.label ?? '',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14.sp,
+                                            fontFamily: GoogleFonts.tajawal()
+                                                .fontFamily,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 4.h),
+                                CustomTextField(
+                                  errorText: '',
+                                  label: null,
+                                  controller:
+                                      provider.getController(field.name ?? ''),
+                                  hint: field.placeholder,
+                                  bgcolor: grey8,
+                                ),
+                              ],
+                            );
+                          case FieldType.dropdown:
+                            return Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  if ((field.options ?? []).isNotEmpty) ...[
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: ' *',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 14.sp,
+                                                fontFamily:
+                                                    GoogleFonts.tajawal()
+                                                        .fontFamily,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: field.label ??
+                                                  'عنوان غير معروف',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14.sp,
+                                                fontFamily:
+                                                    GoogleFonts.tajawal()
+                                                        .fontFamily,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    CustomDropdownSectionUpdate(
+                                      title: null,
+                                      dropdownKey: field.name ?? '',
+                                      hint: field.placeholder ?? 'اختر',
+                                      items: field.options ?? [],
+                                      errorText: "",
+                                    ),
+                                    SizedBox(height: 8.h),
+                                  ],
+                                ]);
+                          case FieldType.radio:
+                            final options = field.options ?? ['نعم', 'لا'];
+                            final onValue =
+                                options.isNotEmpty ? options.first : 'نعم';
+                            final offValue =
+                                options.length > 1 ? options[1] : 'لا';
+                            final currentValue =
+                                provider.getSelectedValue(field.name ?? '');
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: ' *',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 14.sp,
+                                            fontFamily: GoogleFonts.tajawal()
+                                                .fontFamily,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: field.label ?? '',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14.sp,
+                                            fontFamily: GoogleFonts.tajawal()
+                                                .fontFamily,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 4.h),
+                                CustomSwitchTileUpdate(
+                                  title: "",
+                                  value: currentValue == onValue,
+                                  onChanged: (val) {
+                                    final newValue = val ? onValue : offValue;
+                                    (provider.setSelectedValue(
+                                        field.name ?? '', newValue));
+                                  },
+                                  activeColor: kprimaryColor,
+                                ),
+                                SizedBox(height: 8.h),
+                              ],
+                            );
+
+                          case FieldType.checkbox:
+                            return Align(
+                              alignment: Alignment.centerRight,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  CheckingContainerUpdate(),
+                                  SizedBox(height: 8.h),
+                                ],
+                              ),
+                            );
+                          default:
+                            return SizedBox.shrink();
+                        }
+                      }).toList(),
+                    SizedBox(height: 20.h),
+                  ],
+                ),
               ),
-            ),
-          );
-        });
+            );
+          });
   }
 }

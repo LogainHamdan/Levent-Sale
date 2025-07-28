@@ -54,7 +54,6 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // عنوان
             Align(
               alignment: Alignment.centerRight,
               child: RichText(
@@ -201,12 +200,12 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
                   errorText: '',
                   hint: 'اختر طريقة التواصل',
                   items:
-                  ContactMethod.values.map((e) => e.displayName).toList(),
+                      ContactMethod.values.map((e) => e.displayName).toList(),
                   dropdownKey: 'contactMethod',
                   title: null,
                   onItemSelected: (selectedName) {
                     var selectedMethod =
-                    ContactMethodExtension.fromDisplayName(selectedName);
+                        ContactMethodExtension.fromDisplayName(selectedName);
                     provider.setSelectedContactMethod(selectedMethod);
                     provider.setSelectedValue('contactMethod', selectedName);
                   },
@@ -230,7 +229,8 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
                               ),
                             ),
                             TextSpan(
-                              text: 'رقم ${ContactMethodExtension(provider.selectedContactMethod!).displayName}',
+                              text:
+                                  'رقم ${ContactMethodExtension(provider.selectedContactMethod!).displayName}',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14.sp,
@@ -270,7 +270,8 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
                               ),
                             ),
                             TextSpan(
-                              text: 'بريد ${ContactMethodExtension(provider.selectedContactMethod!).displayName}',
+                              text:
+                                  'بريد ${ContactMethodExtension(provider.selectedContactMethod!).displayName}',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14.sp,
@@ -309,7 +310,8 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
                               ),
                             ),
                             TextSpan(
-                              text: 'تفاصيل ${ContactMethodExtension(provider.selectedContactMethod!).displayName}',
+                              text:
+                                  'تفاصيل ${ContactMethodExtension(provider.selectedContactMethod!).displayName}',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14.sp,
@@ -453,7 +455,7 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
               title: null,
               onItemSelected: (selectedName) {
                 final selectedCurrency =
-                CurrencyExtension.fromArabicName(selectedName);
+                    CurrencyExtension.fromArabicName(selectedName);
                 if (selectedCurrency != null) {
                   provider.setSelectedCurrency('currency', selectedCurrency);
                 }
@@ -540,13 +542,14 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
                         provider.resetCity();
                         provider.setSelectedValue('المدينة', null);
                         final selectedGovernorate =
-                        provider.governorates.firstWhere(
-                              (gov) => gov.governorateName == selectedName,
+                            provider.governorates.firstWhere(
+                          (gov) => gov.governorateName == selectedName,
                           orElse: () => provider.governorates.first,
                         );
                         provider.setSelectedGovernorate(selectedGovernorate);
                         provider.loadCities(
-                            governorateId: provider.selectedGovernorate?.id ?? 0);
+                            governorateId:
+                                provider.selectedGovernorate?.id ?? 0);
                       },
                     ),
                   ],
@@ -593,18 +596,20 @@ class SectionDetails2UpdateState extends State<SectionDetails2Update> {
                       errorText: '',
                       hint: 'ادخل اسم المدينة',
                       items: isCityEnabled
-                          ? provider.cities.map((city) => city.cityName).toList()
+                          ? provider.cities
+                              .map((city) => city.cityName)
+                              .toList()
                           : [],
                       dropdownKey: 'المدينة',
                       title: null,
                       onItemSelected: isCityEnabled
                           ? (selectedName) {
-                        final selectedCity = provider.cities.firstWhere(
-                              (city) => city.cityName == selectedName,
-                          orElse: () => provider.cities.first,
-                        );
-                        provider.setSelectedCity(selectedCity);
-                      }
+                              final selectedCity = provider.cities.firstWhere(
+                                (city) => city.cityName == selectedName,
+                                orElse: () => provider.cities.first,
+                              );
+                              provider.setSelectedCity(selectedCity);
+                            }
                           : null,
                       enabled: isCityEnabled,
                     ),

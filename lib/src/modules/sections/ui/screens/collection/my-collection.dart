@@ -1,9 +1,11 @@
 import 'package:Levant_Sale/src/modules/auth/repos/user-helper.dart';
+import 'package:Levant_Sale/src/modules/home/ui/screens/ad-details/provider.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/ads/widgets/title-row.dart';
 import 'package:Levant_Sale/src/modules/home/ui/screens/home/widgets/custom-indicator.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/provider.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/empty-widget.dart';
 import 'package:Levant_Sale/src/modules/sections/ui/screens/collection/widgets/join-collection.dart';
+import 'package:Levant_Sale/src/modules/sections/ui/screens/section-details/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -11,10 +13,13 @@ import '../../../../../config/constants.dart';
 import '../../../../auth/ui/screens/splash/widgets/custom-elevated-button.dart';
 import '../../../../home/ui/screens/home/provider.dart';
 import '../../../../main/ui/screens/main_screen.dart';
+import '../../../models/ad.dart';
 import '../create-ad/create-ad.dart';
+import '../update-ad/provider.dart';
 
 class MyCollectionScreen extends StatelessWidget {
   static const id = '/collection';
+
   const MyCollectionScreen({super.key});
 
   @override
@@ -39,6 +44,11 @@ class _MyCollectionScreenBodyState extends State<_MyCollectionScreenBody> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      //    final provider = Provider.of<UpdateAdProvider>(context, listen: false);
+      // context
+      //     .read<CreateAdSectionDetailsProvider>()
+      //     .fetchAttributes(adToUpdate.id ?? 0);
+      // final adToUpdate = provider.selectedAdToUpdate ?? AdModel();
       context.read<MyCollectionScreenProvider>().fetchAllUserAds();
     });
   }
@@ -80,8 +90,7 @@ class _MyCollectionScreenBodyState extends State<_MyCollectionScreenBody> {
                     text: 'ابدأ في انشاء إعلانك',
                     onPressed: () async {
                       await Navigator.pushNamed(context, CreateAdScreen.id);
-                      // بعد العودة من إضافة إعلان، أعد تحميل الإعلانات
-                      provider.fetchAllUserAds();
+                      await provider.fetchAllUserAds();
                     },
                     backgroundColor: kprimaryColor,
                     textColor: grey9,
